@@ -1,0 +1,8 @@
+
+
+./submit_condor.sh qcd_ht50to100_skim ../list/qcd_ht_50_100.list
+./submit_condor.sh qcd_ht50to100_skim ../list/qcd_ht_50_100.list
+./submit_condor.sh qcd_ht50to100_skim ../list/qcd_ht_50_100.list
+./submit_condor.sh qcd_ht50to100_skim ../list/qcd_ht_50_100.list
+./submit_condor.sh qcd_ht50to100_skim ../list/qcd_ht_50_100.list
+./submit_condor.sh qcd_ht50to100_skim ../list/qcd_ht_50_100.list
