@@ -29,11 +29,21 @@ fi
 ##################################
 ###define input list and task_name
 ##################################
+source /cvmfs/cms.cern.ch/cmsset_default.sh
 input_list=$2
 task_name=$1
 files_per_job=1
 top_directory=`git rev-parse --show-toplevel`
 eos_dir=/store/group/lpchbb/LLDJntuples/cmorgoth/
+executable=diHiggsPlots
+
+cd ${top_directory}
+eval `scram runtime -sh`
+make clean;make -j 16
+cd -
+
+
+
 
 echo "top directory: "$top_directory
 
@@ -96,7 +106,7 @@ for i in `ls ${task_name_dir}`; do
 	printf "Executable = "${task_name_dir}"/run_job_histograms.sh\n" >> ${condor_submit_file}
 	printf "Should_Transfer_Files = YES \n" >> ${condor_submit_file}
 	printf "WhenToTransferOutput = ON_EXIT\n" >> ${condor_submit_file}
-	printf "Transfer_Input_Files = "${current_input_list}", "${condor_dir}"/cms_setup.tar.gz\n" >> ${condor_submit_file}
+	printf "Transfer_Input_Files = "${top_directory}/${executable}", "${current_input_list}", "${condor_dir}"/cms_setup.tar.gz\n" >> ${condor_submit_file}
 	printf "notify_user = $(whoami)@cern.ch\n" >> ${condor_submit_file}
 	printf "x509userproxy = \$ENV(X509_USER_PROXY)\n" >> ${condor_submit_file}
 	printf "\n" >> ${condor_submit_file}
