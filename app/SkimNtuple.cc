@@ -17,15 +17,15 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
     //parse input list to get names of ROOT files
-    if(argc < 5){
-        cerr << "usage SkimNtuple inputList.txt <outputDirectory> <outputfileLabel> <Skim Cut String>" << endl;
+    if(argc < 4){
+        cerr << "usage SkimNtuple inputList.txt <outputDirectory> <outputfileLabel> " << endl;
         return -1;
     }
     string inputList(argv[1]);
     
     string outputDir = argv[2];
     string outputfileLabel = argv[3];
-    string SkimCutString = argv[4];
+    //string SkimCutString = argv[4];
 
     ifstream filein(inputList.c_str());
     string curFilename;
@@ -114,18 +114,33 @@ int main(int argc, char* argv[]) {
             TTree *outputTree = inputTree->CloneTree(0);  
             cout << "Events in the ntuple: " << inputTree->GetEntries() << endl;
 
-	    std::cout << "[INFO] skim cut -> " << SkimCutString << std::endl;
-	    TTreeFormula *formula = new TTreeFormula("SkimCutString", SkimCutString.c_str(), inputTree);
+	    //std::cout << "[INFO] skim cut -> " << SkimCutString << std::endl;
+	    //TTreeFormula *formula = new TTreeFormula("SkimCutString", SkimCutString.c_str(), inputTree);
+
+	    UInt_t nFatJet;
+	    Float_t FatJet_pt[10];   //[nFatJet]
+	    Float_t FatJet_btagDDBvL[10];   //[nFatJet]
+	    TBranch        *b_nFatJet;   //!
+	    TBranch        *b_FatJet_pt;   //!
+	    TBranch        *b_FatJet_btagDDBvL;   //!
+	    inputTree->SetBranchAddress("nFatJet", &nFatJet, &b_nFatJet);
+	    inputTree->SetBranchAddress("FatJet_pt", FatJet_pt, &b_FatJet_pt);
+	    inputTree->SetBranchAddress("FatJet_btagDDBvL", FatJet_btagDDBvL, &b_FatJet_btagDDBvL);
+	    
 	    int EventsPassed = 0;
 
-            //store the weights
-            for (int n=0;n<inputTree->GetEntries();n++) { 
+            //store the weights            
+	    for (int n=0;n<inputTree->GetEntries();n++) { 
 	      if (n%1000000==0) cout << "Processed Event " << n << "\n";
                 inputTree->GetEntry(n);
 
-		bool passSkim = false;
+		bool passSkim = false;		
 		
-		passSkim = formula->EvalInstance();
+		//passSkim = formula->EvalInstance();
+
+		passSkim = (nFatJet >= 2 
+			    && FatJet_pt[0] > 300 && FatJet_pt[1] > 300
+			    && FatJet_btagDDBvL[0] > 0.8 && FatJet_btagDDBvL[1] > 0.8);
 
 		if (passSkim) {
 		  EventsPassed++;
@@ -133,7 +148,7 @@ int main(int argc, char* argv[]) {
 		}
             }
 
-	    delete formula;
+	    //delete formula;
 	    cout << "Skim Efficiency : " << EventsPassed << " / " << inputTree->GetEntries() 
 		 << " = " << float(EventsPassed ) / float(inputTree->GetEntries()) 
 		 << " \n";
