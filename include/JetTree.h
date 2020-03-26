@@ -9,24 +9,15 @@
 
   class JetTree {
 
-    public:
-
-      /// bit map
-      /// DON'T CHANGE ORDER
-
-      //*******************************************
-      //=== JetTriggerBits  ====
-      //*******************************************
-      enum JetTriggerBits { kJetTrigger_Jet                                    = 0x000001
-      };
+    public:      
 
       /// variables
-      Float_t                 weight;
-      UInt_t                  run;
-      UInt_t                  lumi;
-      UInt_t                  event;
-      Float_t                 Rho; 
-      Float_t                 NVertices; 
+      Float_t         weight;
+      UInt_t          run;
+      UInt_t          lumi;
+      UInt_t          event;
+      Float_t         Rho; 
+      Float_t         NVertices; 
       Float_t         LSmsoftdrop;
       Float_t         LSn2b1;
       Float_t         LSn3b1;
@@ -90,7 +81,10 @@
       Bool_t          Hmatch;
       Int_t           HgenIdx;
       Float_t         HminDR;
-      Float_t                 fJetJEC;
+      Bool_t          matchedToHbb;
+      Bool_t          matchedToHWWqqqq;
+      Bool_t          matchedToHWWlnuqq;
+      Bool_t          matchedToHZZqqqq;
 
     public:
       /// this is the main element
@@ -109,75 +103,79 @@
     
       /// initialize varibles and fill list of available variables
       void InitVariables() {
-        weight			                     = 0.0;
-        run    		                     = 0.0;
-        lumi	                     = 0.0;
-        event		                     = 0.0;
-        Rho  			                     = 0.0;
-        NVertices 		                     = 0.0;
-	LSmsoftdrop 		                   = -999;
+        weight			           = 0.0;
+        run    		                   = 0.0;
+        lumi	                           = 0.0;
+        event		                   = 0.0;
+        Rho  			           = 0.0;
+        NVertices 		           = 0.0;
+	LSmsoftdrop 		           = -999;
 	LSn2b1 		                   = -999;
 	LSn3b1 		                   = -999;
 	LSpt 		                   = -999;
-	LSrawmsoftdrop 		                   = -999;
-	LSsubJet1btagDeepB 		                   = -999;
-	LSsubJet2btagDeepB 		                   = -999;
+	LSrawmsoftdrop 		           = -999;
+	LSsubJet1btagDeepB 		   = -999;
+	LSsubJet2btagDeepB 		   = -999;
 	LStau1 		                   = -999;
 	LStau2 		                   = -999;
 	LStau3 		                   = -999;
 	LStau4 		                   = -999;
 	area 		                   = -999;
-	btagDDBvL 		                   = -999;
-	btagDDCvB 		                   = -999;
-	btagDDCvL 		                   = -999;
-	btagHbb 		                   = -999;
+	btagDDBvL 		           = -999;
+	btagDDCvB 		           = -999;
+	btagDDCvL 		           = -999;
+	btagHbb 		           = -999;
 	dRLep 		                   = -999;
-	deepTagHbb 		                   = -999;
-	deepTagHcc 		                   = -999;
-	deepTagHqqqq 		                   = -999;
-	deepTagMDHbb 		                   = -999;
-	deepTagMDHcc 		                   = -999;
-	deepTagMDHqqqq 		                   = -999;
-	deepTagMDQCDbb 		                   = -999;
-	deepTagMDQCDcc 		                   = -999;
-	deepTagMDWcq 		                   = -999;
-	deepTagMDWqq 		                   = -999;
-	deepTagMDZbb 		                   = -999;
-	deepTagMDZcc 		                   = -999;
-	deepTagMDZqq 		                   = -999;
-	deepTagQCDbb 		                   = -999;
-	deepTagQCDcc 		                   = -999;
-	deepTagWcq 		                   = -999;
-	deepTagWqq 		                   = -999;
-	deepTagZbb 		                   = -999;
-	deepTagZcc 		                   = -999;
-	deepTagZqq 		                   = -999;
+	deepTagHbb 		           = -999;
+	deepTagHcc 		           = -999;
+	deepTagHqqqq 		           = -999;
+	deepTagMDHbb 		           = -999;
+	deepTagMDHcc 		           = -999;
+	deepTagMDHqqqq 		           = -999;
+	deepTagMDQCDbb 		           = -999;
+	deepTagMDQCDcc 		           = -999;
+	deepTagMDWcq 		           = -999;
+	deepTagMDWqq 		           = -999;
+	deepTagMDZbb 		           = -999;
+	deepTagMDZcc 		           = -999;
+	deepTagMDZqq 		           = -999;
+	deepTagQCDbb 		           = -999;
+	deepTagQCDcc 		           = -999;
+	deepTagWcq 		           = -999;
+	deepTagWqq 		           = -999;
+	deepTagZbb 		           = -999;
+	deepTagZcc 		           = -999;
+	deepTagZqq 		           = -999;
 	eta 		                   = -999;
 	lsf3 		                   = -999;
 	mass 		                   = -999;
-	msoftdrop 		                   = -999;
+	msoftdrop 		           = -999;
 	n2b1 		                   = -999;
 	n3b1 		                   = -999;
 	phi 		                   = -999;
 	pt 		                   = -999;
-	rawFactor 		                   = -999;
-	rawmsoftdrop 		                   = -999;
+	rawFactor 		           = -999;
+	rawmsoftdrop 		           = -999;
 	tau1 		                   = -999;
 	tau2 		                   = -999;
 	tau3 		                   = -999;
 	tau4 		                   = -999;
-	electronIdx3SJ 		                   = -999;
+	electronIdx3SJ 		           = -999;
 	idLep 		                   = -999;
 	jetId 		                   = -999;
-	muonIdx3SJ 		                   = -999;
-	nBHadrons 		                   = -999;
-	nCHadrons 		                   = -999;
-	nPFConstituents 		                   = -999;
-	subJetIdx1 		                   = -999;
-	subJetIdx2 		                   = -999;
+	muonIdx3SJ 		           = -999;
+	nBHadrons 		           = -999;
+	nCHadrons 		           = -999;
+	nPFConstituents 		   = -999;
+	subJetIdx1 		           = -999;
+	subJetIdx2 		           = -999;
 	Hmatch 		                   = -999;
-	HgenIdx 		                   = -999;
+	HgenIdx 		           = -999;
 	HminDR 		                   = -999;
+	matchedToHbb                       = 0;
+	matchedToHWWqqqq                   = 0;
+	matchedToHWWlnuqq                  = 0;
+	matchedToHZZqqqq                   = 0;
       }
     
       /// load a JetTree
@@ -263,7 +261,10 @@
 	tree_->Branch("Hmatch",&Hmatch,"Hmatch/F");
 	tree_->Branch("HgenIdx",&HgenIdx,"HgenIdx/F");
 	tree_->Branch("HminDR",&HminDR,"HminDR/F");
-
+	tree_->Branch("matchedToHbb",&matchedToHbb,"matchedToHbb/O");
+	tree_->Branch("matchedToHWWqqqq",&matchedToHWWqqqq,"matchedToHWWqqqq/O");
+	tree_->Branch("matchedToHWWlnuqq",&matchedToHWWlnuqq,"matchedToHWWlnuqq/O");
+	tree_->Branch("matchedToHZZqqqq",&matchedToHZZqqqq,"matchedToHZZqqqq/O");
       } 
 
       // initialze a JetTree
@@ -344,6 +345,10 @@
 	tree_->SetBranchAddress("Hmatch",&Hmatch);
 	tree_->SetBranchAddress("HgenIdx",&HgenIdx);
 	tree_->SetBranchAddress("HminDR",&HminDR);
+	tree_->SetBranchAddress("matchedToHbb",&matchedToHbb);
+	tree_->SetBranchAddress("matchedToHWWqqqq",&matchedToHWWqqqq);
+	tree_->SetBranchAddress("matchedToHWWlnuqq",&matchedToHWWlnuqq);
+	tree_->SetBranchAddress("matchedToHZZqqqq",&matchedToHZZqqqq);
 
         gErrorIgnoreLevel = currentState;
       }

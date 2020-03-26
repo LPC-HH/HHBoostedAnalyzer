@@ -24,6 +24,8 @@ class EventAnalyzer: public Events {
         virtual ~EventAnalyzer();       
 
         /* void EnableAll(); */
+	double deltaPhi(double phi1, double phi2);
+	double deltaR(double eta1, double phi1, double eta2, double phi2);
 
         //------ LIST OF ANALYSES ------//
         virtual void Analyze(bool isData, int option, string outputFileName, string label);
