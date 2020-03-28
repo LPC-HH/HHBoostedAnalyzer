@@ -85,6 +85,10 @@
       Bool_t          matchedToHWWqqqq;
       Bool_t          matchedToHWWlnuqq;
       Bool_t          matchedToHZZqqqq;
+      Float_t         matchedGenMass;
+      Float_t         matchedGenPt;
+      Float_t         matchedGenEta;
+      Float_t         matchedGenPhi;
 
     public:
       /// this is the main element
@@ -176,6 +180,10 @@
 	matchedToHWWqqqq                   = 0;
 	matchedToHWWlnuqq                  = 0;
 	matchedToHZZqqqq                   = 0;
+	matchedGenMass                     = -999;
+	matchedGenPt                       = -999;
+	matchedGenEta                      = -999;
+	matchedGenPhi                      = -999;
       }
     
       /// load a JetTree
@@ -265,7 +273,11 @@
 	tree_->Branch("matchedToHWWqqqq",&matchedToHWWqqqq,"matchedToHWWqqqq/O");
 	tree_->Branch("matchedToHWWlnuqq",&matchedToHWWlnuqq,"matchedToHWWlnuqq/O");
 	tree_->Branch("matchedToHZZqqqq",&matchedToHZZqqqq,"matchedToHZZqqqq/O");
-      } 
+ 	tree_->Branch("matchedGenMass",&matchedGenMass,"matchedGenMass/F");
+ 	tree_->Branch("matchedGenPt",&matchedGenPt,"matchedGenPt/F");
+ 	tree_->Branch("matchedGenEta",&matchedGenEta,"matchedGenEta/F");
+ 	tree_->Branch("matchedGenPhi",&matchedGenPhi,"matchedGenPhi/F");
+     } 
 
       // initialze a JetTree
       void InitTree(){
@@ -349,6 +361,10 @@
 	tree_->SetBranchAddress("matchedToHWWqqqq",&matchedToHWWqqqq);
 	tree_->SetBranchAddress("matchedToHWWlnuqq",&matchedToHWWlnuqq);
 	tree_->SetBranchAddress("matchedToHZZqqqq",&matchedToHZZqqqq);
+	tree_->SetBranchAddress("matchedGenMass",&matchedGenMass);
+	tree_->SetBranchAddress("matchedGenPt",&matchedGenPt);
+	tree_->SetBranchAddress("matchedGenEta",&matchedGenEta);
+	tree_->SetBranchAddress("matchedGenPhi",&matchedGenPhi);
 
         gErrorIgnoreLevel = currentState;
       }

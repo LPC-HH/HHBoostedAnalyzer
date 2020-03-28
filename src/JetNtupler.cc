@@ -69,6 +69,11 @@ void JetNtupler::Analyze(bool isData, int Option, string outputfilename, string 
 	  //****************************************************
 	  //Match to Higgs
 	  //****************************************************
+	  jetTree->matchedGenMass = -999;
+	  jetTree->matchedGenPt = -999;
+	  jetTree->matchedGenEta = -999;
+	  jetTree->matchedGenPhi = -999;
+
 	  int matchedIndex = -1;
 	  float minDR = 9999;
 	  for(int j = 0; j < nGenPart; j++){
@@ -85,37 +90,71 @@ void JetNtupler::Analyze(bool isData, int Option, string outputfilename, string 
 	  string matchType = "";
 
 	  //declare a match if it's within 0.2
-	  if (matchedIndex >= 0 && minDR < 0.2) {
+	  if (matchedIndex >= 0 && minDR < 0.8) {
+
+	    jetTree->matchedGenMass = GenPart_mass[matchedIndex];
+	    jetTree->matchedGenPt = GenPart_pt[matchedIndex];
+	    jetTree->matchedGenEta = GenPart_eta[matchedIndex];
+	    jetTree->matchedGenPhi = GenPart_phi[matchedIndex];
+	    
 
 	    //find daughters of the matched Higgs
+	    //NOTE: We need to add the requirement that the daughters fall within the cone for HBB, and that granddaughters fall within the cone for HVV->qqqq
 	    int daughter1Index = -1;
 	    int daughter2Index = -1;
+	    bool daughter1InCone = false;
+	    bool daughter2InCone = false;
 	    int daughterId = 0;
 	    for(int j = 0; j < nGenPart; j++) {
 	      if (GenPart_genPartIdxMother[j] == matchedIndex) {
 		if (daughter1Index < 0) {
 		  daughter1Index = j;
 		  daughterId = abs(GenPart_pdgId[j]);
+		  if (deltaR( GenPart_eta[j],GenPart_phi[j], FatJet_eta[i],FatJet_phi[i]) < 0.8) daughter1InCone = true;
 		} else if (daughter2Index < 0) {
 		  daughter2Index = j;
+		  if (deltaR( GenPart_eta[j],GenPart_phi[j], FatJet_eta[i],FatJet_phi[i]) < 0.8) daughter2InCone = true;
 		}
 	      }
 	    }
 	    //cout << "daughter: " << daughterId << " | " << daughter1Index << " , " << daughter2Index << "\n";
 	    
-	    if (daughterId == 5) {
+	    if (daughterId == 5 && daughter1InCone && daughter2InCone) {
 	      matchType = "HBB";	      
 	    } else if (daughterId == 24 || daughterId == 23) {
 	      
 	      //find granddaughters
 	      int daughter1_daughterId = 0;
 	      int daughter2_daughterId = 0;
+	      int grandDaughter1_1_Index = -1;
+	      int grandDaughter1_2_Index = -1;
+	      int grandDaughter2_1_Index = -1;
+	      int grandDaughter2_2_Index = -1;
+	      bool grandDaughter1_1_InCone = false;
+	      bool grandDaughter1_2_InCone = false;
+	      bool grandDaughter2_1_InCone = false;
+	      bool grandDaughter2_2_InCone = false;
+	      
 	      for(int j = 0; j < nGenPart; j++) {
 		if (GenPart_genPartIdxMother[j] == daughter1Index) {
 		  daughter1_daughterId = abs(GenPart_pdgId[j]);
+		  if (grandDaughter1_1_Index < 0) {
+		    grandDaughter1_1_Index = j;
+		    if (deltaR( GenPart_eta[j],GenPart_phi[j], FatJet_eta[i],FatJet_phi[i]) < 0.8) grandDaughter1_1_InCone = true;	
+		  } else if (grandDaughter1_2_Index < 0) {
+		    grandDaughter1_2_Index = j;
+		    if (deltaR( GenPart_eta[j],GenPart_phi[j], FatJet_eta[i],FatJet_phi[i]) < 0.8) grandDaughter1_2_InCone = true;	
+		  }
 		}
 		if (GenPart_genPartIdxMother[j] == daughter2Index) {
 		  daughter2_daughterId = abs(GenPart_pdgId[j]);
+		  if (grandDaughter2_1_Index < 0) {
+		    grandDaughter2_1_Index = j;
+		    if (deltaR( GenPart_eta[j],GenPart_phi[j], FatJet_eta[i],FatJet_phi[i]) < 0.8) grandDaughter2_1_InCone = true;	
+		  } else if (grandDaughter2_2_Index < 0) {
+		    grandDaughter2_2_Index = j;
+		    if (deltaR( GenPart_eta[j],GenPart_phi[j], FatJet_eta[i],FatJet_phi[i]) < 0.8) grandDaughter2_2_InCone = true;	
+		  }
 		}
 	      }
 
@@ -123,6 +162,10 @@ void JetNtupler::Analyze(bool isData, int Option, string outputfilename, string 
 	    
 	      if (daughter1_daughterId >= 1 && daughter1_daughterId <= 5
 		  && daughter2_daughterId >= 1 && daughter2_daughterId <= 5
+		  && grandDaughter1_1_InCone
+		  && grandDaughter1_2_InCone
+		  && grandDaughter2_1_InCone
+		  && grandDaughter2_2_InCone
 		  ) {
 		if (daughterId == 24) {
 		  matchType = "HWWqqqq";
