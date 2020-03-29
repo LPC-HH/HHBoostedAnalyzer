@@ -5,7 +5,7 @@ INC = $(shell pwd)
 
 CPPFLAGS := $(shell root-config --cflags) -I$(INC)/include
 LDFLAGS := $(LDFLAGS) $(shell root-config --glibs) -lMathMore
-CPPFLAGS += -g
+CPPFLAGS += -g -Wall -Wextra -Wno-sign-compare
 
 TARGET  = diHiggs
 TARGET1 = NormalizeNtuple

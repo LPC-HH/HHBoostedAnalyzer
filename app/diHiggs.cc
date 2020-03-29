@@ -9,6 +9,8 @@
 //LOCAL
 #include <Events.hh>
 #include <CommandLineInput.hh>
+#include <malloc.h>
+
 
 
 #define _debug 1
@@ -47,7 +49,7 @@ int main(int argc, char** argv)
     {
       ifs >> current_file_name;
       if(ifs.eof()) break;//exit if end of file is reached
-      
+
       if( _debug ) std::cout << "[DEBUG]: " << current_file_name << std::endl;
       chain->Add( current_file_name.c_str() );//concatenate all input file into the TChain
     }
