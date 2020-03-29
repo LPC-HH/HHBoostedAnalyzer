@@ -11,7 +11,7 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
-
+/*
 void Events::DeleteHeap()
 {
   DeleteHeapFatJets();
@@ -171,6 +171,7 @@ void Events::DeleteHeapElectrons()
   delete[]  Electron_genPartFlav;;   //[nElectron]
   delete[]  Electron_cleanmask;;   //[nElectron]
 };
+*/
 
 void Events::CreateOutputTree()
 {
