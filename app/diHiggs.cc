@@ -77,7 +77,7 @@ int main(int argc, char** argv)
   //------------------------------------------
   Events* evt = new Events( chain );
   evt->fout_name = output_file;
-  evt->fatjet_pt_trh = 250.0;
+  evt->fatjet_pt_trh = 200.0;
   //-----------------------------------------
   //Running main Loop for HH analysis
   //-----------------------------------------

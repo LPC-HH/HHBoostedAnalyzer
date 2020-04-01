@@ -331,7 +331,7 @@ void Events::Loop()
     //------------------------------
     //apply skimming
     //-----------------------------
-    if( !(HLT_AK8PFJet360_TrimMass30 || HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFJet420_TrimMass30) ) continue;
+    //if( !(HLT_AK8PFJet360_TrimMass30 || HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFJet420_TrimMass30) ) continue;
     
     if ( !(this->hh_pt > 0.0 && FatJet_pt[this->hh_fatjet_idx[0]] > this->fatjet_pt_trh && FatJet_pt[this->hh_fatjet_idx[1]] > this->fatjet_pt_trh) ) continue;
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#./submit_condor.sh qcd_ht50to100_skim ../list/qcd_ht_50to100.list
+./submit_condor.sh qcd_ht50to100_skim ../list/qcd_ht_50to100.list
 ./submit_condor.sh qcd_ht300to500_skim ../list/qcd_ht_300to500.list
 ./submit_condor.sh qcd_ht500to700_skim ../list/qcd_ht_500to700.list
 ./submit_condor.sh qcd_ht700to1000_skim ../list/qcd_ht_700to1000.list

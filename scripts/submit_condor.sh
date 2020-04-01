@@ -26,10 +26,11 @@ top_directory=`git rev-parse --show-toplevel`
 
 cd ${top_directory}
 eval `scram runtime -sh`
-make clean;make -j 16
+#make clean;make -j 16
+make -j 16
 cd -
 
-eos_dir=/store/group/lpchbb/LLDJntuples/cmorgoth/
+eos_dir=/store/group/lpcbacon/HHBoost/HHNtuple/V1p0/
 executable=diHiggs
 
 echo "top directory: "$top_directory
