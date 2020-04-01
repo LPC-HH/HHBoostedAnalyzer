@@ -11,6 +11,167 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
+/*
+void Events::DeleteHeap()
+{
+  DeleteHeapFatJets();
+  DeleteHeapSubJets();
+  DeleteHeapCorrT1METJet();
+  DeleteHeapElectrons();
+};
+void Events::DeleteHeapFatJets()
+{
+  delete[] FatJet_LSmsoftdrop;// //[nFatJet]
+  delete[] FatJet_LSn2b1;   //[nFatJet]
+  delete[] FatJet_LSn3b1;   //[nFatJet]
+  delete[] FatJet_LSpt;   //[nFatJet]
+  delete[] FatJet_LSrawmsoftdrop;   //[nFatJet]
+  delete[] FatJet_LSsubJet1btagDeepB;   //[nFatJet]
+  delete[] FatJet_LSsubJet2btagDeepB;   //[nFatJet]
+  delete[] FatJet_LStau1;   //[nFatJet]
+  delete[] FatJet_LStau2;   //[nFatJet]
+  delete[] FatJet_LStau3;   //[nFatJet]
+  delete[] FatJet_LStau4;   //[nFatJet]
+  delete[] FatJet_area;   //[nFatJet]
+  delete[] FatJet_btagDDBvL;   //[nFatJet]
+  delete[] FatJet_btagDDCvB;   //[nFatJet]
+  delete[] FatJet_btagDDCvL;   //[nFatJet]
+  delete[] FatJet_btagHbb;   //[nFatJet]
+  delete[] FatJet_dRLep;   //[nFatJet]
+  delete[] FatJet_deepTagHbb;   //[nFatJet]
+  delete[] FatJet_deepTagHcc;   //[nFatJet]
+  delete[] FatJet_deepTagHqqqq;   //[nFatJet]
+  delete[] FatJet_deepTagMDHbb;   //[nFatJet]
+  delete[] FatJet_deepTagMDHcc;   //[nFatJet]
+  delete[] FatJet_deepTagMDHqqqq;   //[nFatJet]
+  delete[] FatJet_deepTagMDQCDbb;   //[nFatJet]
+  delete[] FatJet_deepTagMDQCDcc;   //[nFatJet]
+  delete[] FatJet_deepTagMDWcq;   //[nFatJet]
+  delete[] FatJet_deepTagMDWqq;   //[nFatJet]
+  delete[] FatJet_deepTagMDZbb;   //[nFatJet]
+  delete[] FatJet_deepTagMDZcc;   //[nFatJet]
+  delete[] FatJet_deepTagMDZqq;   //[nFatJet]
+  delete[] FatJet_deepTagQCDbb;   //[nFatJet]
+  delete[] FatJet_deepTagQCDcc;   //[nFatJet]
+  delete[] FatJet_deepTagWcq;   //[nFatJet]
+  delete[] FatJet_deepTagWqq;   //[nFatJet]
+  delete[] FatJet_deepTagZbb;   //[nFatJet]
+  delete[] FatJet_deepTagZcc;   //[nFatJet]
+  delete[] FatJet_deepTagZqq;   //[nFatJet]
+  delete[] FatJet_eta;   //[nFatJet]
+  delete[] FatJet_lsf3;   //[nFatJet]
+  delete[] FatJet_mass;   //[nFatJet]
+  delete[] FatJet_msoftdrop;   //[nFatJet]
+  delete[] FatJet_n2b1;   //[nFatJet]
+  delete[] FatJet_n3b1;   //[nFatJet]
+  delete[] FatJet_phi;   //[nFatJet]
+  delete[] FatJet_pt;   //[nFatJet]
+  delete[] FatJet_rawFactor;   //[nFatJet]
+  delete[] FatJet_rawmsoftdrop;   //[nFatJet]
+  delete[] FatJet_tau1;   //[nFatJet]
+  delete[] FatJet_tau2;   //[nFatJet]
+  delete[] FatJet_tau3;   //[nFatJet]
+  delete[] FatJet_tau4;   //[nFatJet]
+  delete[]   FatJet_electronIdx3SJ;   //[nFatJet]
+  delete[]   FatJet_idLep;   //[nFatJet]
+  delete[]   FatJet_jetId;   //[nFatJet]
+  delete[]   FatJet_muonIdx3SJ;   //[nFatJet]
+  delete[]   FatJet_nBHadrons;   //[nFatJet]
+  delete[]   FatJet_nCHadrons;   //[nFatJet]
+  delete[]   FatJet_nPFConstituents;   //[nFatJet]
+  delete[]   FatJet_subJetIdx1;   //[nFatJet]
+  delete[]   FatJet_subJetIdx2;   //[nFatJet]
+
+};
+
+void Events::DeleteHeapCorrT1METJet()
+{
+  delete[] CorrT1METJet_area; //[nCorrT1METJet]
+  delete[] CorrT1METJet_eta; //[nCorrT1METJet]
+  delete[] CorrT1METJet_muonSubtrFactor; //[nCorrT1METJet]
+  delete[] CorrT1METJet_phi; //[nCorrT1METJet]
+  delete[] CorrT1METJet_rawPt; //[nCorrT1METJet]
+};
+
+void Events::DeleteHeapSubJets()
+{
+  delete[] SubJet_area;  //[nSubJet]
+  delete[] SubJet_btagCSVV2;  //[nSubJet]
+  delete[] SubJet_btagDeepB;  //[nSubJet]
+  delete[] SubJet_eta;  //[nSubJet]
+  delete[] SubJet_mass;  //[nSubJet]
+  delete[] SubJet_phi;  //[nSubJet]
+  delete[] SubJet_pt;  //[nSubJet]
+  delete[] SubJet_rawFactor;  //[nSubJet]
+  delete[] SubJet_nBHadrons;   //[nSubJet]
+  delete[] SubJet_nCHadrons;   //[nSubJet]
+};
+
+void Events::DeleteHeapElectrons()
+{
+  delete[] Electron_deltaEtaSC;;   //[nElectron]
+  delete[] Electron_dr03EcalRecHitSumEt;;   //[nElectron]
+  delete[] Electron_dr03HcalDepth1TowerSumEt;;   //[nElectron]
+  delete[] Electron_dr03TkSumPt;;   //[nElectron]
+  delete[] Electron_dr03TkSumPtHEEP;;   //[nElectron]
+  delete[] Electron_dxy;;   //[nElectron]
+  delete[] Electron_dxyErr;;   //[nElectron]
+  delete[] Electron_dz;;   //[nElectron]
+  delete[] Electron_dzErr;;   //[nElectron]
+  delete[] Electron_eCorr;;   //[nElectron]
+  delete[] Electron_eInvMinusPInv;;   //[nElectron]
+  delete[] Electron_energyErr;;   //[nElectron]
+  delete[] Electron_eta;;   //[nElectron]
+  delete[] Electron_hoe;;   //[nElectron]
+  delete[] Electron_ip3d;;   //[nElectron]
+  delete[] Electron_jetPtRelv2;;   //[nElectron]
+  delete[] Electron_jetRelIso;;   //[nElectron]
+  delete[] Electron_mass;;   //[nElectron]
+  delete[] Electron_miniPFRelIso_all;;   //[nElectron]
+  delete[] Electron_miniPFRelIso_chg;;   //[nElectron]
+  delete[] Electron_mvaFall17V1Iso;;   //[nElectron]
+  delete[] Electron_mvaFall17V1noIso;;   //[nElectron]
+  delete[] Electron_mvaFall17V2Iso;;   //[nElectron]
+  delete[] Electron_mvaFall17V2noIso;;   //[nElectron]
+  delete[] Electron_pfRelIso03_all;;   //[nElectron]
+  delete[] Electron_pfRelIso03_chg;;   //[nElectron]
+  delete[] Electron_phi;;   //[nElectron]
+  delete[] Electron_pt;;   //[nElectron]
+  delete[] Electron_r9;;   //[nElectron]
+  delete[] Electron_sieie;;   //[nElectron]
+  delete[] Electron_sip3d;;   //[nElectron]
+  delete[] Electron_mvaTTH;;   //[nElectron]
+  delete[]   Electron_charge;;   //[nElectron]
+  delete[]   Electron_cutBased;;   //[nElectron]
+  delete[]   Electron_cutBased_Fall17_V1;;   //[nElectron]
+  delete[]   Electron_jetIdx;;   //[nElectron]
+  delete[]   Electron_pdgId;;   //[nElectron]
+  delete[]   Electron_photonIdx;;   //[nElectron]
+  delete[]   Electron_tightCharge;;   //[nElectron]
+  delete[]   Electron_vidNestedWPBitmap;;   //[nElectron]
+  delete[]   Electron_vidNestedWPBitmapHEEP;;   //[nElectron]
+  delete[]  Electron_convVeto;;   //[nElectron]
+  delete[]  Electron_cutBased_HEEP;;   //[nElectron]
+  delete[]  Electron_isPFcand;;   //[nElectron]
+  delete[]  Electron_lostHits;;   //[nElectron]
+  delete[]  Electron_mvaFall17V1Iso_WP80;;   //[nElectron]
+  delete[]  Electron_mvaFall17V1Iso_WP90;;   //[nElectron]
+  delete[]  Electron_mvaFall17V1Iso_WPL;;   //[nElectron]
+  delete[]  Electron_mvaFall17V1noIso_WP80;;   //[nElectron]
+  delete[]  Electron_mvaFall17V1noIso_WP90;;   //[nElectron]
+  delete[]  Electron_mvaFall17V1noIso_WPL;;   //[nElectron]
+  delete[]  Electron_mvaFall17V2Iso_WP80;;   //[nElectron]
+  delete[]  Electron_mvaFall17V2Iso_WP90;;   //[nElectron]
+  delete[]  Electron_mvaFall17V2Iso_WPL;;   //[nElectron]
+  delete[]  Electron_mvaFall17V2noIso_WP80;;   //[nElectron]
+  delete[]  Electron_mvaFall17V2noIso_WP90;;   //[nElectron]
+  delete[]  Electron_mvaFall17V2noIso_WPL;;   //[nElectron]
+  delete[]  Electron_seedGain;;   //[nElectron]
+  delete[]   Electron_genPartIdx;;   //[nElectron]
+  delete[]  Electron_genPartFlav;;   //[nElectron]
+  delete[]  Electron_cleanmask;;   //[nElectron]
+};
+*/
 
 void Events::CreateOutputTree()
 {
@@ -30,10 +191,10 @@ void Events::CreateOutputTree()
   tree_out->Branch("h_gen_pt",       h_gen_pt,      "h_gen_pt[2]/F");      //
   tree_out->Branch("h_gen_eta",      h_gen_eta,     "h_gen_eta[2]/F");      //
   tree_out->Branch("h_gen_phi",      h_gen_phi,     "h_gen_phi[2]/F");      //
-  
+
   //index to fatjet in hh candidate
   tree_out->Branch("hh_fatjet_idx",   hh_fatjet_idx, "hh_fatjet_idx[2]/i");
-  
+
   //define fat-jet variables
   tree_out->Branch("nFatJet",      &nFatJet,     "nFatJet/i");      //
   tree_out->Branch("FatJet_LSmsoftdrop",      FatJet_LSmsoftdrop,     "FatJet_LSmsoftdrop[nFatJet]/F");      //
@@ -326,13 +487,13 @@ void Events::Loop()
       this->hh_gen_phi  = (h_vector.at(0)+h_vector.at(1)).Phi();
       this->hh_gen_mass = (h_vector.at(0)+h_vector.at(1)).M();
     }
-    
+
 
     //------------------------------
     //apply skimming
     //-----------------------------
     //if( !(HLT_AK8PFJet360_TrimMass30 || HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFJet420_TrimMass30) ) continue;
-    
+
     if ( !(this->hh_pt > 0.0 && FatJet_pt[this->hh_fatjet_idx[0]] > this->fatjet_pt_trh && FatJet_pt[this->hh_fatjet_idx[1]] > this->fatjet_pt_trh) ) continue;
 
     this->tree_out->Fill();
@@ -345,4 +506,5 @@ void Events::Loop()
   NEvents->Write();
   NEvents_genweight->Write();
   tree_out->Write();
+  delete fout;
 }
