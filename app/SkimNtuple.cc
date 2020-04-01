@@ -139,8 +139,8 @@ int main(int argc, char* argv[]) {
 		//passSkim = formula->EvalInstance();
 
 		passSkim = (nFatJet >= 2 
-			    && FatJet_pt[0] > 300 && FatJet_pt[1] > 300
-			    && FatJet_btagDDBvL[0] > 0.8 && FatJet_btagDDBvL[1] > 0.8);
+			    && FatJet_pt[0] > 200 && FatJet_pt[1] > 200
+			    && FatJet_btagDDBvL[0] > 0.5 && FatJet_btagDDBvL[1] > 0.5);
 
 		if (passSkim) {
 		  EventsPassed++;
