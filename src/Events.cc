@@ -461,17 +461,20 @@ void Events::Loop()
       }
     }
 
-    if(h_vector.size() > 1)
-    {
-      //filling tree_out variables
-      this->h_gen_pt[0] = h_vector.at(0).Pt();
-      this->h_gen_eta[0] = h_vector.at(0).Eta();
-      this->h_gen_phi[0] = h_vector.at(0).Phi();
-      //
-      this->h_gen_pt[1] = h_vector.at(1).Pt();
-      this->h_gen_eta[1] = h_vector.at(1).Eta();
-      this->h_gen_phi[1] = h_vector.at(1).Phi();
-    }
+    if(h_vector.size() >= 1)
+      {
+	//filling tree_out variables
+	this->h_gen_pt[0] = h_vector.at(0).Pt();
+	this->h_gen_eta[0] = h_vector.at(0).Eta();
+	this->h_gen_phi[0] = h_vector.at(0).Phi();
+	//
+	if(h_vector.size() >= 2)
+	  {
+	    this->h_gen_pt[1] = h_vector.at(1).Pt();
+	    this->h_gen_eta[1] = h_vector.at(1).Eta();
+	    this->h_gen_phi[1] = h_vector.at(1).Phi();
+	  }
+      }
     //filling hh candidate variable
     this->hh_pt   = hh_candidate.Pt();
     this->hh_eta  = hh_candidate.Eta();

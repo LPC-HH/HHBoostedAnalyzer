@@ -16,6 +16,23 @@ zH_withISR_mh500								 5.256E-03
 zH_withISR_mh1000								 2.977E-04 
 zH_withISR_mh2000								 7.639E-06 
 
+
+
+####### 13 TeV H->bb ################
+#https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt1314TeV2014
+ggH_HtoBB									43.92*5.824e-01
+VBF_HtoBB									3.748*5.824e-01
+#https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt13TeV#ppWH_Total_Cross_Section_with_ap
+WplusH_HToBB									8.400e-01*5.824e-01
+WminusH_HToBB									5.328e-01*5.824e-01
+WplusH_HToBB_WtoQQ								8.400e-01*5.824e-01*0.676
+WminusH_HToBB_WtoQQ                                                             5.328e-01*5.824e-01*0.676
+ZH_HtoBB									0.7612*5.824e-01
+ggZH_HtoBB									0.1227*5.824e-01
+ZH_HtoBB_ZtoQQ                                                                  0.7612*5.824e-01*0.69911
+ggZH_HtoBB_ZtoQQ                                                                0.1227*5.824e-01*0.69911
+
+
 #privately produced ggH
 #https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt13TeV#ZHllH_H_l_e_or_Process
 ggH_HToSSTobbbb_ms55_pl1000_RunIIFall18   					4.858E+01
