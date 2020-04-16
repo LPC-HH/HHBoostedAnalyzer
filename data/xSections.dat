@@ -31,6 +31,7 @@ ZH_HtoBB									0.7612*5.824e-01
 ggZH_HtoBB									0.1227*5.824e-01
 ZH_HtoBB_ZtoQQ                                                                  0.7612*5.824e-01*0.69911
 ggZH_HtoBB_ZtoQQ                                                                0.1227*5.824e-01*0.69911
+ttH_HtoBB									0.5071*5.824e-01
 
 
 #privately produced ggH
