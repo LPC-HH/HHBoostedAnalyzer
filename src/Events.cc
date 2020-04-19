@@ -11,14 +11,26 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
-/*
+
 void Events::DeleteHeap()
 {
   DeleteHeapFatJets();
   DeleteHeapSubJets();
   DeleteHeapCorrT1METJet();
   DeleteHeapElectrons();
+  DeleteHeapFsrPhotons();
+  DeleteHeapGenVariables();
+  DeleteHeapIsoTracks();
+  DeleteHeapPhotons();
+  DeleteHeapJets();
+  DeleteHeapMuons();
+  DeleteHeapSoftActivityJet();
+  DeleteHeapTaus();
+  DeleteHeapTriggerObject();
+  DeleteHeapSVandOtherPV();
 };
+
+//clean fatjets form d-memory
 void Events::DeleteHeapFatJets()
 {
   delete[] FatJet_LSmsoftdrop;// //[nFatJet]
@@ -171,7 +183,312 @@ void Events::DeleteHeapElectrons()
   delete[]  Electron_genPartFlav;;   //[nElectron]
   delete[]  Electron_cleanmask;;   //[nElectron]
 };
-*/
+
+void Events::DeleteHeapFsrPhotons()
+{
+  delete[] FsrPhoton_dROverEt2;   //[nFsrPhoton]
+  delete[] FsrPhoton_eta;   //[nFsrPhoton]
+  delete[] FsrPhoton_phi;   //[nFsrPhoton]
+  delete[] FsrPhoton_pt;   //[nFsrPhoton]
+  delete[] FsrPhoton_relIso03;   //[nFsrPhoton]
+  delete[] FsrPhoton_muonIdx;   //[nFsrPhoton]
+};
+
+void Events::DeleteHeapGenVariables()
+{
+  delete[] GenJetAK8_eta;   //[nGenJetAK8]
+  delete[] GenJetAK8_mass;   //[nGenJetAK8]
+  delete[] GenJetAK8_phi;   //[nGenJetAK8]
+  delete[] GenJetAK8_pt;   //[nGenJetAK8]
+  delete[] GenJetAK8_partonFlavour;   //[nGenJetAK8]
+  delete[] GenJetAK8_hadronFlavour;   //[nGenJetAK8]
+
+  delete[] GenJet_eta;   //[nGenJet]
+  delete[] GenJet_mass;   //[nGenJet]
+  delete[] GenJet_phi;   //[nGenJet]
+  delete[] GenJet_pt;   //[nGenJet]
+  delete[] GenJet_partonFlavour;   //[nGenJet]
+  delete[] GenJet_hadronFlavour;   //[nGenJet]
+
+  delete[] GenPart_eta;   //[nGenPart]
+  delete[] GenPart_mass;   //[nGenPart]
+  delete[] GenPart_phi;   //[nGenPart]
+  delete[] GenPart_pt;   //[nGenPart]
+  delete[]  GenPart_genPartIdxMother;   //[nGenPart]
+  delete[]  GenPart_pdgId;   //[nGenPart]
+  delete[]  GenPart_status;   //[nGenPart]
+  delete[]  GenPart_statusFlags;   //[nGenPart]
+
+  delete[] SubGenJetAK8_eta;   //[nSubGenJetAK8]
+  delete[] SubGenJetAK8_mass;   //[nSubGenJetAK8]
+  delete[] SubGenJetAK8_phi;   //[nSubGenJetAK8]
+  delete[] SubGenJetAK8_pt;   //[nSubGenJetAK8]
+
+  delete[] GenVisTau_eta;   //[nGenVisTau]
+  delete[] GenVisTau_mass;   //[nGenVisTau]
+  delete[] GenVisTau_phi;   //[nGenVisTau]
+  delete[] GenVisTau_pt;   //[nGenVisTau]
+  delete[]   GenVisTau_charge;   //[nGenVisTau]
+  delete[]   GenVisTau_genPartIdxMother;   //[nGenVisTau]
+  delete[]   GenVisTau_status;   //[nGenVisTau]
+
+  delete[] LHEPdfWeight;   //[nLHEPdfWeight]
+
+  delete[] LHEReweightingWeight;   //[nLHEReweightingWeight]
+
+  delete[] PSWeight;   //[nPSWeight]
+
+  delete[] LHEPart_pt;   //[nLHEPart]
+  delete[] LHEPart_eta;   //[nLHEPart]
+  delete[] LHEPart_phi;   //[nLHEPart]
+  delete[] LHEPart_mass;   //[nLHEPart]
+  delete[]   LHEPart_pdgId;   //[nLHEPart]
+
+  delete[] GenDressedLepton_eta;   //[nGenDressedLepton]
+  delete[] GenDressedLepton_mass;   //[nGenDressedLepton]
+  delete[] GenDressedLepton_phi;   //[nGenDressedLepton]
+  delete[] GenDressedLepton_pt;   //[nGenDressedLepton]
+  delete[] GenDressedLepton_pdgId;   //[nGenDressedLepton]
+  delete[] GenDressedLepton_hasTauAnc;   //[nGenDressedLepton]
+};
+
+void Events::DeleteHeapIsoTracks()
+{
+  delete[] IsoTrack_dxy;   //[nIsoTrack]
+  delete[] IsoTrack_dz;   //[nIsoTrack]
+  delete[] IsoTrack_eta;   //[nIsoTrack]
+  delete[] IsoTrack_pfRelIso03_all;   //[nIsoTrack]
+  delete[] IsoTrack_pfRelIso03_chg;   //[nIsoTrack]
+  delete[] IsoTrack_phi;   //[nIsoTrack]
+  delete[] IsoTrack_pt;   //[nIsoTrack]
+  delete[] IsoTrack_miniPFRelIso_all;   //[nIsoTrack]
+  delete[] IsoTrack_miniPFRelIso_chg;   //[nIsoTrack]
+  delete[]   IsoTrack_fromPV;   //[nIsoTrack]
+  delete[]   IsoTrack_pdgId;   //[nIsoTrack]
+  delete[]  IsoTrack_isHighPurityTrack;   //[nIsoTrack]
+  delete[]  IsoTrack_isPFcand;   //[nIsoTrack]
+  delete[]  IsoTrack_isFromLostTrack;   //[nIsoTrack]
+};
+
+void Events::DeleteHeapPhotons()
+{
+  delete[] Photon_eCorr;   //[nPhoton]
+  delete[] Photon_energyErr;   //[nPhoton]
+  delete[] Photon_eta;   //[nPhoton]
+  delete[] Photon_hoe;   //[nPhoton]
+  delete[] Photon_mass;   //[nPhoton]
+  delete[] Photon_mvaID;   //[nPhoton]
+  delete[] Photon_mvaIDV1;   //[nPhoton]
+  delete[] Photon_pfRelIso03_all;   //[nPhoton]
+  delete[] Photon_pfRelIso03_chg;   //[nPhoton]
+  delete[] Photon_phi;   //[nPhoton]
+  delete[] Photon_pt;   //[nPhoton]
+  delete[] Photon_r9;   //[nPhoton]
+  delete[] Photon_sieie;   //[nPhoton]
+  delete[]   Photon_charge;   //[nPhoton]
+  delete[]   Photon_cutBasedBitmap;   //[nPhoton]
+  delete[]   Photon_cutBasedV1Bitmap;   //[nPhoton]
+  delete[]   Photon_electronIdx;   //[nPhoton]
+  delete[]   Photon_jetIdx;   //[nPhoton]
+  delete[]   Photon_pdgId;   //[nPhoton]
+  delete[]   Photon_vidNestedWPBitmap;   //[nPhoton]
+  delete[]   Photon_genPartIdx;   //[nPhoton]
+  delete[]  Photon_electronVeto;   //[nPhoton]
+  delete[]  Photon_isScEtaEB;   //[nPhoton]
+  delete[]  Photon_isScEtaEE;   //[nPhoton]
+  delete[]  Photon_mvaID_WP80;   //[nPhoton]
+  delete[]  Photon_mvaID_WP90;   //[nPhoton]
+  delete[]  Photon_pixelSeed;   //[nPhoton]
+  delete[] Photon_seedGain;   //[nPhoton]
+  delete[] Photon_genPartFlav;   //[nPhoton]
+  delete[] Photon_cleanmask;   //[nPhoton]
+};
+
+void Events::DeleteHeapJets()
+{
+  delete[] Jet_area;   //[nJet]
+  delete[] Jet_btagCMVA;   //[nJet]
+  delete[] Jet_btagCSVV2;   //[nJet]
+  delete[] Jet_btagDeepB;   //[nJet]
+  delete[] Jet_btagDeepC;   //[nJet]
+  delete[] Jet_btagDeepFlavB;   //[nJet]
+  delete[] Jet_btagDeepFlavC;   //[nJet]
+  delete[] Jet_chEmEF;   //[nJet]
+  delete[] Jet_chHEF;   //[nJet]
+  delete[] Jet_eta;   //[nJet]
+  delete[] Jet_jercCHF;   //[nJet]
+  delete[] Jet_jercCHPUF;   //[nJet]
+  delete[] Jet_mass;   //[nJet]
+  delete[] Jet_muEF;   //[nJet]
+  delete[] Jet_muonSubtrFactor;   //[nJet]
+  delete[] Jet_neEmEF;   //[nJet]
+  delete[] Jet_neHEF;   //[nJet]
+  delete[] Jet_phi;   //[nJet]
+  delete[] Jet_pt;   //[nJet]
+  delete[] Jet_qgl;   //[nJet]
+  delete[] Jet_rawFactor;   //[nJet]
+  delete[] Jet_bRegCorr;   //[nJet]
+  delete[] Jet_bRegRes;   //[nJet]
+  delete[] Jet_electronIdx1;   //[nJet]
+  delete[] Jet_electronIdx2;   //[nJet]
+  delete[] Jet_jetId;   //[nJet]
+  delete[] Jet_muonIdx1;   //[nJet]
+  delete[] Jet_muonIdx2;   //[nJet]
+  delete[] Jet_nConstituents;   //[nJet]
+  delete[] Jet_nElectrons;   //[nJet]
+  delete[] Jet_nMuons;   //[nJet]
+  delete[] Jet_puId;   //[nJet]
+  delete[] Jet_genJetIdx;   //[nJet]
+  delete[] Jet_hadronFlavour;   //[nJet]
+  delete[] Jet_partonFlavour;   //[nJet]
+  delete[] Jet_cleanmask;   //[nJet]
+};
+
+void Events::DeleteHeapMuons()
+{
+  delete[] Muon_dxy;   //[nMuon]
+  delete[] Muon_dxyErr;   //[nMuon]
+  delete[] Muon_dz;   //[nMuon]
+  delete[] Muon_dzErr;   //[nMuon]
+  delete[] Muon_eta;   //[nMuon]
+  delete[] Muon_ip3d;   //[nMuon]
+  delete[] Muon_jetPtRelv2;   //[nMuon]
+  delete[] Muon_jetRelIso;   //[nMuon]
+  delete[] Muon_mass;   //[nMuon]
+  delete[] Muon_miniPFRelIso_all;   //[nMuon]
+  delete[] Muon_miniPFRelIso_chg;   //[nMuon]
+  delete[] Muon_pfRelIso03_all;   //[nMuon]
+  delete[] Muon_pfRelIso03_chg;   //[nMuon]
+  delete[] Muon_pfRelIso04_all;   //[nMuon]
+  delete[] Muon_phi;   //[nMuon]
+  delete[] Muon_pt;   //[nMuon]
+  delete[] Muon_ptErr;   //[nMuon]
+  delete[] Muon_segmentComp;   //[nMuon]
+  delete[] Muon_sip3d;   //[nMuon]
+  delete[] Muon_softMva;   //[nMuon]
+  delete[] Muon_tkRelIso;   //[nMuon]
+  delete[] Muon_tunepRelPt;   //[nMuon]
+  delete[] Muon_mvaLowPt;   //[nMuon]
+  delete[] Muon_mvaTTH;   //[nMuon]
+  delete[]   Muon_charge;   //[nMuon]
+  delete[]   Muon_jetIdx;   //[nMuon]
+  delete[]   Muon_nStations;   //[nMuon]
+  delete[]   Muon_nTrackerLayers;   //[nMuon]
+  delete[]   Muon_pdgId;   //[nMuon]
+  delete[]   Muon_tightCharge;   //[nMuon]
+  delete[]   Muon_fsrPhotonIdx;   //[nMuon]
+  delete[]   Muon_genPartIdx;   //[nMuon]
+  delete[]  Muon_inTimeMuon;   //[nMuon]
+  delete[]  Muon_isGlobal;   //[nMuon]
+  delete[]  Muon_isPFcand;   //[nMuon]
+  delete[]  Muon_isTracker;   //[nMuon]
+  delete[]  Muon_looseId;   //[nMuon]
+  delete[]  Muon_mediumId;   //[nMuon]
+  delete[]  Muon_mediumPromptId;   //[nMuon]
+  delete[]  Muon_softId;   //[nMuon]
+  delete[]  Muon_softMvaId;   //[nMuon]
+  delete[]  Muon_tightId;   //[nMuon]
+  delete[]  Muon_triggerIdLoose;   //[nMuon]
+  delete[] Muon_miniIsoId;   //[nMuon]
+  delete[] Muon_multiIsoId;   //[nMuon]
+  delete[] Muon_mvaId;   //[nMuon]
+  delete[] Muon_pfIsoId;   //[nMuon]
+  delete[] Muon_highPtId;   //[nMuon]
+  delete[] Muon_cleanmask;   //[nMuon]
+  delete[] Muon_tkIsoId;   //[nMuon]
+  delete[] Muon_genPartFlav;   //[nMuon]
+};
+
+void Events::DeleteHeapSoftActivityJet()
+{
+  delete[] SoftActivityJet_eta;   //[nSoftActivityJet]
+  delete[] SoftActivityJet_phi;   //[nSoftActivityJet]
+  delete[] SoftActivityJet_pt;   //[nSoftActivityJet]
+};
+
+void Events::DeleteHeapTaus()
+{
+  delete[] Tau_chargedIso;   //[nTau]
+  delete[] Tau_dxy;   //[nTau]
+  delete[] Tau_dz;   //[nTau]
+  delete[] Tau_eta;   //[nTau]
+  delete[] Tau_leadTkDeltaEta;   //[nTau]
+  delete[] Tau_leadTkDeltaPhi;   //[nTau]
+  delete[] Tau_leadTkPtOverTauPt;   //[nTau]
+  delete[] Tau_mass;   //[nTau]
+  delete[] Tau_neutralIso;   //[nTau]
+  delete[] Tau_phi;   //[nTau]
+  delete[] Tau_photonsOutsideSignalCone;   //[nTau]
+  delete[] Tau_pt;   //[nTau]
+  delete[] Tau_puCorr;   //[nTau]
+  delete[] Tau_rawAntiEle;   //[nTau]
+  delete[] Tau_rawAntiEle2018;   //[nTau]
+  delete[] Tau_rawDeepTau2017v2p1VSe;   //[nTau]
+  delete[] Tau_rawDeepTau2017v2p1VSjet;   //[nTau]
+  delete[] Tau_rawDeepTau2017v2p1VSmu;   //[nTau]
+  delete[] Tau_rawIso;   //[nTau]
+  delete[] Tau_rawIsodR03;   //[nTau]
+  delete[] Tau_rawMVAnewDM2017v2;   //[nTau]
+  delete[] Tau_rawMVAoldDM;   //[nTau]
+  delete[] Tau_rawMVAoldDM2017v1;   //[nTau]
+  delete[] Tau_rawMVAoldDM2017v2;   //[nTau]
+  delete[] Tau_rawMVAoldDMdR032017v2;   //[nTau]
+  delete[]   Tau_charge;   //[nTau]
+  delete[]   Tau_decayMode;   //[nTau]
+  delete[]   Tau_jetIdx;   //[nTau]
+  delete[]   Tau_rawAntiEleCat;   //[nTau]
+  delete[]   Tau_rawAntiEleCat2018;   //[nTau]
+  delete[]   Tau_genPartIdx;   //[nTau]
+  delete[]  Tau_idDecayMode;   //[nTau]
+  delete[]  Tau_idDecayModeNewDMs;   //[nTau]
+  delete[] Tau_idAntiEle;   //[nTau]
+  delete[] Tau_idAntiEle2018;   //[nTau]
+  delete[] Tau_idAntiMu;   //[nTau]
+  delete[] Tau_idDeepTau2017v2p1VSe;   //[nTau]
+  delete[] Tau_idDeepTau2017v2p1VSjet;   //[nTau]
+  delete[] Tau_idDeepTau2017v2p1VSmu;   //[nTau]
+  delete[] Tau_idMVAnewDM2017v2;   //[nTau]
+  delete[] Tau_idMVAoldDM;   //[nTau]
+  delete[] Tau_idMVAoldDM2017v1;   //[nTau]
+  delete[] Tau_idMVAoldDM2017v2;   //[nTau]
+  delete[] Tau_idMVAoldDMdR032017v2;   //[nTau]
+  delete[] Tau_genPartFlav;   //[nTau]
+  delete[] Tau_cleanmask;   //[nTau]
+};
+
+void Events::DeleteHeapTriggerObject()
+{
+  delete[] TrigObj_pt;   //[nTrigObj]
+  delete[] TrigObj_eta;   //[nTrigObj]
+  delete[] TrigObj_phi;   //[nTrigObj]
+  delete[] TrigObj_l1pt;   //[nTrigObj]
+  delete[] TrigObj_l1pt_2;   //[nTrigObj]
+  delete[] TrigObj_l2pt;   //[nTrigObj]
+  delete[]   TrigObj_id;   //[nTrigObj]
+  delete[]   TrigObj_l1iso;   //[nTrigObj]
+  delete[]   TrigObj_l1charge;   //[nTrigObj]
+  delete[]   TrigObj_filterBits;   //[nTrigObj]
+};
+
+void Events::DeleteHeapSVandOtherPV()
+{
+  delete[] OtherPV_z;   //[nOtherPV]
+
+  delete[] SV_dlen;   //[nSV]
+  delete[] SV_dlenSig;   //[nSV]
+  delete[] SV_dxy;   //[nSV]
+  delete[] SV_dxySig;   //[nSV]
+  delete[] SV_pAngle;   //[nSV]
+  delete[] SV_chi2;   //[nSV]
+  delete[] SV_eta;   //[nSV]
+  delete[] SV_mass;   //[nSV]
+  delete[] SV_ndof;   //[nSV]
+  delete[] SV_phi;   //[nSV]
+  delete[] SV_pt;   //[nSV]
+  delete[] SV_x;   //[nSV]
+  delete[] SV_y;   //[nSV]
+  delete[] SV_z;   //[nSV]
+};
 
 void Events::CreateOutputTree()
 {
@@ -181,11 +498,16 @@ void Events::CreateOutputTree()
   tree_out->Branch("run",               &run,     "run/i");      //run number
   tree_out->Branch("luminosityBlock",   &luminosityBlock,     "luminosityBlock/i");      //lumi
   tree_out->Branch("event",             &event,     "event/l");      //event number
+  //gen event-genWeight
+  tree_out->Branch("genWeight",         &genWeight,     "genWeight/F");      //event number
+  //MET
   tree_out->Branch("ChsMET_phi",        &ChsMET_phi,     "ChsMET_phi/F");      //
   tree_out->Branch("ChsMET_pt",         &ChsMET_pt,     "ChsMET_pt/F");      //
   tree_out->Branch("ChsMET_sumEt",      &ChsMET_sumEt,     "ChsMET_sumEt/F");      //
   //tree_out->Branch("",      &,     "[nFatJet]/I");      //
   //tree_out->Branch("",      &,     "/");      //
+
+
 
   //define hh-gen-level
   tree_out->Branch("h_gen_pt",       h_gen_pt,      "h_gen_pt[2]/F");      //
