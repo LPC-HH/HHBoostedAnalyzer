@@ -608,7 +608,26 @@ void Events::CreateOutputTree()
   tree_out->Branch("hh_gen_pt",      &hh_gen_pt,     "hh_gen_pt/F");
   tree_out->Branch("hh_gen_eta",     &hh_gen_eta,    "hh_gen_eta/F");
   tree_out->Branch("hh_gen_phi",     &hh_gen_phi,    "hh_gen_phi/F");
-  tree_out->Branch("hh_gen_mass",    &hh_gen_mass,   "hh_gen_mass/F");
+  tree_out->Branch("hh_gen_mass",    &hh_gen_mass,   "hh_gen_mass/F");	
+  //lepton candidate info
+  tree_out->Branch("nElectron",      &nElectron,     "nElectron/i");      //
+  tree_out->Branch("Electron_pt",      Electron_pt,     "Electron_pt[nElectron]/F");      //
+  tree_out->Branch("Electron_eta",      Electron_eta,     "Electron_eta[nElectron]/F");      //
+  tree_out->Branch("Electron_phi",      Electron_phi,     "Electron_phi[nElectron]/F");      //
+  tree_out->Branch("Electron_charge",      Electron_charge,     "Electron_charge[nElectron]/I");      //
+  tree_out->Branch("Electron_mvaFall17V2Iso_WP80",      Electron_mvaFall17V2Iso_WP80,     "Electron_mvaFall17V2Iso_WP80[nElectron]/O");      //
+  tree_out->Branch("Electron_mvaFall17V2Iso_WP90",      Electron_mvaFall17V2Iso_WP90,     "Electron_mvaFall17V2Iso_WP90[nElectron]/O");      //
+  tree_out->Branch("Electron_mvaFall17V2Iso_WPL",      Electron_mvaFall17V2Iso_WPL,     "Electron_mvaFall17V2Iso_WPL[nElectron]/O");      //
+  tree_out->Branch("nMuon",      &nMuon,     "nMuon/i");      //
+  tree_out->Branch("Muon_pt",      Muon_pt,     "Muon_pt[nMuon]/F");      //
+  tree_out->Branch("Muon_eta",      Muon_eta,     "Muon_eta[nMuon]/F");      //
+  tree_out->Branch("Muon_phi",      Muon_phi,     "Muon_phi[nMuon]/F");      //
+  tree_out->Branch("Muon_charge",      Muon_charge,     "Muon_charge[nMuon]/I");      //
+  tree_out->Branch("Muon_looseId",      Muon_looseId,     "Muon_looseId[nMuon]/O");      //
+  tree_out->Branch("Muon_mediumId",      Muon_mediumId,     "Muon_mediumId[nMuon]/O");      //
+  tree_out->Branch("Muon_tightId",      Muon_tightId,     "Muon_tightId[nMuon]/O");      //
+
+  
 
 };
 
