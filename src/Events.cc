@@ -595,6 +595,12 @@ void Events::CreateOutputTree()
   tree_out->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17",     &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17,    "HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17/O");
   tree_out->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1",      &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1,     "HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1/O");
   tree_out->Branch("HLT_AK8PFJet330_PFAK8BTagCSV_p17",                    &HLT_AK8PFJet330_PFAK8BTagCSV_p17,                   "HLT_AK8PFJet330_PFAK8BTagCSV_p17/O");
+  tree_out->Branch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ/O");
+  tree_out->Branch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL/O");
+  tree_out->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL/O");
+  tree_out->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ/O");
+  tree_out->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ/O");
+  tree_out->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL/O");
   //tree_out->Branch("",      &,     "/O");
   //tree_out->Branch("",      &,     "/O");
   //tree_out->Branch("",      &,     "/O");
@@ -626,6 +632,13 @@ void Events::CreateOutputTree()
   tree_out->Branch("Muon_looseId",      Muon_looseId,     "Muon_looseId[nMuon]/O");      //
   tree_out->Branch("Muon_mediumId",      Muon_mediumId,     "Muon_mediumId[nMuon]/O");      //
   tree_out->Branch("Muon_tightId",      Muon_tightId,     "Muon_tightId[nMuon]/O");      //
+    
+  //jets
+  tree_out->Branch("nJet",      &nJet,     "nJet/i");      //
+  tree_out->Branch("Jet_pt",      Jet_pt,     "Jet_pt[nJet]/F");      //
+  tree_out->Branch("Jet_eta",      Jet_eta,     "Jet_eta[nJet]/F");      //
+  tree_out->Branch("Jet_phi",      Jet_phi,     "Jet_phi[nJet]/F");      //
+  tree_out->Branch("Jet_btagCSVV2",      Jet_btagCSVV2,     "Jet_btagCSVV2[nJet]/F");      //
 
   
 
@@ -719,7 +732,8 @@ void Events::Loop()
     //------------------------------
     int current_mIndex = -1;
     std::vector< TLorentzVector > h_vector;
-    for(int i = 0; i < nGenPart; i++)
+
+  for(int i = 0; i < nGenPart; i++)
     {
       if( abs(GenPart_pdgId[i]) == 5  && GenPart_pdgId[GenPart_genPartIdxMother[i]] == 25 && current_mIndex != GenPart_genPartIdxMother[i] )
       {
