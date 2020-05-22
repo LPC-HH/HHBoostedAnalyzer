@@ -11,9 +11,9 @@ TARGET  = diHiggs
 TARGET1 = NormalizeNtuple
 TARGET2  = diHiggsPlots
 TARGET3 = SkimNtuple
-TARGET4 = JetNtupler
-TARGET5 = DileptonNtupler
-TARGET6 = HHTo4BNtupler
+TARGET4 = RunJetNtupler
+TARGET5 = RunDileptonNtupler
+TARGET6 = RunHHTo4BNtupler
 
 SRC = app/diHiggs.cc src/Events.cc src/CommandLineInput.cc
 SRC1 = app/NormalizeNtuple.cc src/CommandLineInput.cc src/SimpleTable.cc
