@@ -12,20 +12,26 @@ TARGET1 = NormalizeNtuple
 TARGET2  = diHiggsPlots
 TARGET3 = SkimNtuple
 TARGET4 = JetNtupler
+TARGET5 = DileptonNtupler
+TARGET6 = HHTo4BNtupler
 
 SRC = app/diHiggs.cc src/Events.cc src/CommandLineInput.cc
 SRC1 = app/NormalizeNtuple.cc src/CommandLineInput.cc src/SimpleTable.cc
 SRC2 = app/diHiggsPlots.cc src/hh_tree.cc src/CommandLineInput.cc
 SRC3 = app/SkimNtuple.cc
 SRC4 = app/RunJetNtupler.cc src/JetNtupler.cc src/EventAnalyzer.cc include/Events.hh
+SRC5 = app/RunDileptonNtupler.cc src/DileptonNtupler.cc src/EventAnalyzer.cc include/Events.hh
+SRC6 = app/RunHHTo4BNtupler.cc src/HHTo4BNtupler.cc src/EventAnalyzer.cc include/Events.hh
 
 OBJ = $(SRC:.cc=.o)
 OBJ1 = $(SRC1:.cc=.o)
 OBJ2 = $(SRC2:.cc=.o)
 OBJ3 = $(SRC3:.cc=.o)
 OBJ4 = $(SRC4:.cc=.o) src/Events.o 
+OBJ5 = $(SRC5:.cc=.o) src/Events.o 
+OBJ6 = $(SRC6:.cc=.o) src/Events.o 
 
-all : $(TARGET) $(TARGET1) $(TARGET2) $(TARGET3) $(TARGET4)
+all : $(TARGET) $(TARGET1) $(TARGET2) $(TARGET3) $(TARGET4) $(TARGET5) $(TARGET6)
 
 $src/RazorEvents.o: $(SRCDIR)/RazorEvents.C $(INCLUDEDIR)/RazorEvents.h
 	$(CXX) $(SRCDIR)/RazorEvents.C $(CXXFLAGS) -I$(INCLUDEDIR) -c $(LDFLAGS) $(LIBS) -o $@ $(CXX14FLAGS)
@@ -60,9 +66,21 @@ $(TARGET4) : $(OBJ4)
 	@echo $<
 	@echo $^
 
+$(TARGET5) : $(OBJ5)
+	$(LD) $(CPPFLAGS) -o $(TARGET5) $(OBJ5) $(LDFLAGS) 
+	@echo $@
+	@echo $<
+	@echo $^
+
+$(TARGET6) : $(OBJ6)
+	$(LD) $(CPPFLAGS) -o $(TARGET6) $(OBJ6) $(LDFLAGS) 
+	@echo $@
+	@echo $<
+	@echo $^
+
 %.o : %.cc
 	$(CXX) $(CPPFLAGS) -o $@ -c $<
 	@echo $@
 	@echo $<
 clean :
-	rm -f *.o src/*.o $(TARGET) $(TARGET1) $(TARGET2) $(TARGET3) app/*.o include/*.o *~
+	rm -f *.o src/*.o $(TARGET) $(TARGET1) $(TARGET2) $(TARGET3) $(TARGET4) $(TARGET5) $(TARGET6) app/*.o include/*.o *~
