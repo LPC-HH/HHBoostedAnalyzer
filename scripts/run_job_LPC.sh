@@ -30,28 +30,30 @@ scramv1 project CMSSW $cmsswReleaseVersion
 #########################################
 #copy input list and exec to cmssw folder
 ########################################
-cp input_list_* $cmsswReleaseVersion/src/.
+cp input_list.tgz $cmsswReleaseVersion/src/
 cp ${executable} $cmsswReleaseVersion/src/.
-inputfilelist=input_list_${jobnumber}.txt
 
 ###########################
 #get cmssw environment
 ###########################
 cd $cmsswReleaseVersion/src/
 eval `scram runtime -sh`
+tar vxzf input_list.tgz
+inputfilelist=input_list_${jobnumber}.txt
 
 ###########################
 #run executable
 ###########################
 echo "Executing Analysis executable:"
 echo "./${executable} ${inputfilelist} --outputFile=${outputfile} --optionNumber=${option} -d ${isData} "
-./${executable} ${inputfilelist} --outputFile=${outputfile} --optionNumber=${option} -d ${isData} 
+./${executable} ${inputfilelist} --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} -d ${isData} 
 
 ls -l
 ##########################################################
 #copy outputfile to /eos space -- define in submitter code
 ##########################################################
-
-
+mkdir -p ${outputDirectory}
+cp -v ${outputfile}_${jobnumber}.root ${outputDirectory}/
+rm ${outputfile}_${jobnumber}.root
 
 cd -
