@@ -19,8 +19,19 @@ outputDirectoryBase = "/eos/uscms//store/user/lpcbacon/sixie/analyzer/"+analysis
 filesPerJob = 2
 
 datasetList = OrderedDict()
-datasetList['LPC/GluGluToHHTo4B_node_SM_13TeV-madgraph_correctedcfg.list'] = [0]
-#datasetList['LPC/data.list'] = [1]
+#datasetList['LPC/GluGluToHHTo4B_node_SM_13TeV-madgraph_correctedcfg.list'] = [0]
+datasetList['LPC/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0]
+datasetList['LPC/ttHJetTobb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8.list'] = [0]
+datasetList['LPC/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8.list'] = [0]
+datasetList['LPC/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8.list'] = [0]
+datasetList['LPC/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8.list'] = [0]
+datasetList['LPC/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8.list'] = [0]
+datasetList['LPC/VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8.list'] = [0]
+datasetList['LPC/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8.list'] = [0]
+datasetList['LPC/GluGluHToBB_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0]
+datasetList['LPC/GluGluHToBB_M125_13TeV_amcatnloFXFX_pythia8.list'] = [0]
+
+
 
 #create directory for condor jobs
 
@@ -80,6 +91,7 @@ Executable = ./run_job_LPC.sh
 """
     tmpCondorJDLFile.write(tmpCondorJDLFileTemplate)
     tmpCondorJDLFile.write("Arguments = " + analysis + " " + str(datasetList[listfile][0]) + " " + str(option) + " " + "$(I) " + outputfile + " " + outputDirectory + " " + cmsswReleaseVersion + " " + "\n")
+
     tmpCondorJDLFileTemplate = """
 Log = log/job.$(Cluster).$(Process).log
 Output = out/job.$(Cluster).$(Process).out
@@ -88,6 +100,7 @@ x509userproxy = $ENV(X509_USER_PROXY)
 """
     tmpCondorJDLFile.write(tmpCondorJDLFileTemplate)
     tmpCondorJDLFile.write("transfer_input_files = ./run_job_LPC.sh ./input_list.tgz ./Run" + analysis + " " + "\n")
+
     tmpCondorJDLFileTemplate = """
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
