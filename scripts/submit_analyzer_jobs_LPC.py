@@ -32,6 +32,8 @@ datasetList['LPC/GluGluHToBB_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0]
 datasetList['LPC/GluGluHToBB_M125_13TeV_amcatnloFXFX_pythia8.list'] = [0]
 
 
+CMSSW_BASE_DIR = os.getenv('CMSSW_BASE')
+Analyzer_DIR = CMSSW_BASE_DIR+"/src/HHBoostedAnalyzer/"
 
 #create directory for condor jobs
 
@@ -39,12 +41,12 @@ for listfile in datasetList.keys():
 
     datasetName = listfile.replace(".list","")
     print "Preparing analyzer workflow for dataset :" + datasetName + "\n"
-    if not os.path.exists("list/" + listfile):
+    if not os.path.exists(Analyzer_DIR+"/list/" + listfile):
         print "listfile: " + listfile + " does not exist. skipping."
         continue
 
     outputDirectory = outputDirectoryBase + datasetName + "/"
-    tmpListFile = open("list/" + listfile,"r")
+    tmpListFile = open(Analyzer_DIR + "/list/" + listfile,"r")
 
 
 
@@ -54,12 +56,12 @@ for listfile in datasetList.keys():
     tmpJobFileCount = 0
     nJobs = 1
 
-    if os.path.exists("condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/" + "input_list_" + str(nJobs) + ".txt"):
-        print "Warning: condor directory condor/analyzer_" + analysis + "_" + label + "/" + datasetName + " is not empty. Skipping."
+    if os.path.exists(Analyzer_DIR+"/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/" + "input_list_" + str(nJobs) + ".txt"):
+        print "Warning: condor directory " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + " is not empty. Skipping."
         continue
         
-    os.system("mkdir -p condor/analyzer_" + analysis + "_" + label + "/" + datasetName )
-    tmpOutputListFile = open( "condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/" + "input_list_" + str(nJobs) + ".txt","w")
+    os.system("mkdir -p " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName )
+    tmpOutputListFile = open( Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/" + "input_list_" + str(nJobs) + ".txt","w")
     for line in tmpListFile:
                 
         #open list file for new job
@@ -67,24 +69,24 @@ for listfile in datasetList.keys():
             tmpOutputListFile.close()
             tmpJobFileCount = 0
             nJobs = nJobs + 1           
-            tmpOutputListFile = open( "condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/" + "input_list_" + str(nJobs) + ".txt","w")
+            tmpOutputListFile = open( Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/" + "input_list_" + str(nJobs) + ".txt","w")
           
         #write input file into job list file
         tmpOutputListFile.write(line)
         tmpJobFileCount += 1
 
-    os.system("cd condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/; tar czf input_list.tgz input_list_*.txt")
+    os.system("cd " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/; tar czf input_list.tgz input_list_*.txt")
 
     #####################################
     #Copy run script and executable
     #####################################
-    os.system("cp scripts/run_job_LPC.sh condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/")
-    os.system("cp Run" + analysis + " condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/")
+    os.system("cp " + Analyzer_DIR + "/scripts/run_job_LPC.sh " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/")
+    os.system("cp " + Analyzer_DIR + "Run" + analysis + " " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/")
 
     #####################################
     #Create Condor JDL file
     #####################################
-    tmpCondorJDLFile = open("condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/task.jdl","w+")
+    tmpCondorJDLFile = open(Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/task.jdl","w+")
     tmpCondorJDLFileTemplate = """
 Universe  = vanilla
 Executable = ./run_job_LPC.sh
@@ -99,7 +101,7 @@ Error = err/job.$(Cluster).$(Process).err
 x509userproxy = $ENV(X509_USER_PROXY)
 """
     tmpCondorJDLFile.write(tmpCondorJDLFileTemplate)
-    tmpCondorJDLFile.write("transfer_input_files = ./run_job_LPC.sh ./input_list.tgz ./Run" + analysis + " " + "\n")
+    tmpCondorJDLFile.write("transfer_input_files = " + Analyzer_DIR + "/run_job_LPC.sh " + Analyzer_DIR + "/input_list.tgz " + Analyzer_DIR + "/Run" + analysis + " " + "\n")
 
     tmpCondorJDLFileTemplate = """
 should_transfer_files = YES
