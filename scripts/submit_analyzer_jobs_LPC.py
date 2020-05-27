@@ -15,7 +15,7 @@ option = 1
 cmsswReleaseVersion = "CMSSW_10_6_5"
 label = "v1"
 outputfile = "HHTo4BNtuple" + "_" + label
-outputDirectoryBase = "/eos/uscms//store/user/lpcbacon/sixie/analyzer/"+analysis+"/"
+outputDirectoryBase = "/store/user/lpcbacon/sixie/analyzer/"+analysis+"/"
 filesPerJob = 2
 
 datasetList = OrderedDict()
@@ -106,7 +106,7 @@ Error = err/job.$(Cluster).$(Process).err
 x509userproxy = $ENV(X509_USER_PROXY)
 """
     tmpCondorJDLFile.write(tmpCondorJDLFileTemplate)
-    tmpCondorJDLFile.write("transfer_input_files = " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/run_job_LPC.sh " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/input_list.tgz " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/Run" + analysis + " " + "\n")
+    tmpCondorJDLFile.write("transfer_input_files = " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/run_job_LPC.sh, " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/input_list.tgz, " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/Run" + analysis + " " + "\n")
 
     tmpCondorJDLFileTemplate = """
 should_transfer_files = YES

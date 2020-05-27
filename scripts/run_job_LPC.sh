@@ -52,8 +52,8 @@ ls -l
 ##########################################################
 #copy outputfile to /eos space -- define in submitter code
 ##########################################################
-mkdir -p ${outputDirectory}
-cp -v ${outputfile}_${jobnumber}.root ${outputDirectory}/
+eosmkdir -p ${outputDirectory}
+xrdcp -f ${outputfile}_${jobnumber}.root root://cmseos.fnal.gov/${outputDirectory}/${outputfile}_${jobnumber}.root 
 rm ${outputfile}_${jobnumber}.root
 
 cd -
