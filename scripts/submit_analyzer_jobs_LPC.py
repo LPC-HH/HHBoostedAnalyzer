@@ -16,21 +16,25 @@ cmsswReleaseVersion = "CMSSW_10_6_5"
 label = "v1"
 outputfile = "HHTo4BNtuple" + "_" + label
 outputDirectoryBase = "/store/user/lpcbacon/sixie/analyzer/"+analysis+"/"
-filesPerJob = 2
+#filesPerJob = 2
 
 datasetList = OrderedDict()
-#datasetList['LPC/GluGluToHHTo4B_node_SM_13TeV-madgraph_correctedcfg.list'] = [0]
-datasetList['LPC/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0]
-datasetList['LPC/ttHJetTobb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8.list'] = [0]
-datasetList['LPC/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8.list'] = [0]
-datasetList['LPC/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8.list'] = [0]
-datasetList['LPC/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8.list'] = [0]
-datasetList['LPC/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8.list'] = [0]
-datasetList['LPC/VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8.list'] = [0]
-datasetList['LPC/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8.list'] = [0]
-datasetList['LPC/GluGluHToBB_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0]
-datasetList['LPC/GluGluHToBB_M125_13TeV_amcatnloFXFX_pythia8.list'] = [0]
-
+datasetList['LPC/GluGluToHHTo4B_node_SM_13TeV-madgraph_correctedcfg.list'] = [0, 2]
+datasetList['LPC/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['LPC/ttHJetTobb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8.list'] = [0, 2]
+datasetList['LPC/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
+datasetList['LPC/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
+datasetList['LPC/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
+datasetList['LPC/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
+datasetList['LPC/VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8.list'] = [0, 2]
+datasetList['LPC/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8.list'] = [0, 2]
+datasetList['LPC/GluGluHToBB_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['LPC/GluGluHToBB_M125_13TeV_amcatnloFXFX_pythia8.list'] = [0, 2]
+datasetList['LPC/data_Run2017B-09Aug2019_UL2017_v1.list.list'] = [0, 1]
+datasetList['LPC/data_Run2017C-09Aug2019_UL2017_v1.list.list'] = [0, 1]
+datasetList['LPC/data_Run2017D-09Aug2019_UL2017_v1.list.list'] = [0, 1]
+datasetList['LPC/data_Run2017E-09Aug2019_UL2017_v1.list.list'] = [0, 1]
+datasetList['LPC/data_Run2017F-09Aug2019_UL2017_v1.list.list'] = [0, 1]
 
 CMSSW_BASE_DIR = os.getenv('CMSSW_BASE')
 Analyzer_DIR = CMSSW_BASE_DIR+"/src/HHBoostedAnalyzer/"
@@ -53,6 +57,8 @@ for listfile in datasetList.keys():
     #####################################
     #Job Splitting
     #####################################
+    isData = datasetList[listfile][0]
+    filesPerJob = datasetList[listfile][1]
     tmpJobFileCount = 0
     nJobs = 1
 
@@ -97,7 +103,7 @@ Universe  = vanilla
 Executable = ./run_job_LPC.sh
 """
     tmpCondorJDLFile.write(tmpCondorJDLFileTemplate)
-    tmpCondorJDLFile.write("Arguments = " + analysis + " " + str(datasetList[listfile][0]) + " " + str(option) + " " + "$(I) " + outputfile + " " + outputDirectory + " " + cmsswReleaseVersion + " " + "\n")
+    tmpCondorJDLFile.write("Arguments = " + analysis + " " + str(isData) + " " + str(option) + " " + "$(I) " + outputfile + " " + outputDirectory + " " + cmsswReleaseVersion + " " + "\n")
 
     tmpCondorJDLFileTemplate = """
 Log = log/job.$(Cluster).$(Process).log
