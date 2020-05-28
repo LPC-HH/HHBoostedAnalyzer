@@ -57,7 +57,9 @@ for listfile in datasetList.keys():
     #####################################
     #Job Splitting
     #####################################
-    isData = datasetList[listfile][0]
+    isData = "no"
+    if (datasetList[listfile][0] == 1): 
+        isData = "yes"
     filesPerJob = datasetList[listfile][1]
     tmpJobFileCount = 0
     nJobs = 1

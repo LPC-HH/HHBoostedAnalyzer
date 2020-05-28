@@ -45,8 +45,8 @@ inputfilelist=input_list_${jobnumber}.txt
 #run executable
 ###########################
 echo "Executing Analysis executable:"
-echo "./${executable} ${inputfilelist} --outputFile=${outputfile} --optionNumber=${option} -d ${isData} "
-./${executable} ${inputfilelist} --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} -d ${isData} 
+echo "./${executable} ${inputfilelist} --outputFile=${outputfile} --optionNumber=${option} -d=${isData} "
+./${executable} ${inputfilelist} --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} -d=${isData} 
 
 ls -l
 ##########################################################
