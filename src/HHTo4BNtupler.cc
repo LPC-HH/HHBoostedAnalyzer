@@ -215,42 +215,44 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //------------------------------
       int current_mIndex = -1;
       std::vector< TLorentzVector > genHiggsVector;
+      if (!isData) {
 
-      for(int i = 0; i < nGenPart; i++) {
-	if( abs(GenPart_pdgId[i]) == 5  && GenPart_pdgId[GenPart_genPartIdxMother[i]] == 25 && current_mIndex != GenPart_genPartIdxMother[i] ) {
-	  //std::cout << GenPart_genPartIdxMother[i] << std::endl;
-	  // std::cout << "mother: " << GenPart_pdgId[GenPart_genPartIdxMother[i]]
-	  // << " PT: " << GenPart_pt[GenPart_genPartIdxMother[i]]
-	  // << " eta: " << GenPart_eta[GenPart_genPartIdxMother[i]]
-	  // << " phi: " << GenPart_phi[GenPart_genPartIdxMother[i]] << std::endl;
-	  TLorentzVector h;
-	  h.SetPtEtaPhiM( GenPart_pt[GenPart_genPartIdxMother[i]], GenPart_eta[GenPart_genPartIdxMother[i]], GenPart_phi[GenPart_genPartIdxMother[i]], GenPart_mass[GenPart_genPartIdxMother[i]] );
-	  genHiggsVector.push_back(h);
-	  current_mIndex = GenPart_genPartIdxMother[i];
+	for(int i = 0; i < nGenPart; i++) {
+	  if( abs(GenPart_pdgId[i]) == 5  && GenPart_pdgId[GenPart_genPartIdxMother[i]] == 25 && current_mIndex != GenPart_genPartIdxMother[i] ) {
+	    //std::cout << GenPart_genPartIdxMother[i] << std::endl;
+	    // std::cout << "mother: " << GenPart_pdgId[GenPart_genPartIdxMother[i]]
+	    // << " PT: " << GenPart_pt[GenPart_genPartIdxMother[i]]
+	    // << " eta: " << GenPart_eta[GenPart_genPartIdxMother[i]]
+	    // << " phi: " << GenPart_phi[GenPart_genPartIdxMother[i]] << std::endl;
+	    TLorentzVector h;
+	    h.SetPtEtaPhiM( GenPart_pt[GenPart_genPartIdxMother[i]], GenPart_eta[GenPart_genPartIdxMother[i]], GenPart_phi[GenPart_genPartIdxMother[i]], GenPart_mass[GenPart_genPartIdxMother[i]] );
+	    genHiggsVector.push_back(h);
+	    current_mIndex = GenPart_genPartIdxMother[i];
+	  }
 	}
-      }
 
-      if(genHiggsVector.size() >= 1) {
-	//filling tree_out variables
-	genHiggs1Pt = genHiggsVector[0].Pt();
-	genHiggs1Eta = genHiggsVector[0].Eta();
-	genHiggs1Phi = genHiggsVector[0].Phi();
-	//
-	if(genHiggsVector.size() >= 2) {
-	  genHiggs2Pt = genHiggsVector[1].Pt();
-	  genHiggs2Eta = genHiggsVector[1].Eta();
-	  genHiggs2Phi = genHiggsVector[1].Phi();	
+	if(genHiggsVector.size() >= 1) {
+	  //filling tree_out variables
+	  genHiggs1Pt = genHiggsVector[0].Pt();
+	  genHiggs1Eta = genHiggsVector[0].Eta();
+	  genHiggs1Phi = genHiggsVector[0].Phi();
+	  //
+	  if(genHiggsVector.size() >= 2) {
+	    genHiggs2Pt = genHiggsVector[1].Pt();
+	    genHiggs2Eta = genHiggsVector[1].Eta();
+	    genHiggs2Phi = genHiggsVector[1].Phi();	
+	  }
 	}
-      }
 
-      //gen level
-      if(genHiggsVector.size() > 1) { 
-	genHH_pt = (genHiggsVector[0]+genHiggsVector[1]).Pt();
-	genHH_eta = (genHiggsVector[0]+genHiggsVector[1]).Eta();
-	genHH_phi = (genHiggsVector[0]+genHiggsVector[1]).Phi();
-	genHH_mass= (genHiggsVector[0]+genHiggsVector[1]).M();
-      }
+	//gen level
+	if(genHiggsVector.size() > 1) { 
+	  genHH_pt = (genHiggsVector[0]+genHiggsVector[1]).Pt();
+	  genHH_eta = (genHiggsVector[0]+genHiggsVector[1]).Eta();
+	  genHH_phi = (genHiggsVector[0]+genHiggsVector[1]).Phi();
+	  genHH_mass= (genHiggsVector[0]+genHiggsVector[1]).M();
+	}
       
+      }
 
       //------------------------------
       //-------find fatJet------------
