@@ -30,11 +30,11 @@ datasetList['LPC/VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8.list'] = [0, 2]
 datasetList['LPC/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8.list'] = [0, 2]
 datasetList['LPC/GluGluHToBB_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
 datasetList['LPC/GluGluHToBB_M125_13TeV_amcatnloFXFX_pythia8.list'] = [0, 2]
-datasetList['LPC/data_Run2017B-09Aug2019_UL2017_v1.list.list'] = [1, 1]
-datasetList['LPC/data_Run2017C-09Aug2019_UL2017_v1.list.list'] = [1, 1]
-datasetList['LPC/data_Run2017D-09Aug2019_UL2017_v1.list.list'] = [1, 1]
-datasetList['LPC/data_Run2017E-09Aug2019_UL2017_v1.list.list'] = [1, 1]
-datasetList['LPC/data_Run2017F-09Aug2019_UL2017_v1.list.list'] = [1, 1]
+datasetList['LPC/data_Run2017B-09Aug2019_UL2017_v1.list'] = [1, 1]
+datasetList['LPC/data_Run2017C-09Aug2019_UL2017_v1.list'] = [1, 1]
+datasetList['LPC/data_Run2017D-09Aug2019_UL2017_v1.list'] = [1, 1]
+datasetList['LPC/data_Run2017E-09Aug2019_UL2017_v1.list'] = [1, 1]
+datasetList['LPC/data_Run2017F-09Aug2019_UL2017_v1.list'] = [1, 1]
 
 CMSSW_BASE_DIR = os.getenv('CMSSW_BASE')
 Analyzer_DIR = CMSSW_BASE_DIR+"/src/HHBoostedAnalyzer/"
@@ -57,7 +57,9 @@ for listfile in datasetList.keys():
     #####################################
     #Job Splitting
     #####################################
-    isData = datasetList[listfile][0]
+    isData = "no"
+    if (datasetList[listfile][0] == 1): 
+        isData = "yes"
     filesPerJob = datasetList[listfile][1]
     tmpJobFileCount = 0
     nJobs = 1
