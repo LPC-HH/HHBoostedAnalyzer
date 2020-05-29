@@ -24,10 +24,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
  
     //------------------------
     //declare branch variables
-    //------------------------
-    //int run = 0;
-    //int lumi = 0;
-    //int event = 0;
+    //------------------------  
     float weight = 0;
 
     float genHiggs1Pt = -1;
@@ -76,9 +73,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     //set branches on big tree
     //------------------------
     outputTree->Branch("weight", &weight, "weight/F");
-    outputTree->Branch("run", &run, "run/F");
-    outputTree->Branch("lumi", &luminosityBlock, "lumi/F");
-    outputTree->Branch("event", &event, "event/F");
+    outputTree->Branch("run", &run, "run/i");
+    outputTree->Branch("lumi", &luminosityBlock, "lumi/i");
+    outputTree->Branch("event", &event, "event/l");
  
     outputTree->Branch("genHiggs1Pt", &genHiggs1Pt, "genHiggs1Pt/F");
     outputTree->Branch("genHiggs1Eta", &genHiggs1Eta, "genHiggs1Eta/F");
