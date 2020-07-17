@@ -47,6 +47,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet1MassSD = -99;
     float fatJet1DDBTagger = -99;
     int   fatJet1GenMatchIndex = -99;
+    float fatJet1Tau3OverTau2 = -99;
+    bool fatJet1HasMuon = 0;
+    bool fatJet1HasElectron = 0;
+    bool fatJet1HasBJetCSVLoose = 0;
+    bool fatJet1HasBJetCSVMedium = 0;
+    bool fatJet1HasBJetCSVTight = 0;
     float fatJet2Pt = -99;
     float fatJet2Eta = -99;
     float fatJet2Phi = -99;
@@ -54,6 +60,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet2MassSD = -99;
     float fatJet2DDBTagger = -99;
     int   fatJet2GenMatchIndex = -99;
+    float fatJet2Tau3OverTau2 = -99;
+    bool fatJet2HasMuon = 0;
+    bool fatJet2HasElectron = 0;
+    bool fatJet2HasBJetCSVLoose = 0;
+    bool fatJet2HasBJetCSVMedium = 0;
+    bool fatJet2HasBJetCSVTight = 0;
     float hh_pt = -99;
     float hh_eta = -99;
     float hh_phi = -99;
@@ -97,6 +109,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet1MassSD", &fatJet1MassSD, "fatJet1MassSD/F");
     outputTree->Branch("fatJet1DDBTagger", &fatJet1DDBTagger, "fatJet1DDBTagger/F");
     outputTree->Branch("fatJet1GenMatchIndex", &fatJet1GenMatchIndex, "fatJet1GenMatchIndex/I");
+    outputTree->Branch("fatJet1Tau3OverTau2", &fatJet1Tau3OverTau2, "fatJet1Tau3OverTau2/F");
+    outputTree->Branch("fatJet1HasMuon", &fatJet1HasMuon, "fatJet1HasMuon/O");
+    outputTree->Branch("fatJet1HasElectron", &fatJet1HasElectron, "fatJet1HasElectron/O");
+    outputTree->Branch("fatJet1HasBJetCSVLoose", &fatJet1HasBJetCSVLoose, "fatJet1HasBJetCSVLoose/O");
+    outputTree->Branch("fatJet1HasBJetCSVMedium", &fatJet1HasBJetCSVMedium, "fatJet1HasBJetCSVMedium/O");
+    outputTree->Branch("fatJet1HasBJetCSVTight", &fatJet1HasBJetCSVTight, "fatJet1HasBJetCSVTight/O");
     outputTree->Branch("fatJet2Pt", &fatJet2Pt, "fatJet2Pt/F");
     outputTree->Branch("fatJet2Eta", &fatJet2Eta, "fatJet2Eta/F");
     outputTree->Branch("fatJet2Phi", &fatJet2Phi, "fatJet2Phi/F");
@@ -104,6 +122,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet2MassSD", &fatJet2MassSD, "fatJet2MassSD/F");
     outputTree->Branch("fatJet2DDBTagger", &fatJet2DDBTagger, "fatJet2DDBTagger/F");
     outputTree->Branch("fatJet2GenMatchIndex", &fatJet2GenMatchIndex, "fatJet2GenMatchIndex/I");
+    outputTree->Branch("fatJet2Tau3OverTau2", &fatJet2Tau3OverTau2, "fatJet2Tau3OverTau2/F");
+    outputTree->Branch("fatJet2HasMuon", &fatJet2HasMuon, "fatJet2HasMuon/O");
+    outputTree->Branch("fatJet2HasElectron", &fatJet2HasElectron, "fatJet2HasElectron/O");
+    outputTree->Branch("fatJet2HasBJetCSVLoose", &fatJet2HasBJetCSVLoose, "fatJet2HasBJetCSVLoose/O");
+    outputTree->Branch("fatJet2HasBJetCSVMedium", &fatJet2HasBJetCSVMedium, "fatJet2HasBJetCSVMedium/O");
+    outputTree->Branch("fatJet2HasBJetCSVTight", &fatJet2HasBJetCSVTight, "fatJet2HasBJetCSVTight/O");
     outputTree->Branch("hh_pt",      &hh_pt,     "hh_pt/F");
     outputTree->Branch("hh_eta",     &hh_eta,    "hh_eta/F");
     outputTree->Branch("hh_phi",     &hh_phi,    "hh_phi/F");
@@ -149,10 +173,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     cout << "nentries = " << nentries << "\n";
     for (UInt_t jentry=0; jentry<nentries;jentry++) {
       //begin event
-      if(jentry % 10000 == 0) cout << "Processing entry " << jentry << endl;
+      if(jentry % 1000 == 0) cout << "Processing entry " << jentry << endl;
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
+
 
       //fill normalization histogram
       weight = genWeight / fabs(genWeight);
@@ -180,6 +205,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1MassSD = -99.0;
       fatJet1DDBTagger = -99.0;
       fatJet1GenMatchIndex = -99.0;
+      fatJet1Tau3OverTau2 = -99;
+      fatJet1HasMuon = 0;
+      fatJet1HasElectron = 0;
+      fatJet1HasBJetCSVLoose = 0;
+      fatJet1HasBJetCSVMedium = 0;
+      fatJet1HasBJetCSVTight = 0;
       fatJet2Pt = -99.0;
       fatJet2Eta = -99.0;
       fatJet2Phi = -99.0;
@@ -187,6 +218,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2MassSD = -99.0;
       fatJet2DDBTagger = -99.0;
       fatJet2GenMatchIndex = -99.0;
+      fatJet2Tau3OverTau2 = -99;
+      fatJet2HasMuon = 0;
+      fatJet2HasElectron = 0;
+      fatJet2HasBJetCSVLoose = 0;
+      fatJet2HasBJetCSVMedium = 0;
+      fatJet2HasBJetCSVTight = 0;
       hh_pt = -99;
       hh_eta = -99;
       hh_phi = -99;
@@ -305,6 +342,54 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       if(Higgs1MinDR < 0.4) {
 	fatJet1GenMatchIndex = Higgs1_match_idx;
       }
+      fatJet1Tau3OverTau2 = FatJet_tau3[fatJet1Index] /  FatJet_tau2[fatJet1Index];
+      //find muon inside jet
+      for(unsigned int q = 0; q < nMuon; q++ ) {       
+	if (Muon_looseId[q] && 
+	    deltaR(fatJet1Eta , fatJet1Phi, Muon_eta[q], Muon_phi[q]) < 1.0
+	    ) {
+	  fatJet1HasMuon = true;
+	  break;
+	}
+      }
+      //find electron inside jet
+      for(unsigned int q = 0; q < nElectron; q++ ) {       
+	if (Electron_mvaFall17V2noIso_WP90[q] && 
+	    deltaR(fatJet1Eta , fatJet1Phi, Electron_eta[q], Electron_phi[q]) < 1.0
+	    ) {
+	  fatJet1HasElectron = true;
+	  break;
+	}
+      }
+      //find loose b-tagged jet inside jet
+      for(unsigned int q = 0; q < nJet; q++ ) {       
+	if (Jet_btagDeepB[q] > 0.0521 && 
+	    deltaR(fatJet1Eta , fatJet1Phi, Jet_eta[q], Jet_phi[q]) < 1.0
+	    ) {
+	  fatJet1HasBJetCSVLoose = true;
+	  break;
+	}
+      }
+     //find medium b-tagged jet inside jet
+      for(unsigned int q = 0; q < nJet; q++ ) {       
+	if (Jet_btagDeepB[q] > 0.3033 && 
+	    deltaR(fatJet1Eta , fatJet1Phi, Jet_eta[q], Jet_phi[q]) < 1.0
+	    ) {
+	  fatJet1HasBJetCSVMedium = true;
+	  break;
+	}
+      }
+      //find tight b-tagged jet inside jet
+      for(unsigned int q = 0; q < nJet; q++ ) {       
+	if (Jet_btagDeepB[q] > 0.7489 && 
+	    deltaR(fatJet1Eta , fatJet1Phi, Jet_eta[q], Jet_phi[q]) < 1.0
+	    ) {
+	  fatJet1HasBJetCSVTight = true;
+	  break;
+	}
+      }
+
+
 
       TLorentzVector Higgs2Jet;
       Higgs2Jet.SetPtEtaPhiM(FatJet_pt[fatJet2Index],FatJet_eta[fatJet2Index],FatJet_phi[fatJet2Index],FatJet_msoftdrop[fatJet2Index]);
@@ -324,9 +409,56 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2MassSD = FatJet_msoftdrop[fatJet2Index];
       fatJet2DDBTagger = FatJet_btagDDBvL[fatJet2Index];
       if(Higgs2MinDR < 0.4) {
-	fatJet2GenMatchIndex = Higgs1_match_idx;
+	fatJet2GenMatchIndex = Higgs2_match_idx;
       }
+      fatJet2Tau3OverTau2 = FatJet_tau3[fatJet2Index] /  FatJet_tau2[fatJet2Index];
       
+      //find muon inside jet
+      for(unsigned int q = 0; q < nMuon; q++ ) {       
+	if (Muon_looseId[q] && 
+	    deltaR(fatJet2Eta , fatJet2Phi, Muon_eta[q], Muon_phi[q]) < 1.0
+	    ) {
+	  fatJet2HasMuon = true;
+	  break;
+	}
+      }
+      //find electron inside jet
+      for(unsigned int q = 0; q < nElectron; q++ ) {       
+	if (Electron_mvaFall17V2noIso_WP90[q] && 
+	    deltaR(fatJet2Eta , fatJet2Phi, Electron_eta[q], Electron_phi[q]) < 1.0
+	    ) {
+	  fatJet2HasElectron = true;
+	  break;
+	}
+      }
+      //find loose b-tagged jet inside jet
+      for(unsigned int q = 0; q < nJet; q++ ) {       
+	if (Jet_btagDeepB[q] > 0.0521 && 
+	    deltaR(fatJet2Eta , fatJet2Phi, Jet_eta[q], Jet_phi[q]) < 1.0
+	    ) {
+	  fatJet2HasBJetCSVLoose = true;
+	  break;
+	}
+      }
+      //find medium b-tagged jet inside jet
+      for(unsigned int q = 0; q < nJet; q++ ) {       
+	if (Jet_btagDeepB[q] > 0.3033 && 
+	    deltaR(fatJet2Eta , fatJet2Phi, Jet_eta[q], Jet_phi[q]) < 1.0
+	    ) {
+	  fatJet2HasBJetCSVMedium = true;
+	  break;
+	}
+      }
+      //find tight b-tagged jet inside jet
+      for(unsigned int q = 0; q < nJet; q++ ) {       
+	if (Jet_btagDeepB[q] > 0.7489 && 
+	    deltaR(fatJet2Eta , fatJet2Phi, Jet_eta[q], Jet_phi[q]) < 1.0
+	    ) {
+	  fatJet2HasBJetCSVTight = true;
+	  break;
+	}
+      }
+
       //filling hh candidate variable
       hh_pt = (Higgs1Jet+Higgs2Jet).Pt();
       hh_eta = (Higgs1Jet+Higgs2Jet).Eta();
