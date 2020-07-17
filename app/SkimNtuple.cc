@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
     
     string outputDir = argv[2];
     string outputfileLabel = argv[3];
-    //string SkimCutString = argv[4];
+    string SkimCutString = argv[4];
 
     ifstream filein(inputList.c_str());
     string curFilename;
@@ -75,6 +75,8 @@ int main(int argc, char* argv[]) {
         }*/
         //end temporary hack
 
+	cout << "here1\n";
+
         while((key = (TKey*)nextkey())){
             string className = key->GetClassName();
             cout << "Getting key from file.  Class type: " << className << endl;
@@ -115,7 +117,7 @@ int main(int argc, char* argv[]) {
             cout << "Events in the ntuple: " << inputTree->GetEntries() << endl;
 
 	    //std::cout << "[INFO] skim cut -> " << SkimCutString << std::endl;
-	    //TTreeFormula *formula = new TTreeFormula("SkimCutString", SkimCutString.c_str(), inputTree);
+	    TTreeFormula *formula = new TTreeFormula("SkimCutString", SkimCutString.c_str(), inputTree);
 
 	    UInt_t nFatJet;
 	    Float_t FatJet_pt[10];   //[nFatJet]
@@ -136,11 +138,11 @@ int main(int argc, char* argv[]) {
 
 		bool passSkim = false;		
 		
-		//passSkim = formula->EvalInstance();
+		passSkim = formula->EvalInstance();
 
-		passSkim = (nFatJet >= 2 
-			    && FatJet_pt[0] > 200 && FatJet_pt[1] > 200
-			    && FatJet_btagDDBvL[0] > 0.5 && FatJet_btagDDBvL[1] > 0.5);
+		// passSkim = (nFatJet >= 2 
+		// 	    && FatJet_pt[0] > 200 && FatJet_pt[1] > 200
+		// 	    && FatJet_btagDDBvL[0] > 0.5 && FatJet_btagDDBvL[1] > 0.5);
 
 		if (passSkim) {
 		  EventsPassed++;
