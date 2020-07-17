@@ -152,7 +152,7 @@ int main(int argc, char* argv[]){
     HHTo4BNtupler analyzer(theChain);
     
     //------ EXECUTE ------//
-    cout << "Executing JetNtupler..." << endl;
+    cout << "Executing HHTo4BNtupler..." << endl;
     //analyzer.EnableAll();
     analyzer.Analyze(isData, option, outputFileName, label);
     cout << "Process completed!" << endl;
