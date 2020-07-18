@@ -163,6 +163,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
   
     cout << "Run With Option = " << Option << "\n";
     
+    if (Option == 1) cout << "Option = 1 : Select FatJets with pT > 200 GeV and DDB > 0.8 only\n";
+    if (Option == 10) cout << "Option = 10 : Select FatJets with pT > 200 GeV and tau3/tau2 < 0.54 only\n";
+
     UInt_t NEventsFilled = 0;
  
     //begin loop
@@ -296,7 +299,16 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       for(unsigned int i = 0; i < nFatJet; i++ ) {       
 	//Hbb fat jet pre-selection
 	if (FatJet_pt[i] < 200) continue;
-	if (FatJet_btagDDBvL[i] < 0.80) continue;
+
+	//Select signal region with jets having DDB > 0.8
+	if (Option == 1) {
+	  if (!(FatJet_btagDDBvL[i] > 0.80)) continue;
+	} 
+	
+	//Select ttbar control region with jets 
+	if (Option == 10) {
+	  if (!(FatJet_tau3[i] / FatJet_tau2[i] < 0.54 )) continue;
+	} 
 	selectedFatJetIndices.push_back(i);
       }
 
