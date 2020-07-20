@@ -11,11 +11,11 @@ from collections import OrderedDict
 queueType = "longlunch"
 
 analysis = "HHTo4BNtupler"
-option = 1
+option = 10
 cmsswReleaseVersion = "CMSSW_10_6_5"
-label = "v1"
+label = "v3"
 outputfile = "HHTo4BNtuple" + "_" + label
-outputDirectoryBase = "/store/user/lpcbacon/sixie/analyzer/"+analysis+"/"
+outputDirectoryBase = "/store/user/lpcbacon/sixie/analyzer/"+analysis+"/"+label+"/"
 #filesPerJob = 2
 
 datasetList = OrderedDict()
@@ -30,6 +30,14 @@ datasetList['LPC/VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8.list'] = [0, 2]
 datasetList['LPC/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8.list'] = [0, 2]
 datasetList['LPC/GluGluHToBB_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
 datasetList['LPC/GluGluHToBB_M125_13TeV_amcatnloFXFX_pythia8.list'] = [0, 2]
+datasetList['LPC/qcd_ht_1000to1500.list'] = [0, 2]
+datasetList['LPC/qcd_ht_2000toInf.list'] = [0, 2]
+datasetList['LPC/qcd_ht_50to100.list'] = [0, 2]
+datasetList['LPC/qcd_ht_100to200.list'] = [0, 2]
+datasetList['LPC/qcd_ht_300to500.list'] = [0, 2]
+datasetList['LPC/qcd_ht_700to1000.list'] = [0, 2]
+datasetList['LPC/qcd_ht_1500to2000.list'] = [0, 2]
+datasetList['LPC/qcd_ht_500to700.list'] = [0, 2]
 datasetList['LPC/data_Run2017B-09Aug2019_UL2017_v1.list'] = [1, 1]
 datasetList['LPC/data_Run2017C-09Aug2019_UL2017_v1.list'] = [1, 1]
 datasetList['LPC/data_Run2017D-09Aug2019_UL2017_v1.list'] = [1, 1]
