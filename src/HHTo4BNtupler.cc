@@ -46,6 +46,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet1Mass = -99;
     float fatJet1MassSD = -99;
     float fatJet1DDBTagger = -99;
+    float fatJet1PNetXbb = -99;
+    float fatJet1PNetQCDb = -99;
+    float fatJet1PNetQCDbb = -99;
+    float fatJet1PNetQCDothers = -99;
     int   fatJet1GenMatchIndex = -99;
     float fatJet1Tau3OverTau2 = -99;
     bool fatJet1HasMuon = 0;
@@ -59,6 +63,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet2Mass = -99;
     float fatJet2MassSD = -99;
     float fatJet2DDBTagger = -99;
+    float fatJet2PNetXbb = -99;
+    float fatJet2PNetQCDb = -99;
+    float fatJet2PNetQCDbb = -99;
+    float fatJet2PNetQCDothers = -99;
     int   fatJet2GenMatchIndex = -99;
     float fatJet2Tau3OverTau2 = -99;
     bool fatJet2HasMuon = 0;
@@ -108,6 +116,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet1Mass", &fatJet1Mass, "fatJet1Mass/F");
     outputTree->Branch("fatJet1MassSD", &fatJet1MassSD, "fatJet1MassSD/F");
     outputTree->Branch("fatJet1DDBTagger", &fatJet1DDBTagger, "fatJet1DDBTagger/F");
+    outputTree->Branch("fatJet1PNetXbb", &fatJet1PNetXbb, "fatJet1PNetXbb/F");
+    outputTree->Branch("fatJet1PNetQCDb", &fatJet1PNetQCDb, "fatJet1PNetQCDb/F");
+    outputTree->Branch("fatJet1PNetQCDbb", &fatJet1PNetQCDbb, "fatJet1PNetQCDbb/F");
+    outputTree->Branch("fatJet1PNetQCDothers", &fatJet1PNetQCDothers, "fatJet1PNetQCDothers/F");
     outputTree->Branch("fatJet1GenMatchIndex", &fatJet1GenMatchIndex, "fatJet1GenMatchIndex/I");
     outputTree->Branch("fatJet1Tau3OverTau2", &fatJet1Tau3OverTau2, "fatJet1Tau3OverTau2/F");
     outputTree->Branch("fatJet1HasMuon", &fatJet1HasMuon, "fatJet1HasMuon/O");
@@ -121,6 +133,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet2Mass", &fatJet2Mass, "fatJet2Mass/F");
     outputTree->Branch("fatJet2MassSD", &fatJet2MassSD, "fatJet2MassSD/F");
     outputTree->Branch("fatJet2DDBTagger", &fatJet2DDBTagger, "fatJet2DDBTagger/F");
+    outputTree->Branch("fatJet2PNetXbb", &fatJet2PNetXbb, "fatJet2PNetXbb/F");
+    outputTree->Branch("fatJet2PNetQCDb", &fatJet2PNetQCDb, "fatJet2PNetQCDb/F");
+    outputTree->Branch("fatJet2PNetQCDbb", &fatJet2PNetQCDbb, "fatJet2PNetQCDbb/F");
+    outputTree->Branch("fatJet2PNetQCDothers", &fatJet2PNetQCDothers, "fatJet2PNetQCDothers/F");
     outputTree->Branch("fatJet2GenMatchIndex", &fatJet2GenMatchIndex, "fatJet2GenMatchIndex/I");
     outputTree->Branch("fatJet2Tau3OverTau2", &fatJet2Tau3OverTau2, "fatJet2Tau3OverTau2/F");
     outputTree->Branch("fatJet2HasMuon", &fatJet2HasMuon, "fatJet2HasMuon/O");
@@ -207,6 +223,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1Mass = -99.0;
       fatJet1MassSD = -99.0;
       fatJet1DDBTagger = -99.0;
+      fatJet1PNetXbb = -99;
+      fatJet1PNetQCDb = -99;
+      fatJet1PNetQCDbb = -99;
+      fatJet1PNetQCDothers = -99;
       fatJet1GenMatchIndex = -99.0;
       fatJet1Tau3OverTau2 = -99;
       fatJet1HasMuon = 0;
@@ -220,6 +240,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2Mass = -99.0;
       fatJet2MassSD = -99.0;
       fatJet2DDBTagger = -99.0;
+      fatJet2PNetXbb = -99;
+      fatJet2PNetQCDb = -99;
+      fatJet2PNetQCDbb = -99;
+      fatJet2PNetQCDothers = -99;
       fatJet2GenMatchIndex = -99.0;
       fatJet2Tau3OverTau2 = -99;
       fatJet2HasMuon = 0;
@@ -289,7 +313,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	  genHH_mass= (genHiggsVector[0]+genHiggsVector[1]).M();
 	}
       
-      }
+      } //end if !data
 
       //------------------------------
       //-------find fatJet------------
@@ -303,6 +327,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	//Select signal region with jets having DDB > 0.8
 	if (Option == 1) {
 	  if (!(FatJet_btagDDBvL[i] > 0.80)) continue;
+	} 
+	if (Option == 2) {
+	  if (!(FatJet_ParticleNetMD_probXbb[i] > 0.80)) continue;
 	} 
 	
 	//Select ttbar control region with jets 
@@ -351,6 +378,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1Mass = FatJet_mass[fatJet1Index];
       fatJet1MassSD = FatJet_msoftdrop[fatJet1Index];
       fatJet1DDBTagger = FatJet_btagDDBvL[fatJet1Index];
+      fatJet1PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet1Index];
+      fatJet1PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet1Index];
+      fatJet1PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet1Index];
+      fatJet1PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet1Index];
+
       if(Higgs1MinDR < 0.4) {
 	fatJet1GenMatchIndex = Higgs1_match_idx;
       }
@@ -420,6 +452,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2Mass = FatJet_mass[fatJet2Index];
       fatJet2MassSD = FatJet_msoftdrop[fatJet2Index];
       fatJet2DDBTagger = FatJet_btagDDBvL[fatJet2Index];
+      fatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet2Index];
+      fatJet2PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet2Index];
+      fatJet2PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet2Index];
+      fatJet2PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet2Index];
+
       if(Higgs2MinDR < 0.4) {
 	fatJet2GenMatchIndex = Higgs2_match_idx;
       }
