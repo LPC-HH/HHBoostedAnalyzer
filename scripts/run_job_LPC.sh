@@ -41,12 +41,23 @@ eval `scram runtime -sh`
 tar vxzf input_list.tgz
 inputfilelist=input_list_${jobnumber}.txt
 
+###################################
+#copy input files ahead of time
+###################################
+mkdir inputs/
+for i in `cat $inputfilelist`
+do
+echo "Copying Input File: " $i
+xrdcp $i ./inputs/
+done
+ls inputs/* > tmp_input_list.txt 
+
 ###########################
 #run executable
 ###########################
 echo "Executing Analysis executable:"
-echo "./${executable} ${inputfilelist} --outputFile=${outputfile} --optionNumber=${option} -d=${isData} "
-./${executable} ${inputfilelist} --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} -d=${isData} 
+echo "./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} -d=${isData} "
+./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} -d=${isData} 
 
 ls -l
 ##########################################################
@@ -55,5 +66,6 @@ ls -l
 eosmkdir -p ${outputDirectory}
 xrdcp -f ${outputfile}_${jobnumber}.root root://cmseos.fnal.gov/${outputDirectory}/${outputfile}_${jobnumber}.root 
 rm ${outputfile}_${jobnumber}.root
+rm inputs -rv 
 
 cd -
