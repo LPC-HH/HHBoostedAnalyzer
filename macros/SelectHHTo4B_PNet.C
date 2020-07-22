@@ -225,33 +225,48 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
   }
 
 
+  vector<TH1D*> histMET;
+  vector<TH1D*> histNLeptons;
+  vector<TH1D*> histNJetsHaveLeptons;
   vector<TH1D*> histJet1Mass;
   vector<TH1D*> histJet1Pt;
   vector<TH1D*> histJet1DDB;
+  vector<TH1D*> histJet1PNetXbb;
   vector<TH1D*> histJet1Tau3OverTau2;
   vector<TH1D*> histJet2Mass;
   vector<TH1D*> histJet2Pt;
   vector<TH1D*> histJet2DDB;
+  vector<TH1D*> histJet2PNetXbb;
   vector<TH1D*> histJet2Tau3OverTau2;
 
   assert (inputfiles.size() == processLabels.size());
   for (uint i=0; i < inputfiles.size(); ++i) {
+    histMET.push_back(new TH1D(Form("histMET_%s",processLabels[i].c_str()), "; MET [GeV] ; Number of Events", 25, 0, 200));
+    histNLeptons.push_back(new TH1D(Form("histNLeptons_%s",processLabels[i].c_str()), "; NLeptons ; Number of Events", 10, -0.5, 9.5));
+    histNJetsHaveLeptons.push_back(new TH1D(Form("histNJetsHaveLeptons_%s",processLabels[i].c_str()), "; NJetsHaveLeptons ; Number of Events", 3, -0.5, 2.5));
     histJet1Mass.push_back(new TH1D(Form("histJet1Mass_%s",processLabels[i].c_str()), "; Jet1 Mass [GeV] ; Number of Events", 25, 0, 500));
     histJet1Pt.push_back(new TH1D(Form("histJet1Pt_%s",processLabels[i].c_str()), "; Jet1 p_{T} [GeV] ; Number of Events", 25, 0, 2000));
     histJet1DDB.push_back(new TH1D(Form("histJet1DDB_%s",processLabels[i].c_str()), "; Jet1 DDB ; Number of Events", 25, 0, 1.0));
+    histJet1PNetXbb.push_back(new TH1D(Form("histJet1PNetXbb_%s",processLabels[i].c_str()), "; Jet1 PNetXbb ; Number of Events", 25, 0, 1.0));
     histJet1Tau3OverTau2.push_back(new TH1D(Form("histJet1Tau3OverTau2_%s",processLabels[i].c_str()), "; Jet1 Tau3OverTau2 ; Number of Events", 25, 0, 1.0));
     histJet2Mass.push_back(new TH1D(Form("histJet2Mass_%s",processLabels[i].c_str()), "; Jet2 Mass [GeV] ; Number of Events", 25, 0, 500));
     histJet2Pt.push_back(new TH1D(Form("histJet2Pt_%s",processLabels[i].c_str()), "; Jet2 p_{T} [GeV] ; Number of Events", 25, 0, 1000));
     histJet2DDB.push_back(new TH1D(Form("histJet1DDB_%s",processLabels[i].c_str()), "; Jet2 DDB ; Number of Events", 25, 0, 1.0));
+    histJet2PNetXbb.push_back(new TH1D(Form("histJet2PNetXbb_%s",processLabels[i].c_str()), "; Jet2 PNetXbb ; Number of Events", 25, 0, 1.0));
     histJet2Tau3OverTau2.push_back(new TH1D(Form("histJet1Tau3OverTau2_%s",processLabels[i].c_str()), "; Jet2 Tau3OverTau2 ; Number of Events", 25, 0, 1.0));
-    
+
+    histMET[i]->Sumw2();
+    histNLeptons[i]->Sumw2();
+    histNJetsHaveLeptons[i]->Sumw2();
     histJet1Mass[i]->Sumw2();
     histJet1Pt[i]->Sumw2();
     histJet1DDB[i]->Sumw2();
+    histJet1PNetXbb[i]->Sumw2();
     histJet1Tau3OverTau2[i]->Sumw2();
     histJet2Mass[i]->Sumw2();
     histJet2Pt[i]->Sumw2();
     histJet2DDB[i]->Sumw2();
+    histJet2PNetXbb[i]->Sumw2();
     histJet2Tau3OverTau2[i]->Sumw2();
   }
  
@@ -284,9 +299,14 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
       }
 
       float weight = 0;
+      float MET = 0;
       float fatJet1Pt = 0;
       float fatJet1MassSD = 0;
       float fatJet1DDBTagger = 0;
+      float fatJet1PNetXbb = -99;
+      float fatJet1PNetQCDb = -99;
+      float fatJet1PNetQCDbb = -99;
+      float fatJet1PNetQCDothers = -99;
       float fatJet1Tau3OverTau2 = -99;
       bool fatJet1HasMuon = 0;
       bool fatJet1HasElectron = 0;
@@ -296,6 +316,10 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
       float fatJet2Pt = 0;
       float fatJet2MassSD = 0;
       float fatJet2DDBTagger = 0;
+      float fatJet2PNetXbb = -99;
+      float fatJet2PNetQCDb = -99;
+      float fatJet2PNetQCDbb = -99;
+      float fatJet2PNetQCDothers = -99;
       float fatJet2Tau3OverTau2 = -99;
       bool fatJet2HasMuon = 0;
       bool fatJet2HasElectron = 0;
@@ -319,9 +343,14 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
       bool HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4;
 
       tree->SetBranchAddress("weight",&weight);                                       
+      tree->SetBranchAddress("MET",&MET);                                       
       tree->SetBranchAddress("fatJet1Pt",&fatJet1Pt);                                       
       tree->SetBranchAddress("fatJet1MassSD",&fatJet1MassSD);                                       
       tree->SetBranchAddress("fatJet1DDBTagger",&fatJet1DDBTagger);
+      tree->SetBranchAddress("fatJet1PNetXbb",&fatJet1PNetXbb); 
+      tree->SetBranchAddress("fatJet1PNetQCDb",&fatJet1PNetQCDb); 
+      tree->SetBranchAddress("fatJet1PNetQCDbb",&fatJet1PNetQCDbb); 
+      tree->SetBranchAddress("fatJet1PNetQCDothers",&fatJet1PNetQCDothers);
       tree->SetBranchAddress("fatJet1Tau3OverTau2",&fatJet1Tau3OverTau2);
       tree->SetBranchAddress("fatJet1HasMuon",&fatJet1HasMuon);
       tree->SetBranchAddress("fatJet1HasElectron",&fatJet1HasElectron);
@@ -331,6 +360,10 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
       tree->SetBranchAddress("fatJet2Pt",&fatJet2Pt);                                       
       tree->SetBranchAddress("fatJet2MassSD",&fatJet2MassSD);                                       
       tree->SetBranchAddress("fatJet2DDBTagger",&fatJet2DDBTagger);
+      tree->SetBranchAddress("fatJet2PNetXbb",&fatJet2PNetXbb); 
+      tree->SetBranchAddress("fatJet2PNetQCDb",&fatJet2PNetQCDb); 
+      tree->SetBranchAddress("fatJet2PNetQCDbb",&fatJet2PNetQCDbb); 
+      tree->SetBranchAddress("fatJet2PNetQCDothers",&fatJet2PNetQCDothers);
       tree->SetBranchAddress("fatJet2Tau3OverTau2",&fatJet2Tau3OverTau2);
       tree->SetBranchAddress("fatJet2HasMuon",&fatJet2HasMuon);
       tree->SetBranchAddress("fatJet2HasElectron",&fatJet2HasElectron);
@@ -376,6 +409,9 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	//******************************
 	bool passTrigger = false;
 	passTrigger = 
+	  // HLT_PFJet450  	  
+	  // || HLT_PFJet500       
+	  
 	  HLT_AK8PFJet360_TrimMass30                            
 	  || HLT_AK8PFJet380_TrimMass30                             
 	  || HLT_AK8PFJet400_TrimMass30                             
@@ -396,67 +432,89 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	//******************************
 	//Selection Cuts 
 	//******************************
-
-	if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
-	if ( !(fatJet1Pt > 300 && fatJet2Pt > 300 )) continue;
-	if ( !(fatJet1DDBTagger > 0.905)) continue;
-	if ( !(fatJet2DDBTagger > 0.902)) continue;
+	if ( !(fatJet1Pt > 250 )) continue;
+	if ( !(fatJet2Pt > 250 )) continue;
 	if ( !(fatJet1MassSD > 30)) continue;
 	if ( !(fatJet2MassSD > 30)) continue;
-	if ( !(fatJet1MassSD > 100 && fatJet1MassSD < 140)) continue;
-	if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) continue;
 
 
+	//SR selection
+	if (channelOption == 0) {
+	  if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
+	  if ( !(fatJet1Pt > 300 && fatJet2Pt > 300 )) continue;
+	  if ( !(fatJet1PNetXbb > 0.975)) continue;
+	  if ( !(fatJet2PNetXbb > 0.975)) continue;
+	  if ( !(fatJet1MassSD > 100 && fatJet1MassSD < 140)) continue;
+	  if ( !(fatJet2MassSD > 95 && fatJet2MassSD < 135)) continue;
+	}
 
-	// // QCD enriched CR
-	// if (!(fatJet1Tau3OverTau2 > 0.4)) continue;
-	// if (!(fatJet2Tau3OverTau2 > 0.4)) continue;
-	// if (fatJet1HasBJetCSVMedium) continue;
-	// if (fatJet2HasBJetCSVMedium) continue;
+	// QCD enriched CR
+	if (channelOption == 10) {
+	  if (!(fatJet1Tau3OverTau2 > 0.46)) continue;
+	  if (!(fatJet2Tau3OverTau2 > 0.46)) continue;
+	  if (fatJet1HasBJetCSVMedium) continue;
+	  if (fatJet2HasBJetCSVMedium) continue;
+	}
 
+	//TTbar Hadronic CR
+	if (channelOption == 20) {
+	  if (!(fatJet1Tau3OverTau2 < 0.46)) continue;
+	  if (!(fatJet2Tau3OverTau2 < 0.46)) continue;
+	  if (!fatJet1HasBJetCSVLoose) continue;
+	  if (!fatJet2HasBJetCSVLoose) continue;
+	}
 
-	// // //TTbar Hadronic CR
-	// //if (!(fatJet1Tau3OverTau2 < 0.54)) continue;
-	// //if (!(fatJet2Tau3OverTau2 < 0.54)) continue;
-	// if (!(fatJet1Tau3OverTau2 < 0.4)) continue;
-	// if (!(fatJet2Tau3OverTau2 < 0.4)) continue;
-	// if (!fatJet1HasBJetCSVMedium) continue;
-	// if (!fatJet2HasBJetCSVMedium) continue;
+	//TTbar Semi-leptonic CR
+	if (channelOption == 21) {
+	  if (!( 
+		((fatJet1HasMuon||fatJet1HasElectron) && fatJet2Tau3OverTau2 < 0.54) ||
+		((fatJet2HasMuon||fatJet2HasElectron) && fatJet1Tau3OverTau2 < 0.54)
+		 )) continue;
+	  if (!fatJet1HasBJetCSVLoose) continue;
+	  if (!fatJet2HasBJetCSVLoose) continue;
+	}
 
-	// //TTbar Semi-leptonic CR
-	// if (!( 
-	//       ((fatJet1HasMuon||fatJet1HasElectron) && fatJet2Tau3OverTau2 < 0.54) ||
-	//       ((fatJet2HasMuon||fatJet2HasElectron) && fatJet1Tau3OverTau2 < 0.54)
-	//        )) continue;
-	// if (!fatJet1HasBJetCSVLoose) continue;
-	// if (!fatJet2HasBJetCSVLoose) continue;
-	
 	//******************************
 	//Fill histograms
 	//******************************
+	int NJetsHaveLeptons = 0;
+	if (fatJet1HasMuon || fatJet1HasElectron) NJetsHaveLeptons++;
+	if (fatJet2HasMuon || fatJet2HasElectron) NJetsHaveLeptons++;
+
 	if (isData) {
 	  dataYield += 1.0;
+	  histMET[i]->Fill(MET);    
+	  histNLeptons[i]->Fill(0.0);   
+	  histNJetsHaveLeptons[i]->Fill(NJetsHaveLeptons);   
 	  histJet1Mass[i]->Fill(fatJet1MassSD);      
 	  histJet1Pt[i]->Fill(fatJet1Pt);
 	  histJet1DDB[i]->Fill(fatJet1DDBTagger);
+	  histJet1PNetXbb[i]->Fill(fatJet1PNetXbb);
 	  histJet1Tau3OverTau2[i]->Fill(fatJet1Tau3OverTau2);
 	  histJet2Mass[i]->Fill(fatJet2MassSD);      
 	  histJet2Pt[i]->Fill(fatJet2Pt);
 	  histJet2DDB[i]->Fill(fatJet2DDBTagger);
+	  histJet2PNetXbb[i]->Fill(fatJet2PNetXbb);
 	  histJet2Tau3OverTau2[i]->Fill(fatJet2Tau3OverTau2);
 	} else {
+
 	  if (processLabels[i] == "HH") {
 	    SignalYield += myWeight;
 	  } else {
 	    MCYield += myWeight;
 	  }
+	  histMET[i]->Fill(MET, myWeight);    
+	  histNLeptons[i]->Fill(0.0, myWeight);   
+	  histNJetsHaveLeptons[i]->Fill(NJetsHaveLeptons, myWeight);   
 	  histJet1Mass[i]->Fill(fatJet1MassSD, myWeight);      
 	  histJet1Pt[i]->Fill(fatJet1Pt, myWeight);
 	  histJet1DDB[i]->Fill(fatJet1DDBTagger, myWeight);
+	  histJet1PNetXbb[i]->Fill(fatJet1PNetXbb, myWeight);
 	  histJet1Tau3OverTau2[i]->Fill(fatJet1Tau3OverTau2, myWeight);
 	  histJet2Mass[i]->Fill(fatJet2MassSD, myWeight);      
 	  histJet2Pt[i]->Fill(fatJet2Pt, myWeight);
 	  histJet2DDB[i]->Fill(fatJet2DDBTagger, myWeight);
+	  histJet2PNetXbb[i]->Fill(fatJet2PNetXbb, myWeight);
 	  histJet2Tau3OverTau2[i]->Fill(fatJet2Tau3OverTau2, myWeight);
 	}
       } //loop over events
@@ -477,13 +535,18 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
   //*******************************************************************************************
   //MR
   //*******************************************************************************************
+  PlotDataAndStackedBkg( histMET, processLabels, color, true, "MET", Label);
+  PlotDataAndStackedBkg( histNLeptons, processLabels, color, true, "NLeptons", Label);
+  PlotDataAndStackedBkg( histNJetsHaveLeptons, processLabels, color, true, "NJetsHaveLeptons", Label);
   PlotDataAndStackedBkg( histJet1Mass, processLabels, color, true, "Jet1_Mass", Label);
   PlotDataAndStackedBkg( histJet1Pt, processLabels, color, true, "Jet1_Pt", Label);
   PlotDataAndStackedBkg( histJet1DDB, processLabels, color, true, "Jet1_DDB", Label);
+  PlotDataAndStackedBkg( histJet1PNetXbb, processLabels, color, true, "Jet1_PNetXbb", Label);
   PlotDataAndStackedBkg( histJet1Tau3OverTau2, processLabels, color, true, "Jet1_Tau3OverTau2", Label);
   PlotDataAndStackedBkg( histJet2Mass, processLabels, color, true, "Jet2_Mass", Label);
   PlotDataAndStackedBkg( histJet2Pt, processLabels, color, true, "Jet2_Pt", Label);
   PlotDataAndStackedBkg( histJet2DDB, processLabels, color, true, "Jet2_DDB", Label);
+  PlotDataAndStackedBkg( histJet2PNetXbb, processLabels, color, true, "Jet2_PNetXbb", Label);
   PlotDataAndStackedBkg( histJet2Tau3OverTau2, processLabels, color, true, "Jet2_Tau3OverTau2", Label);
 
 
@@ -491,7 +554,7 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
   // Tables
   //==============================================================================================================
   cout << "For Luminosity = " << lumi << " pb^-1\n";
-
+ 
   cout << "Selected Event Yield \n";
   cout << "Data: " << dataYield << "\n";
   cout << "MC: " << MCYield << "\n";
@@ -521,7 +584,7 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 
 
 
-void SelectHHTo4B( int option = 0) {
+void SelectHHTo4B_PNet( int option = 0) {
 
   vector<string> datafiles;
   vector<vector<string> > bkgfiles;
@@ -531,13 +594,12 @@ void SelectHHTo4B( int option = 0) {
 
   string datafile = "";
 
-  //v2 : DDB selected region
+  //v2 : DDB selected SR
   //v3_TopTaggedJets : Top CR
+  //v4 : PNetXbb selected SR
+  //v5 : Top CR with qhu ntuples
 
-  //No Skims  
-  if (option == 0 ) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/data_Run2017-09Aug2019_UL2017_v1_GoodLumi_TwoTaggedJetSkim.root");
-  }
+  //datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/JetHT_2017_TwoTaggedJetSkim_GoodLumi.root");
 
   vector<string> bkgfiles_ttbar;
   vector<string> bkgfiles_H;
@@ -546,25 +608,24 @@ void SelectHHTo4B( int option = 0) {
   vector<string> bkgfiles_qcd; 
   vector<string> bkgfiles_HH; 
 
-  bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_TwoTaggedJetSkim.root");  
-  bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/GluGluHToBB_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_TwoTaggedJetSkim.root");  
+  bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_TwoTaggedJetSkim.root");  
+  bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
 
-  bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
 
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/qcd_ht_300to500_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/qcd_ht_500to700_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/qcd_ht_700to1000_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/qcd_ht_1000to1500_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/qcd_ht_1500to2000_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/qcd_ht_2000toInf_1pb_weighted_TwoTaggedJetSkim.root");
-
-  bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v2/combined/skimmed/GluGluToHHTo4B_node_SM_13TeV-madgraph_correctedcfg_1pb_weighted_TwoTaggedJetSkim.root");
+  bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/GluGluToHHTo4B_node_SM_1pb_weighted_TwoTaggedJetSkim.root");
 
   bkgfiles.push_back(bkgfiles_qcd);
   bkgfiles.push_back(bkgfiles_ttbar);
@@ -594,13 +655,23 @@ void SelectHHTo4B( int option = 0) {
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
 
-  double lumi = 40864 * 0.61 ;
+  double lumi = 40864 * 0.717;
+  //double lumi = 40864 *0.64;
 
   //*********************************************************************
-  //E-Mu Control Region
+  //SR Selection
   //********************************************************************* 
   RunSelectHHTo4B(datafiles, bkgfiles,processLabels, colors, scaleFactors,lumi,"",0,"");
 
+  //*********************************************************************
+  //TTBAR CR Selection
+  //********************************************************************* 
+  //RunSelectHHTo4B(datafiles, bkgfiles,processLabels, colors, scaleFactors,lumi,"",20,"");
+
+  //*********************************************************************
+  //QCD CR Selection
+  //********************************************************************* 
+  //RunSelectHHTo4B(datafiles, bkgfiles,processLabels, colors, scaleFactors,lumi,"",10,"");
 
 }
 
