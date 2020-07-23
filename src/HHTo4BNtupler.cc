@@ -329,7 +329,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	  if (!(FatJet_btagDDBvL[i] > 0.80)) continue;
 	} 
 	if (Option == 2) {
-	  if (!(FatJet_ParticleNetMD_probXbb[i] > 0.80)) continue;
+	  if (!(FatJet_ParticleNetMD_probXbb[i]/(1.0 - FatJet_ParticleNetMD_probXcc[i] - FatJet_ParticleNetMD_probXqq[i]) > 0.80)) continue;
 	} 
 	
 	//Select ttbar control region with jets 
@@ -378,7 +378,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1Mass = FatJet_mass[fatJet1Index];
       fatJet1MassSD = FatJet_msoftdrop[fatJet1Index];
       fatJet1DDBTagger = FatJet_btagDDBvL[fatJet1Index];
-      fatJet1PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet1Index];
+      fatJet1PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet1Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet1Index] - FatJet_ParticleNetMD_probXqq[fatJet1Index]);
       fatJet1PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet1Index];
       fatJet1PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet1Index];
       fatJet1PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet1Index];
@@ -452,7 +452,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2Mass = FatJet_mass[fatJet2Index];
       fatJet2MassSD = FatJet_msoftdrop[fatJet2Index];
       fatJet2DDBTagger = FatJet_btagDDBvL[fatJet2Index];
-      fatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet2Index];
+      fatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet2Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet2Index] - FatJet_ParticleNetMD_probXqq[fatJet2Index]);
       fatJet2PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet2Index];
       fatJet2PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet2Index];
       fatJet2PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet2Index];
