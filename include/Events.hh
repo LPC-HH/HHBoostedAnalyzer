@@ -83,6 +83,31 @@ public :
    float* CorrT1METJet_muonSubtrFactor = new float[NCORRT1METJET];   //[nCorrT1METJet]
    float* CorrT1METJet_phi             = new float[NCORRT1METJET];   //[nCorrT1METJet]
    float* CorrT1METJet_rawPt           = new float[NCORRT1METJET];   //[nCorrT1METJet]
+   UInt_t nAK15Puppi;
+   float* AK15Puppi_ParticleNetMD_probQCD = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_ParticleNetMD_probXbb = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_ParticleNetMD_probXcc = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_ParticleNetMD_probXqq = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_area                  = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_btagCSVV2             = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_btagDeepB             = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_btagJP                = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_eta                   = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_mass                  = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_msoftdrop             = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_phi                   = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_pt                    = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_rawFactor             = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_tau1                  = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_tau2                  = new float[NFATJET];   //[nAK15Puppi]
+   float* AK15Puppi_tau3                  = new float[NFATJET];   //[nAK15Puppi]
+   int*   AK15Puppi_jetId                 = new int[NFATJET];   //[nAK15Puppi]
+   int*   AK15Puppi_nBHadrons             = new int[NFATJET];   //[nAK15Puppi]
+   int*   AK15Puppi_nCHadrons             = new int[NFATJET];   //[nAK15Puppi]
+   int*   AK15Puppi_nPFConstituents       = new int[NFATJET];   //[nAK15Puppi]
+   int*   AK15Puppi_subJetIdx1            = new int[NFATJET];   //[nAK15Puppi]
+   int*   AK15Puppi_subJetIdx2            = new int[NFATJET];   //[nAK15Puppi]
+   int*   AK15Puppi_nPFCand               = new int[NFATJET];   //[nAK15Puppi]
    UInt_t          nSubJet;
    float* SubJet_area      = new float[NSUBJET];   //[nSubJet]
    float* SubJet_btagCSVV2 = new float[NSUBJET];   //[nSubJet]
@@ -1607,6 +1632,32 @@ public :
    TBranch        *b_CorrT1METJet_muonSubtrFactor;   //!
    TBranch        *b_CorrT1METJet_phi;   //!
    TBranch        *b_CorrT1METJet_rawPt;   //!
+
+   TBranch *b_nAK15Puppi; //!
+   TBranch *b_AK15Puppi_ParticleNetMD_probQCD;   //!
+   TBranch *b_AK15Puppi_ParticleNetMD_probXbb;   //!
+   TBranch *b_AK15Puppi_ParticleNetMD_probXcc;   //!
+   TBranch *b_AK15Puppi_ParticleNetMD_probXqq;   //!
+   TBranch *b_AK15Puppi_area                 ;   //!
+   TBranch *b_AK15Puppi_btagCSVV2            ;   //!
+   TBranch *b_AK15Puppi_btagDeepB            ;   //!
+   TBranch *b_AK15Puppi_btagJP               ;   //!
+   TBranch *b_AK15Puppi_eta                  ;   //!
+   TBranch *b_AK15Puppi_mass                 ;   //!
+   TBranch *b_AK15Puppi_msoftdrop            ;   //!
+   TBranch *b_AK15Puppi_phi                  ;   //!
+   TBranch *b_AK15Puppi_pt                   ;   //!
+   TBranch *b_AK15Puppi_rawFactor            ;   //!
+   TBranch *b_AK15Puppi_tau1                 ;   //!
+   TBranch *b_AK15Puppi_tau2                 ;   //!
+   TBranch *b_AK15Puppi_tau3                 ;   //!
+   TBranch *b_AK15Puppi_jetId                ;   //!
+   TBranch *b_AK15Puppi_nBHadrons            ;   //!
+   TBranch *b_AK15Puppi_nCHadrons            ;   //!
+   TBranch *b_AK15Puppi_nPFConstituents      ;   //!
+   TBranch *b_AK15Puppi_subJetIdx1           ;   //!
+   TBranch *b_AK15Puppi_subJetIdx2           ;   //!
+   TBranch *b_AK15Puppi_nPFCand              ;   //!
    TBranch        *b_nSubJet;   //!
    TBranch        *b_SubJet_area;   //!
    TBranch        *b_SubJet_btagCSVV2;   //!
@@ -3243,6 +3294,32 @@ void Events::Init(TTree *tree)
    fChain->SetBranchAddress("CorrT1METJet_muonSubtrFactor", CorrT1METJet_muonSubtrFactor, &b_CorrT1METJet_muonSubtrFactor);
    fChain->SetBranchAddress("CorrT1METJet_phi", CorrT1METJet_phi, &b_CorrT1METJet_phi);
    fChain->SetBranchAddress("CorrT1METJet_rawPt", CorrT1METJet_rawPt, &b_CorrT1METJet_rawPt);
+
+   fChain->SetBranchAddress("nAK15Puppi", &nAK15Puppi ,&b_nAK15Puppi );
+   fChain->SetBranchAddress("AK15Puppi_ParticleNetMD_probQCD", AK15Puppi_ParticleNetMD_probQCD,&b_AK15Puppi_ParticleNetMD_probQCD);
+   fChain->SetBranchAddress("AK15Puppi_ParticleNetMD_probXbb", AK15Puppi_ParticleNetMD_probXbb,&b_AK15Puppi_ParticleNetMD_probXbb );
+   fChain->SetBranchAddress("AK15Puppi_ParticleNetMD_probXcc", AK15Puppi_ParticleNetMD_probXcc,&b_AK15Puppi_ParticleNetMD_probXcc );
+   fChain->SetBranchAddress("AK15Puppi_ParticleNetMD_probXqq", AK15Puppi_ParticleNetMD_probXqq,&b_AK15Puppi_ParticleNetMD_probXqq );
+   fChain->SetBranchAddress("AK15Puppi_area", AK15Puppi_area,&b_AK15Puppi_area );              
+   fChain->SetBranchAddress("AK15Puppi_btagCSVV2", AK15Puppi_btagCSVV2,&b_AK15Puppi_btagCSVV2 );          
+   fChain->SetBranchAddress("AK15Puppi_btagDeepB", AK15Puppi_btagDeepB,&b_AK15Puppi_btagDeepB );           
+   fChain->SetBranchAddress("AK15Puppi_btagJP", AK15Puppi_btagJP,&b_AK15Puppi_btagJP );             
+   fChain->SetBranchAddress("AK15Puppi_eta", AK15Puppi_eta,&b_AK15Puppi_eta );              
+   fChain->SetBranchAddress("AK15Puppi_mass", AK15Puppi_mass,&b_AK15Puppi_mass );               
+   fChain->SetBranchAddress("AK15Puppi_msoftdrop", AK15Puppi_msoftdrop,&b_AK15Puppi_msoftdrop );           
+   fChain->SetBranchAddress("AK15Puppi_phi", AK15Puppi_phi,&b_AK15Puppi_phi );               
+   fChain->SetBranchAddress("AK15Puppi_pt", AK15Puppi_pt,&b_AK15Puppi_pt );                
+   fChain->SetBranchAddress("AK15Puppi_rawFactor", AK15Puppi_rawFactor,&b_AK15Puppi_rawFactor );           
+   fChain->SetBranchAddress("AK15Puppi_tau1", AK15Puppi_tau1,&b_AK15Puppi_tau1 );                
+   fChain->SetBranchAddress("AK15Puppi_tau2", AK15Puppi_tau2,&b_AK15Puppi_tau2 );                
+   fChain->SetBranchAddress("AK15Puppi_tau3", AK15Puppi_tau3,&b_AK15Puppi_tau3 );                
+   fChain->SetBranchAddress("AK15Puppi_jetId", AK15Puppi_jetId,&b_AK15Puppi_jetId );               
+   fChain->SetBranchAddress("AK15Puppi_nBHadrons", AK15Puppi_nBHadrons,&b_AK15Puppi_nBHadrons );          
+   fChain->SetBranchAddress("AK15Puppi_nCHadrons", AK15Puppi_nCHadrons,&b_AK15Puppi_nCHadrons );          
+   fChain->SetBranchAddress("AK15Puppi_nPFConstituents", AK15Puppi_nPFConstituents,&b_AK15Puppi_nPFConstituents );     
+   fChain->SetBranchAddress("AK15Puppi_subJetIdx1", AK15Puppi_subJetIdx1,&b_AK15Puppi_subJetIdx1 );       
+   fChain->SetBranchAddress("AK15Puppi_subJetIdx2", AK15Puppi_subJetIdx2,&b_AK15Puppi_subJetIdx2 );        
+   fChain->SetBranchAddress("AK15Puppi_nPFCand", AK15Puppi_nPFCand,&b_AK15Puppi_nPFCand );           
    fChain->SetBranchAddress("nSubJet", &nSubJet, &b_nSubJet);
    fChain->SetBranchAddress("SubJet_area", SubJet_area, &b_SubJet_area);
    fChain->SetBranchAddress("SubJet_btagCSVV2", SubJet_btagCSVV2, &b_SubJet_btagCSVV2);
