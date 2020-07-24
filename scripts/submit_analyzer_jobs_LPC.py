@@ -163,6 +163,7 @@ for listfile in datasetList.keys():
         tmpOutputListFile.write(line)
         tmpJobFileCount += 1
 
+    tmpOutputListFile.close()    
     os.system("cd " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/; tar czf input_list.tgz input_list_*.txt")
 
     #####################################
