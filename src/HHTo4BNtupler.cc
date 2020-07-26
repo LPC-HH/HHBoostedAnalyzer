@@ -538,12 +538,13 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       }
       
 
-
-      //***********************
-      //Fill Event
-      //***********************
-      NEventsFilled++;
-      outputTree->Fill();      
+      //****************************************************
+      //Fill Event - skim for events with two jets found
+      //****************************************************
+      if (fatJet1Pt > 200 && fatJet2Pt > 200) {
+	NEventsFilled++;            
+	outputTree->Fill();      
+      }
     }//end of event loop
 
     cout << "Filled Total of " << NEventsFilled << " Events\n";
