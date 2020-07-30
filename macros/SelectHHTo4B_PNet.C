@@ -6,6 +6,7 @@
 //
 //________________________________________________________________________________________________
 
+
 #if !defined(__CINT__) || defined(__MAKECINT__)
 #include <TROOT.h>                  // access to gROOT, entry point to ROOT system
 #include <TSystem.h>                // interface to OS
@@ -30,7 +31,7 @@
 
 #endif
 
-void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, vector<int> color,  bool hasData, string varName, string label ) {
+void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, vector<int> color,  bool hasData, string varName, double lumi, string label ) {
 
   TCanvas *cv =0;
   TLegend *legend = 0;
@@ -112,7 +113,7 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
   //Add CMS and Lumi Labels
   //****************************
   // lumi_13TeV = "42 pb^{-1}";
-  lumi_13TeV = "26.2 fb^{-1}";
+  lumi_13TeV = Form("%.1f fb^{-1}", lumi/1000.0);
   writeExtraText = true;
   relPosX = 0.13;
   CMS_lumi(pad1,4,0);
@@ -171,12 +172,12 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
   histDataOverMC->Draw("pe");
 
   pad1->SetLogy(false);
-  cv->SaveAs(Form("HHTo4B_%s%s.png",varName.c_str(), label.c_str()));
-  cv->SaveAs(Form("HHTo4B_%s%s.pdf",varName.c_str(), label.c_str()));
+  cv->SaveAs(Form("HHTo4B_SR_%s%s.png",varName.c_str(), label.c_str()));
+  cv->SaveAs(Form("HHTo4B_SR_%s%s.pdf",varName.c_str(), label.c_str()));
   
   pad1->SetLogy(true);
-  cv->SaveAs(Form("HHTo4B_%s%s_Logy.png",varName.c_str(),label.c_str()));
-  cv->SaveAs(Form("HHTo4B_%s%s_Logy.pdf",varName.c_str(),label.c_str()));
+  cv->SaveAs(Form("HHTo4B_SR_%s%s_Logy.png",varName.c_str(),label.c_str()));
+  cv->SaveAs(Form("HHTo4B_SR_%s%s_Logy.pdf",varName.c_str(),label.c_str()));
 
 
  
@@ -238,6 +239,8 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
   vector<TH1D*> histJet2DDB;
   vector<TH1D*> histJet2PNetXbb;
   vector<TH1D*> histJet2Tau3OverTau2;
+  vector<TH1D*> histHHPt;
+  vector<TH1D*> histHHMass;
 
   assert (inputfiles.size() == processLabels.size());
   for (uint i=0; i < inputfiles.size(); ++i) {
@@ -254,6 +257,9 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
     histJet2DDB.push_back(new TH1D(Form("histJet1DDB_%s",processLabels[i].c_str()), "; Jet2 DDB ; Number of Events", 25, 0, 1.0));
     histJet2PNetXbb.push_back(new TH1D(Form("histJet2PNetXbb_%s",processLabels[i].c_str()), "; Jet2 PNetXbb ; Number of Events", 25, 0, 1.0));
     histJet2Tau3OverTau2.push_back(new TH1D(Form("histJet1Tau3OverTau2_%s",processLabels[i].c_str()), "; Jet2 Tau3OverTau2 ; Number of Events", 25, 0, 1.0));
+    histHHPt.push_back(new TH1D(Form("histHHPt_%s",processLabels[i].c_str()), "; HH p_{T} [GeV] ; Number of Events", 25, 0, 1000));
+    histHHMass.push_back(new TH1D(Form("histHHMass_%s",processLabels[i].c_str()), "; m_{HH} [GeV] ; Number of Events", 25, 0, 2000));
+
 
     histMET[i]->Sumw2();
     histNLeptons[i]->Sumw2();
@@ -268,6 +274,8 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
     histJet2DDB[i]->Sumw2();
     histJet2PNetXbb[i]->Sumw2();
     histJet2Tau3OverTau2[i]->Sumw2();
+    histHHPt[i]->Sumw2();
+    histHHMass[i]->Sumw2();
   }
  
   double dataYield = 0;
@@ -326,21 +334,47 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
       bool fatJet2HasBJetCSVLoose = 0;
       bool fatJet2HasBJetCSVMedium = 0;
       bool fatJet2HasBJetCSVTight = 0;      
-      bool HLT_PFHT1050;                                     
-      bool HLT_AK8PFJet360_TrimMass30;                             
-      bool HLT_AK8PFJet380_TrimMass30;                             
-      bool HLT_AK8PFJet400_TrimMass30;                             
-      bool HLT_AK8PFJet420_TrimMass30;                             
-      bool HLT_AK8PFHT800_TrimMass50;                         
-      bool HLT_PFJet450;                                           
-      bool HLT_PFJet500;                                           
-      bool HLT_AK8PFJet500;                                   
-      bool HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17;   
-      bool HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1;    
-      bool HLT_AK8PFJet330_PFAK8BTagCSV_p17;                  
-      bool HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02; 
-      bool HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2;      
-      bool HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4;
+       float hh_pt = -99;
+      float hh_eta = -99;
+      float hh_phi = -99;
+      float hh_mass = -99;        
+      float fatJet1PtOverMHH = -99;
+      float fatJet1PtOverMSD = -99;
+      float fatJet2PtOverMHH = -99;
+      float fatJet2PtOverMSD = -99;
+      float deltaEta_j1j2 = -99;
+      float deltaPhi_j1j2 = -99;
+      float deltaR_j1j2 = -99;    
+      float ptj2_over_ptj1 = -99;
+      float mj2_over_mj1 = -99;
+      bool HLT_PFHT1050 = false;                                     
+      bool HLT_AK8PFJet360_TrimMass30 = false;                             
+      bool HLT_AK8PFJet380_TrimMass30 = false;                             
+      bool HLT_AK8PFJet400_TrimMass30 = false;                             
+      bool HLT_AK8PFJet420_TrimMass30 = false;                             
+      bool HLT_AK8PFHT750_TrimMass50 = false;                         
+      bool HLT_AK8PFHT800_TrimMass50 = false;                         
+      bool HLT_AK8PFHT850_TrimMass50 = false;                         
+      bool HLT_AK8PFHT900_TrimMass50 = false;                         
+      bool HLT_PFJet450 = false;                                           
+      bool HLT_PFJet500 = false;                                           
+      bool HLT_PFJet550 = false;                                           
+      bool HLT_AK8PFJet450 = false;                                   
+      bool HLT_AK8PFJet500 = false;                                   
+      bool HLT_AK8PFJet550 = false;                                   
+      bool HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17 = false;   
+      bool HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1 = false;    
+      bool HLT_AK8PFJet330_PFAK8BTagCSV_p1 = false;                  
+      bool HLT_AK8PFJet330_PFAK8BTagCSV_p17 = false;                  
+      bool HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02 = false; 
+      bool HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2 = false;      
+      bool HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4 = false;
+      bool HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20 = false;
+      bool HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087 = false;
+      bool HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087 = false;
+      bool HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 = false;
+      bool HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20 = false;
+      bool HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 = false;
 
       tree->SetBranchAddress("weight",&weight);                                       
       tree->SetBranchAddress("MET",&MET);                                       
@@ -370,21 +404,48 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
       tree->SetBranchAddress("fatJet2HasBJetCSVLoose",&fatJet2HasBJetCSVLoose);
       tree->SetBranchAddress("fatJet2HasBJetCSVMedium",&fatJet2HasBJetCSVMedium);
       tree->SetBranchAddress("fatJet2HasBJetCSVTight",&fatJet2HasBJetCSVTight);
+      tree->SetBranchAddress("hh_pt", &hh_pt);
+      tree->SetBranchAddress("hh_eta", &hh_eta);
+      tree->SetBranchAddress("hh_phi", &hh_phi);
+      tree->SetBranchAddress("hh_mass", &hh_mass);        
+      tree->SetBranchAddress("fatJet1PtOverMHH", &fatJet1PtOverMHH);
+      tree->SetBranchAddress("fatJet1PtOverMSD", &fatJet1PtOverMSD);
+      tree->SetBranchAddress("fatJet2PtOverMHH", &fatJet2PtOverMHH);
+      tree->SetBranchAddress("fatJet2PtOverMSD", &fatJet2PtOverMSD);
+      tree->SetBranchAddress("deltaEta_j1j2", &deltaEta_j1j2);
+      tree->SetBranchAddress("deltaPhi_j1j2", &deltaPhi_j1j2);
+      tree->SetBranchAddress("deltaR_j1j2", &deltaR_j1j2);    
+      tree->SetBranchAddress("ptj2_over_ptj1", &ptj2_over_ptj1);
+      tree->SetBranchAddress("mj2_over_mj1", &mj2_over_mj1);
+      tree->SetBranchAddress("HLT_PFHT1050",                                        &HLT_PFHT1050);                             
       tree->SetBranchAddress("HLT_AK8PFJet360_TrimMass30",                          &HLT_AK8PFJet360_TrimMass30);                             
       tree->SetBranchAddress("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30);                             
       tree->SetBranchAddress("HLT_AK8PFJet400_TrimMass30",                          &HLT_AK8PFJet400_TrimMass30);                             
       tree->SetBranchAddress("HLT_AK8PFJet420_TrimMass30",                          &HLT_AK8PFJet420_TrimMass30);                             
+      tree->SetBranchAddress("HLT_AK8PFHT750_TrimMass50",                           &HLT_AK8PFHT750_TrimMass50);                         
       tree->SetBranchAddress("HLT_AK8PFHT800_TrimMass50",                           &HLT_AK8PFHT800_TrimMass50);                         
+      tree->SetBranchAddress("HLT_AK8PFHT850_TrimMass50",                           &HLT_AK8PFHT850_TrimMass50);                         
+      tree->SetBranchAddress("HLT_AK8PFHT900_TrimMass50",                           &HLT_AK8PFHT900_TrimMass50);                         
       tree->SetBranchAddress("HLT_PFJet450",                                        &HLT_PFJet450);                                           
       tree->SetBranchAddress("HLT_PFJet500",                                        &HLT_PFJet500);                                       
+      tree->SetBranchAddress("HLT_PFJet550",                                        &HLT_PFJet550);                                       
+      tree->SetBranchAddress("HLT_AK8PFJet450",                                     &HLT_AK8PFJet450);                                    
       tree->SetBranchAddress("HLT_AK8PFJet500",                                     &HLT_AK8PFJet500);                                    
+      tree->SetBranchAddress("HLT_AK8PFJet550",                                     &HLT_AK8PFJet550);                                    
       tree->SetBranchAddress("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17",     &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17);    
       tree->SetBranchAddress("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1",      &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1);     
+      tree->SetBranchAddress("HLT_AK8PFJet330_PFAK8BTagCSV_p1",                     &HLT_AK8PFJet330_PFAK8BTagCSV_p1);                   
       tree->SetBranchAddress("HLT_AK8PFJet330_PFAK8BTagCSV_p17",                    &HLT_AK8PFJet330_PFAK8BTagCSV_p17);                   
       tree->SetBranchAddress("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02); 
       tree->SetBranchAddress("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2); 
       tree->SetBranchAddress("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4); 
-
+      tree->SetBranchAddress("HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20);
+      tree->SetBranchAddress("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087",       &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087);
+      tree->SetBranchAddress("HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087",       &HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087);
+      tree->SetBranchAddress("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20",     &HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20);
+      tree->SetBranchAddress("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20);
+      tree->SetBranchAddress("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20);
+ 
 
       bool isData = false;
       if ( processLabels[i] == "Data") isData = true;
@@ -408,71 +469,108 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	//Trigger Selection
 	//******************************
 	bool passTrigger = false;
-	passTrigger = 
-	  // HLT_PFJet450  	  
-	  // || HLT_PFJet500       
-	  
-	  HLT_AK8PFJet360_TrimMass30                            
-	  || HLT_AK8PFJet380_TrimMass30                             
-	  || HLT_AK8PFJet400_TrimMass30                             
-	  || HLT_AK8PFJet420_TrimMass30                             
-	  || HLT_AK8PFHT800_TrimMass50                        
-	  || HLT_PFJet450  	  
-	  || HLT_PFJet500                                    
-	  || HLT_AK8PFJet500                                    
-	  //|| HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17    
-	  //|| HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1     
-	  || HLT_AK8PFJet330_PFAK8BTagCSV_p17                   
-	  //|| HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02 
-	  //|| HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2 
-	  //|| HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4 
-	  ;       
+
+	if (option == "2016") {
+	  passTrigger = 
+	    (0 == 1)
+	    || HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20
+	    || HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20
+	    || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 	    
+	    ;       
+
+	  // apply trigger efficiency correction for some triggers that were not enabled for full run
+	  if (!isData) {
+	    double triggerSF = 1.0;
+	    if (HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20)                         triggerSF = 1.0;
+	    else if (HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 
+		     || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20)                 triggerSF = 19.9 / 35.9;	      
+	    else                                                                      triggerSF = 0;
+	    myWeight = myWeight * triggerSF;	  
+	  }
+
+	}
+	if (option == "2017") {
+	  passTrigger = 
+	    (0 == 1) 
+	    || HLT_PFJet500    
+	    || HLT_AK8PFJet500 
+	    || HLT_AK8PFJet360_TrimMass30
+	    || HLT_AK8PFJet380_TrimMass30
+	    || HLT_AK8PFJet400_TrimMass30   
+	    || HLT_AK8PFHT800_TrimMass50 
+	    || HLT_AK8PFJet330_PFAK8BTagCSV_p17	  
+	    ;       
+
+	  // apply trigger efficiency correction for some triggers that were not enabled for full run
+	  if (!isData) {
+	    double triggerSF = 1.0;
+	    if (HLT_PFJet500 || HLT_AK8PFJet500)                                    triggerSF = 1.0;
+	    else {
+	      //cout << "fail\n";
+	      if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)          triggerSF = 36.42 / 41.48;
+	      else if (HLT_AK8PFJet380_TrimMass30)                                    triggerSF = 31.15 / 41.48;            
+	      else if (HLT_AK8PFJet360_TrimMass30)                                    triggerSF = 28.23 / 41.48;
+	      else if (HLT_AK8PFJet330_PFAK8BTagCSV_p17)                              triggerSF = 7.73 / 41.48;	    
+	      else                                                                    triggerSF = 0;
+	      //cout << "triggerSF = " << triggerSF << "\n";
+	    }
+	    myWeight = myWeight * triggerSF;	  
+	  }
+
+
+	}
+
+
+	if (option == "2018") {
+	  passTrigger = 
+	     (0 == 1) 
+	    || HLT_AK8PFJet400_TrimMass30 
+	    || HLT_AK8PFHT800_TrimMass50     
+	    || HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4 
+	    ;    
+
+
+	  // apply trigger efficiency correction for some triggers that were not enabled for full run
+	  if (!isData) {
+	    double triggerSF = 1.0;
+	    if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)              triggerSF = 1.0;
+	    else if (HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4)              triggerSF = 54.5 / 59.7;	        
+	    else                                                                      triggerSF = 0;
+
+	    myWeight = myWeight * triggerSF;	  
+	  }
+   
+	}
+
 	if (!passTrigger) continue;
 
 	//******************************
 	//Selection Cuts 
 	//******************************
-	if ( !(fatJet1Pt > 250 )) continue;
-	if ( !(fatJet2Pt > 250 )) continue;
+	if ( !(fatJet1Pt > 300 )) continue;
+	if ( !(fatJet2Pt > 300 )) continue;
 	if ( !(fatJet1MassSD > 30)) continue;
 	if ( !(fatJet2MassSD > 30)) continue;
 
 
-	//SR selection
+	//SR pre-selection
 	if (channelOption == 0) {
+	  if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
+	  if ( !(fatJet1Pt > 300 && fatJet2Pt > 300 )) continue;
+	  if ( !(fatJet1PNetXbb > 0.8)) continue;
+	  if ( !(fatJet2PNetXbb > 0.8)) continue;
+	}
+
+	//SR selection
+	if (channelOption == 1) {
 	  if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
 	  if ( !(fatJet1Pt > 300 && fatJet2Pt > 300 )) continue;
 	  if ( !(fatJet1PNetXbb > 0.975)) continue;
 	  if ( !(fatJet2PNetXbb > 0.975)) continue;
 	  if ( !(fatJet1MassSD > 100 && fatJet1MassSD < 140)) continue;
-	  if ( !(fatJet2MassSD > 95 && fatJet2MassSD < 135)) continue;
+	  if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) continue;
 	}
 
-	// QCD enriched CR
-	if (channelOption == 10) {
-	  if (!(fatJet1Tau3OverTau2 > 0.46)) continue;
-	  if (!(fatJet2Tau3OverTau2 > 0.46)) continue;
-	  if (fatJet1HasBJetCSVMedium) continue;
-	  if (fatJet2HasBJetCSVMedium) continue;
-	}
-
-	//TTbar Hadronic CR
-	if (channelOption == 20) {
-	  if (!(fatJet1Tau3OverTau2 < 0.46)) continue;
-	  if (!(fatJet2Tau3OverTau2 < 0.46)) continue;
-	  if (!fatJet1HasBJetCSVLoose) continue;
-	  if (!fatJet2HasBJetCSVLoose) continue;
-	}
-
-	//TTbar Semi-leptonic CR
-	if (channelOption == 21) {
-	  if (!( 
-		((fatJet1HasMuon||fatJet1HasElectron) && fatJet2Tau3OverTau2 < 0.54) ||
-		((fatJet2HasMuon||fatJet2HasElectron) && fatJet1Tau3OverTau2 < 0.54)
-		 )) continue;
-	  if (!fatJet1HasBJetCSVLoose) continue;
-	  if (!fatJet2HasBJetCSVLoose) continue;
-	}
 
 	//******************************
 	//Fill histograms
@@ -496,6 +594,8 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	  histJet2DDB[i]->Fill(fatJet2DDBTagger);
 	  histJet2PNetXbb[i]->Fill(fatJet2PNetXbb);
 	  histJet2Tau3OverTau2[i]->Fill(fatJet2Tau3OverTau2);
+	  histHHPt[i]->Fill(hh_pt);    
+	  histHHMass[i]->Fill(hh_mass);    
 	} else {
 
 	  if (processLabels[i] == "HH") {
@@ -516,6 +616,8 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	  histJet2DDB[i]->Fill(fatJet2DDBTagger, myWeight);
 	  histJet2PNetXbb[i]->Fill(fatJet2PNetXbb, myWeight);
 	  histJet2Tau3OverTau2[i]->Fill(fatJet2Tau3OverTau2, myWeight);
+	  histHHPt[i]->Fill(hh_pt, myWeight);    
+	  histHHMass[i]->Fill(hh_mass, myWeight);    
 	}
       } //loop over events
     } //loop over input files
@@ -535,19 +637,21 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
   //*******************************************************************************************
   //MR
   //*******************************************************************************************
-  PlotDataAndStackedBkg( histMET, processLabels, color, true, "MET", Label);
-  PlotDataAndStackedBkg( histNLeptons, processLabels, color, true, "NLeptons", Label);
-  PlotDataAndStackedBkg( histNJetsHaveLeptons, processLabels, color, true, "NJetsHaveLeptons", Label);
-  PlotDataAndStackedBkg( histJet1Mass, processLabels, color, true, "Jet1_Mass", Label);
-  PlotDataAndStackedBkg( histJet1Pt, processLabels, color, true, "Jet1_Pt", Label);
-  PlotDataAndStackedBkg( histJet1DDB, processLabels, color, true, "Jet1_DDB", Label);
-  PlotDataAndStackedBkg( histJet1PNetXbb, processLabels, color, true, "Jet1_PNetXbb", Label);
-  PlotDataAndStackedBkg( histJet1Tau3OverTau2, processLabels, color, true, "Jet1_Tau3OverTau2", Label);
-  PlotDataAndStackedBkg( histJet2Mass, processLabels, color, true, "Jet2_Mass", Label);
-  PlotDataAndStackedBkg( histJet2Pt, processLabels, color, true, "Jet2_Pt", Label);
-  PlotDataAndStackedBkg( histJet2DDB, processLabels, color, true, "Jet2_DDB", Label);
-  PlotDataAndStackedBkg( histJet2PNetXbb, processLabels, color, true, "Jet2_PNetXbb", Label);
-  PlotDataAndStackedBkg( histJet2Tau3OverTau2, processLabels, color, true, "Jet2_Tau3OverTau2", Label);
+  PlotDataAndStackedBkg( histMET, processLabels, color, true, "MET", lumi, Label);
+  PlotDataAndStackedBkg( histNLeptons, processLabels, color, true, "NLeptons", lumi, Label);
+  PlotDataAndStackedBkg( histNJetsHaveLeptons, processLabels, color, true, "NJetsHaveLeptons", lumi, Label);
+  PlotDataAndStackedBkg( histJet1Mass, processLabels, color, true, "Jet1_Mass", lumi, Label);
+  PlotDataAndStackedBkg( histJet1Pt, processLabels, color, true, "Jet1_Pt", lumi, Label);
+  PlotDataAndStackedBkg( histJet1DDB, processLabels, color, true, "Jet1_DDB", lumi, Label);
+  PlotDataAndStackedBkg( histJet1PNetXbb, processLabels, color, true, "Jet1_PNetXbb", lumi, Label);
+  PlotDataAndStackedBkg( histJet1Tau3OverTau2, processLabels, color, true, "Jet1_Tau3OverTau2", lumi, Label);
+  PlotDataAndStackedBkg( histJet2Mass, processLabels, color, true, "Jet2_Mass", lumi, Label);
+  PlotDataAndStackedBkg( histJet2Pt, processLabels, color, true, "Jet2_Pt", lumi, Label);
+  PlotDataAndStackedBkg( histJet2DDB, processLabels, color, true, "Jet2_DDB", lumi, Label);
+  PlotDataAndStackedBkg( histJet2PNetXbb, processLabels, color, true, "Jet2_PNetXbb", lumi, Label);
+  PlotDataAndStackedBkg( histJet2Tau3OverTau2, processLabels, color, true, "Jet2_Tau3OverTau2", lumi, Label);
+  PlotDataAndStackedBkg( histHHPt, processLabels, color, true, "HHPt", lumi, Label);
+  PlotDataAndStackedBkg( histHHMass, processLabels, color, true, "HHMass", lumi, Label);
 
 
   //--------------------------------------------------------------------------------------------------------------
@@ -595,14 +699,7 @@ void SelectHHTo4B_PNet( int option = 0) {
   vector<float> scaleFactors;
 
   string datafile = "";
-
-  //v2 : DDB selected SR
-  //v3_TopTaggedJets : Top CR
-  //v4 : PNetXbb selected SR
-  //v5 : Top CR with qhu ntuples
-
-  //datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/JetHT_2017_TwoTaggedJetSkim_GoodLumi.root");
-
+ 
   vector<string> bkgfiles_ttbar;
   vector<string> bkgfiles_H;
   vector<string> bkgfiles_VH;
@@ -610,24 +707,75 @@ void SelectHHTo4B_PNet( int option = 0) {
   vector<string> bkgfiles_qcd; 
   vector<string> bkgfiles_HH; 
 
-  bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_TwoTaggedJetSkim.root");  
-  bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_TwoTaggedJetSkim.root");  
-  bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+   if (option == 0) {
+    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/JetHT_2016_GoodLumi.root");
 
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
-  bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_TwoTaggedJetSkim.root");
+    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted.root");  
+    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted.root");  
+    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
+    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-combined_1pb_weighted.root");
+    //bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    //bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/ttHTobb_M125_13TeV_powheg_pythia8_1pb_weighted.root");
 
-  bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v4/combined/skimmed/GluGluToHHTo4B_node_SM_1pb_weighted_TwoTaggedJetSkim.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
+
+    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/GluGluToHHTo4B_node_SM_13TeV-madgraph_1pb_weighted.root");
+  }
+
+
+  if (option == 1) {
+    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/JetHT_2017_GoodLumi.root");
+
+    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");  
+    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");  
+    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
+    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted.root");
+    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");
+
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+
+    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/GluGluToHHTo4B_node_SM_1pb_weighted.root");
+  }
+
+  if (option == 2) {
+    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/JetHT_2018_GoodLumi.root");
+
+    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted.root");  
+    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted.root");  
+    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
+    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted.root");
+    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+    bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");
+
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+
+    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/GluGluToHHTo4B_node_SM_13TeV-madgraph_1pb_weighted.root");
+  }
 
   bkgfiles.push_back(bkgfiles_qcd);
   bkgfiles.push_back(bkgfiles_ttbar);
@@ -650,31 +798,39 @@ void SelectHHTo4B_PNet( int option = 0) {
   colors.push_back(kBlue);
   colors.push_back(kMagenta+2);
  
-  scaleFactors.push_back(1.0);
+  scaleFactors.push_back(0.72);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
 
-  double lumi = 40864 * 0.717;
-  //double lumi = 40864 *0.64;
+  double lumi = 0;
+  string yearlabel = "";
+  if (option == 0) {
+    lumi = 35922;
+    yearlabel = "2016";
+  } 
+  if (option == 1) {
+    lumi = 41480;
+    yearlabel = "2017";    
+  } 
+  if (option == 2) {
+    lumi = 59741;
+    yearlabel = "2018";
+  } 
+ 
+  //*********************************************************************
+  //SR Pre-Selection
+  //********************************************************************* 
+  //RunSelectHHTo4B(datafiles, bkgfiles,processLabels, colors, scaleFactors,lumi,yearlabel,0,yearlabel);
 
   //*********************************************************************
   //SR Selection
   //********************************************************************* 
-  RunSelectHHTo4B(datafiles, bkgfiles,processLabels, colors, scaleFactors,lumi,"",0,"");
+  RunSelectHHTo4B(datafiles, bkgfiles,processLabels, colors, scaleFactors,lumi,yearlabel,1,yearlabel);
 
-  //*********************************************************************
-  //TTBAR CR Selection
-  //********************************************************************* 
-  //RunSelectHHTo4B(datafiles, bkgfiles,processLabels, colors, scaleFactors,lumi,"",20,"");
-
-  //*********************************************************************
-  //QCD CR Selection
-  //********************************************************************* 
-  //RunSelectHHTo4B(datafiles, bkgfiles,processLabels, colors, scaleFactors,lumi,"",10,"");
-
+ 
 }
 
 

@@ -518,10 +518,6 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	//******************************
 	//Trigger Selection
 	//******************************
-	//Signal Selection Study:
-	
-
-
 	bool passTrigger = false;
 
 	if (option == "2016") {
@@ -720,6 +716,8 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
   PlotDataAndStackedBkg( histJet2DDB, processLabels, color, true, "Jet2_DDB", lumi, Label);
   PlotDataAndStackedBkg( histJet2PNetXbb, processLabels, color, true, "Jet2_PNetXbb", lumi, Label);
   PlotDataAndStackedBkg( histJet2Tau3OverTau2, processLabels, color, true, "Jet2_Tau3OverTau2", lumi, Label);
+  PlotDataAndStackedBkg( histHHPt, processLabels, color, true, "HHPt", lumi, Label);
+  PlotDataAndStackedBkg( histHHMass, processLabels, color, true, "HHMass", lumi, Label);
 
 
   //--------------------------------------------------------------------------------------------------------------
