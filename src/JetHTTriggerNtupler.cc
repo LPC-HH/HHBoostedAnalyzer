@@ -134,8 +134,12 @@ void JetHTTriggerNtupler::Analyze(bool isData, int Option, string outputfilename
     outputTree->Branch("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20",     &HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20,    "HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20/O");
     outputTree->Branch("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20/O");
     outputTree->Branch("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20/O");	
-
-
+    outputTree->Branch("HLT_IsoMu27", &HLT_IsoMu27, "HLT_IsoMu27/O");
+    outputTree->Branch("HLT_IsoMu30", &HLT_IsoMu30, "HLT_IsoMu30/O");
+    outputTree->Branch("HLT_Mu27", &HLT_Mu27, "HLT_Mu27/O");
+    outputTree->Branch("HLT_Mu50", &HLT_Mu50, "HLT_Mu50/O");
+    outputTree->Branch("HLT_Mu55", &HLT_Mu55, "HLT_Mu55/O");
+        
     cout << "Run With Option = " << Option << "\n";
     
     if (Option == 1) cout << "Option = 1 : Select FatJets with pT > 200 GeV and DDB > 0.8 only\n";
