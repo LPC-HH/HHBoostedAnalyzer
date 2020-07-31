@@ -96,7 +96,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("run", &run, "run/i");
     outputTree->Branch("lumi", &luminosityBlock, "lumi/i");
     outputTree->Branch("event", &event, "event/l");
+    outputTree->Branch("npu", &Pileup_nTrueInt, "npu/F");
+    outputTree->Branch("rho", &fixedGridRhoFastjetAll, "rho/F");
  
+
     outputTree->Branch("genHiggs1Pt", &genHiggs1Pt, "genHiggs1Pt/F");
     outputTree->Branch("genHiggs1Eta", &genHiggs1Eta, "genHiggs1Eta/F");
     outputTree->Branch("genHiggs1Phi", &genHiggs1Phi, "genHiggs1Phi/F");
@@ -402,7 +405,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1Tau3OverTau2 = FatJet_tau3[fatJet1Index] /  FatJet_tau2[fatJet1Index];
       //find muon inside jet
       for(unsigned int q = 0; q < nMuon; q++ ) {       
-	if (Muon_looseId[q] && 
+	if (Muon_pt[q] > 30 && Muon_looseId[q] && 
 	    deltaR(fatJet1Eta , fatJet1Phi, Muon_eta[q], Muon_phi[q]) < 1.0
 	    ) {
 	  fatJet1HasMuon = true;
@@ -411,7 +414,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       }
       //find electron inside jet
       for(unsigned int q = 0; q < nElectron; q++ ) {       
-	if (Electron_mvaFall17V2noIso_WP90[q] && 
+	if (Electron_pt[q] > 30 && Electron_mvaFall17V2noIso_WP90[q] && 
 	    deltaR(fatJet1Eta , fatJet1Phi, Electron_eta[q], Electron_phi[q]) < 1.0
 	    ) {
 	  fatJet1HasElectron = true;
@@ -477,7 +480,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       
       //find muon inside jet
       for(unsigned int q = 0; q < nMuon; q++ ) {       
-	if (Muon_looseId[q] && 
+	if (Muon_pt[q] > 30 && Muon_looseId[q] && 
 	    deltaR(fatJet2Eta , fatJet2Phi, Muon_eta[q], Muon_phi[q]) < 1.0
 	    ) {
 	  fatJet2HasMuon = true;
@@ -486,7 +489,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       }
       //find electron inside jet
       for(unsigned int q = 0; q < nElectron; q++ ) {       
-	if (Electron_mvaFall17V2noIso_WP90[q] && 
+	if (Electron_pt[q] > 30 && Electron_mvaFall17V2noIso_WP90[q] && 
 	    deltaR(fatJet2Eta , fatJet2Phi, Electron_eta[q], Electron_phi[q]) < 1.0
 	    ) {
 	  fatJet2HasElectron = true;
