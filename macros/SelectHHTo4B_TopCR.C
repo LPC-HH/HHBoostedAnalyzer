@@ -30,6 +30,46 @@
 
 #endif
 
+double getTriggerEff( TH2F *trigEffHist , double pt, double mass ) {
+  double result = 0.0;
+  double tmpMass = 0;
+  double tmpPt = 0;
+
+  if (trigEffHist) {
+      // constrain to histogram bounds
+      if( mass > trigEffHist->GetXaxis()->GetXmax() * 0.999 ) {
+	tmpMass = trigEffHist->GetXaxis()->GetXmax() * 0.999;
+      } else if ( mass < 0 ) {
+	tmpMass = 0.001;
+	//cout << "Warning: mass=" << mass << " is negative and unphysical\n";
+      } else {
+	tmpMass = mass;
+      }
+
+      if( pt > trigEffHist->GetYaxis()->GetXmax() * 0.999 ) {
+	tmpPt = trigEffHist->GetYaxis()->GetXmax() * 0.999;
+      } else if (pt < 0) {
+	tmpPt = 0.001;
+	cout << "Warning: pt=" << pt << " is negative and unphysical\n";
+      } else {
+	tmpPt = pt;
+      }
+
+      result = trigEffHist->GetBinContent(
+				 trigEffHist->GetXaxis()->FindFixBin( tmpMass ),
+				 trigEffHist->GetYaxis()->FindFixBin( tmpPt )
+				 );  
+         
+  } else {
+    std::cout << "Error: expected a histogram, got a null pointer" << std::endl;
+    return 0;
+  }
+  
+  //cout << "mass = " << mass << " , pt = " << pt << " : trigEff = " << result << "\n";
+
+  return result; 
+}
+
 
 double TopTagSF( string workingPoint, string year, double pt ) {
   double result = 1.0;
@@ -248,6 +288,13 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
   //--------------------------------------------------------------------------------------------------------------
   // Settings 
   //============================================================================================================== 
+  TFile *triggerEff2016File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root","READ");
+  TFile *triggerEff2017File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root","READ");
+  TFile *triggerEff2018File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root","READ");
+  TH2F *triggerEff2016Hist = (TH2F*)triggerEff2016File->Get("efficiency_ptmass");
+  TH2F *triggerEff2017Hist = (TH2F*)triggerEff2017File->Get("efficiency_ptmass");
+  TH2F *triggerEff2018Hist = (TH2F*)triggerEff2018File->Get("efficiency_ptmass");
+
 
   //*****************************************************************************************
   //Make some histograms
@@ -308,8 +355,8 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
     histJet2DDB.push_back(new TH1D(Form("histJet1DDB_%s",processLabels[i].c_str()), "; Jet2 DDB ; Number of Events", 25, 0, 1.0));
     histJet2PNetXbb.push_back(new TH1D(Form("histJet2PNetXbb_%s",processLabels[i].c_str()), "; Jet2 PNetXbb ; Number of Events", 25, 0, 1.0));
     histJet2Tau3OverTau2.push_back(new TH1D(Form("histJet1Tau3OverTau2_%s",processLabels[i].c_str()), "; Jet2 Tau3OverTau2 ; Number of Events", 25, 0, 1.0));
-    histHHPt.push_back(new TH1D(Form("histHHPt_%s",processLabels[i].c_str()), "; Jet1 p_{T} [GeV] ; Number of Events", 25, 0, 1000));
-    histHHMass.push_back(new TH1D(Form("histHHMass_%s",processLabels[i].c_str()), "; Jet1 p_{T} [GeV] ; Number of Events", 25, 0, 1000));
+    histHHPt.push_back(new TH1D(Form("histHHPt_%s",processLabels[i].c_str()), "; HH p_{T} [GeV] ; Number of Events", 25, 0, 1000));
+    histHHMass.push_back(new TH1D(Form("histHHMass_%s",processLabels[i].c_str()), "; HH Mass [GeV] ; Number of Events", 50, 0, 3000));
 
     histMET[i]->Sumw2();
     histNLeptons[i]->Sumw2();
@@ -516,6 +563,15 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	}
 
 	//******************************
+	//Selection Cuts 
+	//******************************
+	if ( !(fatJet1Pt > 500 )) continue;
+	if ( !(fatJet2Pt > 300 )) continue;
+	if ( !(fatJet1MassSD > 50)) continue;
+	if ( !(fatJet2MassSD > 30)) continue;
+
+
+	//******************************
 	//Trigger Selection
 	//******************************
 	bool passTrigger = false;
@@ -530,12 +586,19 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 
 	  // apply trigger efficiency correction for some triggers that were not enabled for full run
 	  if (!isData) {
-	    double triggerSF = 1.0;
-	    if (HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20)                         triggerSF = 1.0;
-	    else if (HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 
-		     || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20)                 triggerSF = 19.9 / 35.9;	      
-	    else                                                                      triggerSF = 0;
-	    myWeight = myWeight * triggerSF;	  
+	    // double triggerSF = 1.0;
+	    // if (HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20)                         triggerSF = 1.0;
+	    // else if (HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 
+	    // 	     || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20)                 triggerSF = 19.9 / 35.9;	      
+	    // else                                                                      triggerSF = 0;
+	    // myWeight = myWeight * triggerSF;	  
+
+	    double triggerEff = 1.0 - 
+	      (1 - getTriggerEff( triggerEff2016Hist , fatJet1Pt, fatJet1MassSD )) * 
+	      (1 - getTriggerEff( triggerEff2016Hist , fatJet2Pt, fatJet2MassSD ))
+	      ;
+	    myWeight = myWeight * triggerEff;
+
 	  }
 
 	}
@@ -553,18 +616,26 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 
 	  // apply trigger efficiency correction for some triggers that were not enabled for full run
 	  if (!isData) {
-	    double triggerSF = 1.0;
-	    if (HLT_PFJet500 || HLT_AK8PFJet500)                                    triggerSF = 1.0;
-	    else {
-	      //cout << "fail\n";
-	      if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)          triggerSF = 36.42 / 41.48;
-	      else if (HLT_AK8PFJet380_TrimMass30)                                    triggerSF = 31.15 / 41.48;            
-	      else if (HLT_AK8PFJet360_TrimMass30)                                    triggerSF = 28.23 / 41.48;
-	      else if (HLT_AK8PFJet330_PFAK8BTagCSV_p17)                              triggerSF = 7.73 / 41.48;	    
-	      else                                                                    triggerSF = 0;
-	      //cout << "triggerSF = " << triggerSF << "\n";
-	    }
-	    myWeight = myWeight * triggerSF;	  
+	    // double triggerSF = 1.0;
+	    // if (HLT_PFJet500 || HLT_AK8PFJet500)                                    triggerSF = 1.0;
+	    // else {
+	    //   //cout << "fail\n";
+	    //   if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)          triggerSF = 36.42 / 41.48;
+	    //   else if (HLT_AK8PFJet380_TrimMass30)                                    triggerSF = 31.15 / 41.48;            
+	    //   else if (HLT_AK8PFJet360_TrimMass30)                                    triggerSF = 28.23 / 41.48;
+	    //   else if (HLT_AK8PFJet330_PFAK8BTagCSV_p17)                              triggerSF = 7.73 / 41.48;	    
+	    //   else                                                                    triggerSF = 0;
+	    //   //cout << "triggerSF = " << triggerSF << "\n";
+	    // }
+	    // myWeight = myWeight * triggerSF;	  
+
+	    passTrigger = true;
+	    double triggerEff = 1.0 - 
+	      (1 - getTriggerEff( triggerEff2017Hist , fatJet1Pt, fatJet1MassSD )) * 
+	      (1 - getTriggerEff( triggerEff2017Hist , fatJet2Pt, fatJet2MassSD ))
+	      ;
+	    myWeight = myWeight * triggerEff;
+
 	  }
 
 
@@ -582,12 +653,17 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 
 	  // apply trigger efficiency correction for some triggers that were not enabled for full run
 	  if (!isData) {
-	    double triggerSF = 1.0;
-	    if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)              triggerSF = 1.0;
-	    else if (HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4)              triggerSF = 54.5 / 59.7;	        
-	    else                                                                      triggerSF = 0;
+	    // double triggerSF = 1.0;
+	    // if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)              triggerSF = 1.0;
+	    // else if (HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4)              triggerSF = 54.5 / 59.7;	        
+	    // else                                                                      triggerSF = 0;
+	    // myWeight = myWeight * triggerSF;	  
 
-	    myWeight = myWeight * triggerSF;	  
+	    double triggerEff = 1.0 - 
+	      (1 - getTriggerEff( triggerEff2018Hist , fatJet1Pt, fatJet1MassSD )) * 
+	      (1 - getTriggerEff( triggerEff2018Hist , fatJet2Pt, fatJet2MassSD ))
+	      ;
+	    myWeight = myWeight * triggerEff;
 	  }
    
 	}
@@ -595,13 +671,6 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	if (!passTrigger) continue;
 
 
-	//******************************
-	//Selection Cuts 
-	//******************************
-	if ( !(fatJet1Pt > 300 )) continue;
-	if ( !(fatJet2Pt > 300 )) continue;
-	// if ( !(fatJet1MassSD > 30)) continue;
-	// if ( !(fatJet2MassSD > 30)) continue;
 
 	// QCD enriched CR
 	if (channelOption == 10) {
@@ -616,8 +685,8 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	if (channelOption == 20) {
 	  if (!(fatJet1Tau3OverTau2 < 0.46)) continue;
 	  if (!(fatJet2Tau3OverTau2 < 0.46)) continue;
-	  // if (!(fatJet1PNetXbb > 0.3)) continue;
-	  // if (!(fatJet2PNetXbb > 0.3)) continue;
+	  //if (!(fatJet1PNetXbb > 0.3)) continue;
+	  //if (!(fatJet2PNetXbb > 0.3)) continue;
 	  if (!fatJet1HasBJetCSVLoose) continue;
 	  if (!fatJet2HasBJetCSVLoose) continue;
 
@@ -918,3 +987,4 @@ void SelectHHTo4B_TopCR( int option = 1) {
 //MuEG Triggers ( 30 - 20 )
 // Data: 148
 // MC: 156.16
+ 
