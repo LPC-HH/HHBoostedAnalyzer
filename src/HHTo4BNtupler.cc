@@ -195,7 +195,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 
     cout << "Run With Option = " << Option << "\n";
     
-    if (Option == 1) cout << "Option = 1 : Select FatJets with pT > 200 GeV and DDB > 0.8 only\n";
+    if (Option == 2) cout << "Option = 2 : Select FatJets with pT > 200 GeV and PNetXbb > 0.8 only\n";
+    if (Option == 5) cout << "Option = 5 : Select Events with FatJet1 pT > 200 GeV and PNetXbb > 0.8 only\n";
     if (Option == 10) cout << "Option = 10 : Select FatJets with pT > 200 GeV and tau3/tau2 < 0.54 only\n";
 
     UInt_t NEventsFilled = 0;
@@ -558,6 +559,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //Fill Event - skim for events with two jets found
       //****************************************************
       if (fatJet1Pt > 200 && fatJet2Pt > 200) {
+
+	if (Option==5) {
+	  if (!(fatJet1PNetXbb > 0.8)) continue;
+	}
 	NEventsFilled++;            
 	outputTree->Fill();      
       }
