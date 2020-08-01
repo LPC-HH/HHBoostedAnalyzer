@@ -31,6 +31,46 @@
 
 #endif
 
+double getTriggerEff( TH2F *trigEffHist , double pt, double mass ) {
+  double result = 0.0;
+  double tmpMass = 0;
+  double tmpPt = 0;
+
+  if (trigEffHist) {
+      // constrain to histogram bounds
+      if( mass > trigEffHist->GetXaxis()->GetXmax() * 0.999 ) {
+	tmpMass = trigEffHist->GetXaxis()->GetXmax() * 0.999;
+      } else if ( mass < 0 ) {
+	tmpMass = 0.001;
+	//cout << "Warning: mass=" << mass << " is negative and unphysical\n";
+      } else {
+	tmpMass = mass;
+      }
+
+      if( pt > trigEffHist->GetYaxis()->GetXmax() * 0.999 ) {
+	tmpPt = trigEffHist->GetYaxis()->GetXmax() * 0.999;
+      } else if (pt < 0) {
+	tmpPt = 0.001;
+	cout << "Warning: pt=" << pt << " is negative and unphysical\n";
+      } else {
+	tmpPt = pt;
+      }
+
+      result = trigEffHist->GetBinContent(
+				 trigEffHist->GetXaxis()->FindFixBin( tmpMass ),
+				 trigEffHist->GetYaxis()->FindFixBin( tmpPt )
+				 );  
+         
+  } else {
+    std::cout << "Error: expected a histogram, got a null pointer" << std::endl;
+    return 0;
+  }
+  
+  //cout << "mass = " << mass << " , pt = " << pt << " : trigEff = " << result << "\n";
+
+  return result; 
+}
+
 void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, vector<int> color,  bool hasData, string varName, double lumi, string label ) {
 
   TCanvas *cv =0;
@@ -197,6 +237,12 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
   //--------------------------------------------------------------------------------------------------------------
   // Settings 
   //============================================================================================================== 
+  TFile *triggerEff2016File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root","READ");
+  TFile *triggerEff2017File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root","READ");
+  TFile *triggerEff2018File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root","READ");
+  TH2F *triggerEff2016Hist = (TH2F*)triggerEff2016File->Get("efficiency_ptmass");
+  TH2F *triggerEff2017Hist = (TH2F*)triggerEff2017File->Get("efficiency_ptmass");
+  TH2F *triggerEff2018Hist = (TH2F*)triggerEff2018File->Get("efficiency_ptmass");
 
   //*****************************************************************************************
   //Make some histograms
@@ -480,12 +526,18 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 
 	  // apply trigger efficiency correction for some triggers that were not enabled for full run
 	  if (!isData) {
-	    double triggerSF = 1.0;
-	    if (HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20)                         triggerSF = 1.0;
-	    else if (HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 
-		     || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20)                 triggerSF = 19.9 / 35.9;	      
-	    else                                                                      triggerSF = 0;
-	    myWeight = myWeight * triggerSF;	  
+	    // double triggerSF = 1.0;
+	    // if (HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20)                         triggerSF = 1.0;
+	    // else if (HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 
+	    // 	     || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20)                 triggerSF = 19.9 / 35.9;	      
+	    // else                                                                      triggerSF = 0;
+	    // myWeight = myWeight * triggerSF;	  
+
+	    // double triggerEff = 1.0 - 
+	    //   (1 - getTriggerEff( triggerEff2016Hist , fatJet1Pt, fatJet1MassSD )) * 
+	    //   (1 - getTriggerEff( triggerEff2016Hist , fatJet2Pt, fatJet2MassSD ))
+	    //   ;
+	    // myWeight = myWeight * triggerEff;
 	  }
 
 	}
@@ -503,18 +555,24 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 
 	  // apply trigger efficiency correction for some triggers that were not enabled for full run
 	  if (!isData) {
-	    double triggerSF = 1.0;
-	    if (HLT_PFJet500 || HLT_AK8PFJet500)                                    triggerSF = 1.0;
-	    else {
-	      //cout << "fail\n";
-	      if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)          triggerSF = 36.42 / 41.48;
-	      else if (HLT_AK8PFJet380_TrimMass30)                                    triggerSF = 31.15 / 41.48;            
-	      else if (HLT_AK8PFJet360_TrimMass30)                                    triggerSF = 28.23 / 41.48;
-	      else if (HLT_AK8PFJet330_PFAK8BTagCSV_p17)                              triggerSF = 7.73 / 41.48;	    
-	      else                                                                    triggerSF = 0;
-	      //cout << "triggerSF = " << triggerSF << "\n";
-	    }
-	    myWeight = myWeight * triggerSF;	  
+	    // double triggerSF = 1.0;
+	    // if (HLT_PFJet500 || HLT_AK8PFJet500)                                    triggerSF = 1.0;
+	    // else {
+	    //   //cout << "fail\n";
+	    //   if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)          triggerSF = 36.42 / 41.48;
+	    //   else if (HLT_AK8PFJet380_TrimMass30)                                    triggerSF = 31.15 / 41.48;            
+	    //   else if (HLT_AK8PFJet360_TrimMass30)                                    triggerSF = 28.23 / 41.48;
+	    //   else if (HLT_AK8PFJet330_PFAK8BTagCSV_p17)                              triggerSF = 7.73 / 41.48;	    
+	    //   else                                                                    triggerSF = 0;
+	    //   //cout << "triggerSF = " << triggerSF << "\n";
+	    // }
+	    // myWeight = myWeight * triggerSF;	  
+
+	    // double triggerEff = 1.0 - 
+	    //   (1 - getTriggerEff( triggerEff2017Hist , fatJet1Pt, fatJet1MassSD )) * 
+	    //   (1 - getTriggerEff( triggerEff2017Hist , fatJet2Pt, fatJet2MassSD ))
+	    //   ;
+	    // myWeight = myWeight * triggerEff;
 	  }
 
 
@@ -532,25 +590,31 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 
 	  // apply trigger efficiency correction for some triggers that were not enabled for full run
 	  if (!isData) {
-	    double triggerSF = 1.0;
-	    if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)              triggerSF = 1.0;
-	    else if (HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4)              triggerSF = 54.5 / 59.7;	        
-	    else                                                                      triggerSF = 0;
+	    // double triggerSF = 1.0;
+	    // if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)              triggerSF = 1.0;
+	    // else if (HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4)              triggerSF = 54.5 / 59.7;	        
+	    // else                                                                      triggerSF = 0;
 
-	    myWeight = myWeight * triggerSF;	  
+	    // myWeight = myWeight * triggerSF;	  
+
+	    // double triggerEff = 1.0 - 
+	    //   (1 - getTriggerEff( triggerEff2018Hist , fatJet1Pt, fatJet1MassSD )) * 
+	    //   (1 - getTriggerEff( triggerEff2018Hist , fatJet2Pt, fatJet2MassSD ))
+	    //   ;
+	    // myWeight = myWeight * triggerEff;
 	  }
    
 	}
 
-	if (!passTrigger) continue;
+	// if (!passTrigger) continue;
 
 	//******************************
 	//Selection Cuts 
 	//******************************
 	if ( !(fatJet1Pt > 300 )) continue;
 	if ( !(fatJet2Pt > 300 )) continue;
-	if ( !(fatJet1MassSD > 30)) continue;
-	if ( !(fatJet2MassSD > 30)) continue;
+	if ( !(fatJet1MassSD > 50)) continue;
+	if ( !(fatJet2MassSD > 50)) continue;
 
 
 	//SR pre-selection
@@ -568,7 +632,7 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	  if ( !(fatJet1PNetXbb > 0.975)) continue;
 	  if ( !(fatJet2PNetXbb > 0.975)) continue;
 	  if ( !(fatJet1MassSD > 100 && fatJet1MassSD < 140)) continue;
-	  if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) continue;
+	  if ( !(fatJet2MassSD > 95 && fatJet2MassSD < 135)) continue;
 	}
 
 
@@ -708,7 +772,7 @@ void SelectHHTo4B_PNet( int option = 0) {
   vector<string> bkgfiles_HH; 
 
    if (option == 0) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/JetHT_2016_GoodLumi.root");
+    // datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/JetHT_2016_GoodLumi.root");
 
     bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted.root");  
     bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted.root");  
@@ -732,7 +796,7 @@ void SelectHHTo4B_PNet( int option = 0) {
 
 
   if (option == 1) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/JetHT_2017_GoodLumi.root");
+    // datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/JetHT_2017_GoodLumi.root");
 
     bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");  
     bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");  
@@ -755,7 +819,7 @@ void SelectHHTo4B_PNet( int option = 0) {
   }
 
   if (option == 2) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/JetHT_2018_GoodLumi.root");
+    // datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/JetHT_2018_GoodLumi.root");
 
     bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted.root");  
     bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted.root");  
@@ -774,7 +838,7 @@ void SelectHHTo4B_PNet( int option = 0) {
     bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
     bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
 
-    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/GluGluToHHTo4B_node_SM_13TeV-madgraph_1pb_weighted.root");
+    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v7/combined/2018/GluGluToHHTo4B_node_SM_TuneCP5_PSWeights_13TeV-madgraph-pythia8_1pb_weighted.root");
   }
 
   bkgfiles.push_back(bkgfiles_qcd);
