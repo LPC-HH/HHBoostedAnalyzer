@@ -9,12 +9,22 @@ import sys
 from collections import OrderedDict
 
 queueType = "longlunch"
+option = 5
+label = "v11_passfail"
 
 analysis = "HHTo4BNtupler"
-option = 2
-cmsswReleaseVersion = "CMSSW_10_6_5"
-label = "v4"
 outputfile = "HHTo4BNtuple" + "_" + label
+
+#analysis = "JetHTTriggerNtupler"
+#outputfile = "JetHTTriggerNtuple" + "_" + label
+
+#analysis = "MakeMCPileupDistribution"
+#outputfile = "MCPileupDistribution" + "_" + label
+
+cmsswReleaseVersion = "CMSSW_10_6_5"
+
+
+
 outputDirectoryBase = "/store/user/lpcbacon/sixie/analyzer/"+analysis+"/"+label+"/"
 #filesPerJob = 2
 
@@ -45,46 +55,61 @@ datasetList = OrderedDict()
 # datasetList['LPC/data_Run2017F-09Aug2019_UL2017_v1.list'] = [1, 1]
 
 
-# #2016 hqu ntuples
-# datasetList['nano/v1/2016/JetHT_2016B-ver2.list'] = [1, 1]
-# datasetList['nano/v1/2016/JetHT_2016C.list'] = [1, 1]
-# datasetList['nano/v1/2016/JetHT_2016D.list'] = [1, 1]
-# datasetList['nano/v1/2016/JetHT_2016E.list'] = [1, 1]
-# datasetList['nano/v1/2016/JetHT_2016F.list'] = [1, 1]
-# datasetList['nano/v1/2016/JetHT_2016G.list'] = [1, 1]
-# datasetList['nano/v1/2016/JetHT_2016H.list'] = [1, 1]
-# datasetList['nano/v1/2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/GluGluToHHTo4B_node_SM_13TeV-madgraph.list'] = [0, 2]
-# datasetList['nano/v1/2016/GluGluToHHTo4B_node_cHHH0_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/GluGluToHHTo4B_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/GluGluToHHTo4B_node_cHHH2p45_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/GluGluToHHTo4B_node_cHHH5_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
-# datasetList['nano/v1/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/VBFHHTo4B_CV_1_C2V_1_C3_1_13TeV-madgraph.list'] = [0, 2]
-# datasetList['nano/v1/2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-ext1.list'] = [0, 2]
-# datasetList['nano/v1/2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix.list'] = [0, 2]
-# datasetList['nano/v1/2016/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2016/ttHTobb_M125_13TeV_powheg_pythia8.list'] = [0, 2]
+#2016 hqu ntuples
+
+#datasetList['nano/v1/2016/SingleMuon_2016B-ver2.list'] = [1, 1]
+#datasetList['nano/v1/2016/SingleMuon_2016C.list'] = [1, 1]
+#datasetList['nano/v1/2016/SingleMuon_2016D.list'] = [1, 1]
+#datasetList['nano/v1/2016/SingleMuon_2016E.list'] = [1, 1]
+#datasetList['nano/v1/2016/SingleMuon_2016F.list'] = [1, 1]
+#datasetList['nano/v1/2016/SingleMuon_2016G.list'] = [1, 1]
+#datasetList['nano/v1/2016/SingleMuon_2016H.list'] = [1, 1]
+
+datasetList['nano/v1/2016/JetHT_2016B-ver2.list'] = [1, 1]
+datasetList['nano/v1/2016/JetHT_2016C.list'] = [1, 1]
+datasetList['nano/v1/2016/JetHT_2016D.list'] = [1, 1]
+datasetList['nano/v1/2016/JetHT_2016E.list'] = [1, 1]
+datasetList['nano/v1/2016/JetHT_2016F.list'] = [1, 1]
+datasetList['nano/v1/2016/JetHT_2016G.list'] = [1, 1]
+datasetList['nano/v1/2016/JetHT_2016H.list'] = [1, 1]
+datasetList['nano/v1/2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/GluGluToHHTo4B_node_SM_13TeV-madgraph.list'] = [0, 2]
+datasetList['nano/v1/2016/GluGluToHHTo4B_node_cHHH0_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/GluGluToHHTo4B_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/GluGluToHHTo4B_node_cHHH2p45_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/GluGluToHHTo4B_node_cHHH5_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext1.list'] = [0, 2]
+datasetList['nano/v1/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/VBFHHTo4B_CV_1_C2V_1_C3_1_13TeV-madgraph.list'] = [0, 2]
+datasetList['nano/v1/2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-ext1.list'] = [0, 2]
+datasetList['nano/v1/2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix.list'] = [0, 2]
+datasetList['nano/v1/2016/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
+datasetList['nano/v1/2016/ttHTobb_M125_13TeV_powheg_pythia8.list'] = [0, 2]
 
 
 
-#2017 hqu ntuples
+#2017  hqu ntuples
+#datasetList['nano/v1/2017/SingleMuon_2017B.list'] = [1, 1]
+#datasetList['nano/v1/2017/SingleMuon_2017C.list'] = [1, 1]
+#datasetList['nano/v1/2017/SingleMuon_2017D.list'] = [1, 1]
+#datasetList['nano/v1/2017/SingleMuon_2017E.list'] = [1, 1]
+#datasetList['nano/v1/2017/SingleMuon_2017F.list'] = [1, 1]
+
 datasetList['nano/v1/2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8.list'] = [0, 2]
 datasetList['nano/v1/2017/GluGluToHHTo4B_node_SM.list'] = [0, 2]
 datasetList['nano/v1/2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8.list'] = [0, 2]
@@ -109,31 +134,37 @@ datasetList['nano/v1/2017/JetHT_2017D.list'] = [1, 1]
 datasetList['nano/v1/2017/JetHT_2017E.list'] = [1, 1]
 datasetList['nano/v1/2017/JetHT_2017F.list'] = [1, 1]
 
-# #2018 hqu ntuples
-# datasetList['nano/v1/2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/GluGluToHHTo4B_node_SM_TuneCP5_PSWeights_13TeV-madgraph-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/QCD_HT200to300_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-ext2.list'] = [0, 2]
-# datasetList['nano/v1/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-ext3.list'] = [0, 2]
-# datasetList['nano/v1/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/VBFHHTo4B_CV_1_C2V_1_C3_1_TuneCP5_PSWeights_13TeV-madgraph-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix.list'] = [0, 2]
-# datasetList['nano/v1/2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
-# datasetList['nano/v1/2018/JetHT_2018A.list'] = [1, 1]
-# datasetList['nano/v1/2018/JetHT_2018B.list'] = [1, 1]
-# datasetList['nano/v1/2018/JetHT_2018C.list'] = [1, 1]
-# datasetList['nano/v1/2018/JetHT_2018D.list'] = [1, 1]
+#2018  hqu ntuples
+#datasetList['nano/v1/2018/SingleMuon_2018A.list'] = [1, 1]
+#datasetList['nano/v1/2018/SingleMuon_2018B.list'] = [1, 1]
+#datasetList['nano/v1/2018/SingleMuon_2018C.list'] = [1, 1]
+#datasetList['nano/v1/2018/SingleMuon_2018D.list'] = [1, 1]
+
+
+datasetList['nano/v1/2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/GluGluToHHTo4B_node_SM_TuneCP5_PSWeights_13TeV-madgraph-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/QCD_HT200to300_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-ext2.list'] = [0, 2]
+datasetList['nano/v1/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-ext3.list'] = [0, 2]
+datasetList['nano/v1/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/VBFHHTo4B_CV_1_C2V_1_C3_1_TuneCP5_PSWeights_13TeV-madgraph-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix.list'] = [0, 2]
+datasetList['nano/v1/2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2]
+datasetList['nano/v1/2018/JetHT_2018A.list'] = [1, 1]
+datasetList['nano/v1/2018/JetHT_2018B.list'] = [1, 1]
+datasetList['nano/v1/2018/JetHT_2018C.list'] = [1, 1]
+datasetList['nano/v1/2018/JetHT_2018D.list'] = [1, 1]
 
 
 CMSSW_BASE_DIR = os.getenv('CMSSW_BASE')
