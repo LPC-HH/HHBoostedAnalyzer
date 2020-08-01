@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void DileptonNtupler::Analyze(bool isData, int Option, string outputfilename, string label)
+void DileptonNtupler::Analyze(bool isData, int Option, string outputfilename, string label, string pileupWeightName)
 {
  
     cout << "Initializing..." << endl;

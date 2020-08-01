@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void JetHTTriggerNtupler::Analyze(bool isData, int Option, string outputfilename, string label)
+void JetHTTriggerNtupler::Analyze(bool isData, int Option, string outputfilename, string label, string pileupWeightName)
 {
  
     cout << "Initializing..." << endl;

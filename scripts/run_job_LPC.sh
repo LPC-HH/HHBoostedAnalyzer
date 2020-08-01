@@ -16,6 +16,8 @@ jobnumber=$4
 outputfile=$5
 outputDirectory=$6
 cmsswReleaseVersion=$7
+year=$8
+sampleName=$9
 
 ############################
 #define exec and setup cmssw
@@ -56,8 +58,8 @@ ls inputs/* > tmp_input_list.txt
 #run executable
 ###########################
 echo "Executing Analysis executable:"
-echo "./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} -d=${isData} "
-./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} -d=${isData} 
+echo "./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} --isData=${isData} "
+./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} --isData=${isData} --year=${year} --pileupWeightName=${sampleName}
 
 ls -l
 ##########################################################

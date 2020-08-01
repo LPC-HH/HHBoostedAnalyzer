@@ -8,10 +8,109 @@
 
 using namespace std;
 
-void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, string label)
+double HHTo4BNtupler::getTriggerEff( TH2F *trigEffHist , double pt, double mass ) {
+  double result = 0.0;
+  double tmpMass = 0;
+  double tmpPt = 0;
+
+  if (trigEffHist) {
+      // constrain to histogram bounds
+      if( mass > trigEffHist->GetXaxis()->GetXmax() * 0.999 ) {
+	tmpMass = trigEffHist->GetXaxis()->GetXmax() * 0.999;
+      } else if ( mass < 0 ) {
+	tmpMass = 0.001;
+	//cout << "Warning: mass=" << mass << " is negative and unphysical\n";
+      } else {
+	tmpMass = mass;
+      }
+
+      if( pt > trigEffHist->GetYaxis()->GetXmax() * 0.999 ) {
+	tmpPt = trigEffHist->GetYaxis()->GetXmax() * 0.999;
+      } else if (pt < 0) {
+	tmpPt = 0.001;
+	cout << "Warning: pt=" << pt << " is negative and unphysical\n";
+      } else {
+	tmpPt = pt;
+      }
+
+      result = trigEffHist->GetBinContent(
+				 trigEffHist->GetXaxis()->FindFixBin( tmpMass ),
+				 trigEffHist->GetYaxis()->FindFixBin( tmpPt )
+				 );  
+         
+  } else {
+    std::cout << "Error: expected a histogram, got a null pointer" << std::endl;
+    return 0;
+  }
+  
+  //cout << "mass = " << mass << " , pt = " << pt << " : trigEff = " << result << "\n";
+
+  return result; 
+}
+
+
+void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, string year, string pileupWeightName)
 {
  
     cout << "Initializing..." << endl;
+
+    //----------------------------------------
+    //Load auxiliary information
+    //----------------------------------------  
+    TH2F *triggerEffHist = 0;    
+    TH1F *pileupWeightHist = 0;
+    
+    if (!isData) {
+      string CMSSWDir = std::getenv("CMSSW_BASE");
+      string triggerEffFilename = "";
+      if (year == "2016") {
+	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root";
+      } else if (year == "2017") {
+	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root";
+      } else if (year == "2018") {
+	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root";
+      } else {
+	cout << "[HHTo4BNtupler] Warning: year " << year << " is not supported. \n";
+      }
+      TFile *triggerEffFile = new TFile(triggerEffFilename.c_str(),"READ");
+
+      if (!triggerEffFile) {
+	cout << "Warning : triggerEffFile " << triggerEffFilename << " could not be opened.\n";
+      } else {
+	cout << "Opened triggerEffFile " << triggerEffFilename << "\n";
+      }
+      if (triggerEffFile) {
+	triggerEffHist = (TH2F*)triggerEffFile->Get("efficiency_ptmass");    
+      } else {
+	cout << "Warning : could not find triggerEffHist named efficiency_ptmass in file " << triggerEffFilename << "\n";
+      }
+      if (triggerEffHist) {
+	cout << "Found triggerEffHist in file " << triggerEffFilename << "\n";
+      }
+
+      string pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupWeights.root";
+      TFile *pileupWeightFile = new TFile(pileupWeightFilename.c_str(),"READ");
+      if (!pileupWeightFile) {
+	cout << "Warning : pileupWeightFile " << pileupWeightFile << " could not be opened.\n";  
+      } else {
+	cout << "Opened pileupWeightFile " << pileupWeightFilename << "\n"; 
+      }
+      string pileupWeightHistname = "PUWeight_" + pileupWeightName + "_" + year;
+      if (pileupWeightFile) {
+	pileupWeightHist = (TH1F*)pileupWeightFile->Get(pileupWeightHistname.c_str());
+      } 
+      if (pileupWeightHist) {
+	cout << "Found pileupWeightHist " << pileupWeightHistname << "in file " << pileupWeightFilename << "\n";
+      } else {
+	cout << "Warning :  could not find pileupWeightHist named " 
+	     << pileupWeightHistname 
+	     << " in file " << pileupWeightFilename << "\n";
+      }
+    }
+
+    //----------------------------------------
+    //Output file
+    //----------------------------------------  
     string outfilename = outputfilename;
     if (outfilename == "") outfilename = "HHTo4BNtuple.root";
     TFile *outFile = new TFile(outfilename.c_str(), "RECREATE");    
@@ -26,6 +125,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     //declare branch variables
     //------------------------  
     float weight = 0;
+    float triggerEffWeight = 0;
+    float pileupWeight = 0;
+    float totalWeight = 0;
 
     float genHiggs1Pt = -1;
     float genHiggs1Eta = -1;
@@ -93,6 +195,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     //set branches on big tree
     //------------------------
     outputTree->Branch("weight", &weight, "weight/F");
+    outputTree->Branch("triggerEffWeight", &triggerEffWeight, "triggerEffWeight/F");
+    outputTree->Branch("pileupWeight", &pileupWeight, "pileupWeight/F");
+    outputTree->Branch("totalWeight", &totalWeight, "totalWeight/F");
     outputTree->Branch("run", &run, "run/i");
     outputTree->Branch("lumi", &luminosityBlock, "lumi/i");
     outputTree->Branch("event", &event, "event/l");
@@ -554,11 +659,33 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	}
       }
       
-
+       
       //****************************************************
       //Fill Event - skim for events with two jets found
       //****************************************************
       if (fatJet1Pt > 200 && fatJet2Pt > 200) {
+
+	//****************************************************
+	//Compute trigger efficiency weight
+	//****************************************************      
+	if (triggerEffHist) {
+	  triggerEffWeight = 1.0 - 
+	    (1 - getTriggerEff( triggerEffHist , fatJet1Pt, fatJet1MassSD )) * 
+	    (1 - getTriggerEff( triggerEffHist , fatJet2Pt, fatJet2MassSD ))
+	    ;	
+	}
+	
+	//****************************************************
+	//Compute pileupWeight
+	//****************************************************      
+	if (pileupWeightHist) {
+	  pileupWeight = pileupWeightHist->GetBinContent( pileupWeightHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+	}
+
+	//****************************************************
+	//Compute totalWeight
+	//****************************************************      
+	totalWeight = weight * triggerEffWeight * pileupWeight;
 
 	if (Option==5) {
 	  if (!(fatJet1PNetXbb > 0.8)) continue;

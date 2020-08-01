@@ -33,10 +33,11 @@ std::string ParseCommandLine( int argc, char* argv[], std::string opt )
 void usage()
 {
   std::cerr << "Usage: RunJetNtupler  <input list>  [options]\n[options]:\n"
-	    << "-d  --isData\n"
-	    << "-f  --outputFile=<output filename> (optional)\n"
-	    << "-n  --optionNumber=<option number> (optional)\n"
-	    << "-l  --optionLabel=<option Label> (optional)\n" 
+	    << "    --isData=<yes/no>\n"
+	    << "    --outputFile=<output filename> (optional)\n"
+	    << "    --optionNumber=<option number> (optional)\n"
+	    << "    --year=<year> (optional)\n" 
+	    << "    --pileupWeightName=<sampleName> (optional)\n" 
 	    << "-h  --help"
 	    << std::endl;
 };
@@ -101,27 +102,34 @@ int main(int argc, char* argv[]){
       std::cerr << "[WARNING]: option number not provided, using default option number" << std::endl;
     }
   
-  string label = "";
-  std::string _optionLabel = ParseCommandLine( argc, argv, "--optionLabel=" );
-  std::string _l = ParseCommandLine( argc, argv, "-l=" );
-  if ( _optionLabel != "" ) 
+  string year = "";
+  std::string _year = ParseCommandLine( argc, argv, "--year=" );
+  if ( _year != "" ) 
     {
-      label = _optionLabel;
-    }
-  else if ( _l != "" )
-    {
-      label = _l;
+      year = _year;
     }
   else
     {
-      std::cerr << "[WARNING]: optional label not provided, using default optional label" << std::endl;
+      std::cerr << "[WARNING]: optional year not provided, using default year 2017" << std::endl;
     }
-  
+
+  string pileupWeightName = "";
+  std::string _pileupWeightName = ParseCommandLine( argc, argv, "--pileupWeightName=" );
+  if ( _pileupWeightName != "" ) 
+    {
+      pileupWeightName = _pileupWeightName;
+    }
+  else
+    {
+      std::cerr << "[WARNING]: pileupWeightName not provided, using default empty pileupWeightName" << std::endl;
+    }
+ 
   std::cout << "[INFO]: <input list> --> " << inputFileName << std::endl;
   std::cout << "[INFO]: isData --> " << isData << std::endl;
   std::cout << "[INFO]: outputFileName --> " << outputFileName << std::endl;
   std::cout << "[INFO]: option --> " << option << std::endl;
-  std::cout << "[INFO]: optionalLabel --> " << label << std::endl;
+  std::cout << "[INFO]: year --> " << year << std::endl;
+  std::cout << "[INFO]: pileupWeightName --> " << pileupWeightName << std::endl;
     
     //build the TChain
     //tree name is set give the structure in the first root file, see while loop below
@@ -154,7 +162,7 @@ int main(int argc, char* argv[]){
     //------ EXECUTE ------//
     cout << "Executing HHTo4BNtupler..." << endl;
     //analyzer.EnableAll();
-    analyzer.Analyze(isData, option, outputFileName, label);
+    analyzer.Analyze(isData, option, outputFileName, year, pileupWeightName);
     cout << "Process completed!" << endl;
     cerr << "------------------------------" << endl; //present so that an empty .err file corresponds to a failed job
     

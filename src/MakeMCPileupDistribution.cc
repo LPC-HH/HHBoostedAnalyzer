@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void MakeMCPileupDistribution::Analyze(bool isData, int option, string outFileName, string label)
+void MakeMCPileupDistribution::Analyze(bool isData, int option, string outFileName, string label, string pileupWeightName)
 {
   //initialization: create one TTree for each analysis box 
   cout << "Initializing..." << endl;

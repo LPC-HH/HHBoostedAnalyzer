@@ -154,7 +154,7 @@ int main(int argc, char* argv[]){
     //------ EXECUTE ------//
     cout << "Executing JetHTTriggerNtupler..." << endl;
     //analyzer.EnableAll();
-    analyzer.Analyze(isData, option, outputFileName, label);
+    analyzer.Analyze(isData, option, outputFileName, label, "");
     cout << "Process completed!" << endl;
     cerr << "------------------------------" << endl; //present so that an empty .err file corresponds to a failed job
     
