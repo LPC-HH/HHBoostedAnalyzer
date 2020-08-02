@@ -663,7 +663,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //****************************************************
       //Fill Event - skim for events with two jets found
       //****************************************************
-      if (option == 0 || 
+      if (Option == 0 || 
 	  (fatJet1Pt > 200 && fatJet2Pt > 200)
 	  ) {
 	
