@@ -663,8 +663,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //****************************************************
       //Fill Event - skim for events with two jets found
       //****************************************************
-      if (fatJet1Pt > 200 && fatJet2Pt > 200) {
-
+      if (option == 0 || 
+	  (fatJet1Pt > 200 && fatJet2Pt > 200)
+	  ) {
+	
 	//****************************************************
 	//Compute trigger efficiency weight
 	//****************************************************      
