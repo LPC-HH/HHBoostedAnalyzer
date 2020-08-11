@@ -11,7 +11,7 @@
 #include <TTree.h>
 #include <TChain.h>
 
-#include <DileptonNtupler.h>
+#include <MakeMCPileupDistribution.h>
 
 using namespace std;
 
@@ -32,7 +32,7 @@ std::string ParseCommandLine( int argc, char* argv[], std::string opt )
 
 void usage()
 {
-  std::cerr << "Usage: RunJetNtupler  <input list>  [options]\n[options]:\n"
+  std::cerr << "Usage: RunMakeMCPileupDistribution  <input list>  [options]\n[options]:\n"
 	    << "-d  --isData\n"
 	    << "-f  --outputFile=<output filename> (optional)\n"
 	    << "-n  --optionNumber=<option number> (optional)\n"
@@ -149,10 +149,10 @@ int main(int argc, char* argv[]){
     std::cout << "Loaded Total of " << NFilesLoaded << " files\n";
     if ( theChain == NULL ) return -1;
     
-    DileptonNtupler analyzer(theChain);
+    MakeMCPileupDistribution analyzer(theChain);
     
     //------ EXECUTE ------//
-    cout << "Executing JetNtupler..." << endl;
+    cout << "Executing MakeMCPileupDistribution..." << endl;
     //analyzer.EnableAll();
     analyzer.Analyze(isData, option, outputFileName, label, "");
     cout << "Process completed!" << endl;

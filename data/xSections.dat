@@ -233,6 +233,8 @@ TTJets_HT-2500toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8                      
 TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8                                    670.3*1.24088
 TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-scaleup-pythia8                            670.3*1.24088
 TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8                                     502.2*1.65623
+TTToHadronic_TuneCP5_13TeV-powheg-pythia8                                         670.3*1.24088*0.667*0.667
+TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8                                     670.3*1.24088*2*(0.667*0.333)
 TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8                  110.0*1.65623
 TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8                     110.0*1.65623
 TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8                               52.72*1.65623

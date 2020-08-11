@@ -16,6 +16,8 @@ jobnumber=$4
 outputfile=$5
 outputDirectory=$6
 cmsswReleaseVersion=$7
+year=$8
+sampleName=$9
 
 ############################
 #define exec and setup cmssw
@@ -32,6 +34,15 @@ scramv1 project CMSSW $cmsswReleaseVersion
 ########################################
 cp input_list.tgz $cmsswReleaseVersion/src/
 cp ${executable} $cmsswReleaseVersion/src/.
+mkdir -p $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
+cp HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp JetHTTriggerEfficiency_2016.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp JetHTTriggerEfficiency_2017.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp JetHTTriggerEfficiency_2018.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp HHBoostedAnalyzer/data/PileupWeights/PileupWeights.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
+cp PileupWeights.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
 
 ###########################
 #get cmssw environment
@@ -56,8 +67,8 @@ ls inputs/* > tmp_input_list.txt
 #run executable
 ###########################
 echo "Executing Analysis executable:"
-echo "./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} -d=${isData} "
-./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} -d=${isData} 
+echo "./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} --isData=${isData} "
+./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} --isData=${isData} --year=${year} --pileupWeightName=${sampleName}
 
 ls -l
 ##########################################################

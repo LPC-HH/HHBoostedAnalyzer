@@ -11,7 +11,7 @@
 #include <TTree.h>
 #include <TChain.h>
 
-#include <DileptonNtupler.h>
+#include <JetHTTriggerNtupler.h>
 
 using namespace std;
 
@@ -149,10 +149,10 @@ int main(int argc, char* argv[]){
     std::cout << "Loaded Total of " << NFilesLoaded << " files\n";
     if ( theChain == NULL ) return -1;
     
-    DileptonNtupler analyzer(theChain);
+    JetHTTriggerNtupler analyzer(theChain);
     
     //------ EXECUTE ------//
-    cout << "Executing JetNtupler..." << endl;
+    cout << "Executing JetHTTriggerNtupler..." << endl;
     //analyzer.EnableAll();
     analyzer.Analyze(isData, option, outputFileName, label, "");
     cout << "Process completed!" << endl;

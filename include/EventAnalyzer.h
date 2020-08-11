@@ -28,7 +28,7 @@ class EventAnalyzer: public Events {
 	double deltaR(double eta1, double phi1, double eta2, double phi2);
 
         //------ LIST OF ANALYSES ------//
-        virtual void Analyze(bool isData, int option, string outputFileName, string label);
+        virtual void Analyze(bool isData, int option, string outputFileName, string label, string pileupWeightName);
   
 };
 

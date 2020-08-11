@@ -8,10 +8,109 @@
 
 using namespace std;
 
-void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, string label)
+double HHTo4BNtupler::getTriggerEff( TH2F *trigEffHist , double pt, double mass ) {
+  double result = 0.0;
+  double tmpMass = 0;
+  double tmpPt = 0;
+
+  if (trigEffHist) {
+      // constrain to histogram bounds
+      if( mass > trigEffHist->GetXaxis()->GetXmax() * 0.999 ) {
+	tmpMass = trigEffHist->GetXaxis()->GetXmax() * 0.999;
+      } else if ( mass < 0 ) {
+	tmpMass = 0.001;
+	//cout << "Warning: mass=" << mass << " is negative and unphysical\n";
+      } else {
+	tmpMass = mass;
+      }
+
+      if( pt > trigEffHist->GetYaxis()->GetXmax() * 0.999 ) {
+	tmpPt = trigEffHist->GetYaxis()->GetXmax() * 0.999;
+      } else if (pt < 0) {
+	tmpPt = 0.001;
+	cout << "Warning: pt=" << pt << " is negative and unphysical\n";
+      } else {
+	tmpPt = pt;
+      }
+
+      result = trigEffHist->GetBinContent(
+				 trigEffHist->GetXaxis()->FindFixBin( tmpMass ),
+				 trigEffHist->GetYaxis()->FindFixBin( tmpPt )
+				 );  
+         
+  } else {
+    std::cout << "Error: expected a histogram, got a null pointer" << std::endl;
+    return 0;
+  }
+  
+  //cout << "mass = " << mass << " , pt = " << pt << " : trigEff = " << result << "\n";
+
+  return result; 
+}
+
+
+void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, string year, string pileupWeightName)
 {
  
     cout << "Initializing..." << endl;
+
+    //----------------------------------------
+    //Load auxiliary information
+    //----------------------------------------  
+    TH2F *triggerEffHist = 0;    
+    TH1F *pileupWeightHist = 0;
+    
+    if (!isData) {
+      string CMSSWDir = std::getenv("CMSSW_BASE");
+      string triggerEffFilename = "";
+      if (year == "2016") {
+	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root";
+      } else if (year == "2017") {
+	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root";
+      } else if (year == "2018") {
+	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root";
+      } else {
+	cout << "[HHTo4BNtupler] Warning: year " << year << " is not supported. \n";
+      }
+      TFile *triggerEffFile = new TFile(triggerEffFilename.c_str(),"READ");
+
+      if (!triggerEffFile) {
+	cout << "Warning : triggerEffFile " << triggerEffFilename << " could not be opened.\n";
+      } else {
+	cout << "Opened triggerEffFile " << triggerEffFilename << "\n";
+      }
+      if (triggerEffFile) {
+	triggerEffHist = (TH2F*)triggerEffFile->Get("efficiency_ptmass");    
+      } else {
+	cout << "Warning : could not find triggerEffHist named efficiency_ptmass in file " << triggerEffFilename << "\n";
+      }
+      if (triggerEffHist) {
+	cout << "Found triggerEffHist in file " << triggerEffFilename << "\n";
+      }
+
+      string pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupWeights.root";
+      TFile *pileupWeightFile = new TFile(pileupWeightFilename.c_str(),"READ");
+      if (!pileupWeightFile) {
+	cout << "Warning : pileupWeightFile " << pileupWeightFile << " could not be opened.\n";  
+      } else {
+	cout << "Opened pileupWeightFile " << pileupWeightFilename << "\n"; 
+      }
+      string pileupWeightHistname = "PUWeight_" + pileupWeightName + "_" + year;
+      if (pileupWeightFile) {
+	pileupWeightHist = (TH1F*)pileupWeightFile->Get(pileupWeightHistname.c_str());
+      } 
+      if (pileupWeightHist) {
+	cout << "Found pileupWeightHist " << pileupWeightHistname << "in file " << pileupWeightFilename << "\n";
+      } else {
+	cout << "Warning :  could not find pileupWeightHist named " 
+	     << pileupWeightHistname 
+	     << " in file " << pileupWeightFilename << "\n";
+      }
+    }
+
+    //----------------------------------------
+    //Output file
+    //----------------------------------------  
     string outfilename = outputfilename;
     if (outfilename == "") outfilename = "HHTo4BNtuple.root";
     TFile *outFile = new TFile(outfilename.c_str(), "RECREATE");    
@@ -26,6 +125,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     //declare branch variables
     //------------------------  
     float weight = 0;
+    float triggerEffWeight = 0;
+    float pileupWeight = 0;
+    float totalWeight = 0;
 
     float genHiggs1Pt = -1;
     float genHiggs1Eta = -1;
@@ -93,10 +195,16 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     //set branches on big tree
     //------------------------
     outputTree->Branch("weight", &weight, "weight/F");
+    outputTree->Branch("triggerEffWeight", &triggerEffWeight, "triggerEffWeight/F");
+    outputTree->Branch("pileupWeight", &pileupWeight, "pileupWeight/F");
+    outputTree->Branch("totalWeight", &totalWeight, "totalWeight/F");
     outputTree->Branch("run", &run, "run/i");
     outputTree->Branch("lumi", &luminosityBlock, "lumi/i");
     outputTree->Branch("event", &event, "event/l");
+    outputTree->Branch("npu", &Pileup_nTrueInt, "npu/F");
+    outputTree->Branch("rho", &fixedGridRhoFastjetAll, "rho/F");
  
+
     outputTree->Branch("genHiggs1Pt", &genHiggs1Pt, "genHiggs1Pt/F");
     outputTree->Branch("genHiggs1Eta", &genHiggs1Eta, "genHiggs1Eta/F");
     outputTree->Branch("genHiggs1Phi", &genHiggs1Phi, "genHiggs1Phi/F");
@@ -166,20 +274,34 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30,                         "HLT_AK8PFJet380_TrimMass30/O");
     outputTree->Branch("HLT_AK8PFJet400_TrimMass30",                          &HLT_AK8PFJet400_TrimMass30,                         "HLT_AK8PFJet400_TrimMass30/O");
     outputTree->Branch("HLT_AK8PFJet420_TrimMass30",                          &HLT_AK8PFJet420_TrimMass30,                         "HLT_AK8PFJet420_TrimMass30/O");
+    outputTree->Branch("HLT_AK8PFHT750_TrimMass50",                           &HLT_AK8PFHT750_TrimMass50,                          "HLT_AK8PFHT750_TrimMass50/O");
     outputTree->Branch("HLT_AK8PFHT800_TrimMass50",                           &HLT_AK8PFHT800_TrimMass50,                          "HLT_AK8PFHT800_TrimMass50/O");
+    outputTree->Branch("HLT_AK8PFHT850_TrimMass50",                           &HLT_AK8PFHT850_TrimMass50,                          "HLT_AK8PFHT850_TrimMass50/O");
+    outputTree->Branch("HLT_AK8PFHT900_TrimMass50",                           &HLT_AK8PFHT900_TrimMass50,                          "HLT_AK8PFHT900_TrimMass50/O");
     outputTree->Branch("HLT_PFJet450",                                        &HLT_PFJet450,                                       "HLT_PFJet450/O");
     outputTree->Branch("HLT_PFJet500",                                        &HLT_PFJet500,                                       "HLT_PFJet500/O");
+    outputTree->Branch("HLT_PFJet550",                                        &HLT_PFJet550,                                       "HLT_PFJet550/O");
+    outputTree->Branch("HLT_AK8PFJet450",                                     &HLT_AK8PFJet450,                                    "HLT_AK8PFJet450/O");
     outputTree->Branch("HLT_AK8PFJet500",                                     &HLT_AK8PFJet500,                                    "HLT_AK8PFJet500/O");
+    outputTree->Branch("HLT_AK8PFJet550",                                     &HLT_AK8PFJet550,                                    "HLT_AK8PFJet550/O");
     outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17",     &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17,    "HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17/O");
     outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1",      &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1,     "HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1/O");
     outputTree->Branch("HLT_AK8PFJet330_PFAK8BTagCSV_p17",                    &HLT_AK8PFJet330_PFAK8BTagCSV_p17,                   "HLT_AK8PFJet330_PFAK8BTagCSV_p17/O");
-    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02",                    &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02,                   "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02/O");
-    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2",                    &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2,                   "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2/O");
-    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4",                    &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4,                   "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4/O");
-  
+    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02, "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02/O");
+    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2, "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2/O");
+    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4, "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4/O"); 
+    outputTree->Branch("HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20/O");
+    outputTree->Branch("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087",       &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087,      "HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087/O");
+    outputTree->Branch("HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087",       &HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087,      "HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087/O");
+    outputTree->Branch("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20",     &HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20,    "HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20/O");
+    outputTree->Branch("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20/O");
+    outputTree->Branch("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20/O");	
+
+
     cout << "Run With Option = " << Option << "\n";
     
-    if (Option == 1) cout << "Option = 1 : Select FatJets with pT > 200 GeV and DDB > 0.8 only\n";
+    if (Option == 2) cout << "Option = 2 : Select FatJets with pT > 200 GeV and PNetXbb > 0.8 only\n";
+    if (Option == 5) cout << "Option = 5 : Select Events with FatJet1 pT > 200 GeV and PNetXbb > 0.8 only\n";
     if (Option == 10) cout << "Option = 10 : Select FatJets with pT > 200 GeV and tau3/tau2 < 0.54 only\n";
 
     UInt_t NEventsFilled = 0;
@@ -329,7 +451,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	  if (!(FatJet_btagDDBvL[i] > 0.80)) continue;
 	} 
 	if (Option == 2) {
-	  if (!(FatJet_ParticleNetMD_probXbb[i] > 0.80)) continue;
+	  if (!(FatJet_ParticleNetMD_probXbb[i]/(1.0 - FatJet_ParticleNetMD_probXcc[i] - FatJet_ParticleNetMD_probXqq[i]) > 0.80)) continue;
 	} 
 	
 	//Select ttbar control region with jets 
@@ -378,7 +500,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1Mass = FatJet_mass[fatJet1Index];
       fatJet1MassSD = FatJet_msoftdrop[fatJet1Index];
       fatJet1DDBTagger = FatJet_btagDDBvL[fatJet1Index];
-      fatJet1PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet1Index];
+      fatJet1PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet1Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet1Index] - FatJet_ParticleNetMD_probXqq[fatJet1Index]);
       fatJet1PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet1Index];
       fatJet1PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet1Index];
       fatJet1PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet1Index];
@@ -389,7 +511,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1Tau3OverTau2 = FatJet_tau3[fatJet1Index] /  FatJet_tau2[fatJet1Index];
       //find muon inside jet
       for(unsigned int q = 0; q < nMuon; q++ ) {       
-	if (Muon_looseId[q] && 
+	if (Muon_pt[q] > 30 && Muon_looseId[q] && 
 	    deltaR(fatJet1Eta , fatJet1Phi, Muon_eta[q], Muon_phi[q]) < 1.0
 	    ) {
 	  fatJet1HasMuon = true;
@@ -398,7 +520,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       }
       //find electron inside jet
       for(unsigned int q = 0; q < nElectron; q++ ) {       
-	if (Electron_mvaFall17V2noIso_WP90[q] && 
+	if (Electron_pt[q] > 30 && Electron_mvaFall17V2noIso_WP90[q] && 
 	    deltaR(fatJet1Eta , fatJet1Phi, Electron_eta[q], Electron_phi[q]) < 1.0
 	    ) {
 	  fatJet1HasElectron = true;
@@ -452,7 +574,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2Mass = FatJet_mass[fatJet2Index];
       fatJet2MassSD = FatJet_msoftdrop[fatJet2Index];
       fatJet2DDBTagger = FatJet_btagDDBvL[fatJet2Index];
-      fatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet2Index];
+      fatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet2Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet2Index] - FatJet_ParticleNetMD_probXqq[fatJet2Index]);
       fatJet2PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet2Index];
       fatJet2PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet2Index];
       fatJet2PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet2Index];
@@ -464,7 +586,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       
       //find muon inside jet
       for(unsigned int q = 0; q < nMuon; q++ ) {       
-	if (Muon_looseId[q] && 
+	if (Muon_pt[q] > 30 && Muon_looseId[q] && 
 	    deltaR(fatJet2Eta , fatJet2Phi, Muon_eta[q], Muon_phi[q]) < 1.0
 	    ) {
 	  fatJet2HasMuon = true;
@@ -473,7 +595,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       }
       //find electron inside jet
       for(unsigned int q = 0; q < nElectron; q++ ) {       
-	if (Electron_mvaFall17V2noIso_WP90[q] && 
+	if (Electron_pt[q] > 30 && Electron_mvaFall17V2noIso_WP90[q] && 
 	    deltaR(fatJet2Eta , fatJet2Phi, Electron_eta[q], Electron_phi[q]) < 1.0
 	    ) {
 	  fatJet2HasElectron = true;
@@ -537,13 +659,42 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	}
       }
       
+       
+      //****************************************************
+      //Fill Event - skim for events with two jets found
+      //****************************************************
+      if (Option == 0 || 
+	  (fatJet1Pt > 200 && fatJet2Pt > 200)
+	  ) {
+	
+	//****************************************************
+	//Compute trigger efficiency weight
+	//****************************************************      
+	if (triggerEffHist) {
+	  triggerEffWeight = 1.0 - 
+	    (1 - getTriggerEff( triggerEffHist , fatJet1Pt, fatJet1MassSD )) * 
+	    (1 - getTriggerEff( triggerEffHist , fatJet2Pt, fatJet2MassSD ))
+	    ;	
+	}
+	
+	//****************************************************
+	//Compute pileupWeight
+	//****************************************************      
+	if (pileupWeightHist) {
+	  pileupWeight = pileupWeightHist->GetBinContent( pileupWeightHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+	}
 
+	//****************************************************
+	//Compute totalWeight
+	//****************************************************      
+	totalWeight = weight * triggerEffWeight * pileupWeight;
 
-      //***********************
-      //Fill Event
-      //***********************
-      NEventsFilled++;
-      outputTree->Fill();      
+	if (Option==5) {
+	  if (!(fatJet1PNetXbb > 0.8)) continue;
+	}
+	NEventsFilled++;            
+	outputTree->Fill();      
+      }
     }//end of event loop
 
     cout << "Filled Total of " << NEventsFilled << " Events\n";

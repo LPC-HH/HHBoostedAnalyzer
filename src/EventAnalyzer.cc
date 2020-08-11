@@ -13,8 +13,8 @@ EventAnalyzer::~EventAnalyzer()
 
 }
 
-void EventAnalyzer::Analyze(bool isData, int option, string outputFileName, string label) {
-    cout << "Analyze method called on base EventAnalyzer instance.  Parameters were: " << isData << " " << option << " " << outputFileName << " " << label << endl;
+void EventAnalyzer::Analyze(bool isData, int option, string outputFileName, string label, string pileupWeightName) {
+  cout << "Analyze method called on base EventAnalyzer instance.  Parameters were: " << isData << " " << option << " " << outputFileName << " " << label << " " << pileupWeightName << endl;
 }
 
 //NOTE: the functions below need to be maintained by hand.  If variables are added or removed from the ntuple, these functions need to be updated to reflect the changes.
