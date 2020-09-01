@@ -139,6 +139,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float genHH_eta = -99;
     float genHH_phi = -99;
     float genHH_mass = -99;
+    float genLeptonPt = -1;
+    float genLeptonEta = -1;
+    float genLeptonPhi = -1;
+    int   genLeptonId = 0;
+    int   genLeptonMotherId = 0;
  
     int NJets = -1;
     float MET = -1;
@@ -176,6 +181,22 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     bool fatJet2HasBJetCSVLoose = 0;
     bool fatJet2HasBJetCSVMedium = 0;
     bool fatJet2HasBJetCSVTight = 0;
+    float fatJet3Pt = -99;
+    float fatJet3Eta = -99;
+    float fatJet3Phi = -99;
+    float fatJet3Mass = -99;
+    float fatJet3MassSD = -99;
+    float fatJet3DDBTagger = -99;
+    float fatJet3PNetXbb = -99;
+    float fatJet3PNetQCDb = -99;
+    float fatJet3PNetQCDbb = -99;
+    float fatJet3PNetQCDothers = -99;
+    float fatJet3Tau3OverTau2 = -99;
+    bool fatJet3HasMuon = 0;
+    bool fatJet3HasElectron = 0;
+    bool fatJet3HasBJetCSVLoose = 0;
+    bool fatJet3HasBJetCSVMedium = 0;
+    bool fatJet3HasBJetCSVTight = 0;
     float hh_pt = -99;
     float hh_eta = -99;
     float hh_phi = -99;
@@ -215,7 +236,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("genHH_eta",     &genHH_eta,    "genHH_eta/F");
     outputTree->Branch("genHH_phi",     &genHH_phi,    "genHH_phi/F");
     outputTree->Branch("genHH_mass",    &genHH_mass,   "genHH_mass/F");
-	
+    outputTree->Branch("genLeptonId", &genLeptonId, "genLeptonId/I");
+    outputTree->Branch("genLeptonMotherId", &genLeptonMotherId, "genLeptonMotherId/I");
+    outputTree->Branch("genLeptonPt", &genLeptonPt, "genLeptonPt/F");
+    outputTree->Branch("genLeptonEta", &genLeptonEta, "genLeptonEta/F");
+    outputTree->Branch("genLeptonPhi", &genLeptonPhi, "genLeptonPhi/F");
+    
     outputTree->Branch("NJets", &NJets, "NJets/I");
     outputTree->Branch("MET", &MET, "MET/F");
     outputTree->Branch("fatJet1Pt", &fatJet1Pt, "fatJet1Pt/F");
@@ -252,6 +278,22 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet2HasBJetCSVLoose", &fatJet2HasBJetCSVLoose, "fatJet2HasBJetCSVLoose/O");
     outputTree->Branch("fatJet2HasBJetCSVMedium", &fatJet2HasBJetCSVMedium, "fatJet2HasBJetCSVMedium/O");
     outputTree->Branch("fatJet2HasBJetCSVTight", &fatJet2HasBJetCSVTight, "fatJet2HasBJetCSVTight/O");
+    outputTree->Branch("fatJet3Pt", &fatJet3Pt, "fatJet3Pt/F");
+    outputTree->Branch("fatJet3Eta", &fatJet3Eta, "fatJet3Eta/F");
+    outputTree->Branch("fatJet3Phi", &fatJet3Phi, "fatJet3Phi/F");
+    outputTree->Branch("fatJet3Mass", &fatJet3Mass, "fatJet3Mass/F");
+    outputTree->Branch("fatJet3MassSD", &fatJet3MassSD, "fatJet3MassSD/F");
+    outputTree->Branch("fatJet3DDBTagger", &fatJet3DDBTagger, "fatJet3DDBTagger/F");
+    outputTree->Branch("fatJet3PNetXbb", &fatJet3PNetXbb, "fatJet3PNetXbb/F");
+    outputTree->Branch("fatJet3PNetQCDb", &fatJet3PNetQCDb, "fatJet3PNetQCDb/F");
+    outputTree->Branch("fatJet3PNetQCDbb", &fatJet3PNetQCDbb, "fatJet3PNetQCDbb/F");
+    outputTree->Branch("fatJet3PNetQCDothers", &fatJet3PNetQCDothers, "fatJet3PNetQCDothers/F");
+    outputTree->Branch("fatJet3Tau3OverTau2", &fatJet3Tau3OverTau2, "fatJet3Tau3OverTau2/F");
+    outputTree->Branch("fatJet3HasMuon", &fatJet3HasMuon, "fatJet3HasMuon/O");
+    outputTree->Branch("fatJet3HasElectron", &fatJet3HasElectron, "fatJet3HasElectron/O");
+    outputTree->Branch("fatJet3HasBJetCSVLoose", &fatJet3HasBJetCSVLoose, "fatJet3HasBJetCSVLoose/O");
+    outputTree->Branch("fatJet3HasBJetCSVMedium", &fatJet3HasBJetCSVMedium, "fatJet3HasBJetCSVMedium/O");
+    outputTree->Branch("fatJet3HasBJetCSVTight", &fatJet3HasBJetCSVTight, "fatJet3HasBJetCSVTight/O");
     outputTree->Branch("hh_pt",      &hh_pt,     "hh_pt/F");
     outputTree->Branch("hh_eta",     &hh_eta,    "hh_eta/F");
     outputTree->Branch("hh_phi",     &hh_phi,    "hh_phi/F");
@@ -336,6 +378,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       genHH_eta = -99;
       genHH_phi = -99;
       genHH_mass = -99;   
+      genLeptonId = 0;
+      genLeptonMotherId = 0;
+      genLeptonPt = -99.0;
+      genLeptonEta = -99.0;
+      genLeptonPhi = -99.0;
       NJets = -1;
       MET = -99.0;
 
@@ -373,6 +420,22 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2HasBJetCSVLoose = 0;
       fatJet2HasBJetCSVMedium = 0;
       fatJet2HasBJetCSVTight = 0;
+      fatJet3Pt = -99.0;
+      fatJet3Eta = -99.0;
+      fatJet3Phi = -99.0;
+      fatJet3Mass = -99.0;
+      fatJet3MassSD = -99.0;
+      fatJet3DDBTagger = -99.0;
+      fatJet3PNetXbb = -99;
+      fatJet3PNetQCDb = -99;
+      fatJet3PNetQCDbb = -99;
+      fatJet3PNetQCDothers = -99;
+      fatJet3Tau3OverTau2 = -99;
+      fatJet3HasMuon = 0;
+      fatJet3HasElectron = 0;
+      fatJet3HasBJetCSVLoose = 0;
+      fatJet3HasBJetCSVMedium = 0;
+      fatJet3HasBJetCSVTight = 0;
       hh_pt = -99;
       hh_eta = -99;
       hh_phi = -99;
@@ -412,6 +475,19 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	    genHiggsVector.push_back(h);
 	    current_mIndex = GenPart_genPartIdxMother[i];
 	  }
+
+	  if ( (abs(GenPart_pdgId[i]) == 11 || abs(GenPart_pdgId[i]) == 13)
+	       && GenPart_pt[i] > 10
+	       && (abs(GenPart_pdgId[GenPart_genPartIdxMother[i]]) == 23 || abs(GenPart_pdgId[GenPart_genPartIdxMother[i]]) == 24 || abs(GenPart_pdgId[GenPart_genPartIdxMother[i]]) == 15)
+	       && GenPart_pt[i] > genLeptonPt 
+	       ) {
+	    genLeptonId = GenPart_pdgId[i];
+	    genLeptonMotherId = GenPart_pdgId[GenPart_genPartIdxMother[i]];
+	    genLeptonPt = GenPart_pt[i];
+	    genLeptonEta = GenPart_eta[i];
+	    genLeptonPhi = GenPart_phi[i];	    
+	  }	       
+
 	}
 
 	if(genHiggsVector.size() >= 1) {
@@ -477,6 +553,21 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	} else if (FatJet_pt[selectedFatJetIndices[i]] > tmpfatJet2Pt) {
 	  tmpfatJet2Pt = FatJet_pt[selectedFatJetIndices[i]];
 	  fatJet2Index = selectedFatJetIndices[i];
+	}
+      }
+
+      //------------------------------------------------------
+      //----------look for presence of a third AK8 jet
+      //------------------------------------------------------
+      int fatJet3Index = -1;
+      double tmpfatJet3Pt = -999;
+      for(unsigned int i = 0; i < nFatJet; i++ ) {       
+	//Hbb fat jet pre-selection
+	if (FatJet_pt[i] < 100) continue;
+	if (i == fatJet1Index || i == fatJet2Index) continue;
+	if (FatJet_pt[i] > tmpfatJet3Pt) {
+	  fatJet3Index = i;
+	  tmpfatJet3Pt = FatJet_pt[i];
 	}
       }
 
@@ -630,7 +721,72 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	}
       }
 
-      //filling hh candidate variable
+
+      //------------------------------------------------------
+      //----------Fill Jet 3 information
+      //------------------------------------------------------
+      fatJet3Pt = FatJet_pt[fatJet3Index];
+      fatJet3Eta = FatJet_eta[fatJet3Index];
+      fatJet3Phi = FatJet_phi[fatJet3Index];
+      fatJet3Mass = FatJet_mass[fatJet3Index];
+      fatJet3MassSD = FatJet_msoftdrop[fatJet3Index];
+      fatJet3DDBTagger = FatJet_btagDDBvL[fatJet3Index];
+      fatJet3PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet3Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet3Index] - FatJet_ParticleNetMD_probXqq[fatJet3Index]);
+      fatJet3PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet3Index];
+      fatJet3PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet3Index];
+      fatJet3PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet3Index];
+
+      fatJet3Tau3OverTau2 = FatJet_tau3[fatJet3Index] /  FatJet_tau2[fatJet3Index];
+      //find muon inside jet
+      for(unsigned int q = 0; q < nMuon; q++ ) {       
+	if (Muon_pt[q] > 30 && Muon_looseId[q] && 
+	    deltaR(fatJet3Eta , fatJet3Phi, Muon_eta[q], Muon_phi[q]) < 1.0
+	    ) {
+	  fatJet3HasMuon = true;
+	  break;
+	}
+      }
+      //find electron inside jet
+      for(unsigned int q = 0; q < nElectron; q++ ) {       
+	if (Electron_pt[q] > 30 && Electron_mvaFall17V2noIso_WP90[q] && 
+	    deltaR(fatJet3Eta , fatJet3Phi, Electron_eta[q], Electron_phi[q]) < 1.0
+	    ) {
+	  fatJet3HasElectron = true;
+	  break;
+	}
+      }
+      //find loose b-tagged jet inside jet
+      for(unsigned int q = 0; q < nJet; q++ ) {       
+	if (Jet_btagDeepB[q] > 0.0521 && 
+	    deltaR(fatJet3Eta , fatJet3Phi, Jet_eta[q], Jet_phi[q]) < 1.0
+	    ) {
+	  fatJet3HasBJetCSVLoose = true;
+	  break;
+	}
+      }
+     //find medium b-tagged jet inside jet
+      for(unsigned int q = 0; q < nJet; q++ ) {       
+	if (Jet_btagDeepB[q] > 0.3033 && 
+	    deltaR(fatJet3Eta , fatJet3Phi, Jet_eta[q], Jet_phi[q]) < 1.0
+	    ) {
+	  fatJet3HasBJetCSVMedium = true;
+	  break;
+	}
+      }
+      //find tight b-tagged jet inside jet
+      for(unsigned int q = 0; q < nJet; q++ ) {       
+	if (Jet_btagDeepB[q] > 0.7489 && 
+	    deltaR(fatJet3Eta , fatJet3Phi, Jet_eta[q], Jet_phi[q]) < 1.0
+	    ) {
+	  fatJet3HasBJetCSVTight = true;
+	  break;
+	}
+      }
+
+
+      //------------------------------------------------------
+      //----------Fill hh candidate information
+      //------------------------------------------------------
       hh_pt = (Higgs1Jet+Higgs2Jet).Pt();
       hh_eta = (Higgs1Jet+Higgs2Jet).Eta();
       hh_phi = (Higgs1Jet+Higgs2Jet).Phi();
@@ -647,9 +803,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       mj2_over_mj1 = fatJet2MassSD / fatJet1MassSD;             
 
 
-      //***********************
-      //Count additional jets 
-      //***********************
+      //*******************************
+      //Count additional AK4 jets 
+      //*******************************
       for(int i = 0; i < nJet; i++) {
 	if (Jet_pt[i] > 30 && fabs(Jet_eta[i]) < 2.5
 	    && deltaR(Jet_eta[i] , Jet_phi[i], fatJet1Eta, fatJet1Phi) > 0.8
