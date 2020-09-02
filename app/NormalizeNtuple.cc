@@ -166,8 +166,11 @@ int main(int argc, char* argv[]) {
 
       //add weight branch
       float weight = 1;
-      float inputweight;
+      float totalWeight = 1;
+      float inputweight = 1;
+      float inputTotalWeight = 1;
       bool foundWeightBranch = false;
+      bool foundTotalWeightBranch = false;
       if (!normalizedTree->GetBranch("weight")) {
 	normalizedTree->Branch("weight", &weight, "weight/F");
       } else {
@@ -175,6 +178,14 @@ int main(int argc, char* argv[]) {
 	foundWeightBranch = true;
 	normalizedTree->SetBranchAddress("weight", &weight);
 	inputTree->SetBranchAddress("weight", &inputweight);
+      }
+      if (!normalizedTree->GetBranch("totalWeight")) {
+	normalizedTree->Branch("totalWeight", &totalWeight, "totalWeight/F");
+      } else {
+	cout << "Found weight Branch already.\n";
+	foundTotalWeightBranch = true;
+	normalizedTree->SetBranchAddress("totalWeight", &totalWeight);
+	inputTree->SetBranchAddress("totalWeight", &inputTotalWeight);
       }
 
       //store the weights
@@ -191,30 +202,17 @@ int main(int argc, char* argv[]) {
 	    //if the weight branch doesn't exist, use the normalizationWeight as the weight
 	    weight = normalizationWeight;
 	  }
+	  if (foundTotalWeightBranch) {
+	    //if weight branch exists, then multiply the value stored by the normalizationWeight
+	    totalWeight = inputTotalWeight * normalizationWeight;    
+	    //weight = normalizationWeight;
+	  } else {
+	    //if the weight branch doesn't exist, use the normalizationWeight as the weight
+	    totalWeight = normalizationWeight;
+	  }
 	} 
 
-	if (!doUnweight) {
-	  normalizedTree->Fill();
-	} else {
-	  double randomNum = random.Rndm();
-	  //cout << "random: " << randomNum << "\n";
-	  if (randomNum < (normalizationWeight)) {     
-	    //cout << normalizationWeight << " : " << 1 / (normalizationWeight) << " " << weight << " -> ";    
-	    weight = weight / (normalizationWeight);
-
-	    //apply some filter cuts
-	    TTreeFormula *formula = new TTreeFormula("SkimCutString", "MR>300 && Rsq>0.15", normalizedTree);
-	    bool passSkim = false;
-	    passSkim = formula->EvalInstance();
-	    delete formula;
-
-	    if (passSkim) {
-	      normalizedTree->Fill(); 
-	    }
-	        
-	    //cout << weight << "\n";
-	  } 
-	}
+	normalizedTree->Fill();
       }
 
       //save
