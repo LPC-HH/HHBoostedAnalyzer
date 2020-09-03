@@ -156,6 +156,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet1PNetXbb = -99;
     float fatJet1PNetQCDb = -99;
     float fatJet1PNetQCDbb = -99;
+    float fatJet1PNetQCDc = -99;
+    float fatJet1PNetQCDcc = -99;
     float fatJet1PNetQCDothers = -99;
     int   fatJet1GenMatchIndex = -99;
     float fatJet1Tau3OverTau2 = -99;
@@ -173,6 +175,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet2PNetXbb = -99;
     float fatJet2PNetQCDb = -99;
     float fatJet2PNetQCDbb = -99;
+    float fatJet2PNetQCDc = -99;
+    float fatJet2PNetQCDcc = -99;
     float fatJet2PNetQCDothers = -99;
     int   fatJet2GenMatchIndex = -99;
     float fatJet2Tau3OverTau2 = -99;
@@ -190,6 +194,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet3PNetXbb = -99;
     float fatJet3PNetQCDb = -99;
     float fatJet3PNetQCDbb = -99;
+    float fatJet3PNetQCDc = -99;
+    float fatJet3PNetQCDcc = -99;
     float fatJet3PNetQCDothers = -99;
     float fatJet3Tau3OverTau2 = -99;
     bool fatJet3HasMuon = 0;
@@ -253,6 +259,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet1PNetXbb", &fatJet1PNetXbb, "fatJet1PNetXbb/F");
     outputTree->Branch("fatJet1PNetQCDb", &fatJet1PNetQCDb, "fatJet1PNetQCDb/F");
     outputTree->Branch("fatJet1PNetQCDbb", &fatJet1PNetQCDbb, "fatJet1PNetQCDbb/F");
+    outputTree->Branch("fatJet1PNetQCDc", &fatJet1PNetQCDc, "fatJet1PNetQCDc/F");
+    outputTree->Branch("fatJet1PNetQCDcc", &fatJet1PNetQCDcc, "fatJet1PNetQCDcc/F");
     outputTree->Branch("fatJet1PNetQCDothers", &fatJet1PNetQCDothers, "fatJet1PNetQCDothers/F");
     outputTree->Branch("fatJet1GenMatchIndex", &fatJet1GenMatchIndex, "fatJet1GenMatchIndex/I");
     outputTree->Branch("fatJet1Tau3OverTau2", &fatJet1Tau3OverTau2, "fatJet1Tau3OverTau2/F");
@@ -270,6 +278,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet2PNetXbb", &fatJet2PNetXbb, "fatJet2PNetXbb/F");
     outputTree->Branch("fatJet2PNetQCDb", &fatJet2PNetQCDb, "fatJet2PNetQCDb/F");
     outputTree->Branch("fatJet2PNetQCDbb", &fatJet2PNetQCDbb, "fatJet2PNetQCDbb/F");
+    outputTree->Branch("fatJet2PNetQCDc", &fatJet2PNetQCDc, "fatJet2PNetQCDc/F");
+    outputTree->Branch("fatJet2PNetQCDcc", &fatJet2PNetQCDcc, "fatJet2PNetQCDcc/F");
     outputTree->Branch("fatJet2PNetQCDothers", &fatJet2PNetQCDothers, "fatJet2PNetQCDothers/F");
     outputTree->Branch("fatJet2GenMatchIndex", &fatJet2GenMatchIndex, "fatJet2GenMatchIndex/I");
     outputTree->Branch("fatJet2Tau3OverTau2", &fatJet2Tau3OverTau2, "fatJet2Tau3OverTau2/F");
@@ -287,6 +297,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet3PNetXbb", &fatJet3PNetXbb, "fatJet3PNetXbb/F");
     outputTree->Branch("fatJet3PNetQCDb", &fatJet3PNetQCDb, "fatJet3PNetQCDb/F");
     outputTree->Branch("fatJet3PNetQCDbb", &fatJet3PNetQCDbb, "fatJet3PNetQCDbb/F");
+    outputTree->Branch("fatJet3PNetQCDc", &fatJet3PNetQCDc, "fatJet3PNetQCDc/F");
+    outputTree->Branch("fatJet3PNetQCDcc", &fatJet3PNetQCDcc, "fatJet3PNetQCDcc/F");
     outputTree->Branch("fatJet3PNetQCDothers", &fatJet3PNetQCDothers, "fatJet3PNetQCDothers/F");
     outputTree->Branch("fatJet3Tau3OverTau2", &fatJet3Tau3OverTau2, "fatJet3Tau3OverTau2/F");
     outputTree->Branch("fatJet3HasMuon", &fatJet3HasMuon, "fatJet3HasMuon/O");
@@ -395,6 +407,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1PNetXbb = -99;
       fatJet1PNetQCDb = -99;
       fatJet1PNetQCDbb = -99;
+      fatJet1PNetQCDc = -99;
+      fatJet1PNetQCDcc = -99;
       fatJet1PNetQCDothers = -99;
       fatJet1GenMatchIndex = -99.0;
       fatJet1Tau3OverTau2 = -99;
@@ -412,6 +426,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2PNetXbb = -99;
       fatJet2PNetQCDb = -99;
       fatJet2PNetQCDbb = -99;
+      fatJet2PNetQCDc = -99;
+      fatJet2PNetQCDcc = -99;
       fatJet2PNetQCDothers = -99;
       fatJet2GenMatchIndex = -99.0;
       fatJet2Tau3OverTau2 = -99;
@@ -429,6 +445,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet3PNetXbb = -99;
       fatJet3PNetQCDb = -99;
       fatJet3PNetQCDbb = -99;
+      fatJet3PNetQCDc = -99;
+      fatJet3PNetQCDcc = -99;
       fatJet3PNetQCDothers = -99;
       fatJet3Tau3OverTau2 = -99;
       fatJet3HasMuon = 0;
@@ -594,6 +612,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet1Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet1Index] - FatJet_ParticleNetMD_probXqq[fatJet1Index]);
       fatJet1PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet1Index];
       fatJet1PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet1Index];
+      fatJet1PNetQCDc = FatJet_ParticleNetMD_probQCDc[fatJet1Index];
+      fatJet1PNetQCDcc = FatJet_ParticleNetMD_probQCDcc[fatJet1Index];
       fatJet1PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet1Index];
 
       if(Higgs1MinDR < 0.4) {
@@ -668,6 +688,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet2Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet2Index] - FatJet_ParticleNetMD_probXqq[fatJet2Index]);
       fatJet2PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet2Index];
       fatJet2PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet2Index];
+      fatJet2PNetQCDc = FatJet_ParticleNetMD_probQCDc[fatJet2Index];
+      fatJet2PNetQCDcc = FatJet_ParticleNetMD_probQCDcc[fatJet2Index];
       fatJet2PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet2Index];
 
       if(Higgs2MinDR < 0.4) {
@@ -734,6 +756,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet3PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet3Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet3Index] - FatJet_ParticleNetMD_probXqq[fatJet3Index]);
       fatJet3PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet3Index];
       fatJet3PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet3Index];
+      fatJet3PNetQCDc = FatJet_ParticleNetMD_probQCDc[fatJet3Index];
+      fatJet3PNetQCDcc = FatJet_ParticleNetMD_probQCDcc[fatJet3Index];
       fatJet3PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet3Index];
 
       fatJet3Tau3OverTau2 = FatJet_tau3[fatJet3Index] /  FatJet_tau2[fatJet3Index];
