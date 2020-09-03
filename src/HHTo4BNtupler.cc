@@ -145,7 +145,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     int   genLeptonId = 0;
     int   genLeptonMotherId = 0;
  
-    int NJets = -1;
+    int NJets = 0;
     float MET = -1;
     float fatJet1Pt = -99;
     float fatJet1Eta = -99;
