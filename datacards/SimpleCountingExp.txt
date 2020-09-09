@@ -1,0 +1,14 @@
+#../bin/slc7_amd64_gcc820/combine -M AsymptoticLimits SimpleCountingExp.txt -t -1
+Simple counting experiment
+imax 1  number of channels
+jmax 1  number of backgrounds
+kmax 0  number of nuisance parameters
+------------
+Observation 0
+------------
+bin b1 b1
+process S   B
+process 0   1 
+# enhanced_v8p2 
+rate    1.56   20
+------------ 
