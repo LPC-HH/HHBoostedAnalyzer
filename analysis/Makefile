@@ -15,7 +15,7 @@ TARGET3 = MakeAlphabetInputs
 SRC  = PlotROC.cc
 SRC1 = SelectHHTo4B_PNet.cc
 SRC2 = SelectHHTo4B_OptimizeCuts.cc
-SRC3 = app/MakeAlphabetInputs.cc src/tree.cc
+SRC3 = app/SelectHHTo4B_PassFailAlphabet.cc
 
 OBJ  = $(SRC:.cc=.o)
 OBJ1 = $(SRC1:.cc=.o)
