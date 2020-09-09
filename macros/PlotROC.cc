@@ -36,7 +36,7 @@ bool AddCMS( TCanvas* C );
 int main(int argc, char** argv )
 {
   //TFile* f_bkg    = new TFile("/Users/cmorgoth/git/HHLooper/python/xgboost/data/v7/combined/2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_BDTs.root", "READ");
-  TFile* f_bkg    = new TFile("/Users/cmorgoth/git/HHLooper/python/xgboost/data/v7/combined/2017/QCD_HT_ALL_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Mass30Skim_BDTs_BDTs_v2.root", "READ");
+  TFile* f_bkg    = new TFile("/Users/cmorgoth/git/HHLooper/python/xgboost/data/v7/combined/2017/QCD_HT_ALL_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Mass30Skim_BDTs.root", "READ");
   TTree* tree_bkg = (TTree*)f_bkg->Get("tree");
 
   float weight;
@@ -72,8 +72,7 @@ int main(int argc, char** argv )
   tree_bkg->SetBranchAddress("fatJet2PNetXbb",&fatJet2PNetXbb);
   tree_bkg->SetBranchAddress("disc_qcd_2017_basic0",&disc_qcd_2017_basic0);
   tree_bkg->SetBranchAddress("disc_qcd_2017_basic1",&disc_qcd_2017_basic1);
-  //tree_bkg->SetBranchAddress("disc_qcd_2017_basic2",&disc_qcd_2017_basic2);
-  tree_bkg->SetBranchAddress("disc_qcd_2017_enhanced_v2",&disc_qcd_2017_basic2);
+  tree_bkg->SetBranchAddress("disc_qcd_2017_basic2",&disc_qcd_2017_basic2);
   tree_bkg->SetBranchAddress("disc_qcd_2017_enhanced",&disc_qcd_2017_enhanced);
   tree_bkg->SetBranchAddress("disc_ttbar_2017_basic0",&disc_ttbar_2017_basic0);
   tree_bkg->SetBranchAddress("disc_ttbar_2017_basic1",&disc_ttbar_2017_basic1);
@@ -110,7 +109,7 @@ int main(int argc, char** argv )
     if( fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 ) h_disc_qcd_2017_basic0_bkg_pnet->Fill(disc_qcd_2017_basic0,my_weight);
     h_disc_qcd_2017_basic1_bkg->Fill(disc_qcd_2017_basic1,my_weight);
     if( fatJet2PNetXbb > 0.975 ) h_disc_qcd_2017_basic1_bkg_pnet->Fill(disc_qcd_2017_basic1,my_weight);
-    if( fatJet2PNetXbb > 0.975 ) h_disc_qcd_2017_basic2_bkg->Fill(disc_qcd_2017_basic2,my_weight);
+    h_disc_qcd_2017_basic2_bkg->Fill(disc_qcd_2017_basic2,my_weight);
     h_disc_qcd_2017_enhanced_bkg->Fill(disc_qcd_2017_enhanced,my_weight);
   }
 
@@ -123,7 +122,7 @@ int main(int argc, char** argv )
   //---------------------------
   //signal
   //---------------------------
-  TFile* f_signal    = new TFile("/Users/cmorgoth/git/HHLooper/python/xgboost/data/v7/combined/2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_BDTs_BDTs_v2.root", "READ");
+  TFile* f_signal    = new TFile("/Users/cmorgoth/git/HHLooper/python/xgboost/data/v7/combined/2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_BDTs.root", "READ");
   TTree* tree_signal = (TTree*)f_signal->Get("tree");
 
   tree_signal->SetBranchAddress("weight",&weight);
@@ -138,8 +137,7 @@ int main(int argc, char** argv )
   tree_signal->SetBranchAddress("fatJet2PNetXbb",&fatJet2PNetXbb);
   tree_signal->SetBranchAddress("disc_qcd_2017_basic0",&disc_qcd_2017_basic0);
   tree_signal->SetBranchAddress("disc_qcd_2017_basic1",&disc_qcd_2017_basic1);
-  //tree_signal->SetBranchAddress("disc_qcd_2017_basic2",&disc_qcd_2017_basic2);
-  tree_signal->SetBranchAddress("disc_qcd_2017_enhanced_v2",&disc_qcd_2017_basic2);
+  tree_signal->SetBranchAddress("disc_qcd_2017_basic2",&disc_qcd_2017_basic2);
   tree_signal->SetBranchAddress("disc_qcd_2017_enhanced",&disc_qcd_2017_enhanced);
   tree_signal->SetBranchAddress("disc_ttbar_2017_basic0",&disc_ttbar_2017_basic0);
   tree_signal->SetBranchAddress("disc_ttbar_2017_basic1",&disc_ttbar_2017_basic1);
@@ -175,7 +173,7 @@ int main(int argc, char** argv )
     if( fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 ) h_disc_qcd_2017_basic0_signal_pnet->Fill(disc_qcd_2017_basic0,my_weight);
     h_disc_qcd_2017_basic1_signal->Fill(disc_qcd_2017_basic1,my_weight);
     if( fatJet2PNetXbb > 0.975 ) h_disc_qcd_2017_basic1_signal_pnet->Fill(disc_qcd_2017_basic1,my_weight);
-    if( fatJet2PNetXbb > 0.975 ) h_disc_qcd_2017_basic2_signal->Fill(disc_qcd_2017_basic2,my_weight);
+    h_disc_qcd_2017_basic2_signal->Fill(disc_qcd_2017_basic2,my_weight);
     h_disc_qcd_2017_enhanced_signal->Fill(disc_qcd_2017_enhanced,my_weight);
   }
 
@@ -205,7 +203,7 @@ int main(int argc, char** argv )
     eff_disc_qcd_2017_basic0_signal_pnet[i-1] = h_disc_qcd_2017_basic0_signal_pnet->Integral(i,n_bins)/h_disc_qcd_2017_basic0_signal->Integral();
     eff_disc_qcd_2017_basic1_signal[i-1]      = h_disc_qcd_2017_basic1_signal->Integral(i,n_bins)/h_disc_qcd_2017_basic1_signal->Integral();
     eff_disc_qcd_2017_basic1_signal_pnet[i-1] = h_disc_qcd_2017_basic1_signal_pnet->Integral(i,n_bins)/h_disc_qcd_2017_basic1_signal->Integral();
-    eff_disc_qcd_2017_basic2_signal[i-1]      = h_disc_qcd_2017_basic2_signal->Integral(i,n_bins)/h_disc_qcd_2017_basic0_signal->Integral();
+    eff_disc_qcd_2017_basic2_signal[i-1]      = h_disc_qcd_2017_basic1_signal->Integral(i,n_bins)/h_disc_qcd_2017_basic2_signal->Integral();
     eff_disc_qcd_2017_enhanced_signal[i-1]    = h_disc_qcd_2017_enhanced_signal->Integral(i,n_bins)/h_disc_qcd_2017_enhanced_signal->Integral();
 
 
@@ -213,7 +211,7 @@ int main(int argc, char** argv )
     eff_disc_qcd_2017_basic0_bkg_pnet[i-1]    = h_disc_qcd_2017_basic0_bkg_pnet->Integral(i,n_bins)/h_disc_qcd_2017_basic0_bkg->Integral();
     eff_disc_qcd_2017_basic1_bkg[i-1]         = h_disc_qcd_2017_basic1_bkg->Integral(i,n_bins)/h_disc_qcd_2017_basic1_bkg->Integral();
     eff_disc_qcd_2017_basic1_bkg_pnet[i-1]    = h_disc_qcd_2017_basic1_bkg_pnet->Integral(i,n_bins)/h_disc_qcd_2017_basic1_bkg->Integral();
-    eff_disc_qcd_2017_basic2_bkg[i-1]         = h_disc_qcd_2017_basic2_bkg->Integral(i,n_bins)/h_disc_qcd_2017_basic0_bkg->Integral();
+    eff_disc_qcd_2017_basic2_bkg[i-1]         = h_disc_qcd_2017_basic2_bkg->Integral(i,n_bins)/h_disc_qcd_2017_basic2_bkg->Integral();
     eff_disc_qcd_2017_enhanced_bkg[i-1]       = h_disc_qcd_2017_enhanced_bkg->Integral(i,n_bins)/h_disc_qcd_2017_enhanced_bkg->Integral();
     //std::cout << "signalEFF: " << eff_disc_qcd_2017_basic0_signal[i-1] << " bkgEFF: " << eff_disc_qcd_2017_basic0_bkg[i-1] << std::endl;
   }
@@ -269,32 +267,17 @@ int main(int argc, char** argv )
   roc_disc_qcd_2017_basic0->Draw("AL");
   roc_disc_qcd_2017_basic0->GetYaxis()->SetLimits(0,1.1);
   roc_disc_qcd_2017_basic0->GetXaxis()->SetLimits(1e-5,1.0);
-  //roc_disc_qcd_2017_basic0->Draw("AL");
-  //roc_disc_qcd_2017_basic1->Draw("L");
-
-  roc_disc_qcd_2017_basic2->SetLineWidth(3);
-  roc_disc_qcd_2017_basic2->SetLineStyle(2);
-
-  roc_disc_qcd_2017_basic2->SetTitle("");
-  roc_disc_qcd_2017_basic2->GetXaxis()->SetTitleSize(0.05);
-  roc_disc_qcd_2017_basic2->GetXaxis()->SetTitle("Background efficiency");
-  roc_disc_qcd_2017_basic2->GetYaxis()->SetTitleSize(0.05);
-
-  roc_disc_qcd_2017_basic2->SetMaximum(1.1);
-  roc_disc_qcd_2017_basic2->GetYaxis()->CenterTitle(kTRUE);
-  roc_disc_qcd_2017_basic2->GetYaxis()->SetTitle("Signal efficiency");
-  roc_disc_qcd_2017_basic2->Draw("AL");
-  roc_disc_qcd_2017_basic2->GetYaxis()->SetLimits(0,1.1);
-  roc_disc_qcd_2017_basic2->GetXaxis()->SetLimits(1e-5,1.0);
-  roc_disc_qcd_2017_basic2->Draw("AL");
-  //roc_disc_qcd_2017_enhanced->Draw("L");
+  roc_disc_qcd_2017_basic0->Draw("AL");
+  roc_disc_qcd_2017_basic1->Draw("L");
+  roc_disc_qcd_2017_basic2->Draw("L");
+  roc_disc_qcd_2017_enhanced->Draw("L");
   cut_based->Draw("P");
 
   AddCMS(c);
   c->Update();
   c->SetLogx();
   c->SetGrid();
-  c->SaveAs("roc_disc_qcd_2017_basic0_v2.pdf");
+  c->SaveAs("roc_disc_qcd_2017_basic0.pdf");
 
 
   f_bkg->Close();

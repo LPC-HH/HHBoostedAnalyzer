@@ -8,21 +8,15 @@ LDFLAGS := $(LDFLAGS) $(shell root-config --glibs) -lMathMore
 CPPFLAGS += -g -Wall -Wextra -Wno-sign-compare
 
 TARGET  = PlotROC
-TARGET1 = SelectHHTo4B_PNet
-TARGET2 = SelectHHTo4B_OptimizeCuts
-TARGET3 = MakeAlphabetInputs
+TARGET1  = SelectHHTo4B_PNet
 
 SRC  = PlotROC.cc
-SRC1 = SelectHHTo4B_PNet.cc
-SRC2 = SelectHHTo4B_OptimizeCuts.cc
-SRC3 = app/MakeAlphabetInputs.cc src/tree.cc
+SRC1 = SelectHHTo4B_PNet.C
 
 OBJ  = $(SRC:.cc=.o)
-OBJ1 = $(SRC1:.cc=.o)
-OBJ2 = $(SRC2:.cc=.o)
-OBJ3 = $(SRC3:.cc=.o)
+OBJ1 = $(SRC1:.C=.o)
 
-all : $(TARGET) $(TARGET1) $(TARGET2) $(TARGET3)
+all : $(TARGET) $(TARGET1)
 
 $(TARGET) : $(OBJ)
 	$(LD) $(CPPFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
@@ -36,18 +30,18 @@ $(TARGET1) : $(OBJ1)
 	@echo $<
 	@echo $^
 
-$(TARGET2) : $(OBJ2)
-	$(LD) $(CPPFLAGS) -o $(TARGET2) $(OBJ2) $(LDFLAGS)
-	@echo $@
-	@echo $<
-	@echo $^
-
-$(TARGET3) : $(OBJ3)
-	$(LD) $(CPPFLAGS) -o $(TARGET3) $(OBJ3) $(LDFLAGS)
-	@echo $@
-	@echo $<
-	@echo $^
-
+# $(TARGET2) : $(OBJ2)
+# 	$(LD) $(CPPFLAGS) -o $(TARGET2) $(OBJ2) $(LDFLAGS)
+# 	@echo $@
+# 	@echo $<
+# 	@echo $^
+#
+# $(TARGET3) : $(OBJ3)
+# 	$(LD) $(CPPFLAGS) -o $(TARGET3) $(OBJ3) $(LDFLAGS)
+# 	@echo $@
+# 	@echo $<
+# 	@echo $^
+#
 # $(TARGET4) : $(OBJ4)
 # 	$(LD) $(CPPFLAGS) -o $(TARGET4) $(OBJ4) $(LDFLAGS)
 # 	@echo $@
@@ -78,4 +72,4 @@ $(TARGET3) : $(OBJ3)
 	@echo $<
 
 clean :
-	rm -f *.o $(TARGET) $(TARGET1) $(TARGET2) $(TARGET3) *~
+	rm -f *.o $(TARGET) $(TARGET1) *~

@@ -125,7 +125,7 @@ std::vector<std::pair<double,double> > RunSelectHHTo4B(  std::vector<std::vector
   //--------------------------------------------------------------------------------------------------------------
   // Settings
   //==============================================================================================================
-  assert(cutSets.size() == 20);
+  assert(cutSets.size() == 50);
 
   //*****************************************************************************************
   //Make some histograms
@@ -537,8 +537,9 @@ void SelectHHTo4B_OptimizeCuts(int option = 0) {
   //enhanced_qcd_and_ttbar > 0.77 : Sig = 1.91204 , Bkg = 38 | Exp Limit = 6.44801
 
 
-  for (int i=0; i<20; i++) {
-    double cut = 0.7 + i * ( 0.01);
+  for (int i=0; i<50; i++) {
+    //double cut = 0.7 + i * ( 0.01);//original
+		double cut = 0.6 + i * ( 0.01);//original
     // cutSets.push_back( makeCutSet( -999, -999, -999, -999, -999, 999, cut, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999 ) );
     // cutSets.push_back( makeCutSet( -999, -999, -999, -999, -999, 999, -999, -999, -999 , cut, -999, -999, -999, -999, -999, -999, -999, -999 ) );
     cutSets.push_back( makeCutSet( -999, -999, -999, -999, -999, 999, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, cut ) );
