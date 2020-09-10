@@ -290,6 +290,9 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
   //*****************************************************************************************
   //Make some histograms
   //*****************************************************************************************
+  //------------------------
+  //pass histograms
+  //------------------------
   std::vector<TH1D*> histMET;
   std::vector<TH1D*> histNLeptons;
   std::vector<TH1D*> histNJetsHaveLeptons;
@@ -305,6 +308,24 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
   std::vector<TH1D*> histJet2Tau3OverTau2;
   std::vector<TH1D*> histHHPt;
   std::vector<TH1D*> histHHMass;
+  //-------------------
+  //fail histograms
+  //-------------------
+  std::vector<TH1D*> histMET_fail;
+  std::vector<TH1D*> histNLeptons_fail;
+  std::vector<TH1D*> histNJetsHaveLeptons_fail;
+  std::vector<TH1D*> histJet1Mass_fail;
+  std::vector<TH1D*> histJet1Pt_fail;
+  std::vector<TH1D*> histJet1DDB_fail;
+  std::vector<TH1D*> histJet1PNetXbb_fail;
+  std::vector<TH1D*> histJet1Tau3OverTau2_fail;
+  std::vector<TH1D*> histJet2Mass_fail;
+  std::vector<TH1D*> histJet2Pt_fail;
+  std::vector<TH1D*> histJet2DDB_fail;
+  std::vector<TH1D*> histJet2PNetXbb_fail;
+  std::vector<TH1D*> histJet2Tau3OverTau2_fail;
+  std::vector<TH1D*> histHHPt_fail;
+  std::vector<TH1D*> histHHMass_fail;
 
   assert (inputfiles.size() == processLabels.size());
   for (uint i=0; i < inputfiles.size(); ++i) {
@@ -340,12 +361,48 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
     histJet2Tau3OverTau2[i]->Sumw2();
     histHHPt[i]->Sumw2();
     histHHMass[i]->Sumw2();
+
+    //---------------
+    //fail histograms
+    //---------------
+    histMET_fail.push_back(new TH1D(Form("histMET_fail_%s",processLabels[i].c_str()), "; MET [GeV] ; Number of Events", 25, 0, 200));
+    histNLeptons_fail.push_back(new TH1D(Form("histNLeptons_fail_%s",processLabels[i].c_str()), "; NLeptons ; Number of Events", 10, -0.5, 9.5));
+    histNJetsHaveLeptons_fail.push_back(new TH1D(Form("histNJetsHaveLeptons_fail_%s",processLabels[i].c_str()), "; NJetsHaveLeptons ; Number of Events", 3, -0.5, 2.5));
+    histJet1Mass_fail.push_back(new TH1D(Form("histJet1Mass_fail_%s",processLabels[i].c_str()), "; Jet1 Mass [GeV] ; Number of Events", 25, 0, 500));
+    histJet1Pt_fail.push_back(new TH1D(Form("histJet1Pt_fail_%s",processLabels[i].c_str()), "; Jet1 p_{T} [GeV] ; Number of Events", 25, 0, 2000));
+    histJet1DDB_fail.push_back(new TH1D(Form("histJet1DDB_fail_%s",processLabels[i].c_str()), "; Jet1 DDB ; Number of Events", 25, 0, 1.0));
+    histJet1PNetXbb_fail.push_back(new TH1D(Form("histJet1PNetXbb_fail_%s",processLabels[i].c_str()), "; Jet1 PNetXbb ; Number of Events", 25, 0, 1.0));
+    histJet1Tau3OverTau2_fail.push_back(new TH1D(Form("histJet1Tau3OverTau2_fail_%s",processLabels[i].c_str()), "; Jet1 Tau3OverTau2 ; Number of Events", 25, 0, 1.0));
+    histJet2Mass_fail.push_back(new TH1D(Form("histJet2Mass_fail_%s",processLabels[i].c_str()), "; Jet2 Mass [GeV] ; Number of Events", 25, 15, 515));
+    histJet2Pt_fail.push_back(new TH1D(Form("histJet2Pt_fail_%s",processLabels[i].c_str()), "; Jet2 p_{T} [GeV] ; Number of Events", 25, 0, 1000));
+    histJet2DDB_fail.push_back(new TH1D(Form("histJet1DDB_fail_%s",processLabels[i].c_str()), "; Jet2 DDB ; Number of Events", 25, 0, 1.0));
+    histJet2PNetXbb_fail.push_back(new TH1D(Form("histJet2PNetXbb_fail_%s",processLabels[i].c_str()), "; Jet2 PNetXbb ; Number of Events", 25, 0, 1.0));
+    histJet2Tau3OverTau2_fail.push_back(new TH1D(Form("histJet1Tau3OverTau2_fail_%s",processLabels[i].c_str()), "; Jet2 Tau3OverTau2 ; Number of Events", 25, 0, 1.0));
+    histHHPt_fail.push_back(new TH1D(Form("histHHPt_fail_%s",processLabels[i].c_str()), "; HH p_{T} [GeV] ; Number of Events", 25, 0, 1000));
+    histHHMass_fail.push_back(new TH1D(Form("histHHMass_fail_%s",processLabels[i].c_str()), "; m_{HH} [GeV] ; Number of Events", 25, 0, 2000));
+
+
+    histMET_fail[i]->Sumw2();
+    histNLeptons_fail[i]->Sumw2();
+    histNJetsHaveLeptons_fail[i]->Sumw2();
+    histJet1Mass_fail[i]->Sumw2();
+    histJet1Pt_fail[i]->Sumw2();
+    histJet1DDB_fail[i]->Sumw2();
+    histJet1PNetXbb_fail[i]->Sumw2();
+    histJet1Tau3OverTau2_fail[i]->Sumw2();
+    histJet2Mass_fail[i]->Sumw2();
+    histJet2Pt_fail[i]->Sumw2();
+    histJet2DDB_fail[i]->Sumw2();
+    histJet2PNetXbb_fail[i]->Sumw2();
+    histJet2Tau3OverTau2_fail[i]->Sumw2();
+    histHHPt_fail[i]->Sumw2();
+    histHHMass_fail[i]->Sumw2();
   }
 
-  double dataYield = 0;
-  double BkgYield = 0;
-  double SignalYield = 0;
-
+  double dataYield        = 0;
+  double BkgYield         = 0;
+  double SignalYield      = 0;
+  double SignalYield_fail = 0;
 
   //*******************************************************************************************
   //Loop over all input processes
@@ -719,9 +776,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  //SR selection
 	  if (channelOption == 1) {
 
-	    // //Best 3-bin analysis - Bin1
-	    if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.23) ) continue;
-	    if ( !(fatJet2PNetXbb > 0.985)) continue;
+
 
 	    //Best 3-bin analysis - Bin2
 	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.023) ) continue;
@@ -750,65 +805,161 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    // if ( !(fatJet1MassSD > 100 && fatJet1MassSD < 140)) continue;
 
 	    //blind the data
-	    if (isData) {if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) continue;}
-	  }
+      //if data process will just skipp filling the histograms
 
+      // //Best 3-bin analysis - Bin1
+	    //if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.23) ) continue;
+	    //if ( !(fatJet2PNetXbb > 0.985)) continue;
 
-	  //******************************
-	  //Fill histograms
-	  //******************************
-	  int NJetsHaveLeptons = 0;
-	  if (fatJet1HasMuon || fatJet1HasElectron) NJetsHaveLeptons++;
-	  if (fatJet2HasMuon || fatJet2HasElectron) NJetsHaveLeptons++;
-
-	  if (isData) {
-	    if ( (fatJet2MassSD > 75 && fatJet2MassSD <= 95) ||
-		 (fatJet2MassSD >= 135 && fatJet2MassSD < 155)
-		 ) {
-	      BkgYield += 1.0;
-	    }
-
-	    dataYield += 1.0;
-	    histMET[i]->Fill(MET);
-	    histNLeptons[i]->Fill(0.0);
-	    histNJetsHaveLeptons[i]->Fill(NJetsHaveLeptons);
-	    histJet1Mass[i]->Fill(fatJet1MassSD);
-	    histJet1Pt[i]->Fill(fatJet1Pt);
-	    histJet1DDB[i]->Fill(fatJet1DDBTagger);
-	    histJet1PNetXbb[i]->Fill(fatJet1PNetXbb);
-	    histJet1Tau3OverTau2[i]->Fill(fatJet1Tau3OverTau2);
-	    histJet2Mass[i]->Fill(fatJet2MassSD);
-	    histJet2Pt[i]->Fill(fatJet2Pt);
-	    histJet2DDB[i]->Fill(fatJet2DDBTagger);
-	    histJet2PNetXbb[i]->Fill(fatJet2PNetXbb);
-	    histJet2Tau3OverTau2[i]->Fill(fatJet2Tau3OverTau2);
-	    histHHPt[i]->Fill(hh_pt);
-	    histHHMass[i]->Fill(hh_mass);
-	  } else {
-
-	    if (processLabels[i] == "HH") {
-	      if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
-		SignalYield += myWeight;
-	      }
-	    } else {
-	      //MCYield += myWeight;
-	    }
-	    histMET[i]->Fill(MET, myWeight);
-	    histNLeptons[i]->Fill(0.0, myWeight);
-	    histNJetsHaveLeptons[i]->Fill(NJetsHaveLeptons, myWeight);
-	    histJet1Mass[i]->Fill(fatJet1MassSD, myWeight);
-	    histJet1Pt[i]->Fill(fatJet1Pt, myWeight);
-	    histJet1DDB[i]->Fill(fatJet1DDBTagger, myWeight);
-	    histJet1PNetXbb[i]->Fill(fatJet1PNetXbb, myWeight);
-	    histJet1Tau3OverTau2[i]->Fill(fatJet1Tau3OverTau2, myWeight);
-	    histJet2Mass[i]->Fill(fatJet2MassSD, myWeight);
-	    histJet2Pt[i]->Fill(fatJet2Pt, myWeight);
-	    histJet2DDB[i]->Fill(fatJet2DDBTagger, myWeight);
-	    histJet2PNetXbb[i]->Fill(fatJet2PNetXbb, myWeight);
-	    histJet2Tau3OverTau2[i]->Fill(fatJet2Tau3OverTau2, myWeight);
-	    histHHPt[i]->Fill(hh_pt, myWeight);
-	    histHHMass[i]->Fill(hh_mass, myWeight);
-	  }
+      //-------------------------
+      //pass requirements
+      //-------------------------
+      if ( disc_qcd_and_ttbar_2017_enhanced_v8 > 0.23 && fatJet2PNetXbb > 0.985 )
+      {
+        if (isData)
+        {
+          if (fatJet2MassSD > 95 && fatJet2MassSD < 135)
+          {
+            histMET[i]->Fill(MET);
+      	    histNLeptons[i]->Fill(0.0);
+      	    //histNJetsHaveLeptons[i]->Fill(NJetsHaveLeptons);
+      	    histJet1Mass[i]->Fill(fatJet1MassSD);
+      	    histJet1Pt[i]->Fill(fatJet1Pt);
+      	    histJet1DDB[i]->Fill(fatJet1DDBTagger);
+      	    histJet1PNetXbb[i]->Fill(fatJet1PNetXbb);
+      	    histJet1Tau3OverTau2[i]->Fill(fatJet1Tau3OverTau2);
+      	    //histJet2Mass[i]->Fill(fatJet2MassSD);
+      	    histJet2Pt[i]->Fill(fatJet2Pt);
+      	    histJet2DDB[i]->Fill(fatJet2DDBTagger);
+      	    histJet2PNetXbb[i]->Fill(fatJet2PNetXbb);
+      	    histJet2Tau3OverTau2[i]->Fill(fatJet2Tau3OverTau2);
+      	    histHHPt[i]->Fill(hh_pt);
+      	    histHHMass[i]->Fill(hh_mass);
+          }
+          else
+          {
+            histMET[i]->Fill(MET);
+      	    histNLeptons[i]->Fill(0.0);
+      	    //histNJetsHaveLeptons[i]->Fill(NJetsHaveLeptons);
+      	    histJet1Mass[i]->Fill(fatJet1MassSD);
+      	    histJet1Pt[i]->Fill(fatJet1Pt);
+      	    histJet1DDB[i]->Fill(fatJet1DDBTagger);
+      	    histJet1PNetXbb[i]->Fill(fatJet1PNetXbb);
+      	    histJet1Tau3OverTau2[i]->Fill(fatJet1Tau3OverTau2);
+      	    histJet2Mass[i]->Fill(fatJet2MassSD);
+      	    histJet2Pt[i]->Fill(fatJet2Pt);
+      	    histJet2DDB[i]->Fill(fatJet2DDBTagger);
+      	    histJet2PNetXbb[i]->Fill(fatJet2PNetXbb);
+      	    histJet2Tau3OverTau2[i]->Fill(fatJet2Tau3OverTau2);
+      	    histHHPt[i]->Fill(hh_pt);
+      	    histHHMass[i]->Fill(hh_mass);
+          }
+        }
+        else
+        {
+          if (processLabels[i] == "HH")
+          {
+            if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135))
+            {
+              SignalYield += myWeight;
+            }
+    	    }
+          else
+          {
+    	      //MCYield += myWeight;//nothing done here
+    	    }
+    	    histMET[i]->Fill(MET, myWeight);
+    	    histNLeptons[i]->Fill(0.0, myWeight);
+    	    //histNJetsHaveLeptons[i]->Fill(NJetsHaveLeptons, myWeight);
+    	    histJet1Mass[i]->Fill(fatJet1MassSD, myWeight);
+    	    histJet1Pt[i]->Fill(fatJet1Pt, myWeight);
+    	    histJet1DDB[i]->Fill(fatJet1DDBTagger, myWeight);
+    	    histJet1PNetXbb[i]->Fill(fatJet1PNetXbb, myWeight);
+    	    histJet1Tau3OverTau2[i]->Fill(fatJet1Tau3OverTau2, myWeight);
+    	    histJet2Mass[i]->Fill(fatJet2MassSD, myWeight);
+    	    histJet2Pt[i]->Fill(fatJet2Pt, myWeight);
+    	    histJet2DDB[i]->Fill(fatJet2DDBTagger, myWeight);
+    	    histJet2PNetXbb[i]->Fill(fatJet2PNetXbb, myWeight);
+    	    histJet2Tau3OverTau2[i]->Fill(fatJet2Tau3OverTau2, myWeight);
+    	    histHHPt[i]->Fill(hh_pt, myWeight);
+    	    histHHMass[i]->Fill(hh_mass, myWeight);
+        }
+      }//end pass section
+      //------------------
+      //begin fail section
+      //------------------
+      else if( disc_qcd_and_ttbar_2017_enhanced_v8 > 0.23 && fatJet2PNetXbb <= 0.985 )
+      {
+        if (isData)
+        {
+          if (fatJet2MassSD > 95 && fatJet2MassSD < 135)
+          {
+            histMET_fail[i]->Fill(MET);
+      	    histNLeptons_fail[i]->Fill(0.0);
+      	    //histNJetsHaveLeptons_fail[i]->Fill(NJetsHaveLeptons);
+      	    histJet1Mass_fail[i]->Fill(fatJet1MassSD);
+      	    histJet1Pt_fail[i]->Fill(fatJet1Pt);
+      	    histJet1DDB_fail[i]->Fill(fatJet1DDBTagger);
+      	    histJet1PNetXbb_fail[i]->Fill(fatJet1PNetXbb);
+      	    histJet1Tau3OverTau2_fail[i]->Fill(fatJet1Tau3OverTau2);
+      	    //histJet2Mass_fail[i]->Fill(fatJet2MassSD);
+      	    histJet2Pt_fail[i]->Fill(fatJet2Pt);
+      	    histJet2DDB_fail[i]->Fill(fatJet2DDBTagger);
+      	    histJet2PNetXbb_fail[i]->Fill(fatJet2PNetXbb);
+      	    histJet2Tau3OverTau2_fail[i]->Fill(fatJet2Tau3OverTau2);
+      	    histHHPt_fail[i]->Fill(hh_pt);
+      	    histHHMass_fail[i]->Fill(hh_mass);
+          }
+          else
+          {
+            histMET_fail[i]->Fill(MET);
+      	    histNLeptons_fail[i]->Fill(0.0);
+      	    //histNJetsHaveLeptons_fail[i]->Fill(NJetsHaveLeptons);
+      	    histJet1Mass_fail[i]->Fill(fatJet1MassSD);
+      	    histJet1Pt_fail[i]->Fill(fatJet1Pt);
+      	    histJet1DDB_fail[i]->Fill(fatJet1DDBTagger);
+      	    histJet1PNetXbb_fail[i]->Fill(fatJet1PNetXbb);
+      	    histJet1Tau3OverTau2_fail[i]->Fill(fatJet1Tau3OverTau2);
+      	    histJet2Mass_fail[i]->Fill(fatJet2MassSD);
+      	    histJet2Pt_fail[i]->Fill(fatJet2Pt);
+      	    histJet2DDB_fail[i]->Fill(fatJet2DDBTagger);
+      	    histJet2PNetXbb_fail[i]->Fill(fatJet2PNetXbb);
+      	    histJet2Tau3OverTau2_fail[i]->Fill(fatJet2Tau3OverTau2);
+      	    histHHPt_fail[i]->Fill(hh_pt);
+      	    histHHMass_fail[i]->Fill(hh_mass);
+          }
+        }
+        else
+        {
+          if (processLabels[i] == "HH")
+          {
+            if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135))
+            {
+              SignalYield_fail += myWeight;
+            }
+    	    }
+          else
+          {
+    	      //MCYield += myWeight;//nothing done here
+    	    }
+    	    histMET_fail[i]->Fill(MET, myWeight);
+    	    histNLeptons_fail[i]->Fill(0.0, myWeight);
+    	    //histNJetsHaveLeptons_fail[i]->Fill(NJetsHaveLeptons, myWeight);
+    	    histJet1Mass_fail[i]->Fill(fatJet1MassSD, myWeight);
+    	    histJet1Pt_fail[i]->Fill(fatJet1Pt, myWeight);
+    	    histJet1DDB_fail[i]->Fill(fatJet1DDBTagger, myWeight);
+    	    histJet1PNetXbb_fail[i]->Fill(fatJet1PNetXbb, myWeight);
+    	    histJet1Tau3OverTau2_fail[i]->Fill(fatJet1Tau3OverTau2, myWeight);
+    	    histJet2Mass_fail[i]->Fill(fatJet2MassSD, myWeight);
+    	    histJet2Pt_fail[i]->Fill(fatJet2Pt, myWeight);
+    	    histJet2DDB_fail[i]->Fill(fatJet2DDBTagger, myWeight);
+    	    histJet2PNetXbb_fail[i]->Fill(fatJet2PNetXbb, myWeight);
+    	    histJet2Tau3OverTau2_fail[i]->Fill(fatJet2Tau3OverTau2, myWeight);
+    	    histHHPt_fail[i]->Fill(hh_pt, myWeight);
+    	    histHHMass_fail[i]->Fill(hh_mass, myWeight);
+        }
+      }
+	  }//pass-fail section
 	} //loop over events
       } //loop over input files
     } //loop over dataset year
@@ -830,7 +981,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
   //*******************************************************************************************
   PlotDataAndStackedBkg( histMET, processLabels, color, true, "MET", totalLumi, Label);
   PlotDataAndStackedBkg( histNLeptons, processLabels, color, true, "NLeptons", totalLumi, Label);
-  PlotDataAndStackedBkg( histNJetsHaveLeptons, processLabels, color, true, "NJetsHaveLeptons", totalLumi, Label);
+  //PlotDataAndStackedBkg( histNJetsHaveLeptons, processLabels, color, true, "NJetsHaveLeptons", totalLumi, Label);
   PlotDataAndStackedBkg( histJet1Mass, processLabels, color, true, "Jet1_Mass", totalLumi, Label);
   PlotDataAndStackedBkg( histJet1Pt, processLabels, color, true, "Jet1_Pt", totalLumi, Label);
   PlotDataAndStackedBkg( histJet1DDB, processLabels, color, true, "Jet1_DDB", totalLumi, Label);
@@ -868,6 +1019,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
     file->WriteTObject(histJet2Pt[i], Form("histJet2Pt_%s",processLabels[i].c_str()), "WriteDelete");
     file->WriteTObject(histNJetsHaveLeptons[i], Form("histNJetsHaveLeptons_%s",processLabels[i].c_str()), "WriteDelete");
     file->WriteTObject(histMET[i], Form("histMET_%s",processLabels[i].c_str()), "WriteDelete");
+    //fail histograms
+    file->WriteTObject(histJet2Mass_fail[i], Form("histJet2Mass_%s_fail",processLabels[i].c_str()), "WriteDelete");
   }
 
   file->Close();
