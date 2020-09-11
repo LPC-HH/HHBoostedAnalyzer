@@ -111,6 +111,12 @@ void ComputePileupWeights() {
   MCPileupFiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2016/WW_TuneCUETP8M1_13TeV-pythia8-combined.root");
   MCPileupFiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2016/WZ_TuneCUETP8M1_13TeV-pythia8-combined.root");
   MCPileupFiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2016/ZZ_TuneCUETP8M1_13TeV-pythia8-combined.root");
+  MCPileupFiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2016/WJetsToQQ_HT400to600_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2016/WJetsToQQ_HT600to800_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2016/WJetsToQQ_HT-800toInf_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2016/ZJetsToQQ_HT400to600_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2016/ZJetsToQQ_HT600to800_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2016/ZJetsToQQ_HT-800toInf_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
 
 
   MCSamples_2016.push_back("GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8");
@@ -144,6 +150,12 @@ void ComputePileupWeights() {
   MCSamples_2016.push_back("WW_TuneCUETP8M1_13TeV-pythia8-combined");
   MCSamples_2016.push_back("WZ_TuneCUETP8M1_13TeV-pythia8-combined");
   MCSamples_2016.push_back("ZZ_TuneCUETP8M1_13TeV-pythia8-combined");
+  MCSamples_2016.push_back("WJetsToQQ_HT400to600_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8");
+  MCSamples_2016.push_back("WJetsToQQ_HT600to800_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8");
+  MCSamples_2016.push_back("WJetsToQQ_HT-800toInf_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8");
+  MCSamples_2016.push_back("ZJetsToQQ_HT400to600_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8");
+  MCSamples_2016.push_back("ZJetsToQQ_HT600to800_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8");
+  MCSamples_2016.push_back("ZJetsToQQ_HT-800toInf_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8");
 
 
 
@@ -179,6 +191,12 @@ void ComputePileupWeights() {
   MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/WW_TuneCP5_13TeV-pythia8.root");
   MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/WZ_TuneCP5_13TeV-pythia8.root");
   MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/ZZ_TuneCP5_13TeV-pythia8.root");
+  MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/WJetsToQQ_HT400to600_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/WJetsToQQ_HT600to800_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/WJetsToQQ_HT-800toInf_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/ZJetsToQQ_HT400to600_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/ZJetsToQQ_HT600to800_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/ZJetsToQQ_HT-800toInf_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
 
 
   MCSamples_2017.push_back("GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8");
@@ -210,6 +228,12 @@ void ComputePileupWeights() {
   MCSamples_2017.push_back("WW_TuneCP5_13TeV-pythia8");
   MCSamples_2017.push_back("WZ_TuneCP5_13TeV-pythia8");
   MCSamples_2017.push_back("ZZ_TuneCP5_13TeV-pythia8");
+  MCSamples_2017.push_back("WJetsToQQ_HT400to600_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8");
+  MCSamples_2017.push_back("WJetsToQQ_HT600to800_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8");
+  MCSamples_2017.push_back("WJetsToQQ_HT-800toInf_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8");
+  MCSamples_2017.push_back("ZJetsToQQ_HT400to600_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8");
+  MCSamples_2017.push_back("ZJetsToQQ_HT600to800_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8");
+  MCSamples_2017.push_back("ZJetsToQQ_HT-800toInf_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8");
 
 
 
@@ -249,6 +273,12 @@ void ComputePileupWeights() {
   MCPileupFiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2018/WW_TuneCP5_13TeV-pythia8.root");
   MCPileupFiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2018/WZ_TuneCP5_13TeV-pythia8.root");
   MCPileupFiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2018/ZZ_TuneCP5_13TeV-pythia8.root");
+  MCPileupFiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2018/WJetsToQQ_HT400to600_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2018/WJetsToQQ_HT600to800_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2018/WJetsToQQ_HT-800toInf_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2018/ZJetsToQQ_HT400to600_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2018/ZJetsToQQ_HT600to800_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+  MCPileupFiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2018/ZJetsToQQ_HT-800toInf_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
 
 
   MCSamples_2018.push_back("GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8");
@@ -281,6 +311,12 @@ void ComputePileupWeights() {
   MCSamples_2018.push_back("WW_TuneCP5_13TeV-pythia8");
   MCSamples_2018.push_back("WZ_TuneCP5_13TeV-pythia8");
   MCSamples_2018.push_back("ZZ_TuneCP5_13TeV-pythia8");
+  MCSamples_2018.push_back("WJetsToQQ_HT400to600_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8");
+  MCSamples_2018.push_back("WJetsToQQ_HT600to800_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8");
+  MCSamples_2018.push_back("WJetsToQQ_HT-800toInf_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8");
+  MCSamples_2018.push_back("ZJetsToQQ_HT400to600_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8");
+  MCSamples_2018.push_back("ZJetsToQQ_HT600to800_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8");
+  MCSamples_2018.push_back("ZJetsToQQ_HT-800toInf_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8");
 
   
 
