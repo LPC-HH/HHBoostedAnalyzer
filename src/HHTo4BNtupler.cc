@@ -844,7 +844,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //Fill Event - skim for events with two jets found
       //****************************************************
       if (Option == 0 || 
-	  (fatJet1Pt > 200 && fatJet2Pt > 200)
+	  (fatJet1Pt > 250 && fatJet2Pt > 250)
 	  ) {
 	
 	//****************************************************
@@ -871,6 +871,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 
 	if (Option==5) {
 	  if (!(fatJet1PNetXbb > 0.8)) continue;
+	  if (!(fatJet1MassSD > 50 && fatJet2MassSD > 50)) continue;
 	}
 	NEventsFilled++;            
 	outputTree->Fill();      
