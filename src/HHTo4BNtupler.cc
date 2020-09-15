@@ -562,14 +562,20 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       int fatJet2Index = -1;
       double tmpfatJet1Pt = -999;
       double tmpfatJet2Pt = -999;
+      double tmpfatJet1Tagger = -999;
+      double tmpfatJet2Tagger = -999;
       for(unsigned int i = 0; i < selectedFatJetIndices.size(); i++ ) {
-	if (FatJet_pt[selectedFatJetIndices[i]] > tmpfatJet1Pt) {
+	double fatJetTagger = FatJet_ParticleNetMD_probXbb[i]/(1.0 - FatJet_ParticleNetMD_probXcc[i] - FatJet_ParticleNetMD_probXqq[i]);
+	if (fatJetTagger > tmpfatJet1Tagger) {
 	  tmpfatJet2Pt = fatJet1Pt;
-	  fatJet2Index = fatJet1Index;
+	  tmpfatJet2Tagger = tmpfatJet1Tagger;
+	  fatJet2Index = fatJet1Index;	  
 	  tmpfatJet1Pt = FatJet_pt[selectedFatJetIndices[i]];
+	  tmpfatJet1Tagger = fatJetTagger;
 	  fatJet1Index = selectedFatJetIndices[i];
-	} else if (FatJet_pt[selectedFatJetIndices[i]] > tmpfatJet2Pt) {
+	} else if (fatJetTagger > tmpfatJet2Tagger) {
 	  tmpfatJet2Pt = FatJet_pt[selectedFatJetIndices[i]];
+	  tmpfatJet2Tagger = fatJetTagger;
 	  fatJet2Index = selectedFatJetIndices[i];
 	}
       }
@@ -579,13 +585,16 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //------------------------------------------------------
       int fatJet3Index = -1;
       double tmpfatJet3Pt = -999;
-      for(unsigned int i = 0; i < nFatJet; i++ ) {       
+      double tmpfatJet3Tagger = -999;
+      for(unsigned int i = 0; i < nFatJet; i++ ) {  
+	double fatJetTagger = FatJet_ParticleNetMD_probXbb[i]/(1.0 - FatJet_ParticleNetMD_probXcc[i] - FatJet_ParticleNetMD_probXqq[i]);
 	//Hbb fat jet pre-selection
 	if (FatJet_pt[i] < 100) continue;
 	if (i == fatJet1Index || i == fatJet2Index) continue;
-	if (FatJet_pt[i] > tmpfatJet3Pt) {
+	if (fatJetTagger > tmpfatJet3Tagger) {
 	  fatJet3Index = i;
 	  tmpfatJet3Pt = FatJet_pt[i];
+	  tmpfatJet3Tagger = fatJetTagger;
 	}
       }
 
