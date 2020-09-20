@@ -531,7 +531,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v5p2", &disc_qcd_and_ttbar_2017_enhanced_v5);
 	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v6", &disc_qcd_and_ttbar_2017_enhanced_v6);
 	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v7", &disc_qcd_and_ttbar_2017_enhanced_v7);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v8p2", &disc_qcd_and_ttbar_2017_enhanced_v8);
+	//tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v8p2", &disc_qcd_and_ttbar_2017_enhanced_v8);
+	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v24", &disc_qcd_and_ttbar_2017_enhanced_v8);
 	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v10p2", &disc_qcd_and_ttbar_2017_enhanced_v10);
 	tree->SetBranchAddress("fatJet1PtOverMHH", &fatJet1PtOverMHH);
 	tree->SetBranchAddress("fatJet1PtOverMSD", &fatJet1PtOverMSD);
@@ -708,20 +709,23 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  if ( !(fatJet2MassSD > 50)) continue;
 
 
-	  //SR pre-selection
-	  if (channelOption == 0) {
-	    if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
-	    if ( !(fatJet1Pt > 300 && fatJet2Pt > 300 )) continue;
-	    if ( !(fatJet1PNetXbb > 0.8)) continue;
-	    if ( !(fatJet2PNetXbb > 0.8)) continue;
-	  }
+	  // //SR pre-selection
+	  // if (channelOption == 0) {
+	  //   if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
+	  //   if ( !(fatJet1Pt > 300 && fatJet2Pt > 300 )) continue;
+	  //   if ( !(fatJet1PNetXbb > 0.8)) continue;
+	  //   if ( !(fatJet2PNetXbb > 0.8)) continue;
+	  // }
 
 	  //SR selection
 	  if (channelOption == 1) {
 
+	    //*************************************************************************
+	    //Enhanced V8p2 BDT Analysis
+	    //*************************************************************************
 	    // //Best 3-bin analysis - Bin1
-	    if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.23) ) continue;
-	    if ( !(fatJet2PNetXbb > 0.985)) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.23) ) continue;
+	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
 
 	    //Best 3-bin analysis - Bin2
 	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.023) ) continue;
@@ -732,9 +736,94 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.408) ) continue;
 	    // if ( !(fatJet2PNetXbb <= 0.985)) continue;
 	    // if ( !(fatJet2PNetXbb > 0.945)) continue;
+	    //*************************************************************************
+	    //*************************************************************************
+
+	  
+
+	    //*************************************************************************
+	    //Enhanced V23 BDT Analysis - 
+	    //BDT trained with ntuples where jet1/2 are selected based on Xbb ordering
+	    //*************************************************************************
+	    // Bin1
+	    if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
+	    if ( !(fatJet1PNetXbb > 0.985)) continue;
+	    if ( !(fatJet2PNetXbb > 0.985)) continue; 
+
+	    // Bin2
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
+	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
+	    
+            // // Bin3
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.975)) continue;
+	    // if ( !(fatJet2PNetXbb > 0.975)) continue;
+	    // //if ( !( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.985) || (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.975)  )) continue;
+	                
+	    // // Bin4
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0141) ) continue;
+	    // //if ( !(fatJet1PNetXbb > 0.95)) continue;
+	    // //if ( !(fatJet2PNetXbb > 0.95)) continue;
+	    // if ( !( (fatJet1PNetXbb > 0.95 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.95)  )) continue;
+	                
 
 
+	    //*************************************************************************
+	    //Enhanced V23 BDT Analysis - 
+	    //BDT trained with ntuples where jet1/2 are selected based on pT ordering
+	    //*************************************************************************
+	    // Bin1
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.018) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
+	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
 
+	    // // Bin2
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.018) ) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0077) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.975)) continue;
+	    // if ( !(fatJet2PNetXbb > 0.975)) continue;
+	    
+            // // Bin3
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.018) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0077) ) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0115) ) continue;
+	    // //if ( !(fatJet1PNetXbb > 0.95)) continue;
+	    // //if ( !(fatJet2PNetXbb > 0.95)) continue;
+	    // if ( !( (fatJet1PNetXbb > 0.950 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.950)  )) continue;
+	    
+
+	    //*************************************************************************
+	    //Enhanced V23 BDT Analysis
+	    //*************************************************************************
+	    // Bin1
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.033) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
+	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
+
+	    // Bin2
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.011 && disc_qcd_and_ttbar_2017_enhanced_v8 <= 0.033) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
+	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
+
+	    // Bin3
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.011)) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.014) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975)) continue;
+	    // if ( !( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.985))) continue;
+	    
+	    // Bin4
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.011)) continue;
+	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.014)) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0045) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.95 && fatJet2PNetXbb > 0.95)) continue;
+	    
 	    //cut-based
 	    // if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
 	    // if ( !(fatJet1Pt > 310 && fatJet2Pt > 310 )) continue;
@@ -915,85 +1004,85 @@ void SelectHHTo4B_PNet( int option = -1) {
   //***********************************
   //2016 Data and MC
   //***********************************
-  datafiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2016/JetHT_2016_Mass30Skim_GoodLumi_BDTs.root");
+  datafiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/JetHT_2016_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_ttbar_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_BDTs.root");  
-  bkgfiles_ttbar_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_BDTs.root");  
-  bkgfiles_H_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_H_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-combined_1pb_weighted_Mass30Skim_BDTs.root");
-  //bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2016/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  //bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2016/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2016/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  //  bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2016/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_ttH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2016/ttHTobb_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
+  bkgfiles_ttbar_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_ttbar_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_H_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_H_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-combined_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  //bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  //bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  //  bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_ttH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/ttHTobb_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Mass30Skim_Testing_BDTs.root");
+  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2016/GluGluToHHTo4B_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  //bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2016/GluGluToHHTo4B_node_cHHH0_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  //bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2016/GluGluToHHTo4B_node_cHHH2p45_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  //bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2016/GluGluToHHTo4B_node_cHHH5_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
+  bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluToHHTo4B_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  //bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluToHHTo4B_node_cHHH0_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  //bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluToHHTo4B_node_cHHH2p45_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  //bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluToHHTo4B_node_cHHH5_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
 
 
 
   //***********************************
   //2017 Data and MC
   //***********************************
-  datafiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2017/JetHT_2017_Mass30Skim_GoodLumi_BDTs.root");
+  datafiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/JetHT_2017_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_ttbar_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_BDTs.root");  
-  bkgfiles_ttbar_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_BDTs.root");  
-  bkgfiles_H_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_H_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2017/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2017/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2017/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2017/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  //  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2017/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_ttH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2017/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_BDTs.root");
+  bkgfiles_ttbar_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_ttbar_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_H_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_H_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  //  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_ttH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2017/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2017/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2017/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
+  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");   
-  // bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2017/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");   
-  // bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2017/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");   
-  // bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2017/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");   
+  bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
+  //bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
+  // bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
+  //bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
 
   //***********************************
   //2018 Data and MC
   //***********************************
-  datafiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2018/JetHT_2018_Mass30Skim_GoodLumi_BDTs.root");
+  datafiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/JetHT_2018_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_ttbar_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Mass30Skim_BDTs.root");  
-  bkgfiles_ttbar_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Mass30Skim_BDTs.root");  
-  bkgfiles_H_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_H_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2018/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2018/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  //  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2018/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_Mass30Skim_BDTs.root");
-  bkgfiles_ttH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/2018/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_BDTs.root");
+  bkgfiles_ttbar_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_ttbar_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_H_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_H_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  //  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_ttH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
+  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2018/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  // bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2018/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  // bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2018/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
-  // bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200901/v7/combined/BDT/testing/2018/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Mass30Skim_Testing_BDTs.root");
+  bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  //bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  // bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  //bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
 
 
   //another vector to contain the different dataset years
