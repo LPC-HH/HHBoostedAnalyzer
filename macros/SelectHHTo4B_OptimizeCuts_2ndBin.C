@@ -334,12 +334,13 @@ std::vector<std::pair<double,double> > RunSelectHHTo4B(  std::vector<std::vector
       tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v6", &disc_qcd_and_ttbar_2017_enhanced_v6);
       tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v7", &disc_qcd_and_ttbar_2017_enhanced_v7);
       //tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v8", &disc_qcd_and_ttbar_2017_enhanced_v8);
-      tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v8p2", &disc_qcd_and_ttbar_2017_enhanced_v8);
-      //tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v8p3", &disc_qcd_and_ttbar_2017_enhanced_v8);
+      // tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v8p2", &disc_qcd_and_ttbar_2017_enhanced_v8);
+       tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v24", &disc_qcd_and_ttbar_2017_enhanced_v8);
+            //tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v8p3", &disc_qcd_and_ttbar_2017_enhanced_v8);
       //tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v10", &disc_qcd_and_ttbar_2017_enhanced_v10);
       //tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v10p2", &disc_qcd_and_ttbar_2017_enhanced_v10);
       //tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v10p3", &disc_qcd_and_ttbar_2017_enhanced_v10);
-      tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v24", &disc_qcd_and_ttbar_2017_enhanced_v10);
+      //tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v16", &disc_qcd_and_ttbar_2017_enhanced_v10);
       tree->SetBranchAddress("fatJet1PtOverMHH", &fatJet1PtOverMHH);
       tree->SetBranchAddress("fatJet1PtOverMSD", &fatJet1PtOverMSD);
       tree->SetBranchAddress("fatJet2PtOverMHH", &fatJet2PtOverMHH);
@@ -478,10 +479,55 @@ std::vector<std::pair<double,double> > RunSelectHHTo4B(  std::vector<std::vector
 	  // if ( !(fatJet1Pt > pt2Low && fatJet2Pt > pt2Low )) continue;
 	  if ( !(fatJet1PNetXbb > Xbb1Low)) continue;
 	  if ( !(fatJet2PNetXbb > Xbb2Low)) continue;
-	  //if ( !(fatJet1PNetQCDothers <= 0.001)) continue;
-	  //if ( !(fatJet1PNetQCDbb <= 0.01)) continue;
-
 	  // if ( !(fatJet1MassSD > mass1Low && fatJet1MassSD < mass1High)) continue;
+
+
+	  //*************************************************************************
+	  //Enhanced V23 BDT Analysis - 
+	  //BDT trained with ntuples where jet1/2 are selected based on Xbb ordering
+	  //*************************************************************************
+	  //Exclude the first bin 
+	  if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
+	  //Exclude 2nd bin
+	  if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
+	  //Exclude 3nd bin
+	  if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
+ 	  
+	  //**************************************************************************
+	 
+	  //*************************************************************************
+	  //Enhanced V23 BDT Analysis - 
+	  //BDT trained with ntuples where jet1/2 are selected based on pT ordering
+	  //*************************************************************************
+	  //Exclude the first bin 
+	  //if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.018) ) continue;
+	  //Exclude 2nd bin
+	  //if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0077) ) continue;
+	  
+	  //**************************************************************************
+	 
+
+
+	  //**************************************************************************
+	  //Without loosening Xbb>0.8 cut on jet2
+	  //****************************************************
+	  // //Exclude the first bin 
+	  // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.033) ) continue;
+	  // //Exclude 2nd bin
+	  // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.011 && disc_qcd_and_ttbar_2017_enhanced_v8 <= 0.033) ) continue;
+	  // //Exclude 3rd bin
+	  // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.014 ) ) continue;
+
+	  // //scan only one of the Xbb taggers
+	  // if ( !(fatJet1PNetXbb > 0.975 || fatJet2PNetXbb > 0.975 )) continue;
+	  //******************************
+
+
+	  // //Exclude 4th bin
+	  // if ( (fatJet1PNetXbb > 0.95 && fatJet2PNetXbb > 0.95 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0045 ) ) continue;
+
+	  //if ( (fatJet2PNetXbb > 0.945 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.408) ) continue;
+
 
 	  // if ( !(disc_qcd_2017_basic0 > disc_qcd_basic0_low) ) continue;
 	  // if ( !(disc_qcd_2017_basic1 > disc_qcd_basic1_low) ) continue;
@@ -501,8 +547,8 @@ std::vector<std::pair<double,double> > RunSelectHHTo4B(  std::vector<std::vector
 	  //if ( !(disc_qcd_and_ttbar_2017_enhanced_v5 > disc_qcd_and_ttbar_enhanced_v5_low) ) continue;
 	  //if ( !(disc_qcd_and_ttbar_2017_enhanced_v6 > disc_qcd_and_ttbar_enhanced_v6_low) ) continue;
 	  //if ( !(disc_qcd_and_ttbar_2017_enhanced_v7 > disc_qcd_and_ttbar_enhanced_v7_low) ) continue;
-	  //if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > disc_qcd_and_ttbar_enhanced_v8_low) ) continue;
-	  if ( !(disc_qcd_and_ttbar_2017_enhanced_v10 > disc_qcd_and_ttbar_enhanced_v10_low) ) continue;
+	  if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > disc_qcd_and_ttbar_enhanced_v8_low) ) continue;
+	  //if ( !(disc_qcd_and_ttbar_2017_enhanced_v10 > disc_qcd_and_ttbar_enhanced_v10_low) ) continue;
  
 	  //Data sideband selection
 	  if (isData) {
@@ -572,26 +618,21 @@ std::vector<std::pair<double,double> > RunSelectHHTo4B(  std::vector<std::vector
 
 
 
-void SelectHHTo4B_OptimizeCuts(int option = 0) {
+void SelectHHTo4B_OptimizeCuts_2ndBin(int option = 0) {
 
   //Cuts are defined in this fixed sequence: 
   //pt1Low, pt2Low, Xbb1Low, Xbb2Low, mass1Low, mass1High,  
   std::vector<std::vector<double> > cutSets;
-  //cutSets.push_back( makeCutSet( 350, 300, 0.975, 0.975, 100, 140, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999  ) ); //Exp Limit = 12.8486
-  //cutSets.push_back( makeCutSet( 350, 300, 0.985, 0.985, 100, 140, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999) ); //Exp Limit = 10.3435
-  //cutSets.push_back( makeCutSet( 350, 310, 0.985, 0.985, 100, 140, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999 ) ); //Exp Limit = 9.87654
-  //cutSets.push_back( makeCutSet( 350, 310, 0.985, 0.985, 105, 135, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999 ) ); //Exp Limit = 9.38059
 
+ 
   for (int i=0; i<200; i++) {
-    double cut = 0.0 + i * ( 0.001);
-
-    cutSets.push_back( makeCutSet( -999, -999, 0.985, 0.985, -999, 999, -999, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, cut ) );  //v24
-            
-    
-
+    double cut = 0.00 + i * ( 0.0001);
+ 
+    cutSets.push_back( makeCutSet( -999, -999, 0.945, 0.945, -999, 999, -999, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, cut, -999 ) );  //v24      
     
   }
 
+ 
 
   std::vector<std::string> datafiles_2016; 
   std::vector<std::string> datafiles_2017; 
@@ -608,7 +649,7 @@ void SelectHHTo4B_OptimizeCuts(int option = 0) {
 
   datafiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/JetHT_2018_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");  
   sigfiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
-  
+
   double lumi_2016 = 35922;
   double lumi_2017 = 41480;
   double lumi_2018 = 59741;
@@ -646,7 +687,7 @@ void SelectHHTo4B_OptimizeCuts(int option = 0) {
     cout << "CutSet " << i << " : Sig = " << tmpSignalYield << " , Bkg = " << tmpBkgYield 
     << " | Exp Limit = " << figureOfMerit << "\n";
 
-    if (figureOfMerit < bestWPFOM && tmpSignalYield > 0.5) {
+    if (figureOfMerit < bestWPFOM ) {
       bestWP = i;
       bestWPFOM = figureOfMerit;
       bestWPSignal = tmpSignalYield;
