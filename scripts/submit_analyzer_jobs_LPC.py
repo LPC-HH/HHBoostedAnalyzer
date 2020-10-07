@@ -9,8 +9,8 @@ import sys
 from collections import OrderedDict
 
 queueType = "longlunch"
-option = 2
-label = "v7"
+option = 0
+label  = "v20"
 #option = 10
 #label = "v9"
 #option = 0
@@ -31,7 +31,9 @@ cmsswReleaseVersion = "CMSSW_10_6_5"
 
 
 
-outputDirectoryBase = "/store/user/lpcbacon/sixie/analyzer/"+analysis+"/"+label+"/"
+#outputDirectoryBase = "/store/user/lpcbacon/sixie/analyzer/"+analysis+"/"+label+"/"
+outputDirectoryBase = "/eos/uscms/store/user/lpcbacon/cmorgoth/analyzer"+analysis+"/"+label+"/"
+
 #filesPerJob = 2
 
 datasetList = OrderedDict()
