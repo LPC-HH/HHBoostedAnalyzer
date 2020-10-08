@@ -23,7 +23,7 @@ SRC2 = app/diHiggsPlots.cc src/hh_tree.cc src/CommandLineInput.cc
 SRC3 = app/SkimNtuple.cc
 SRC4 = app/RunJetNtupler.cc src/JetNtupler.cc src/EventAnalyzer.cc include/Events.hh
 SRC5 = app/RunDileptonNtupler.cc src/DileptonNtupler.cc src/EventAnalyzer.cc include/Events.hh
-SRC6 = app/RunHHTo4BNtupler.cc src/HHTo4BNtupler.cc src/EventAnalyzer.cc include/Events.hh
+SRC6 = app/RunHHTo4BNtupler.cc src/HHTo4BNtupler.cc src/JetCorrectionUncertainty.cc src/JetCorrectorParameters.cc src/SimpleJetCorrectionUncertainty.cc src/EventAnalyzer.cc include/Events.hh
 SRC7 = app/RunJetHTTriggerNtupler.cc src/JetHTTriggerNtupler.cc src/EventAnalyzer.cc include/Events.hh
 SRC8 = app/RunMakeMCPileupDistribution.cc src/MakeMCPileupDistribution.cc src/EventAnalyzer.cc include/Events.hh
 
