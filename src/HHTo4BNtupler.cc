@@ -142,7 +142,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float* jmrValues;//{nominal, down, up}
     if(year == "2016")
       {
-	float tmp_jmr[] = {1.00, 0.8, 1.2};
+	float tmp_jmr[] = {1.00, 1.0, 1.2};
 	jmrValues = tmp_jmr;
       }
     else if(year == "2017")
@@ -239,6 +239,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet2Phi = -99;
     float fatJet2Mass = -99;
     float fatJet2MassSD = -99;
+    float fatJet2MassSD_UnCorrected  = -99;
+    float fatJet2MassSD_JMS_Up       = -99;//jet mass scale up
+    float fatJet2MassSD_JMS_Down     = -99;//jet mass scale down
+    float fatJet2MassSD_JMR_Up       = -99;//jet mass resolution up
+    float fatJet2MassSD_JMR_Down     = -99;//jet mass resolution down
     float fatJet2DDBTagger = -99;
     float fatJet2PNetXbb = -99;
     float fatJet2PNetQCDb = -99;
@@ -260,6 +265,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet3Phi = -99;
     float fatJet3Mass = -99;
     float fatJet3MassSD = -99;
+    float fatJet3MassSD_UnCorrected  = -99;
+    float fatJet3MassSD_JMS_Up       = -99;//jet mass scale up
+    float fatJet3MassSD_JMS_Down     = -99;//jet mass scale down
+    float fatJet3MassSD_JMR_Up       = -99;//jet mass resolution up
+    float fatJet3MassSD_JMR_Down     = -99;//jet mass resolution down
     float fatJet3DDBTagger = -99;
     float fatJet3PNetXbb = -99;
     float fatJet3PNetQCDb = -99;
@@ -353,6 +363,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet2Phi", &fatJet2Phi, "fatJet2Phi/F");
     outputTree->Branch("fatJet2Mass", &fatJet2Mass, "fatJet2Mass/F");
     outputTree->Branch("fatJet2MassSD", &fatJet2MassSD, "fatJet2MassSD/F");
+    outputTree->Branch("fatJet2MassSD_UnCorrected", &fatJet2MassSD_UnCorrected, "fatJet2MassSD_UnCorrected/F");
+    outputTree->Branch("fatJet2MassSD_JMS_Up", &fatJet2MassSD_JMS_Up, "fatJet2MassSD_JMS_Up/F");
+    outputTree->Branch("fatJet2MassSD_JMS_Down", &fatJet2MassSD_JMS_Down, "fatJet2MassSD_JMS_Down/F");
+    outputTree->Branch("fatJet2MassSD_JMR_Up", &fatJet2MassSD_JMR_Up, "fatJet2MassSD_JMR_Up/F");
+    outputTree->Branch("fatJet2MassSD_JMR_Down", &fatJet2MassSD_JMR_Down, "fatJet2MassSD_JMR_Down/F");
     outputTree->Branch("fatJet2DDBTagger", &fatJet2DDBTagger, "fatJet2DDBTagger/F");
     outputTree->Branch("fatJet2PNetXbb", &fatJet2PNetXbb, "fatJet2PNetXbb/F");
     outputTree->Branch("fatJet2PNetQCDb", &fatJet2PNetQCDb, "fatJet2PNetQCDb/F");
@@ -374,6 +389,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet3Phi", &fatJet3Phi, "fatJet3Phi/F");
     outputTree->Branch("fatJet3Mass", &fatJet3Mass, "fatJet3Mass/F");
     outputTree->Branch("fatJet3MassSD", &fatJet3MassSD, "fatJet3MassSD/F");
+    outputTree->Branch("fatJet3MassSD_UnCorrected", &fatJet3MassSD_UnCorrected, "fatJet3MassSD_UnCorrected/F");
+    outputTree->Branch("fatJet3MassSD_JMS_Up", &fatJet3MassSD_JMS_Up, "fatJet3MassSD_JMS_Up/F");
+    outputTree->Branch("fatJet3MassSD_JMS_Down", &fatJet3MassSD_JMS_Down, "fatJet3MassSD_JMS_Down/F");
+    outputTree->Branch("fatJet3MassSD_JMR_Up", &fatJet3MassSD_JMR_Up, "fatJet3MassSD_JMR_Up/F");
+    outputTree->Branch("fatJet3MassSD_JMR_Down", &fatJet3MassSD_JMR_Down, "fatJet3MassSD_JMR_Down/F");
     outputTree->Branch("fatJet3DDBTagger", &fatJet3DDBTagger, "fatJet3DDBTagger/F");
     outputTree->Branch("fatJet3PNetXbb", &fatJet3PNetXbb, "fatJet3PNetXbb/F");
     outputTree->Branch("fatJet3PNetQCDb", &fatJet3PNetQCDb, "fatJet3PNetQCDb/F");
@@ -520,6 +540,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2Phi = -99.0;
       fatJet2Mass = -99.0;
       fatJet2MassSD = -99.0;
+      fatJet2MassSD_UnCorrected = -99.0;
+      fatJet2MassSD_JMS_Up      = -99.0;
+      fatJet2MassSD_JMS_Down    = -99.0;
+      fatJet2MassSD_JMR_Up      = -99.0;
+      fatJet2MassSD_JMR_Down    = -99.0;
       fatJet2DDBTagger = -99.0;
       fatJet2PNetXbb = -99;
       fatJet2PNetQCDb = -99;
@@ -541,6 +566,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet3Phi = -99.0;
       fatJet3Mass = -99.0;
       fatJet3MassSD = -99.0;
+      fatJet3MassSD_UnCorrected = -99.0;
+      fatJet3MassSD_JMS_Up      = -99.0;
+      fatJet3MassSD_JMS_Down    = -99.0;
+      fatJet3MassSD_JMR_Up      = -99.0;
+      fatJet3MassSD_JMR_Down    = -99.0;
       fatJet3DDBTagger = -99.0;
       fatJet3PNetXbb = -99;
       fatJet3PNetQCDb = -99;
@@ -722,8 +752,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	  fatJet1Pt_JES_Up   = fatJet1Pt*(1+unc);
 	  fatJet1Pt_JES_Down = fatJet1Pt/(1+unc);
 	}
-      fatJet1Phi = FatJet_phi[fatJet1Index];
-      fatJet1Mass = FatJet_mass[fatJet1Index];
+      fatJet1Phi                = FatJet_phi[fatJet1Index];
+      fatJet1Mass               = FatJet_mass[fatJet1Index];
       fatJet1MassSD_UnCorrected = FatJet_msoftdrop[fatJet1Index];
       fatJet1MassSD             = jmsValues[0]*FatJet_msoftdrop[fatJet1Index]*( 1.0 + r_nominal->Gaus( 0.0, jmrValues[0] -1.0 ) );//correct, mass scale and resolution, for resolution subtract 1.0 from width
       fatJet1MassSD_JMS_Down    = (jmsValues[1]/jmsValues[0])*fatJet1MassSD;//jet mass scale down
@@ -812,9 +842,16 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
           fatJet2Pt_JES_Up   = fatJet2Pt*(1+unc);
           fatJet2Pt_JES_Down = fatJet2Pt/(1+unc);
         }
-      fatJet2Phi = FatJet_phi[fatJet2Index];
-      fatJet2Mass = FatJet_mass[fatJet2Index];
-      fatJet2MassSD = FatJet_msoftdrop[fatJet2Index];
+      fatJet2Phi                = FatJet_phi[fatJet2Index];
+      fatJet2Mass               = FatJet_mass[fatJet2Index];
+      //jet2 mass scale and resolution
+      fatJet2MassSD_UnCorrected = FatJet_msoftdrop[fatJet2Index];
+      fatJet2MassSD             = jmsValues[0]*FatJet_msoftdrop[fatJet2Index]*( 1.0 + r_nominal->Gaus( 0.0, jmrValues[0] -1.0 ) );//correct, mass scale and resolution, for resolution subtract 1.0 from width
+      fatJet2MassSD_JMS_Down    = (jmsValues[1]/jmsValues[0])*fatJet2MassSD;//jet mass scale down
+      fatJet2MassSD_JMS_Up      = (jmsValues[2]/jmsValues[0])*fatJet2MassSD;//jrt mass scale up
+      fatJet2MassSD_JMR_Down    = ( 1.0 + r_down->Gaus( 0.0, jmrValues[1] -1.0 ) )*jmsValues[0]*FatJet_msoftdrop[fatJet2Index];//jet mass resolution down -- wrt scale corrected value -- for resolution subtract 1.0 from width
+      fatJet2MassSD_JMR_Up      = ( 1.0 + r_up->Gaus( 0.0, jmrValues[2] -1.0 ) )*jmsValues[0]*FatJet_msoftdrop[fatJet2Index];//jrt mass resolution up -- wrt to scale corrected value -- for resolution subtract 1.0 from width
+
       fatJet2DDBTagger = FatJet_btagDDBvL[fatJet2Index];
       fatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet2Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet2Index] - FatJet_ParticleNetMD_probXqq[fatJet2Index]);
       fatJet2PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet2Index];
@@ -888,9 +925,17 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
           fatJet3Pt_JES_Up   = fatJet3Pt*(1+unc);
           fatJet3Pt_JES_Down = fatJet3Pt/(1+unc);
         }
-      fatJet3Phi = FatJet_phi[fatJet3Index];
-      fatJet3Mass = FatJet_mass[fatJet3Index];
-      fatJet3MassSD = FatJet_msoftdrop[fatJet3Index];
+      fatJet3Phi                = FatJet_phi[fatJet3Index];
+      fatJet3Mass               = FatJet_mass[fatJet3Index];
+      //jet3 mass scale and resolution
+      fatJet3MassSD_UnCorrected = FatJet_msoftdrop[fatJet3Index];
+      fatJet3MassSD             = jmsValues[0]*FatJet_msoftdrop[fatJet3Index]*( 1.0 + r_nominal->Gaus( 0.0, jmrValues[0] -1.0 ) );//correct, mass scale and resolution, for resolution subtract 1.0 from width
+      fatJet3MassSD_JMS_Down    = (jmsValues[1]/jmsValues[0])*fatJet3MassSD;//jet mass scale down
+      fatJet3MassSD_JMS_Up      = (jmsValues[2]/jmsValues[0])*fatJet3MassSD;//jrt mass scale up
+      fatJet3MassSD_JMR_Down    = ( 1.0 + r_down->Gaus( 0.0, jmrValues[1] -1.0 ) )*jmsValues[0]*FatJet_msoftdrop[fatJet3Index];//jet mass resolution down -- wrt scale corrected value -- for resolution subtract 1.0 from width
+      fatJet3MassSD_JMR_Up      = ( 1.0 + r_up->Gaus( 0.0, jmrValues[2] -1.0 ) )*jmsValues[0]*FatJet_msoftdrop[fatJet3Index];//jrt mass resolution up -- wrt to scale corrected value -- for resolution subtract 1.0 from width
+
+
       fatJet3DDBTagger = FatJet_btagDDBvL[fatJet3Index];
       fatJet3PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet3Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet3Index] - FatJet_ParticleNetMD_probXqq[fatJet3Index]);
       fatJet3PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet3Index];
