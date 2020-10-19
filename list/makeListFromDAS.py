@@ -79,6 +79,10 @@ datasets = {
 #'ZJetsToQQ_HT400to600_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':'/ZJetsToQQ_HT400to600_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/bortigno-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER',
 #'ZJetsToQQ_HT600to800_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':'/ZJetsToQQ_HT600to800_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/bortigno-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER',
 #'ZJetsToQQ_HT-800toInf_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':'/ZJetsToQQ_HT-800toInf_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/bortigno-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v2-44377faedc969dcf531f5eb3e501054b/USER',
+#'ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8':'/ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8/bortigno-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER',
+#'ST_tW_antitop_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8':'/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8/bortigno-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER', 
+
+
 
 
 # ####################################################################################################
@@ -134,6 +138,11 @@ datasets = {
 #'ZJetsToQQ_HT400to600_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8':'/ZJetsToQQ_HT400to600_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
 #'ZJetsToQQ_HT600to800_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8':'/ZJetsToQQ_HT600to800_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
 #'ZJetsToQQ_HT-800toInf_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8':'/ZJetsToQQ_HT-800toInf_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+#'ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8':'/ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+#'ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8':'/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v2-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+#'ST_tW_antitop_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8':'/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v2-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+#'ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8':'/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v2-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+
 
 ####################################################################################################
 #2018 Datasets
@@ -190,7 +199,8 @@ datasets = {
 #'ZJetsToQQ_HT400to600_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8':'/ZJetsToQQ_HT400to600_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8/gouskos-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v1-27c3bb388d728791ecf339ca1f755fce/USER',
 #'ZJetsToQQ_HT600to800_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8':'/ZJetsToQQ_HT600to800_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8/gouskos-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v1-27c3bb388d728791ecf339ca1f755fce/USER',
 #'ZJetsToQQ_HT-800toInf_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8':'/ZJetsToQQ_HT-800toInf_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8/gouskos-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v1-27c3bb388d728791ecf339ca1f755fce/USER',
-
+#'ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8':'/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/gouskos-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-ext1-v1-27c3bb388d728791ecf339ca1f755fce/USER',
+#'ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8':'/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/gouskos-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-ext1-v1-27c3bb388d728791ecf339ca1f755fce/USER',
 }
 
 # if (len(sys.argv) -1 < 1):
