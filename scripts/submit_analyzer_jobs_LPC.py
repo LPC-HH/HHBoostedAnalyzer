@@ -9,14 +9,16 @@ import sys
 from collections import OrderedDict
 
 queueType = "longlunch"
-option = 2
-label = "v7"
+#option = 2
+#label = "v7"
 #option = 10
 #label = "v9"
 #option = 0
-#label = "v10"
-#option = 5
-#label = "v11"
+#label = "option0"
+option = 5
+label = "option5"
+#option = 1
+#label = "v1"
 
 analysis = "HHTo4BNtupler"
 outputfile = "HHTo4BNtuple" + "_" + label
