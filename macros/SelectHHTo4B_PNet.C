@@ -761,22 +761,22 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    //if ( !(fatJet1PNetXbb > 0.985)) continue;
 	    //if ( !(fatJet2PNetXbb > 0.985)) continue;
 	    
-        // Bin3
-	    //if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    //if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
-	    //if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
-	    //if ( !(fatJet1PNetXbb > 0.975)) continue;
-	    //if ( !(fatJet2PNetXbb > 0.975)) continue;
+            // Bin3
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.975)) continue;
+	    // if ( !(fatJet2PNetXbb > 0.975)) continue;
 	    // //if ( !( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.985) || (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.975)  )) continue;
 	              
 	    // Bin4
-	    //if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    //if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
-	    //if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
-	    //if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0141) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0141) ) continue;
 	    // //if ( !(fatJet1PNetXbb > 0.95)) continue;
 	    // //if ( !(fatJet2PNetXbb > 0.95)) continue;
-	    //if ( !( (fatJet1PNetXbb > 0.95 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.95)  )) continue;
+	    // if ( !( (fatJet1PNetXbb > 0.95 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.95)  )) continue;
 	              
 
 
@@ -1224,9 +1224,9 @@ void SelectHHTo4B_PNet( int option = -1) {
   colors.push_back(kGray);
   colors.push_back(kBlue);
   colors.push_back(kMagenta+2);
-  colors.push_back(kMagenta+2);
-  colors.push_back(kMagenta+2);
-  colors.push_back(kMagenta+2);
+  colors.push_back(kMagenta);
+  colors.push_back(kMagenta-3);
+  colors.push_back(kMagenta+3);
  
   scaleFactors.push_back(0.72);
   scaleFactors.push_back(1.0);
