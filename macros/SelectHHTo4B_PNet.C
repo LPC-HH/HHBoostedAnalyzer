@@ -756,10 +756,10 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    if ( !(fatJet2PNetXbb > 0.985)) continue; 
          
 	    // Bin2
-	    //if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    //if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
-	    //if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    //if ( !(fatJet2PNetXbb > 0.985)) continue;
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
+	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
+	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
 	    
             // Bin3
 	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
