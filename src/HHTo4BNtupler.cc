@@ -216,7 +216,14 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float deltaR_j1j2 = -99;    
     float ptj2_over_ptj1 = -99;
     float mj2_over_mj1 = -99;
-   
+    float lep1Pt = -99;
+    float lep1Eta = -99;
+    float lep1Phi = -99;
+    int   lep1Id = 0;
+    float lep2Pt = -99;
+    float lep2Eta = -99;
+    float lep2Phi = -99;
+    int   lep2Id = 0;
 
     //------------------------
     //set branches on big tree
@@ -319,7 +326,16 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("deltaR_j1j2",    &deltaR_j1j2,   "deltaR_j1j2/F");
     outputTree->Branch("ptj2_over_ptj1",    &ptj2_over_ptj1,   "ptj2_over_ptj1/F");
     outputTree->Branch("mj2_over_mj1",    &mj2_over_mj1,   "mj2_over_mj1/F");
-  
+    outputTree->Branch("lep1Pt", &lep1Pt, "lep1Pt/F");
+    outputTree->Branch("lep1Eta", &lep1Eta, "lep1Eta/F");
+    outputTree->Branch("lep1Phi", &lep1Phi, "lep1Phi/F");
+    outputTree->Branch("lep1Id", &lep1Id, "lep1Id/I");
+    outputTree->Branch("lep2Pt", &lep2Pt, "lep2Pt/F");
+    outputTree->Branch("lep2Eta", &lep2Eta, "lep2Eta/F");
+    outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
+    outputTree->Branch("lep2Id", &lep2Id, "lep2Id/I");
+
+ 
     //PFHT800 and PFHT900 only exists in 2016 data
     // outputTree->Branch("HLT_PFHT800",                                        &HLT_PFHT800,                                       "HLT_PFHT800/O");
     // outputTree->Branch("HLT_PFHT900",                                        &HLT_PFHT900,                                       "HLT_PFHT900/O");
@@ -467,7 +483,14 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       deltaR_j1j2 = -99;    
       ptj2_over_ptj1 = -99;
       mj2_over_mj1 = -99;
-              
+      lep1Pt = -99;
+      lep1Eta = -99;
+      lep1Phi = -99;
+      lep1Id = 0;
+      lep2Pt = -99;
+      lep2Eta = -99;
+      lep2Phi = -99;
+      lep2Id = 0;
 
       //------------------------------
       //----Event variables------------
@@ -560,21 +583,21 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //------------------------------------------------------
       int fatJet1Index = -1;
       int fatJet2Index = -1;
-      double tmpfatJet1Pt = -999;
-      double tmpfatJet2Pt = -999;
+      //double tmpfatJet1Pt = -999;
+      //double tmpfatJet2Pt = -999;
       double tmpfatJet1Tagger = -999;
       double tmpfatJet2Tagger = -999;
       for(unsigned int i = 0; i < selectedFatJetIndices.size(); i++ ) {
 	double fatJetTagger = FatJet_ParticleNetMD_probXbb[i]/(1.0 - FatJet_ParticleNetMD_probXcc[i] - FatJet_ParticleNetMD_probXqq[i]);
 	if (fatJetTagger > tmpfatJet1Tagger) {
-	  tmpfatJet2Pt = fatJet1Pt;
+	  //tmpfatJet2Pt = fatJet1Pt;
 	  tmpfatJet2Tagger = tmpfatJet1Tagger;
 	  fatJet2Index = fatJet1Index;	  
-	  tmpfatJet1Pt = FatJet_pt[selectedFatJetIndices[i]];
+	  //tmpfatJet1Pt = FatJet_pt[selectedFatJetIndices[i]];
 	  tmpfatJet1Tagger = fatJetTagger;
 	  fatJet1Index = selectedFatJetIndices[i];
 	} else if (fatJetTagger > tmpfatJet2Tagger) {
-	  tmpfatJet2Pt = FatJet_pt[selectedFatJetIndices[i]];
+	  //tmpfatJet2Pt = FatJet_pt[selectedFatJetIndices[i]];
 	  tmpfatJet2Tagger = fatJetTagger;
 	  fatJet2Index = selectedFatJetIndices[i];
 	}
@@ -584,7 +607,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //----------look for presence of a third AK8 jet
       //------------------------------------------------------
       int fatJet3Index = -1;
-      double tmpfatJet3Pt = -999;
+      //double tmpfatJet3Pt = -999;
       double tmpfatJet3Tagger = -999;
       for(unsigned int i = 0; i < nFatJet; i++ ) {  
 	double fatJetTagger = FatJet_ParticleNetMD_probXbb[i]/(1.0 - FatJet_ParticleNetMD_probXcc[i] - FatJet_ParticleNetMD_probXqq[i]);
@@ -593,7 +616,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	if (i == fatJet1Index || i == fatJet2Index) continue;
 	if (fatJetTagger > tmpfatJet3Tagger) {
 	  fatJet3Index = i;
-	  tmpfatJet3Pt = FatJet_pt[i];
+	  //tmpfatJet3Pt = FatJet_pt[i];
 	  tmpfatJet3Tagger = fatJetTagger;
 	}
       }
@@ -835,6 +858,68 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       ptj2_over_ptj1 = fatJet2Pt / fatJet1Pt;
       mj2_over_mj1 = fatJet2MassSD / fatJet1MassSD;             
 
+      //------------------------------------------------------
+      //----------Find Leptons
+      //------------------------------------------------------     
+      for(unsigned int i = 0; i < nMuon; i++ ) {       
+
+	if (Muon_pt[i] < 30) continue;
+	if (fabs(Muon_eta[i]) > 2.4) continue;
+	if (Muon_miniPFRelIso_all[i] > 0.4) continue;
+	if (!Muon_tightId) continue;
+	
+	if (lep1Id == 0) {
+	  lep1Pt = Muon_pt[i];
+	  lep1Eta = Muon_eta[i];
+	  lep1Phi = Muon_phi[i];
+	  lep1Id = Muon_charge[i] * (13);
+	} else if (Muon_pt[i] > lep1Pt) {
+	  lep2Pt = lep1Pt;
+	  lep2Eta = lep1Eta;
+	  lep2Phi = lep1Phi;
+	  lep2Id = lep1Id;
+	  lep1Pt = Muon_pt[i];
+	  lep1Eta = Muon_eta[i];
+	  lep1Phi = Muon_phi[i];
+	  lep1Id = Muon_charge[i] * (13);
+	} else if (lep2Id == 0 || Muon_pt[i] > lep2Pt) {
+	  lep2Pt = Muon_pt[i];
+	  lep2Eta = Muon_eta[i];
+	  lep2Phi = Muon_phi[i];
+	  lep2Id = Muon_charge[i] * (13);
+	} 
+      } //loop over muons
+
+      for(unsigned int i = 0; i < nElectron; i++ ) {       
+
+	if (Electron_pt[i] < 35) continue;
+	if (fabs(Electron_eta[i]) > 2.5) continue;
+	if (Electron_miniPFRelIso_all[i] > 0.4) continue;
+	if (!Electron_cutBased[i]) continue;
+	
+	if (lep1Id == 0) {
+	  lep1Pt = Electron_pt[i];
+	  lep1Eta = Electron_eta[i];
+	  lep1Phi = Electron_phi[i];
+	  lep1Id = Electron_charge[i] * (11);
+	} else if (Electron_pt[i] > lep1Pt) {
+	  lep2Pt = lep1Pt;
+	  lep2Eta = lep1Eta;
+	  lep2Phi = lep1Phi;
+	  lep2Id = lep1Id;
+	  lep1Pt = Electron_pt[i];
+	  lep1Eta = Electron_eta[i];
+	  lep1Phi = Electron_phi[i];
+	  lep1Id = Electron_charge[i] * (11);
+	} else if (lep2Id == 0 || Electron_pt[i] > lep2Pt) {
+	  lep2Pt = Electron_pt[i];
+	  lep2Eta = Electron_eta[i];
+	  lep2Phi = Electron_phi[i];
+	  lep2Id = Electron_charge[i] * (11);
+	} 
+      } //loop over electrons
+
+
 
       //*******************************
       //Count additional AK4 jets 
@@ -853,7 +938,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //Fill Event - skim for events with two jets found
       //****************************************************
       if (Option == 0 || 
-	  (fatJet1Pt > 250 && fatJet2Pt > 250)
+	  (fatJet1Pt > 250 && fatJet2Pt > 250) ||
+	  (fatJet1Pt > 250 || lep1Id != 0)
 	  ) {
 	
 	//****************************************************
