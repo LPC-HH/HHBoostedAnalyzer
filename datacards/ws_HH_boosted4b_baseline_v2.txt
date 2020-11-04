@@ -1,0 +1,15 @@
+#../bin/slc7_amd64_gcc820/combine -M AsymptoticLimits SimpleCountingExp.txt -t -1
+Simple counting experiment
+imax 4  number of channels
+jmax 3 number of processes minus 1
+kmax 1  number of nuisance parameters
+------------
+Observation 15.995757  35.533315   236.19696  344.01965 
+------------
+bin bin1 bin1 bin1 bin1 bin2 bin2 bin2 bin2 bin3 bin3 bin3 bin3 bin4 bin4  bin4 bin4
+process ggHH_kl_1_kt_1_boost4b  ggHH_kl_2p45_kt_1_boost4b  ggHH_kl_5_kt_1_boost4b  bkg  ggHH_kl_1_kt_1_boost4b  ggHH_kl_2p45_kt_1_boost4b  ggHH_kl_5_kt_1_boost4b  bkg  ggHH_kl_1_kt_1_boost4b  ggHH_kl_2p45_kt_1_boost4b  ggHH_kl_5_kt_1_boost4b  bkg  ggHH_kl_1_kt_1_boost4b  ggHH_kl_2p45_kt_1_boost4b  ggHH_kl_5_kt_1_boost4b  bkg
+process -2  -1  0   1   -2  -1  0   1   -2  -1  0   1  -2  -1  0   1
+# enhanced_v8p2 
+rate    0.995757   0.708533   0.365168   15    0.533315   0.393787   0.217934   35   1.19696    0.845127   0.423774   235    1.01965   0.757794   0.405686  343
+------------
+lumi_13TeV_Run2    lnN    1.022    1.022    1.022    -    1.022    1.022    1.022    -    1.022    1.022    1.022    -    1.022    1.022    1.022    - 
