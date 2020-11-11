@@ -865,7 +865,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 
 	if (Muon_pt[i] < 30) continue;
 	if (fabs(Muon_eta[i]) > 2.4) continue;
-	if (Muon_miniPFRelIso_all[i] > 0.4) continue;
+	if (Muon_miniPFRelIso_all[i] > 0.2) continue;
 	if (!Muon_tightId) continue;
 	
 	if (lep1Id == 0) {
@@ -894,7 +894,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 
 	if (Electron_pt[i] < 35) continue;
 	if (fabs(Electron_eta[i]) > 2.5) continue;
-	if (Electron_miniPFRelIso_all[i] > 0.4) continue;
+	if (Electron_miniPFRelIso_all[i] > 0.2) continue;
 	if (!Electron_cutBased[i]) continue;
 	
 	if (lep1Id == 0) {
