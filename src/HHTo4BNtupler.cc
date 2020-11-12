@@ -335,7 +335,21 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
     outputTree->Branch("lep2Id", &lep2Id, "lep2Id/I");
 
- 
+    outputTree->Branch("HLT_Ele27_WPTight_Gsf", &HLT_Ele27_WPTight_Gsf, "HLT_Ele27_WPTight_Gsf/O");
+    outputTree->Branch("HLT_Ele28_WPTight_Gsf", &HLT_Ele28_WPTight_Gsf, "HLT_Ele28_WPTight_Gsf/O");
+    outputTree->Branch("HLT_Ele30_WPTight_Gsf", &HLT_Ele30_WPTight_Gsf, "HLT_Ele30_WPTight_Gsf/O");
+    outputTree->Branch("HLT_Ele32_WPTight_Gsf", &HLT_Ele32_WPTight_Gsf, "HLT_Ele32_WPTight_Gsf/O");
+    outputTree->Branch("HLT_Ele35_WPTight_Gsf", &HLT_Ele35_WPTight_Gsf, "HLT_Ele35_WPTight_Gsf/O");
+    outputTree->Branch("HLT_Ele38_WPTight_Gsf", &HLT_Ele38_WPTight_Gsf, "HLT_Ele38_WPTight_Gsf/O");
+    outputTree->Branch("HLT_Ele40_WPTight_Gsf", &HLT_Ele40_WPTight_Gsf, "HLT_Ele40_WPTight_Gsf/O");
+    outputTree->Branch("HLT_IsoMu20", &HLT_IsoMu20, "HLT_IsoMu20/O");
+    outputTree->Branch("HLT_IsoMu24", &HLT_IsoMu24, "HLT_IsoMu24/O");
+    outputTree->Branch("HLT_IsoMu24_eta2p1", &HLT_IsoMu24_eta2p1, "HLT_IsoMu24_eta2p1/O");
+    outputTree->Branch("HLT_IsoMu27", &HLT_IsoMu27, "HLT_IsoMu27/O");
+    outputTree->Branch("HLT_IsoMu30", &HLT_IsoMu30, "HLT_IsoMu30/O");
+    outputTree->Branch("HLT_Mu50", &HLT_Mu50, "HLT_Mu50/O");
+    outputTree->Branch("HLT_Mu55", &HLT_Mu55, "HLT_Mu55/O");
+    
     //PFHT800 and PFHT900 only exists in 2016 data
     // outputTree->Branch("HLT_PFHT800",                                        &HLT_PFHT800,                                       "HLT_PFHT800/O");
     // outputTree->Branch("HLT_PFHT900",                                        &HLT_PFHT900,                                       "HLT_PFHT900/O");
