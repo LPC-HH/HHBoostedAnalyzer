@@ -185,29 +185,6 @@ WJetsToLNu_Pt-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8                  
 WJetsToLNu_Pt-250To400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8                     23.94
 WJetsToLNu_Pt-400To600_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8                      3.031
 WJetsToLNu_Pt-600ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8                      0.4524
-W1JetsToLNu_LHEWpT_100-150_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-W1JetsToLNu_LHEWpT_150-250_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-W1JetsToLNu_LHEWpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-W1JetsToLNu_LHEWpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-W1JetsToLNu_LHEWpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-W2JetsToLNu_LHEWpT_100-150_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-W2JetsToLNu_LHEWpT_150-250_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-W2JetsToLNu_LHEWpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-W2JetsToLNu_LHEWpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-
-
-/eos/uscms//store/user/lpcbacon/sixie/analyzer/HHTo4BNtupler/option10/nano/v1/combined/2017/W1JetsToLNu_LHEWpT_100-150_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-/eos/uscms//store/user/lpcbacon/sixie/analyzer/HHTo4BNtupler/option10/nano/v1/combined/2017/W1JetsToLNu_LHEWpT_150-250_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-/eos/uscms//store/user/lpcbacon/sixie/analyzer/HHTo4BNtupler/option10/nano/v1/combined/2017/W1JetsToLNu_LHEWpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-/eos/uscms//store/user/lpcbacon/sixie/analyzer/HHTo4BNtupler/option10/nano/v1/combined/2017/W1JetsToLNu_LHEWpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-/eos/uscms//store/user/lpcbacon/sixie/analyzer/HHTo4BNtupler/option10/nano/v1/combined/2017/W1JetsToLNu_LHEWpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-/eos/uscms//store/user/lpcbacon/sixie/analyzer/HHTo4BNtupler/option10/nano/v1/combined/2017/W2JetsToLNu_LHEWpT_100-150_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-/eos/uscms//store/user/lpcbacon/sixie/analyzer/HHTo4BNtupler/option10/nano/v1/combined/2017/W2JetsToLNu_LHEWpT_150-250_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-/eos/uscms//store/user/lpcbacon/sixie/analyzer/HHTo4BNtupler/option10/nano/v1/combined/2017/W2JetsToLNu_LHEWpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-/eos/uscms//store/user/lpcbacon/sixie/analyzer/HHTo4BNtupler/option10/nano/v1/combined/2017/W2JetsToLNu_LHEWpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8-combined.root
-
-
-
 DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8                     18610.0
 DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8                  175.3*1.23
 DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8                147.40*1.23
