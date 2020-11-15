@@ -24,6 +24,7 @@
 #include <TCanvas.h>                
 #include <TLegend.h> 
 #include <THStack.h> 
+#include <TMath.h>
 
 #include "HHBoostedAnalyzer/macros/tdrstyle.C"
 #include "HHBoostedAnalyzer/macros/CMS_lumi.C"
@@ -493,6 +494,7 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 	}
 	
 	float weight = 0;
+	float pileupWeight = 0;
 	float MET = 0;
 	float fatJet1Pt = 0;
 	float fatJet1Eta = 0;
@@ -571,8 +573,24 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 	bool HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 = false;
 	bool HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20 = false;
 	bool HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 = false;
-      
+	bool HLT_Ele27_WPTight_Gsf = false; 
+	bool HLT_Ele28_WPTight_Gsf = false; 
+	bool HLT_Ele30_WPTight_Gsf = false; 
+	bool HLT_Ele32_WPTight_Gsf = false; 
+	bool HLT_Ele35_WPTight_Gsf = false; 
+	bool HLT_Ele38_WPTight_Gsf = false; 
+	bool HLT_Ele40_WPTight_Gsf = false; 
+	bool HLT_IsoMu20 = false; 
+	bool HLT_IsoMu24 = false; 
+	bool HLT_IsoMu24_eta2p1 = false; 
+	bool HLT_IsoMu27 = false; 
+	bool HLT_IsoMu30 = false; 
+	bool HLT_Mu50 = false; 
+	bool HLT_Mu55 = false; 
+    
+
 	tree->SetBranchAddress("weight",&weight);                                       
+	tree->SetBranchAddress("pileupWeight",&pileupWeight);                                       
 	tree->SetBranchAddress("MET",&MET);                                       
 	tree->SetBranchAddress("fatJet1Pt",&fatJet1Pt);                                       
 	tree->SetBranchAddress("fatJet1Eta",&fatJet1Eta);                                       
@@ -651,7 +669,21 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 	tree->SetBranchAddress("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20",     &HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20);
 	tree->SetBranchAddress("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20);
 	tree->SetBranchAddress("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20);
-
+	tree->SetBranchAddress("HLT_Ele27_WPTight_Gsf", &HLT_Ele27_WPTight_Gsf);
+	tree->SetBranchAddress("HLT_Ele28_WPTight_Gsf", &HLT_Ele28_WPTight_Gsf);
+	tree->SetBranchAddress("HLT_Ele30_WPTight_Gsf", &HLT_Ele30_WPTight_Gsf);
+	tree->SetBranchAddress("HLT_Ele32_WPTight_Gsf", &HLT_Ele32_WPTight_Gsf);
+	tree->SetBranchAddress("HLT_Ele35_WPTight_Gsf", &HLT_Ele35_WPTight_Gsf);
+	tree->SetBranchAddress("HLT_Ele38_WPTight_Gsf", &HLT_Ele38_WPTight_Gsf);
+	tree->SetBranchAddress("HLT_Ele40_WPTight_Gsf", &HLT_Ele40_WPTight_Gsf);
+	tree->SetBranchAddress("HLT_IsoMu20", &HLT_IsoMu20);
+	tree->SetBranchAddress("HLT_IsoMu24", &HLT_IsoMu24);
+	tree->SetBranchAddress("HLT_IsoMu24_eta2p1", &HLT_IsoMu24_eta2p1);
+	tree->SetBranchAddress("HLT_IsoMu27", &HLT_IsoMu27);
+	tree->SetBranchAddress("HLT_IsoMu30", &HLT_IsoMu30);
+	tree->SetBranchAddress("HLT_Mu50", &HLT_Mu50);
+	tree->SetBranchAddress("HLT_Mu55", &HLT_Mu55);
+    
 
 	bool isData = false;
 	if ( processLabels[i] == "Data") isData = true;
@@ -668,10 +700,33 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 	  double puWeight = 1;      
 	  double myWeight = 1;
 	  if (!isData) {	 
-	    myWeight = lumi * weight * scaleFactors[i];
+	    myWeight = lumi * weight * pileupWeight * scaleFactors[i];
 	    //cout << "scaleFactors: " << scaleFactors[i] << "\n";
 	  }
-	 
+
+	  //******************************
+	  //Trigger Selection
+	  //******************************
+	  bool passTrigger = false;	  
+	  if ( abs(lep1Id) == 11 ) {
+	    passTrigger = HLT_Ele27_WPTight_Gsf ||
+	      HLT_Ele28_WPTight_Gsf  || 
+	      HLT_Ele30_WPTight_Gsf  || 
+	      HLT_Ele32_WPTight_Gsf  || 
+	      HLT_Ele35_WPTight_Gsf  || 
+	      HLT_Ele38_WPTight_Gsf  || 
+	      HLT_Ele40_WPTight_Gsf;	    
+	  } else {
+	    passTrigger = HLT_IsoMu20  || 
+	      HLT_IsoMu24  || 
+	      HLT_IsoMu24_eta2p1  || 
+	      HLT_IsoMu27  || 
+	      HLT_IsoMu30  || 
+	      HLT_Mu50  || 
+	      HLT_Mu55;
+	  }
+	  if (!passTrigger) continue;
+	
 	  //******************************
 	  //Selection Cuts 
 	  //******************************
@@ -682,10 +737,13 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 		 )
 	       ) continue;
 	  if ( !(lep1Pt > 50 )) continue;
+	  if ( lep2Pt > 0 ) continue; 
 	  if ( !(fatJet1Pt > 250 )) continue;
 	  if ( !(fatJet1MassSD > 50)) continue;
 	  if ( !(MET > 100 )) continue;
-	  if( !(sqrt(pow(lep1Eta-fatJet1Eta,2)+pow(asin(sin(lep1Phi-fatJet1Phi)),2)) > 1.0 )) continue;
+
+	  double dphi = (fabs(lep1Phi-lep2Phi) > TMath::Pi()) ? fabs(fabs(lep1Phi-lep2Phi) - 2*TMath::Pi()) : fabs(lep1Phi-lep2Phi);
+	  if( !(sqrt(pow(lep1Eta-fatJet1Eta,2)+pow(dphi,2)) > 1.0 )) continue;
 	
 	  //HEM problem
 	  if ( year == "2018") {
@@ -696,12 +754,7 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 	  if ( !(fatJet1MassSD > 140)) continue;
 
 
-	  //******************************
-	  //Trigger Selection
-	  //******************************
-	  // bool passTrigger = true;
-	  // if (!passTrigger) continue;
-
+	
 
 	  //TTbar Hadronic CR
 	  if (!(fatJet1Tau3OverTau2 < 0.46)) continue;	
@@ -812,15 +865,18 @@ void SelectHHTo4B_1LTopCR( int option = -1) {
   std::vector<std::string> datafiles_2017;
   std::vector<std::string> datafiles_2018;
 
-  std::vector<std::string> bkgfiles_ttbar_2016;
+  std::vector<std::string> bkgfiles_ttbar1L_2016;
+  std::vector<std::string> bkgfiles_ttbar2L_2016;
   std::vector<std::string> bkgfiles_WJets_2016;
   std::vector<std::string> bkgfiles_QCD_2016;
 
-  std::vector<std::string> bkgfiles_ttbar_2017;
+  std::vector<std::string> bkgfiles_ttbar1L_2017;
+  std::vector<std::string> bkgfiles_ttbar2L_2017;
   std::vector<std::string> bkgfiles_WJets_2017;
   std::vector<std::string> bkgfiles_QCD_2017;
 
-  std::vector<std::string> bkgfiles_ttbar_2018;
+  std::vector<std::string> bkgfiles_ttbar1L_2018;
+  std::vector<std::string> bkgfiles_ttbar2L_2018;
   std::vector<std::string> bkgfiles_WJets_2018;
   std::vector<std::string> bkgfiles_QCD_2018;
 
@@ -832,21 +888,23 @@ void SelectHHTo4B_1LTopCR( int option = -1) {
   datafiles_2016.push_back(dir+"2016/SingleMuon_2016_1LTopSkim.root");
   datafiles_2016.push_back(dir+"2016/SingleElectron_2016_1LTopSkim.root");
 
-  bkgfiles_ttbar_2016.push_back(dir+"2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
-  bkgfiles_ttbar_2016.push_back(dir+"2016/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
-  
+  bkgfiles_ttbar1L_2016.push_back(dir+"2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
+  bkgfiles_ttbar1L_2016.push_back(dir+"2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");
+
+  bkgfiles_ttbar2L_2016.push_back(dir+"2016/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
+
   bkgfiles_WJets_2016.push_back(dir+"2016/WJetsToLNu_Pt-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-combined_1pb_weighted_1LTopSkim.root");
   bkgfiles_WJets_2016.push_back(dir+"2016/WJetsToLNu_Pt-250To400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-combined_1pb_weighted_1LTopSkim.root");
   bkgfiles_WJets_2016.push_back(dir+"2016/WJetsToLNu_Pt-400To600_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-combined_1pb_weighted_1LTopSkim.root");
   bkgfiles_WJets_2016.push_back(dir+"2016/WJetsToLNu_Pt-600ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-combined_1pb_weighted_1LTopSkim.root");
 
-bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
+  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
+  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
+  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
+  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
+  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
+  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
+  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
 
 
   //***********************************
@@ -855,9 +913,11 @@ bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgrap
   datafiles_2017.push_back(dir+"2017/SingleMuon_2017_1LTopSkim.root");
   datafiles_2017.push_back(dir+"2017/SingleElectron_2017_1LTopSkim.root");
 
-  bkgfiles_ttbar_2017.push_back(dir+"2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
-  bkgfiles_ttbar_2017.push_back(dir+"2017/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
-  
+  bkgfiles_ttbar1L_2017.push_back(dir+"2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
+  bkgfiles_ttbar1L_2017.push_back(dir+"2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");
+
+  bkgfiles_ttbar2L_2017.push_back(dir+"2017/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
+
   bkgfiles_WJets_2017.push_back(dir+"2017/WJetsToLNu_Pt-100To250_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
   bkgfiles_WJets_2017.push_back(dir+"2017/WJetsToLNu_Pt-250To400_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
   bkgfiles_WJets_2017.push_back(dir+"2017/WJetsToLNu_Pt-400To600_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
@@ -877,9 +937,11 @@ bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgrap
   datafiles_2018.push_back(dir+"2018/SingleMuon_2018_1LTopSkim.root");
   datafiles_2018.push_back(dir+"2018/EGamma_2018_1LTopSkim.root");
 
-  bkgfiles_ttbar_2018.push_back(dir+"2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_1LTopSkim.root");  
-  bkgfiles_ttbar_2018.push_back(dir+"2018/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
-  
+  bkgfiles_ttbar1L_2018.push_back(dir+"2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_1LTopSkim.root");  
+  bkgfiles_ttbar1L_2018.push_back(dir+"2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_1LTopSkim.root");
+
+  bkgfiles_ttbar2L_2018.push_back(dir+"2018/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
+
   bkgfiles_WJets_2018.push_back(dir+"2018/WJetsToLNu_Pt-100To250_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
   bkgfiles_WJets_2018.push_back(dir+"2018/WJetsToLNu_Pt-250To400_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
   bkgfiles_WJets_2018.push_back(dir+"2018/WJetsToLNu_Pt-400To600_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
@@ -896,7 +958,8 @@ bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgrap
 
 
   //another vector to contain the different dataset years
-  std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_ttbar;
+  std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_ttbar1L;
+  std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_ttbar2L;
   std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_WJets;
   std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_QCD;
   
@@ -905,55 +968,66 @@ bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgrap
     datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2017, "2017"));
     datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2018, "2018"));
 
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2016 , "2016"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2016 , "2016"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2016 , "2016"));
     bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2016 , "2016"));
     bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2016 , "2016"));
 
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2017 , "2017"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2017 , "2017"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2017 , "2017"));
     bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2017 , "2017"));
     bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2017 , "2017"));
 
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2018 , "2018"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2018 , "2018"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2018 , "2018"));
     bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2018 , "2018"));
     bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2018 , "2018"));
   }
   if (option == 0) {
     datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2016, "2016"));
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2016 , "2016"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2016 , "2016"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2016 , "2016"));
     bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2016 , "2016"));
     bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2016 , "2016"));
 
   }
   if (option == 1) {
     datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2017, "2017"));
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2017 , "2017"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2017 , "2017"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2017 , "2017"));
     bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2017 , "2017"));
     bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2017 , "2017"));
 
   }
   if (option == 2) {
     datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2018, "2018"));
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2018 , "2018"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2018 , "2018"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2018 , "2018"));
     bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2018 , "2018"));
     bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2018 , "2018"));
 
   }
 
-  bkgfiles.push_back(bkgfiles_ttbar);
+  bkgfiles.push_back(bkgfiles_ttbar1L);
+  bkgfiles.push_back(bkgfiles_ttbar2L);
   bkgfiles.push_back(bkgfiles_WJets);
   bkgfiles.push_back(bkgfiles_QCD);
 
-  processLabels.push_back("TTJets");  
+  processLabels.push_back("TTJets 1L");  
+  processLabels.push_back("TTJets 2L");  
   processLabels.push_back("WJets");
   processLabels.push_back("QCD");
   
   colors.push_back(kAzure+10);
+  colors.push_back(kBlue-2);
   colors.push_back(kGreen+2);
   colors.push_back(kRed);
  
+  scaleFactors.push_back(0.93);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
-  scaleFactors.push_back(0.70);
+  scaleFactors.push_back(2.3); //QCD for 2017/2018
+  //scaleFactors.push_back(0.9); //QCD for 2016
  
   
 
