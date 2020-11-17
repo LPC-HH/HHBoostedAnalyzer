@@ -226,6 +226,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float lep2Eta = -99;
     float lep2Phi = -99;
     int   lep2Id = 0;
+    float pho1Pt = -99;
+    float pho1Eta = -99;
+    float pho1Phi = -99;
+
 
     //------------------------
     //set branches on big tree
@@ -339,6 +343,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("lep2Eta", &lep2Eta, "lep2Eta/F");
       outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
       outputTree->Branch("lep2Id", &lep2Id, "lep2Id/I");
+    } else {
+      outputTree->Branch("pho1Pt", &pho1Pt, "pho1Pt/F");
+      outputTree->Branch("pho1Eta", &pho1Eta, "pho1Eta/F");
+      outputTree->Branch("pho1Phi", &pho1Phi, "pho1Phi/F");  
     }
 
     outputTree->Branch("HLT_Ele27_WPTight_Gsf", &HLT_Ele27_WPTight_Gsf, "HLT_Ele27_WPTight_Gsf/O");
@@ -519,7 +527,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       lep2Eta = -99;
       lep2Phi = -99;
       lep2Id = 0;
-
+      pho1Pt = -99;
+      pho1Eta = -99;
+      pho1Phi = -99;
+    
       //------------------------------
       //----Event variables------------
       //------------------------------
@@ -607,29 +618,43 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       }
 
       //------------------------------------------------------
-      //----------select the two H candidates with largest pT
+      //----------select the two H candidates with largest Xbb
       //------------------------------------------------------
       int fatJet1Index = -1;
       int fatJet2Index = -1;
-      //double tmpfatJet1Pt = -999;
-      //double tmpfatJet2Pt = -999;
+      double tmpfatJet1Pt = -999;
+      double tmpfatJet2Pt = -999;
       double tmpfatJet1Tagger = -999;
       double tmpfatJet2Tagger = -999;
-      for(unsigned int i = 0; i < selectedFatJetIndices.size(); i++ ) {
-	double fatJetTagger = FatJet_ParticleNetMD_probXbb[i]/(1.0 - FatJet_ParticleNetMD_probXcc[i] - FatJet_ParticleNetMD_probXqq[i]);
-	if (fatJetTagger > tmpfatJet1Tagger) {
-	  //tmpfatJet2Pt = fatJet1Pt;
-	  tmpfatJet2Tagger = tmpfatJet1Tagger;
-	  fatJet2Index = fatJet1Index;	  
-	  //tmpfatJet1Pt = FatJet_pt[selectedFatJetIndices[i]];
-	  tmpfatJet1Tagger = fatJetTagger;
-	  fatJet1Index = selectedFatJetIndices[i];
-	} else if (fatJetTagger > tmpfatJet2Tagger) {
-	  //tmpfatJet2Pt = FatJet_pt[selectedFatJetIndices[i]];
-	  tmpfatJet2Tagger = fatJetTagger;
-	  fatJet2Index = selectedFatJetIndices[i];
+      if (Option >= 1 && Option <= 10) {
+	for(unsigned int i = 0; i < selectedFatJetIndices.size(); i++ ) {
+	  double fatJetTagger = FatJet_ParticleNetMD_probXbb[selectedFatJetIndices[i]]/(1.0 - FatJet_ParticleNetMD_probXcc[selectedFatJetIndices[i]] - FatJet_ParticleNetMD_probXqq[selectedFatJetIndices[i]]);
+	  if (fatJetTagger > tmpfatJet1Tagger) {
+	    tmpfatJet2Tagger = tmpfatJet1Tagger;
+	    fatJet2Index = fatJet1Index;	  
+	    tmpfatJet1Tagger = fatJetTagger;
+	    fatJet1Index = selectedFatJetIndices[i];
+	  } else if (fatJetTagger > tmpfatJet2Tagger) {
+	    tmpfatJet2Tagger = fatJetTagger;
+	    fatJet2Index = selectedFatJetIndices[i];
+	  }
+	}
+      } else if (Option == 20) {
+	for(unsigned int i = 0; i < selectedFatJetIndices.size(); i++ ) {
+	  if (FatJet_pt[selectedFatJetIndices[i]] > tmpfatJet1Pt) {
+	    tmpfatJet2Pt = fatJet1Pt;
+	    fatJet2Index = fatJet1Index;	  
+	    tmpfatJet1Pt = FatJet_pt[selectedFatJetIndices[i]];
+	    fatJet1Index = selectedFatJetIndices[i];
+	  } else if ( FatJet_pt[selectedFatJetIndices[i]] > tmpfatJet2Pt ) {
+	    tmpfatJet2Pt = FatJet_pt[selectedFatJetIndices[i]];
+	    fatJet2Index = selectedFatJetIndices[i];
+	  }
 	}
       }
+
+      
+
 
       //------------------------------------------------------
       //----------look for presence of a third AK8 jet
@@ -682,8 +707,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1_n2b1 = FatJet_n2b1[fatJet1Index];
 
       //find any bjets in opposite hemisphere as fatJet1
+      double btagMediumCut = -1;
+      if (year == "2016") btagMediumCut = 0.3033;
+      else if (year == "2017") btagMediumCut = 0.3033 ;
+      else if (year == "2018") btagMediumCut = 0.2770;
       for(unsigned int q = 0; q < nJet; q++ ) {       
-	if (Jet_pt[q] > 25 && Jet_btagDeepB[q] > 0.2219 && 
+	if (Jet_pt[q] > 25 && Jet_btagDeepB[q] > btagMediumCut && 
 	    deltaPhi(fatJet1Phi, Jet_phi[q]) > 2.5
 	    ) {
 	  fatJet1OppositeHemisphereHasBJet = true;
@@ -960,6 +989,14 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       } //loop over electrons
 
 
+      //------------------------------------------------------
+      //----------Find Photons
+      //------------------------------------------------------     
+      for(unsigned int i = 0; i < nMuon; i++ ) {       
+
+
+
+      }
 
       //*******************************
       //Count additional AK4 jets 
@@ -977,11 +1014,16 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //****************************************************
       //Fill Event - skim for events with two jets found
       //****************************************************
-      if (Option == 0 || 
-	  (fatJet1Pt > 250 && fatJet2Pt > 250) ||
-	  (fatJet1Pt > 250 || lep1Id != 0)
+      if (
+	  Option == 0 || 
+	  (Option == 5 && fatJet1Pt > 250 && fatJet2Pt > 250 && fatJet1MassSD > 50 
+	   && fatJet2MassSD > 50 && fatJet1PNetXbb > 0.8) || 
+	  (Option >= 1 && Option <= 10 && fatJet1Pt > 250 && fatJet2Pt > 250) ||
+	  (Option >= 1 && Option <= 10 && (fatJet1Pt > 250 || lep1Id != 0)) || 
+	  (Option == 20 && fatJet1Pt > 250 && fatJet1MassSD > 30 && fatJet1MassSD < 150 && lep1Id == 0)
 	  ) {
-	
+	 
+
 	//****************************************************
 	//Compute trigger efficiency weight
 	//****************************************************      
@@ -1003,11 +1045,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	//Compute totalWeight
 	//****************************************************      
 	totalWeight = weight * triggerEffWeight * pileupWeight;
+ 
 
-	if (Option==5) {
-	  if (!(fatJet1PNetXbb > 0.8)) continue;
-	  if (!(fatJet1MassSD > 50 && fatJet2MassSD > 50)) continue;
-	}
 	NEventsFilled++;            
 	outputTree->Fill();      
       }
