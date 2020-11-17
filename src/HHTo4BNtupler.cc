@@ -161,11 +161,13 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet1PNetQCDothers = -99;
     int   fatJet1GenMatchIndex = -99;
     float fatJet1Tau3OverTau2 = -99;
+    float fatJet1_n2b1 = -99; 
     bool fatJet1HasMuon = 0;
     bool fatJet1HasElectron = 0;
     bool fatJet1HasBJetCSVLoose = 0;
     bool fatJet1HasBJetCSVMedium = 0;
     bool fatJet1HasBJetCSVTight = 0;
+    bool fatJet1OppositeHemisphereHasBJet = 0;
     float fatJet2Pt = -99;
     float fatJet2Eta = -99;
     float fatJet2Phi = -99;
@@ -238,23 +240,6 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("npu", &Pileup_nTrueInt, "npu/F");
     outputTree->Branch("rho", &fixedGridRhoFastjetAll, "rho/F");
  
-
-    outputTree->Branch("genHiggs1Pt", &genHiggs1Pt, "genHiggs1Pt/F");
-    outputTree->Branch("genHiggs1Eta", &genHiggs1Eta, "genHiggs1Eta/F");
-    outputTree->Branch("genHiggs1Phi", &genHiggs1Phi, "genHiggs1Phi/F");
-    outputTree->Branch("genHiggs2Pt", &genHiggs2Pt, "genHiggs2Pt/F");
-    outputTree->Branch("genHiggs2Eta", &genHiggs2Eta, "genHiggs2Eta/F");
-    outputTree->Branch("genHiggs2Phi", &genHiggs2Phi, "genHiggs2Phi/F");
-    outputTree->Branch("genHH_pt",      &genHH_pt,     "genHH_pt/F");
-    outputTree->Branch("genHH_eta",     &genHH_eta,    "genHH_eta/F");
-    outputTree->Branch("genHH_phi",     &genHH_phi,    "genHH_phi/F");
-    outputTree->Branch("genHH_mass",    &genHH_mass,   "genHH_mass/F");
-    outputTree->Branch("genLeptonId", &genLeptonId, "genLeptonId/I");
-    outputTree->Branch("genLeptonMotherId", &genLeptonMotherId, "genLeptonMotherId/I");
-    outputTree->Branch("genLeptonPt", &genLeptonPt, "genLeptonPt/F");
-    outputTree->Branch("genLeptonEta", &genLeptonEta, "genLeptonEta/F");
-    outputTree->Branch("genLeptonPhi", &genLeptonPhi, "genLeptonPhi/F");
-    
     outputTree->Branch("NJets", &NJets, "NJets/I");
     outputTree->Branch("MET", &MET, "MET/F");
     outputTree->Branch("fatJet1Pt", &fatJet1Pt, "fatJet1Pt/F");
@@ -271,69 +256,90 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet1PNetQCDothers", &fatJet1PNetQCDothers, "fatJet1PNetQCDothers/F");
     outputTree->Branch("fatJet1GenMatchIndex", &fatJet1GenMatchIndex, "fatJet1GenMatchIndex/I");
     outputTree->Branch("fatJet1Tau3OverTau2", &fatJet1Tau3OverTau2, "fatJet1Tau3OverTau2/F");
+    outputTree->Branch("fatJet1_n2b1", &fatJet1_n2b1, "fatJet1_n2b1/F");
     outputTree->Branch("fatJet1HasMuon", &fatJet1HasMuon, "fatJet1HasMuon/O");
     outputTree->Branch("fatJet1HasElectron", &fatJet1HasElectron, "fatJet1HasElectron/O");
     outputTree->Branch("fatJet1HasBJetCSVLoose", &fatJet1HasBJetCSVLoose, "fatJet1HasBJetCSVLoose/O");
     outputTree->Branch("fatJet1HasBJetCSVMedium", &fatJet1HasBJetCSVMedium, "fatJet1HasBJetCSVMedium/O");
     outputTree->Branch("fatJet1HasBJetCSVTight", &fatJet1HasBJetCSVTight, "fatJet1HasBJetCSVTight/O");
-    outputTree->Branch("fatJet2Pt", &fatJet2Pt, "fatJet2Pt/F");
-    outputTree->Branch("fatJet2Eta", &fatJet2Eta, "fatJet2Eta/F");
-    outputTree->Branch("fatJet2Phi", &fatJet2Phi, "fatJet2Phi/F");
-    outputTree->Branch("fatJet2Mass", &fatJet2Mass, "fatJet2Mass/F");
-    outputTree->Branch("fatJet2MassSD", &fatJet2MassSD, "fatJet2MassSD/F");
-    outputTree->Branch("fatJet2DDBTagger", &fatJet2DDBTagger, "fatJet2DDBTagger/F");
-    outputTree->Branch("fatJet2PNetXbb", &fatJet2PNetXbb, "fatJet2PNetXbb/F");
-    outputTree->Branch("fatJet2PNetQCDb", &fatJet2PNetQCDb, "fatJet2PNetQCDb/F");
-    outputTree->Branch("fatJet2PNetQCDbb", &fatJet2PNetQCDbb, "fatJet2PNetQCDbb/F");
-    outputTree->Branch("fatJet2PNetQCDc", &fatJet2PNetQCDc, "fatJet2PNetQCDc/F");
-    outputTree->Branch("fatJet2PNetQCDcc", &fatJet2PNetQCDcc, "fatJet2PNetQCDcc/F");
-    outputTree->Branch("fatJet2PNetQCDothers", &fatJet2PNetQCDothers, "fatJet2PNetQCDothers/F");
-    outputTree->Branch("fatJet2GenMatchIndex", &fatJet2GenMatchIndex, "fatJet2GenMatchIndex/I");
-    outputTree->Branch("fatJet2Tau3OverTau2", &fatJet2Tau3OverTau2, "fatJet2Tau3OverTau2/F");
-    outputTree->Branch("fatJet2HasMuon", &fatJet2HasMuon, "fatJet2HasMuon/O");
-    outputTree->Branch("fatJet2HasElectron", &fatJet2HasElectron, "fatJet2HasElectron/O");
-    outputTree->Branch("fatJet2HasBJetCSVLoose", &fatJet2HasBJetCSVLoose, "fatJet2HasBJetCSVLoose/O");
-    outputTree->Branch("fatJet2HasBJetCSVMedium", &fatJet2HasBJetCSVMedium, "fatJet2HasBJetCSVMedium/O");
-    outputTree->Branch("fatJet2HasBJetCSVTight", &fatJet2HasBJetCSVTight, "fatJet2HasBJetCSVTight/O");
-    outputTree->Branch("fatJet3Pt", &fatJet3Pt, "fatJet3Pt/F");
-    outputTree->Branch("fatJet3Eta", &fatJet3Eta, "fatJet3Eta/F");
-    outputTree->Branch("fatJet3Phi", &fatJet3Phi, "fatJet3Phi/F");
-    outputTree->Branch("fatJet3Mass", &fatJet3Mass, "fatJet3Mass/F");
-    outputTree->Branch("fatJet3MassSD", &fatJet3MassSD, "fatJet3MassSD/F");
-    outputTree->Branch("fatJet3DDBTagger", &fatJet3DDBTagger, "fatJet3DDBTagger/F");
-    outputTree->Branch("fatJet3PNetXbb", &fatJet3PNetXbb, "fatJet3PNetXbb/F");
-    outputTree->Branch("fatJet3PNetQCDb", &fatJet3PNetQCDb, "fatJet3PNetQCDb/F");
-    outputTree->Branch("fatJet3PNetQCDbb", &fatJet3PNetQCDbb, "fatJet3PNetQCDbb/F");
-    outputTree->Branch("fatJet3PNetQCDc", &fatJet3PNetQCDc, "fatJet3PNetQCDc/F");
-    outputTree->Branch("fatJet3PNetQCDcc", &fatJet3PNetQCDcc, "fatJet3PNetQCDcc/F");
-    outputTree->Branch("fatJet3PNetQCDothers", &fatJet3PNetQCDothers, "fatJet3PNetQCDothers/F");
-    outputTree->Branch("fatJet3Tau3OverTau2", &fatJet3Tau3OverTau2, "fatJet3Tau3OverTau2/F");
-    outputTree->Branch("fatJet3HasMuon", &fatJet3HasMuon, "fatJet3HasMuon/O");
-    outputTree->Branch("fatJet3HasElectron", &fatJet3HasElectron, "fatJet3HasElectron/O");
-    outputTree->Branch("fatJet3HasBJetCSVLoose", &fatJet3HasBJetCSVLoose, "fatJet3HasBJetCSVLoose/O");
-    outputTree->Branch("fatJet3HasBJetCSVMedium", &fatJet3HasBJetCSVMedium, "fatJet3HasBJetCSVMedium/O");
-    outputTree->Branch("fatJet3HasBJetCSVTight", &fatJet3HasBJetCSVTight, "fatJet3HasBJetCSVTight/O");
-    outputTree->Branch("hh_pt",      &hh_pt,     "hh_pt/F");
-    outputTree->Branch("hh_eta",     &hh_eta,    "hh_eta/F");
-    outputTree->Branch("hh_phi",     &hh_phi,    "hh_phi/F");
-    outputTree->Branch("hh_mass",    &hh_mass,   "hh_mass/F");
-    outputTree->Branch("fatJet1PtOverMHH",    &fatJet1PtOverMHH,   "fatJet1PtOverMHH/F");
-    outputTree->Branch("fatJet1PtOverMSD",    &fatJet1PtOverMSD,   "fatJet1PtOverMSD/F");
-    outputTree->Branch("fatJet2PtOverMHH",    &fatJet2PtOverMHH,   "fatJet2PtOverMHH/F");
-    outputTree->Branch("fatJet2PtOverMSD",    &fatJet2PtOverMSD,   "fatJet2PtOverMSD/F");
-    outputTree->Branch("deltaEta_j1j2",    &deltaEta_j1j2,   "deltaEta_j1j2/F");
-    outputTree->Branch("deltaPhi_j1j2",    &deltaPhi_j1j2,   "deltaPhi_j1j2/F");
-    outputTree->Branch("deltaR_j1j2",    &deltaR_j1j2,   "deltaR_j1j2/F");
-    outputTree->Branch("ptj2_over_ptj1",    &ptj2_over_ptj1,   "ptj2_over_ptj1/F");
-    outputTree->Branch("mj2_over_mj1",    &mj2_over_mj1,   "mj2_over_mj1/F");
-    outputTree->Branch("lep1Pt", &lep1Pt, "lep1Pt/F");
-    outputTree->Branch("lep1Eta", &lep1Eta, "lep1Eta/F");
-    outputTree->Branch("lep1Phi", &lep1Phi, "lep1Phi/F");
-    outputTree->Branch("lep1Id", &lep1Id, "lep1Id/I");
-    outputTree->Branch("lep2Pt", &lep2Pt, "lep2Pt/F");
-    outputTree->Branch("lep2Eta", &lep2Eta, "lep2Eta/F");
-    outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
-    outputTree->Branch("lep2Id", &lep2Id, "lep2Id/I");
+    outputTree->Branch("fatJet1OppositeHemisphereHasBJet", &fatJet1OppositeHemisphereHasBJet, "fatJet1OppositeHemisphereHasBJet/O");
+
+    if (Option != 20) {
+      outputTree->Branch("genHiggs1Pt", &genHiggs1Pt, "genHiggs1Pt/F");
+      outputTree->Branch("genHiggs1Eta", &genHiggs1Eta, "genHiggs1Eta/F");
+      outputTree->Branch("genHiggs1Phi", &genHiggs1Phi, "genHiggs1Phi/F");
+      outputTree->Branch("genHiggs2Pt", &genHiggs2Pt, "genHiggs2Pt/F");
+      outputTree->Branch("genHiggs2Eta", &genHiggs2Eta, "genHiggs2Eta/F");
+      outputTree->Branch("genHiggs2Phi", &genHiggs2Phi, "genHiggs2Phi/F");
+      outputTree->Branch("genHH_pt",      &genHH_pt,     "genHH_pt/F");
+      outputTree->Branch("genHH_eta",     &genHH_eta,    "genHH_eta/F");
+      outputTree->Branch("genHH_phi",     &genHH_phi,    "genHH_phi/F");
+      outputTree->Branch("genHH_mass",    &genHH_mass,   "genHH_mass/F");
+      outputTree->Branch("genLeptonId", &genLeptonId, "genLeptonId/I");
+      outputTree->Branch("genLeptonMotherId", &genLeptonMotherId, "genLeptonMotherId/I");
+      outputTree->Branch("genLeptonPt", &genLeptonPt, "genLeptonPt/F");
+      outputTree->Branch("genLeptonEta", &genLeptonEta, "genLeptonEta/F");
+      outputTree->Branch("genLeptonPhi", &genLeptonPhi, "genLeptonPhi/F");
+
+      outputTree->Branch("fatJet2Pt", &fatJet2Pt, "fatJet2Pt/F");
+      outputTree->Branch("fatJet2Eta", &fatJet2Eta, "fatJet2Eta/F");
+      outputTree->Branch("fatJet2Phi", &fatJet2Phi, "fatJet2Phi/F");
+      outputTree->Branch("fatJet2Mass", &fatJet2Mass, "fatJet2Mass/F");
+      outputTree->Branch("fatJet2MassSD", &fatJet2MassSD, "fatJet2MassSD/F");
+      outputTree->Branch("fatJet2DDBTagger", &fatJet2DDBTagger, "fatJet2DDBTagger/F");
+      outputTree->Branch("fatJet2PNetXbb", &fatJet2PNetXbb, "fatJet2PNetXbb/F");
+      outputTree->Branch("fatJet2PNetQCDb", &fatJet2PNetQCDb, "fatJet2PNetQCDb/F");
+      outputTree->Branch("fatJet2PNetQCDbb", &fatJet2PNetQCDbb, "fatJet2PNetQCDbb/F");
+      outputTree->Branch("fatJet2PNetQCDc", &fatJet2PNetQCDc, "fatJet2PNetQCDc/F");
+      outputTree->Branch("fatJet2PNetQCDcc", &fatJet2PNetQCDcc, "fatJet2PNetQCDcc/F");
+      outputTree->Branch("fatJet2PNetQCDothers", &fatJet2PNetQCDothers, "fatJet2PNetQCDothers/F");
+      outputTree->Branch("fatJet2GenMatchIndex", &fatJet2GenMatchIndex, "fatJet2GenMatchIndex/I");
+      outputTree->Branch("fatJet2Tau3OverTau2", &fatJet2Tau3OverTau2, "fatJet2Tau3OverTau2/F");
+      outputTree->Branch("fatJet2HasMuon", &fatJet2HasMuon, "fatJet2HasMuon/O");
+      outputTree->Branch("fatJet2HasElectron", &fatJet2HasElectron, "fatJet2HasElectron/O");
+      outputTree->Branch("fatJet2HasBJetCSVLoose", &fatJet2HasBJetCSVLoose, "fatJet2HasBJetCSVLoose/O");
+      outputTree->Branch("fatJet2HasBJetCSVMedium", &fatJet2HasBJetCSVMedium, "fatJet2HasBJetCSVMedium/O");
+      outputTree->Branch("fatJet2HasBJetCSVTight", &fatJet2HasBJetCSVTight, "fatJet2HasBJetCSVTight/O");
+      outputTree->Branch("fatJet3Pt", &fatJet3Pt, "fatJet3Pt/F");
+      outputTree->Branch("fatJet3Eta", &fatJet3Eta, "fatJet3Eta/F");
+      outputTree->Branch("fatJet3Phi", &fatJet3Phi, "fatJet3Phi/F");
+      outputTree->Branch("fatJet3Mass", &fatJet3Mass, "fatJet3Mass/F");
+      outputTree->Branch("fatJet3MassSD", &fatJet3MassSD, "fatJet3MassSD/F");
+      outputTree->Branch("fatJet3DDBTagger", &fatJet3DDBTagger, "fatJet3DDBTagger/F");
+      outputTree->Branch("fatJet3PNetXbb", &fatJet3PNetXbb, "fatJet3PNetXbb/F");
+      outputTree->Branch("fatJet3PNetQCDb", &fatJet3PNetQCDb, "fatJet3PNetQCDb/F");
+      outputTree->Branch("fatJet3PNetQCDbb", &fatJet3PNetQCDbb, "fatJet3PNetQCDbb/F");
+      outputTree->Branch("fatJet3PNetQCDc", &fatJet3PNetQCDc, "fatJet3PNetQCDc/F");
+      outputTree->Branch("fatJet3PNetQCDcc", &fatJet3PNetQCDcc, "fatJet3PNetQCDcc/F");
+      outputTree->Branch("fatJet3PNetQCDothers", &fatJet3PNetQCDothers, "fatJet3PNetQCDothers/F");
+      outputTree->Branch("fatJet3Tau3OverTau2", &fatJet3Tau3OverTau2, "fatJet3Tau3OverTau2/F");
+      outputTree->Branch("fatJet3HasMuon", &fatJet3HasMuon, "fatJet3HasMuon/O");
+      outputTree->Branch("fatJet3HasElectron", &fatJet3HasElectron, "fatJet3HasElectron/O");
+      outputTree->Branch("fatJet3HasBJetCSVLoose", &fatJet3HasBJetCSVLoose, "fatJet3HasBJetCSVLoose/O");
+      outputTree->Branch("fatJet3HasBJetCSVMedium", &fatJet3HasBJetCSVMedium, "fatJet3HasBJetCSVMedium/O");
+      outputTree->Branch("fatJet3HasBJetCSVTight", &fatJet3HasBJetCSVTight, "fatJet3HasBJetCSVTight/O");
+      outputTree->Branch("hh_pt",      &hh_pt,     "hh_pt/F");
+      outputTree->Branch("hh_eta",     &hh_eta,    "hh_eta/F");
+      outputTree->Branch("hh_phi",     &hh_phi,    "hh_phi/F");
+      outputTree->Branch("hh_mass",    &hh_mass,   "hh_mass/F");
+      outputTree->Branch("fatJet1PtOverMHH",    &fatJet1PtOverMHH,   "fatJet1PtOverMHH/F");
+      outputTree->Branch("fatJet1PtOverMSD",    &fatJet1PtOverMSD,   "fatJet1PtOverMSD/F");
+      outputTree->Branch("fatJet2PtOverMHH",    &fatJet2PtOverMHH,   "fatJet2PtOverMHH/F");
+      outputTree->Branch("fatJet2PtOverMSD",    &fatJet2PtOverMSD,   "fatJet2PtOverMSD/F");
+      outputTree->Branch("deltaEta_j1j2",    &deltaEta_j1j2,   "deltaEta_j1j2/F");
+      outputTree->Branch("deltaPhi_j1j2",    &deltaPhi_j1j2,   "deltaPhi_j1j2/F");
+      outputTree->Branch("deltaR_j1j2",    &deltaR_j1j2,   "deltaR_j1j2/F");
+      outputTree->Branch("ptj2_over_ptj1",    &ptj2_over_ptj1,   "ptj2_over_ptj1/F");
+      outputTree->Branch("mj2_over_mj1",    &mj2_over_mj1,   "mj2_over_mj1/F");
+      outputTree->Branch("lep1Pt", &lep1Pt, "lep1Pt/F");
+      outputTree->Branch("lep1Eta", &lep1Eta, "lep1Eta/F");
+      outputTree->Branch("lep1Phi", &lep1Phi, "lep1Phi/F");
+      outputTree->Branch("lep1Id", &lep1Id, "lep1Id/I");
+      outputTree->Branch("lep2Pt", &lep2Pt, "lep2Pt/F");
+      outputTree->Branch("lep2Eta", &lep2Eta, "lep2Eta/F");
+      outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
+      outputTree->Branch("lep2Id", &lep2Id, "lep2Id/I");
+    }
 
     outputTree->Branch("HLT_Ele27_WPTight_Gsf", &HLT_Ele27_WPTight_Gsf, "HLT_Ele27_WPTight_Gsf/O");
     outputTree->Branch("HLT_Ele28_WPTight_Gsf", &HLT_Ele28_WPTight_Gsf, "HLT_Ele28_WPTight_Gsf/O");
@@ -349,10 +355,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("HLT_IsoMu30", &HLT_IsoMu30, "HLT_IsoMu30/O");
     outputTree->Branch("HLT_Mu50", &HLT_Mu50, "HLT_Mu50/O");
     outputTree->Branch("HLT_Mu55", &HLT_Mu55, "HLT_Mu55/O");
+    outputTree->Branch("HLT_Photon175",                          &HLT_Photon175,                         "HLT_Photon175/O");
     
     //PFHT800 and PFHT900 only exists in 2016 data
-    // outputTree->Branch("HLT_PFHT800",                                        &HLT_PFHT800,                                       "HLT_PFHT800/O");
-    // outputTree->Branch("HLT_PFHT900",                                        &HLT_PFHT900,                                       "HLT_PFHT900/O");
+    outputTree->Branch("HLT_PFHT780",                                        &HLT_PFHT780,                                       "HLT_PFHT780/O");
+    outputTree->Branch("HLT_PFHT890",                                        &HLT_PFHT890,                                       "HLT_PFHT890/O");
     outputTree->Branch("HLT_PFHT1050",                                        &HLT_PFHT1050,                                       "HLT_PFHT1050/O");
     outputTree->Branch("HLT_AK8PFJet360_TrimMass30",                          &HLT_AK8PFJet360_TrimMass30,                         "HLT_AK8PFJet360_TrimMass30/O");
     outputTree->Branch("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30,                         "HLT_AK8PFJet380_TrimMass30/O");
@@ -362,6 +369,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("HLT_AK8PFHT800_TrimMass50",                           &HLT_AK8PFHT800_TrimMass50,                          "HLT_AK8PFHT800_TrimMass50/O");
     outputTree->Branch("HLT_AK8PFHT850_TrimMass50",                           &HLT_AK8PFHT850_TrimMass50,                          "HLT_AK8PFHT850_TrimMass50/O");
     outputTree->Branch("HLT_AK8PFHT900_TrimMass50",                           &HLT_AK8PFHT900_TrimMass50,                          "HLT_AK8PFHT900_TrimMass50/O");
+    //outputTree->Branch("HLT_AK8PFHT700_TrimR0p1PT0p03Mass50",                 &HLT_AK8PFHT700_TrimR0p1PT0p03Mass50,                "HLT_AK8PFHT700_TrimR0p1PT0p03Mass50/O");
+    // outputTree->Branch("HLT_PFHT650_WideJetMJJ950DEtaJJ1p5",                  &HLT_PFHT650_WideJetMJJ950DEtaJJ1p5,                 "HLT_PFHT650_WideJetMJJ950DEtaJJ1p5/O");
+    // outputTree->Branch("HLT_PFHT650_WideJetMJJ900DEtaJJ1p5",                  &HLT_PFHT650_WideJetMJJ900DEtaJJ1p5,                  "HLT_PFHT650_WideJetMJJ900DEtaJJ1p5/O");
     outputTree->Branch("HLT_PFJet450",                                        &HLT_PFJet450,                                       "HLT_PFJet450/O");
     outputTree->Branch("HLT_PFJet500",                                        &HLT_PFJet500,                                       "HLT_PFJet500/O");
     outputTree->Branch("HLT_PFJet550",                                        &HLT_PFJet550,                                       "HLT_PFJet550/O");
@@ -387,6 +397,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     if (Option == 2) cout << "Option = 2 : Select FatJets with pT > 200 GeV and PNetXbb > 0.8 only\n";
     if (Option == 5) cout << "Option = 5 : Select Events with FatJet1 pT > 200 GeV and PNetXbb > 0.8 only\n";
     if (Option == 10) cout << "Option = 10 : Select FatJets with pT > 200 GeV and tau3/tau2 < 0.54 only\n";
+    if (Option == 20) cout << "Option = 20 : Select FatJets with pT > 200 GeV and MassSD>50, but only save Jet1 info\n";
+
 
     UInt_t NEventsFilled = 0;
  
@@ -442,11 +454,13 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1PNetQCDothers = -99;
       fatJet1GenMatchIndex = -99.0;
       fatJet1Tau3OverTau2 = -99;
+      fatJet1_n2b1 = -99; 
       fatJet1HasMuon = 0;
       fatJet1HasElectron = 0;
       fatJet1HasBJetCSVLoose = 0;
       fatJet1HasBJetCSVMedium = 0;
-      fatJet1HasBJetCSVTight = 0;
+      fatJet1HasBJetCSVTight = 0;      
+      fatJet1OppositeHemisphereHasBJet = 0;
       fatJet2Pt = -99.0;
       fatJet2Eta = -99.0;
       fatJet2Phi = -99.0;
@@ -661,11 +675,23 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1PNetQCDc = FatJet_ParticleNetMD_probQCDc[fatJet1Index];
       fatJet1PNetQCDcc = FatJet_ParticleNetMD_probQCDcc[fatJet1Index];
       fatJet1PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet1Index];
-
       if(Higgs1MinDR < 0.4) {
 	fatJet1GenMatchIndex = Higgs1_match_idx;
       }
       fatJet1Tau3OverTau2 = FatJet_tau3[fatJet1Index] /  FatJet_tau2[fatJet1Index];
+      fatJet1_n2b1 = FatJet_n2b1[fatJet1Index];
+
+      //find any bjets in opposite hemisphere as fatJet1
+      for(unsigned int q = 0; q < nJet; q++ ) {       
+	if (Jet_pt[q] > 25 && Jet_btagDeepB[q] > 0.2219 && 
+	    deltaPhi(fatJet1Phi, Jet_phi[q]) > 2.5
+	    ) {
+	  fatJet1OppositeHemisphereHasBJet = true;
+	  break;
+	}
+      }
+	
+
       //find muon inside jet
       for(unsigned int q = 0; q < nMuon; q++ ) {       
 	if (Muon_pt[q] > 30 && Muon_looseId[q] && 
