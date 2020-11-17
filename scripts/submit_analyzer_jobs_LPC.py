@@ -127,6 +127,14 @@ datasetList['nano/v1/2016/ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-p
 # datasetList['nano/v1/2016/WJetsToLNu_Pt-600ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-ext1.list'] = [0, 2, "2016", "WJetsToLNu_Pt-600ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-combined"]
 # datasetList['nano/v1/2016/WJetsToLNu_Pt-600ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.list'] = [0, 2, "2016", "WJetsToLNu_Pt-600ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-combined"]
 
+#datasetList['nano/v1/2016/SinglePhoton_2016B.list'] = [1, 1, "2016", ""]
+#datasetList['nano/v1/2016/SinglePhoton_2016C.list'] = [1, 1, "2016", ""]
+#datasetList['nano/v1/2016/SinglePhoton_2016D.list'] = [1, 1, "2016", ""]
+#datasetList['nano/v1/2016/SinglePhoton_2016E.list'] = [1, 1, "2016", ""]
+#datasetList['nano/v1/2016/SinglePhoton_2016F.list'] = [1, 1, "2016", ""]
+#datasetList['nano/v1/2016/SinglePhoton_2016G.list'] = [1, 1, "2016", ""]
+#datasetList['nano/v1/2016/SinglePhoton_2016H.list'] = [1, 1, "2016", ""]
+
 
 #2017  hqu ntuples
 datasetList['nano/v1/2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8.list'] = [0, 2, "2017", "GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8"]
@@ -195,6 +203,11 @@ datasetList['nano/v1/2017/ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-p
 # datasetList['nano/v1/2017/WJetsToLNu_Pt-50To100_TuneCP5_13TeV-amcatnloFXFX-pythia8.list'] = [0, 2, "2017", "WJetsToLNu_Pt-50To100_TuneCP5_13TeV-amcatnloFXFX-pythia8"]
 # datasetList['nano/v1/2017/WJetsToLNu_Pt-600ToInf_TuneCP5_13TeV-amcatnloFXFX-pythia8.list'] = [0, 2, "2017", "WJetsToLNu_Pt-600ToInf_TuneCP5_13TeV-amcatnloFXFX-pythia8"]
 
+#datasetList['nano/v1/2017/SinglePhoton_2017B.list'] = [1, 1, "2017", ""]
+#datasetList['nano/v1/2017/SinglePhoton_2017C.list'] = [1, 1, "2017", ""]
+#datasetList['nano/v1/2017/SinglePhoton_2017D.list'] = [1, 1, "2017", ""]
+#datasetList['nano/v1/2017/SinglePhoton_2017E.list'] = [1, 1, "2017", ""]
+#datasetList['nano/v1/2017/SinglePhoton_2017F.list'] = [1, 1, "2017", ""]
 
 
 #2018  hqu ntuples
