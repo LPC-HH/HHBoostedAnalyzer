@@ -271,6 +271,16 @@ datasetList['nano/v1/2018/WJetsToQQ_HT-800toInf_qc19_3j_TuneCP5_13TeV-madgraphML
 datasetList['nano/v1/2018/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"]
 datasetList['nano/v1/2018/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"]
 
+datasetList['nano/v1/2018/VBFHToZG_M-125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "VBFHToZG_M-125_TuneCP5_13TeV-powheg-pythia8VBFHToZG_M-125_TuneCP5_13TeV-powheg-pythia8"]
+datasetList['nano/v1/2018/WminusH_HToZG_WToAll_M-125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "WminusH_HToZG_WToAll_M-125_TuneCP5_13TeV-powheg-pythia8"]
+datasetList['nano/v1/2018/WminusH_HToZG_WToAll_ZToLL_M125_13TeV_powheg_pythia8.list'] = [0, 2, "2018", "WminusH_HToZG_WToAll_ZToLL_M125_13TeV_powheg_pythia8"]
+datasetList['nano/v1/2018/WplusH_HToZG_WToAll_M-125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "WplusH_HToZG_WToAll_M-125_TuneCP5_13TeV-powheg-pythia8"]
+datasetList['nano/v1/2018/WplusH_HToZG_WToAll_ZToLL_M125_13TeV_powheg_pythia8.list'] = [0, 2, "2018", "WplusH_HToZG_WToAll_ZToLL_M125_13TeV_powheg_pythia8"]
+datasetList['nano/v1/2018/ZH_HToZG_ZToAll_M-125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "ZH_HToZG_ZToAll_M-125_TuneCP5_13TeV-powheg-pythia8"]
+datasetList['nano/v1/2018/ZH_ZToAll_HToZG_ZToLL_TuneCP5_M125_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "ZH_ZToAll_HToZG_ZToLL_TuneCP5_M125_13TeV-powheg-pythia8"]
+datasetList['nano/v1/2018/ttHToZG_M125_13TeV_powheg_pythia8.list'] = [0, 2, "2018", "ttHToZG_M125_13TeV_powheg_pythia8"]
+datasetList['nano/v1/2018/ttHToZG_ZToLL_M125_13TeV_powheg_pythia8.list'] = [0, 2, "2018", "ttHToZG_ZToLL_M125_13TeV_powheg_pythia8"]
+
 #datasetList['nano/v1/2018/SingleMuon_2018A.list'] = [1, 1, "2018", ""]
 #datasetList['nano/v1/2018/SingleMuon_2018B.list'] = [1, 1, "2018", ""]
 #datasetList['nano/v1/2018/SingleMuon_2018C.list'] = [1, 1, "2018", ""]

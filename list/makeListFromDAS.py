@@ -260,7 +260,15 @@ datasets = {
 #'GJets_DR-0p4_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/gouskos-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v1-27c3bb388d728791ecf339ca1f755fce/USER',
 #'GJets_DR-0p4_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/gouskos-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v1-27c3bb388d728791ecf339ca1f755fce/USER',
 #'GJets_DR-0p4_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/gouskos-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v1-27c3bb388d728791ecf339ca1f755fce/USER',
-
+'VBFHToZG_M-125_TuneCP5_13TeV-powheg-pythia8':'/VBFHToZG_M-125_TuneCP5_13TeV-powheg-pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
+'WminusH_HToZG_WToAll_M-125_TuneCP5_13TeV-powheg-pythia8':'/WminusH_HToZG_WToAll_M-125_TuneCP5_13TeV-powheg-pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
+'WminusH_HToZG_WToAll_ZToLL_M125_13TeV_powheg_pythia8':'/WminusH_HToZG_WToAll_ZToLL_M125_13TeV_powheg_pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
+'WplusH_HToZG_WToAll_M-125_TuneCP5_13TeV-powheg-pythia8':'/WplusH_HToZG_WToAll_M-125_TuneCP5_13TeV-powheg-pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
+'WplusH_HToZG_WToAll_ZToLL_M125_13TeV_powheg_pythia8':'/WplusH_HToZG_WToAll_ZToLL_M125_13TeV_powheg_pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
+'ZH_HToZG_ZToAll_M-125_TuneCP5_13TeV-powheg-pythia8':'/ZH_HToZG_ZToAll_M-125_TuneCP5_13TeV-powheg-pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
+'ZH_ZToAll_HToZG_ZToLL_TuneCP5_M125_13TeV-powheg-pythia8':'/ZH_ZToAll_HToZG_ZToLL_TuneCP5_M125_13TeV-powheg-pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
+'ttHToZG_M125_13TeV_powheg_pythia8':'/ttHToZG_M125_13TeV_powheg_pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
+'ttHToZG_ZToLL_M125_13TeV_powheg_pythia8':'/ttHToZG_ZToLL_M125_13TeV_powheg_pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
 }
 
 # if (len(sys.argv) -1 < 1):
