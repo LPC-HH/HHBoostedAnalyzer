@@ -144,7 +144,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float genLeptonPhi = -1;
     int   genLeptonId = 0;
     int   genLeptonMotherId = 0;
- 
+    float genPhotonPt = -1;
+    float genPhotonEta = -1;
+    float genPhotonPhi = -1;
+
     int NJets = 0;
     float MET = -1;
     float fatJet1Pt = -99;
@@ -229,7 +232,23 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float pho1Pt = -99;
     float pho1Eta = -99;
     float pho1Phi = -99;
-
+    float jet1Pt = -99;
+    float jet1Eta = -99;
+    float jet1Phi = -99;
+    float jet1DeepJetBTag = -99;
+    float jet2Pt = -99;
+    float jet2Eta = -99;
+    float jet2Phi = -99;
+    float jet2DeepJetBTag = -99;
+    float jet3Pt = -99;
+    float jet3Eta = -99;
+    float jet3Phi = -99;
+    float jet3DeepJetBTag = -99;
+    float jet4Pt = -99;
+    float jet4Eta = -99;
+    float jet4Phi = -99;
+    float jet4DeepJetBTag = -99;
+    int   nBTaggedJets = 0;
 
     //------------------------
     //set branches on big tree
@@ -267,6 +286,30 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet1HasBJetCSVMedium", &fatJet1HasBJetCSVMedium, "fatJet1HasBJetCSVMedium/O");
     outputTree->Branch("fatJet1HasBJetCSVTight", &fatJet1HasBJetCSVTight, "fatJet1HasBJetCSVTight/O");
     outputTree->Branch("fatJet1OppositeHemisphereHasBJet", &fatJet1OppositeHemisphereHasBJet, "fatJet1OppositeHemisphereHasBJet/O");
+
+    if (Option == 0) {
+      outputTree->Branch("genPhotonPt", &genPhotonPt, "genPhotonPt/F");
+      outputTree->Branch("genPhotonEta", &genPhotonEta, "genPhotonEta/F");
+      outputTree->Branch("genPhotonPhi", &genPhotonPhi, "genPhotonPhi/F");
+
+      outputTree->Branch("jet1Pt", &jet1Pt, "jet1Pt/F");
+      outputTree->Branch("jet1Eta", &jet1Eta, "jet1Eta/F");
+      outputTree->Branch("jet1Phi", &jet1Phi, "jet1Phi/F");
+      outputTree->Branch("jet1DeepJetBTag", &jet1DeepJetBTag, "jet1DeepJetBTag/F");      
+      outputTree->Branch("jet2Pt", &jet2Pt, "jet2Pt/F");
+      outputTree->Branch("jet2Eta", &jet2Eta, "jet2Eta/F");
+      outputTree->Branch("jet2Phi", &jet2Phi, "jet2Phi/F");
+      outputTree->Branch("jet2DeepJetBTag", &jet2DeepJetBTag, "jet2DeepJetBTag/F");      
+      outputTree->Branch("jet3Pt", &jet3Pt, "jet3Pt/F");
+      outputTree->Branch("jet3Eta", &jet3Eta, "jet3Eta/F");
+      outputTree->Branch("jet3Phi", &jet3Phi, "jet3Phi/F");
+      outputTree->Branch("jet3DeepJetBTag", &jet3DeepJetBTag, "jet3DeepJetBTag/F");      
+      outputTree->Branch("jet4Pt", &jet4Pt, "jet4Pt/F");
+      outputTree->Branch("jet4Eta", &jet4Eta, "jet4Eta/F");
+      outputTree->Branch("jet4Phi", &jet4Phi, "jet4Phi/F");
+      outputTree->Branch("jet4DeepJetBTag", &jet4DeepJetBTag, "jet4DeepJetBTag/F");      
+   }
+
 
     if (Option != 20) {
       outputTree->Branch("genHiggs1Pt", &genHiggs1Pt, "genHiggs1Pt/F");
@@ -343,7 +386,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("lep2Eta", &lep2Eta, "lep2Eta/F");
       outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
       outputTree->Branch("lep2Id", &lep2Id, "lep2Id/I");
-    } else {
+      outputTree->Branch("nBTaggedJets", &nBTaggedJets, "nBTaggedJets/I");      
+    } 
+
+    if (Option == 0 || Option == 20) {            
       outputTree->Branch("pho1Pt", &pho1Pt, "pho1Pt/F");
       outputTree->Branch("pho1Eta", &pho1Eta, "pho1Eta/F");
       outputTree->Branch("pho1Phi", &pho1Phi, "pho1Phi/F");  
@@ -445,6 +491,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       genLeptonPt = -99.0;
       genLeptonEta = -99.0;
       genLeptonPhi = -99.0;
+      genPhotonPt = -99.0;
+      genPhotonEta = -99.0;
+      genPhotonPhi = -99.0;
       NJets = -1;
       MET = -99.0;
 
@@ -530,7 +579,24 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       pho1Pt = -99;
       pho1Eta = -99;
       pho1Phi = -99;
-    
+      jet1Pt = -99;
+      jet1Eta = -99;
+      jet1Phi = -99;
+      jet1DeepJetBTag = -99;
+      jet2Pt = -99;
+      jet2Eta = -99;
+      jet2Phi = -99;
+      jet2DeepJetBTag = -99;
+      jet3Pt = -99;
+      jet3Eta = -99;
+      jet3Phi = -99;
+      jet3DeepJetBTag = -99;
+      jet4Pt = -99;
+      jet4Eta = -99;
+      jet4Phi = -99;
+      jet4DeepJetBTag = -99;
+      nBTaggedJets = 0;
+
       //------------------------------
       //----Event variables------------
       //------------------------------
@@ -567,6 +633,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	    genLeptonEta = GenPart_eta[i];
 	    genLeptonPhi = GenPart_phi[i];	    
 	  }	       
+	  
+	  if ( GenPart_pdgId[i] == 22 && GenPart_pdgId[GenPart_genPartIdxMother[i]] == 25 ) {
+	    genPhotonPt = GenPart_pt[i];
+	    genPhotonEta = GenPart_eta[i];
+	    genPhotonPhi = GenPart_phi[i];
+	  }
 
 	}
 
@@ -626,7 +698,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       double tmpfatJet2Pt = -999;
       double tmpfatJet1Tagger = -999;
       double tmpfatJet2Tagger = -999;
-      if (Option >= 1 && Option <= 10) {
+      if (Option <= 10) {
 	for(unsigned int i = 0; i < selectedFatJetIndices.size(); i++ ) {
 	  double fatJetTagger = FatJet_ParticleNetMD_probXbb[selectedFatJetIndices[i]]/(1.0 - FatJet_ParticleNetMD_probXcc[selectedFatJetIndices[i]] - FatJet_ParticleNetMD_probXqq[selectedFatJetIndices[i]]);
 	  if (fatJetTagger > tmpfatJet1Tagger) {
@@ -992,9 +1064,20 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //------------------------------------------------------
       //----------Find Photons
       //------------------------------------------------------     
-      for(unsigned int i = 0; i < nMuon; i++ ) {       
+      for(unsigned int i = 0; i < nPhoton; i++ ) {       
 
-
+	if (Photon_pt[i] < 30) continue;
+	if (fabs(Photon_eta[i]) > 2.5) continue;
+	if (fabs(Photon_eta[i]) < 1.5) {
+	  if (Photon_mvaID[i] > 0.42) continue;
+	} else {
+	  if (Photon_mvaID[i] > 0.14) continue;
+	}
+	if (!Photon_electronVeto[i]) continue;
+	
+	pho1Pt = Photon_pt[i];
+	pho1Eta = Photon_eta[i];
+	pho1Phi = Photon_phi[i];
 
       }
 
@@ -1008,7 +1091,62 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	    ) {
 	  NJets++;
 	}
-      }
+
+	bool passBTag = false;
+	if (year == "2018") {
+	  if (Jet_pt[i] > 40 && fabs(Jet_eta[i]) < 2.5
+	      && Jet_btagDeepFlavB[i] > 0.2770
+	      && Jet_puId[i] >= 2	
+	      && Jet_jetId[i] >= 4
+	      ) {
+	    passBTag = true;
+	  }
+	} else if (year == "2017" ) {
+	  if (Jet_pt[i] > 40 && fabs(Jet_eta[i]) < 2.5
+	      && Jet_btagDeepFlavB[i] > 0.3033
+	      && Jet_puId[i] >= 2
+	      && Jet_jetId[i] >= 4
+	      ) {
+	    passBTag = true;
+	  }
+	} else if (year == "2016") {
+	  if (Jet_pt[i] > 30 && fabs(Jet_eta[i]) < 2.4
+	      && Jet_btagDeepFlavB[i] > 0.3033
+	      && Jet_puId[i] >= 2
+	      && Jet_jetId[i] >= 4
+	      ) {
+	    passBTag = true;
+	  }
+	}
+	
+	if (passBTag) {
+	  nBTaggedJets++;
+
+	  if (nBTaggedJets==1) {
+	    jet1Pt = Jet_pt[i];
+	    jet1Eta = Jet_eta[i];
+	    jet1Phi = Jet_phi[i];
+	  }
+	  if (nBTaggedJets==2) {
+	    jet2Pt = Jet_pt[i];
+	    jet2Eta = Jet_eta[i];
+	    jet2Phi = Jet_phi[i];
+	  }
+	  if (nBTaggedJets==3) {
+	    jet3Pt = Jet_pt[i];
+	    jet3Eta = Jet_eta[i];
+	    jet3Phi = Jet_phi[i];
+	  }
+	  if (nBTaggedJets==4) {
+	    jet4Pt = Jet_pt[i];
+	    jet4Eta = Jet_eta[i];
+	    jet4Phi = Jet_phi[i];
+	  }
+
+
+	}
+
+      } //loop over AK4 jets
       
        
       //****************************************************
