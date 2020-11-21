@@ -280,6 +280,7 @@ datasetList['nano/v1/2018/ZH_HToZG_ZToAll_M-125_TuneCP5_13TeV-powheg-pythia8.lis
 datasetList['nano/v1/2018/ZH_ZToAll_HToZG_ZToLL_TuneCP5_M125_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "ZH_ZToAll_HToZG_ZToLL_TuneCP5_M125_13TeV-powheg-pythia8"]
 datasetList['nano/v1/2018/ttHToZG_M125_13TeV_powheg_pythia8.list'] = [0, 2, "2018", "ttHToZG_M125_13TeV_powheg_pythia8"]
 datasetList['nano/v1/2018/ttHToZG_ZToLL_M125_13TeV_powheg_pythia8.list'] = [0, 2, "2018", "ttHToZG_ZToLL_M125_13TeV_powheg_pythia8"]
+datasetList['nano/v1/2018/GluGluHToZG_M-125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "GluGluHToZG_M-125_TuneCP5_13TeV-powheg-pythia8"]
 
 #datasetList['nano/v1/2018/SingleMuon_2018A.list'] = [1, 1, "2018", ""]
 #datasetList['nano/v1/2018/SingleMuon_2018B.list'] = [1, 1, "2018", ""]
