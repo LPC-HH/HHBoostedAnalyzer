@@ -435,26 +435,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	float deltaR_j1j2 = -99;    
 	float ptj2_over_ptj1 = -99;
 	float mj2_over_mj1 = -99;
-	float disc_qcd_2017_basic0  = -99;
-	float disc_qcd_2017_basic1  = -99;
-	float disc_qcd_2017_basic2  = -99;
-	float disc_qcd_2017_enhanced  = -99;
-	float disc_qcd_2017_enhanced_v2  = -99;
-	float disc_ttbar_2017_basic0  = -99;
-	float disc_ttbar_2017_basic1  = -99;
-	float disc_ttbar_2017_basic2  = -99;
-	float disc_ttbar_2017_enhanced = -99; 
-	float disc_ttbar_2017_enhanced_v2 = -99; 
-	float disc_qcd_and_ttbar_2017_basic0  = -99;
-	float disc_qcd_and_ttbar_2017_basic1  = -99;
-	float disc_qcd_and_ttbar_2017_basic2  = -99;
-	float disc_qcd_and_ttbar_2017_enhanced  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v2  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v5  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v6  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v7  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v8  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v10  = -99;     
+	float disc_v8p2  = -99;
+	float disc_v24  = -99; 
 	bool HLT_PFHT1050 = false;                                     
 	bool HLT_AK8PFJet360_TrimMass30 = false;                             
 	bool HLT_AK8PFJet380_TrimMass30 = false;                             
@@ -518,27 +500,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	tree->SetBranchAddress("hh_eta", &hh_eta);
 	tree->SetBranchAddress("hh_phi", &hh_phi);
 	tree->SetBranchAddress("hh_mass", &hh_mass);        
-	tree->SetBranchAddress("disc_qcd_2017_basic0", &disc_qcd_2017_basic0);
-	tree->SetBranchAddress("disc_qcd_2017_basic1", &disc_qcd_2017_basic1);
-	tree->SetBranchAddress("disc_qcd_2017_basic2", &disc_qcd_2017_basic2);
-	tree->SetBranchAddress("disc_qcd_2017_enhanced", &disc_qcd_2017_enhanced);
-	tree->SetBranchAddress("disc_qcd_2017_enhanced_v2", &disc_qcd_2017_enhanced_v2);
-	tree->SetBranchAddress("disc_ttbar_2017_basic0", &disc_ttbar_2017_basic0);
-	tree->SetBranchAddress("disc_ttbar_2017_basic1", &disc_ttbar_2017_basic1);
-	tree->SetBranchAddress("disc_ttbar_2017_basic2", &disc_ttbar_2017_basic2);
-	tree->SetBranchAddress("disc_ttbar_2017_enhanced", &disc_ttbar_2017_enhanced);
-	tree->SetBranchAddress("disc_ttbar_2017_enhanced_v2", &disc_ttbar_2017_enhanced_v2);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_basic0", &disc_qcd_and_ttbar_2017_basic0);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_basic1", &disc_qcd_and_ttbar_2017_basic1);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_basic2", &disc_qcd_and_ttbar_2017_basic2);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced", &disc_qcd_and_ttbar_2017_enhanced);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v2", &disc_qcd_and_ttbar_2017_enhanced_v2);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v5p2", &disc_qcd_and_ttbar_2017_enhanced_v5);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v6", &disc_qcd_and_ttbar_2017_enhanced_v6);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v7", &disc_qcd_and_ttbar_2017_enhanced_v7);
-	//tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v8p2", &disc_qcd_and_ttbar_2017_enhanced_v8);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v24", &disc_qcd_and_ttbar_2017_enhanced_v8);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v10p2", &disc_qcd_and_ttbar_2017_enhanced_v10);
+	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v8p2", &disc_v8p2);
+	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v24", &disc_v24);
 	tree->SetBranchAddress("fatJet1PtOverMHH", &fatJet1PtOverMHH);
 	tree->SetBranchAddress("fatJet1PtOverMSD", &fatJet1PtOverMSD);
 	tree->SetBranchAddress("fatJet2PtOverMHH", &fatJet2PtOverMHH);
@@ -729,114 +692,78 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    //Enhanced V8p2 BDT Analysis
 	    //*************************************************************************
 	    // //Best 3-bin analysis - Bin1
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.23) ) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
+	    // if ( !(disc_v8p2 > 0.43) ) continue;
+	    // if ( !(fatJet2PNetXbb > 0.980)) continue;
 
-	    //Best 3-bin analysis - Bin2
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.023) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 <= 0.23) ) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
-
+	    // //Best 3-bin analysis - Bin2
+	    // if ( (disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.980 ) ) continue;
+	    // if ( !( ( disc_v8p2 > 0.11 && fatJet2PNetXbb > 0.980)
+	    // 	    || 
+	    // 	    ( disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.950)
+	    // 	    )) continue;
+	   
  	    // //Best 3-bin analysis - Bin3
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.408) ) continue;
-	    // if ( !(fatJet2PNetXbb <= 0.985)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.945)) continue;
+	    // if ( (disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.980 ) ) continue;
+	    // if ( ( ( disc_v8p2 > 0.11 && fatJet2PNetXbb > 0.980)
+	    // 	   || 
+	    // 	   ( disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.950)
+	    // 	   )) continue;	  
+ 
+	    // if ( !(disc_v8p2 > 0.032 && fatJet2PNetXbb > 0.950) ) continue;
+
 	    //*************************************************************************
 	    //*************************************************************************
 
 	  
 
 	    //*************************************************************************
-	    //Enhanced V23 BDT Analysis - 
+	    //Enhanced V24 BDT Analysis - 
 	    //BDT trained with ntuples where jet1/2 are selected based on Xbb ordering
 	    //*************************************************************************
 	    // Bin1
-	    if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    if ( !(fatJet2PNetXbb > 0.985)) continue; 
+	    // if ( !(disc_v24 > 0.029) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
+	    // if ( !(fatJet2PNetXbb > 0.985)) continue; 
          
 	    // Bin2
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
-	    
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_v24 > 0.029) ) continue;	    
+	    // if ( !(fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_v24 > 0.0118) ) continue;
+	   
             // Bin3
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.975)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.975)) continue;
-	    // //if ( !( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.985) || (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.975)  )) continue;
-	              
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_v24 > 0.028) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_v24 > 0.0118) ) continue;	  
+	    // if ( !( disc_v24 > 0.0054 && 
+	    // 	    ( (fatJet1PNetXbb > 0.955 && fatJet2PNetXbb > 0.985) 
+	    // 	      || (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.955)  
+	    // 	      ) ) ) continue;
+
+	 	              
 	    // Bin4
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
-	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0141) ) continue;
-	    // //if ( !(fatJet1PNetXbb > 0.95)) continue;
-	    // //if ( !(fatJet2PNetXbb > 0.95)) continue;
-	    // if ( !( (fatJet1PNetXbb > 0.95 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.95)  )) continue;
-	              
-
-
-	    //*************************************************************************
-	    //Enhanced V23 BDT Analysis - 
-	    //BDT trained with ntuples where jet1/2 are selected based on pT ordering
-	    //*************************************************************************
-	    // Bin1
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.018) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
-
-	    // // Bin2
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.018) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0077) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.975)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.975)) continue;
-	    
-            // // Bin3
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.018) ) continue;
-	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0077) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0115) ) continue;
-	    // //if ( !(fatJet1PNetXbb > 0.95)) continue;
-	    // //if ( !(fatJet2PNetXbb > 0.95)) continue;
-	    // if ( !( (fatJet1PNetXbb > 0.950 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.950)  )) continue;
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_v24 > 0.028) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_v24 > 0.0118) ) continue;	  
+	    // if (  disc_v24 > 0.0054 && 
+	    // 	  ( (fatJet1PNetXbb > 0.955 && fatJet2PNetXbb > 0.985) 
+	    // 	    || (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.955)  
+	    // 	    ) ) continue;
+	    // if ( !( disc_v24 > 0.0024 && 
+	    // 	    ( (fatJet1PNetXbb > 0.945 && fatJet2PNetXbb > 0.945) 
+	    // 	      ) ) ) continue;
 	    
 
-	    //*************************************************************************
-	    //Enhanced V23 BDT Analysis
-	    //*************************************************************************
-	    // Bin1
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.033) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
 
-	    // Bin2
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.011 && disc_qcd_and_ttbar_2017_enhanced_v8 <= 0.033) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
-
-	    // Bin3
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.011)) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.014) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975)) continue;
-	    // if ( !( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.985))) continue;
 	    
-	    // Bin4
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.011)) continue;
-	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.014)) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0045) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.95 && fatJet2PNetXbb > 0.95)) continue;
-	    
+	    //*************************************************************************
 	    //cut-based
+	    //*************************************************************************
 	    // if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
 	    // if ( !(fatJet1Pt > 310 && fatJet2Pt > 310 )) continue;
 	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
 	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
 	    // if ( !(fatJet1MassSD > 105 && fatJet1MassSD < 135)) continue;
 
+	    //*************************************************************************
 	    // baseline cut-based (from Zhicai)
+	    //*************************************************************************
 	    // if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
 	    // if ( !(fatJet1Pt > 300 && fatJet2Pt > 300 )) continue;
 	    // if ( !(fatJet1PNetXbb > 0.975)) continue;
@@ -1033,7 +960,7 @@ void SelectHHTo4B_PNet( int option = -1) {
   //2016 Data and MC
   //***********************************
 
-  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/";
+  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20201117/option5/combined/BDT/Jet2Xbb0p8Skim/";
   datafiles_2016.push_back(dir+"2016/JetHT_2016_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
 
   bkgfiles_ttbar_2016.push_back(dir+"2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
