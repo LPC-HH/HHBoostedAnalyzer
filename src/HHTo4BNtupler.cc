@@ -139,6 +139,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float genHH_eta = -99;
     float genHH_phi = -99;
     float genHH_mass = -99;
+    float genWPt = -1;
+    float genWEta = -1;
+    float genWPhi = -1;
+    float genZPt = -1;
+    float genZEta = -1;
+    float genZPhi = -1;
     float genLeptonPt = -1;
     float genLeptonEta = -1;
     float genLeptonPhi = -1;
@@ -389,6 +395,15 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("nBTaggedJets", &nBTaggedJets, "nBTaggedJets/I");      
     } 
 
+    if (Option == 20) {
+      outputTree->Branch("genWPt", &genWPt, "genWPt/F");
+      outputTree->Branch("genWEta", &genWEta, "genWEta/F");
+      outputTree->Branch("genWPhi", &genWPhi, "genWPhi/F");
+      outputTree->Branch("genZPt", &genZPt, "genZPt/F");
+      outputTree->Branch("genZEta", &genZEta, "genZEta/F");
+      outputTree->Branch("genZPhi", &genZPhi, "genZPhi/F");
+    }
+
     if (Option == 0 || Option == 20) {            
       outputTree->Branch("pho1Pt", &pho1Pt, "pho1Pt/F");
       outputTree->Branch("pho1Eta", &pho1Eta, "pho1Eta/F");
@@ -486,6 +501,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       genHH_eta = -99;
       genHH_phi = -99;
       genHH_mass = -99;   
+      genWPt = -99.0;
+      genWEta = -99.0;
+      genWPhi = -99.0;
+      genZPt = -99.0;
+      genZEta = -99.0;
+      genZPhi = -99.0;
       genLeptonId = 0;
       genLeptonMotherId = 0;
       genLeptonPt = -99.0;
@@ -638,6 +659,22 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	    genPhotonPt = GenPart_pt[i];
 	    genPhotonEta = GenPart_eta[i];
 	    genPhotonPhi = GenPart_phi[i];
+	  }
+
+	  if ( abs(GenPart_pdgId[i]) == 23 
+	       && GenPart_status[i] == 62 
+	       ) {
+	    genZPt = GenPart_pt[i];
+	    genZEta = GenPart_eta[i];
+	    genZPhi = GenPart_phi[i];
+	  }
+
+	  if ( abs(GenPart_pdgId[i]) == 24
+	       && GenPart_status[i] == 62
+	       ) {
+	    genWPt = GenPart_pt[i];
+	    genWEta = GenPart_eta[i];
+	    genWPhi = GenPart_phi[i];
 	  }
 
 	}
