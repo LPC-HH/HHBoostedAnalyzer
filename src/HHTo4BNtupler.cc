@@ -1194,7 +1194,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	  (Option == 5 && fatJet1Pt > 250 && fatJet2Pt > 250 && fatJet1MassSD > 50 
 	   && fatJet2MassSD > 50 && fatJet1PNetXbb > 0.8) || 
 	  (Option == 10 && ( (fatJet1Pt > 250 && fatJet2Pt > 250) || (fatJet1Pt > 250 && lep1Id != 0)) ) || 
-	  (Option == 20 && fatJet1Pt > 250 && fatJet1MassSD > 30 && fatJet1MassSD < 150 && lep1Id == 0)
+	  (Option == 20 && fatJet1Pt > 250 && fatJet1MassSD > 30 && lep1Id == 0)
 	  ) {
 	 
 
