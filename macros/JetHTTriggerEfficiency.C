@@ -49,14 +49,14 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   //*****************************************************************************************
   //Make some histograms
   //*****************************************************************************************
-  // TH2F *histJetPtMass_Denominator = new TH2F("histJetPtMass_Denominator", "; AK8 Mass [GeV] ; AK8 Jet p_{T} [GeV] ; Efficiency", 15, 0, 300, 40, 0, 1000);
-  TH2F *histJetPtMass_Denominator = new TH2F("histJetPtMass_Denominator", "; AK8 Mass [GeV] ; AK8 Jet p_{T} [GeV] ; Efficiency", 50, 0, 300, 100, 0, 1000);
+  TH2F *histJetPtMass_Denominator = new TH2F("histJetPtMass_Denominator", "; AK8 Mass [GeV] ; AK8 Jet p_{T} [GeV] ; Efficiency", 15, 0, 300, 40, 0, 1000);
+//TH2F *histJetPtMass_Denominator = new TH2F("histJetPtMass_Denominator", "; AK8 Mass [GeV] ; AK8 Jet p_{T} [GeV] ; Efficiency", 50, 0, 300, 100, 0, 1000);
   TH1F *histJetPt_Denominator = new TH1F("histJetPt_Denominator", "; AK8 Jet p_{T} [GeV] ; Efficiency", 100, 0, 1000);
   TH1F *histJetMass_Denominator = new TH1F("histJetMass_Denominator", "; AK8 Mass [GeV] ; Efficiency", 100, 0, 500);
   TH1F *histJetPNetXbb_Denominator = new TH1F("histJetPNetXbb_Denominator", "; AK8 Jet PNet Xbb Prob ; Efficiency", 100, 0, 1.0);
 
-  // TH2F *histJetPtMass_Numerator = new TH2F("histJetPtMass_Numerator", "; AK8 Mass [GeV] ; AK8 Jet p_{T} [GeV] ; Efficiency", 15, 0, 300, 40, 0, 1000);
-  TH2F *histJetPtMass_Numerator = new TH2F("histJetPtMass_Numerator", "; AK8 Mass [GeV] ; AK8 Jet p_{T} [GeV] ; Efficiency", 50, 0, 300, 100, 0, 1000);
+  TH2F *histJetPtMass_Numerator = new TH2F("histJetPtMass_Numerator", "; AK8 Mass [GeV] ; AK8 Jet p_{T} [GeV] ; Efficiency", 15, 0, 300, 40, 0, 1000);
+  //TH2F *histJetPtMass_Numerator = new TH2F("histJetPtMass_Numerator", "; AK8 Mass [GeV] ; AK8 Jet p_{T} [GeV] ; Efficiency", 50, 0, 300, 100, 0, 1000);
   TH1F *histJetPt_Numerator = new TH1F("histJetPt_Numerator", "; AK8 Jet p_{T} [GeV] ; Efficiency", 100, 0, 1000);
   TH1F *histJetMass_Numerator = new TH1F("histJetMass_Numerator", "; AK8 Mass [GeV] ; Efficiency", 100, 0, 500);
   TH1F *histJetPNetXbb_Numerator = new TH1F("histJetPNetXbb_Numerator", "; AK8 Jet PNet Xbb Prob ; Efficiency", 100, 0, 1.0);
@@ -91,6 +91,7 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
     float weight = 0;
     float MET = 0;
     float fatJet1Pt = 0;
+    float fatJet1Eta = 0;
     float fatJet1MassSD = 0;
     float fatJet1DDBTagger = 0;
     float fatJet1PNetXbb = -99;
@@ -167,6 +168,7 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
     tree->SetBranchAddress("weight",&weight);                                       
     tree->SetBranchAddress("MET",&MET);                                       
     tree->SetBranchAddress("fatJet1Pt",&fatJet1Pt);                                       
+    tree->SetBranchAddress("fatJet1Eta",&fatJet1Eta);                                       
     tree->SetBranchAddress("fatJet1MassSD",&fatJet1MassSD);                                       
     tree->SetBranchAddress("fatJet1DDBTagger",&fatJet1DDBTagger);
     tree->SetBranchAddress("fatJet1PNetXbb",&fatJet1PNetXbb); 
@@ -253,6 +255,9 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
       //******************************
       if (!(HLT_IsoMu27 || HLT_IsoMu30 || HLT_Mu27 || HLT_Mu50 || HLT_Mu55)) continue;
       
+      if (!(fabs(fatJet1Eta) < 2.4)) continue;
+
+
       //******************************
       //Trigger Selection
       //******************************
@@ -330,6 +335,8 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
  //--------------------------------------------------------------------------------------------------------------
   // Draw
   //==============================================================================================================
+  gStyle->SetPaintTextFormat(".3f");
+
   TCanvas *cv =0;
 
   cv = new TCanvas("cv","cv",800,600);
@@ -363,15 +370,18 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   cv->SaveAs(("JetHTTriggerEfficiency"+Label+"_PNetXbb.gif").c_str());
 
   cv = new TCanvas("cv","cv",800,600);
+  cv->SetRightMargin(0.15);
   efficiency_ptmass->Draw("colztext");
+  efficiency_ptmass->SetStats(0);
   efficiency_ptmass->SetTitle("");
   efficiency_ptmass->GetXaxis()->SetTitle("AK8 Jet p_{T} [GeV]");
   efficiency_ptmass->GetYaxis()->SetTitle("AK8 Jet Mass [GeV]");
   efficiency_ptmass->GetYaxis()->SetTitleOffset(1.2);
-  efficiency_ptmass->GetZaxis()->SetTitle("Efficiency");
+  efficiency_ptmass->GetZaxis()->SetTitle("Trigger Efficiency");
   //efficiency_ptmass->GetZaxis()->SetRangeUser(0.0,1.0);
   efficiency_ptmass->SetLineWidth(3);  
   cv->SaveAs(("JetHTTriggerEfficiency"+Label+"_ptmass.gif").c_str());
+  cv->SaveAs(("JetHTTriggerEfficiency"+Label+"_ptmass.pdf").c_str());
 
    //--------------------------------------------------------------------------------------------------------------
   // Output
