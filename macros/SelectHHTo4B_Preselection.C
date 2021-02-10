@@ -101,13 +101,21 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
   THStack *stack = new THStack();
   TH1D *histDataOverMC = (TH1D*)hist[0]->Clone("histDataOverMC");
 
+  TH1D *histSignal = 0;
+
   if (hasData) {
     for (int i = hist.size()-1; i >= 1; --i) {
       hist[i]->SetFillColor(color[i]);
       hist[i]->SetFillStyle(1001);
+      hist[i]->SetLineColor(color[i]);
       
       if ( hist[i]->Integral() > 0) {
-          if ((processLabels[i] == "HHkl0") || processLabels[i] == "HHkl2p45" || processLabels[i] == "HHkl6") continue;
+
+	if (processLabels[i] == "HH") {
+	  histSignal = hist[i];
+	}
+
+	if ((processLabels[i] == "HH") || (processLabels[i] == "HHkl0") || processLabels[i] == "HHkl2p45" || processLabels[i] == "HHkl6") continue;
   	stack->Add(hist[i]);
         
       }
@@ -118,7 +126,11 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
       hist[i]->SetFillStyle(1001);
       
       if ( hist[i]->Integral() > 0) {
-          if ((processLabels[i] == "HHkl0") || processLabels[i] == "HHkl2p45" || processLabels[i] == "HHkl6") continue;
+	if (processLabels[i] == "HH") {
+	  histSignal = hist[i];
+	}
+	
+	if ((processLabels[i] == "HH") || (processLabels[i] == "HHkl0") || processLabels[i] == "HHkl2p45" || processLabels[i] == "HHkl6") continue;
   	stack->Add(hist[i]);
       }
     }
@@ -127,6 +139,9 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
   for (uint i = 0 ; i < hist.size(); ++i) {
     if (hasData && i==0) {
       legend->AddEntry(hist[i],(processLabels[i]).c_str(), "LP");
+    } 
+    if ((processLabels[i] == "HH") || (processLabels[i] == "HHkl0") || processLabels[i] == "HHkl2p45" || processLabels[i] == "HHkl6") {
+      legend->AddEntry(hist[i],"HH x100000", "L");
     } else {
       legend->AddEntry(hist[i],(processLabels[i]).c_str(), "F");
     }
@@ -142,8 +157,14 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
     stack->SetMaximum( 1.2* fmax( stack->GetMaximum(), hist[0]->GetMaximum()) );
     stack->SetMinimum( 0.1 );
 
+    if (histSignal) {
+      histSignal->SetLineWidth(3);
+      histSignal->SetFillStyle(0);
+      histSignal->Draw("histsame");
+    }
+
     if (hasData) {
-     hist[0]->SetMarkerStyle(20);      
+      hist[0]->SetMarkerStyle(20);      
       hist[0]->SetMarkerSize(1);
       hist[0]->SetLineWidth(1);
       hist[0]->SetLineColor(color[0]);
@@ -182,6 +203,7 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
     double MCErrSqr = 0;
     if (hasData) {
       for (uint i = 1 ; i < hist.size(); ++i) {
+	if ((processLabels[i] == "HH") || (processLabels[i] == "HHkl0") || processLabels[i] == "HHkl2p45" || processLabels[i] == "HHkl6") continue;
 	MC += hist[i]->GetBinContent(b);
 	MCErrSqr += pow(hist[i]->GetBinError(b),2);
       }
@@ -1079,7 +1101,7 @@ void SelectHHTo4B_Preselection( int option = -1) {
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
-  scaleFactors.push_back(1.0);
+  scaleFactors.push_back(100000.0);
   // scaleFactors.push_back(1.0);
   // scaleFactors.push_back(1.0);
   // scaleFactors.push_back(1.0);
