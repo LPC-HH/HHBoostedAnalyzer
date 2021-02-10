@@ -26,6 +26,8 @@ void DileptonNtupler::Analyze(bool isData, int Option, string outputfilename, st
     //declare branch variables
     //------------------------
     float weight = 0;
+    float genZ_Pt = 0;
+    float genZ_Eta = 0;
     int lep1Id = 0;
     float lep1Pt = -1;
     float lep1Eta = -1;
@@ -43,25 +45,28 @@ void DileptonNtupler::Analyze(bool isData, int Option, string outputfilename, st
     //set branches on big tree
     //------------------------
     outputTree->Branch("weight", &weight, "weight/F");
-    outputTree->Branch("lep1Id", &lep1Id, "lep1Id/I");
-    outputTree->Branch("lep1Pt", &lep1Pt, "lep1Pt/F");
-    outputTree->Branch("lep1Eta", &lep1Eta, "lep1Eta/F");
-    outputTree->Branch("lep1Phi", &lep1Phi, "lep1Phi/F");
-    outputTree->Branch("lep2Id", &lep2Id, "lep2Id/I");
-    outputTree->Branch("lep2Pt", &lep2Pt, "lep2Pt/F");
-    outputTree->Branch("lep2Eta", &lep2Eta, "lep2Eta/F");
-    outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
-    outputTree->Branch("dileptonMass", &dileptonMass, "dileptonMass/F");
-    outputTree->Branch("MET", &MET, "MET/F");
-    outputTree->Branch("NJets", &NJets, "NJets/I");
-    outputTree->Branch("NBTags", &NBTags, "NBTags/I");
+    outputTree->Branch("genZ_Pt", &genZ_Pt, "genZ_Pt/F");
+    outputTree->Branch("genZ_Eta", &genZ_Eta, "genZ_Eta/F");
+  //   outputTree->Branch("lep1Id", &lep1Id, "lep1Id/I");
+  //   outputTree->Branch("lep1Pt", &lep1Pt, "lep1Pt/F");
+  //   outputTree->Branch("lep1Eta", &lep1Eta, "lep1Eta/F");
+  //   outputTree->Branch("lep1Phi", &lep1Phi, "lep1Phi/F");
+  //   outputTree->Branch("lep2Id", &lep2Id, "lep2Id/I");
+  //   outputTree->Branch("lep2Pt", &lep2Pt, "lep2Pt/F");
+  //   outputTree->Branch("lep2Eta", &lep2Eta, "lep2Eta/F");
+  //   outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
+  //   outputTree->Branch("dileptonMass", &dileptonMass, "dileptonMass/F");
+  //   outputTree->Branch("MET", &MET, "MET/F");
+  //   outputTree->Branch("NJets", &NJets, "NJets/I");
+  //   outputTree->Branch("NBTags", &NBTags, "NBTags/I");
 
-    outputTree->Branch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ/O");
-  outputTree->Branch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL/O");
-  outputTree->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL/O");
-  outputTree->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ/O");
-  outputTree->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ/O");
-  outputTree->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL/O");
+  //   outputTree->Branch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ/O");
+  // outputTree->Branch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL/O");
+  // outputTree->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL/O");
+  // outputTree->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ/O");
+  // outputTree->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ/O");
+  // outputTree->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL/O");
+
     cout << "Run With Option = " << Option << "\n";
     
     UInt_t NEventsFilled = 0;
@@ -85,6 +90,8 @@ void DileptonNtupler::Analyze(bool isData, int Option, string outputfilename, st
 
 
       //reset tree variables
+      genZ_Pt = 0;
+      genZ_Eta = 0;
       lep1Id = 0;
       lep1Pt = -1;
       lep1Eta = -1;
@@ -98,7 +105,19 @@ void DileptonNtupler::Analyze(bool isData, int Option, string outputfilename, st
       NJets = 0;
       NBTags = 0;
       
-
+      //***********************
+      //Gen Z
+      //***********************
+      
+      for(int i = 0; i < nGenPart; i++) {		
+	if ( abs(GenPart_pdgId[i]) == 23 
+	     && GenPart_status[i] == 62 
+	     ) {
+	  genZ_Pt = GenPart_pt[i];
+	  genZ_Eta = GenPart_eta[i];
+	}
+      }
+      
       //***********************
       //Select Leptons
       //***********************
