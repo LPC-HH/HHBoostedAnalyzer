@@ -130,6 +130,9 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
     float deltaR_j1j2 = -99;    
     float ptj2_over_ptj1 = -99;
     float mj2_over_mj1 = -99;
+
+    bool HLT_PFHT790 = false;                                     
+    bool HLT_PFHT890 = false;                                     
     bool HLT_PFHT1050 = false;                                     
     bool HLT_AK8PFJet360_TrimMass30 = false;                             
     bool HLT_AK8PFJet380_TrimMass30 = false;                             
@@ -142,6 +145,7 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
     bool HLT_PFJet450 = false;                                           
     bool HLT_PFJet500 = false;                                           
     bool HLT_PFJet550 = false;                                           
+    bool HLT_AK8PFJet400 = false;                                   
     bool HLT_AK8PFJet450 = false;                                   
     bool HLT_AK8PFJet500 = false;                                   
     bool HLT_AK8PFJet550 = false;                                   
@@ -207,6 +211,8 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
     tree->SetBranchAddress("deltaR_j1j2", &deltaR_j1j2);    
     tree->SetBranchAddress("ptj2_over_ptj1", &ptj2_over_ptj1);
     tree->SetBranchAddress("mj2_over_mj1", &mj2_over_mj1);
+    tree->SetBranchAddress("HLT_PFHT790",                                        &HLT_PFHT790);                             
+    tree->SetBranchAddress("HLT_PFHT890",                                        &HLT_PFHT890);                             
     tree->SetBranchAddress("HLT_PFHT1050",                                        &HLT_PFHT1050);                             
     tree->SetBranchAddress("HLT_AK8PFJet360_TrimMass30",                          &HLT_AK8PFJet360_TrimMass30);                             
     tree->SetBranchAddress("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30);                             
@@ -268,23 +274,36 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
 	    || HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20
 	    || HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20
 	    || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 	    
+	    || HLT_AK8PFJet360_TrimMass30
+	    || HLT_AK8PFJet450 
+	    || HLT_PFJet450    
+	    || HLT_PFHT790
+	    || HLT_PFHT890
+	    || HLT_PFHT1050
 	    ;       
 	}
 	if (option == "2017") {
 	  passTrigger = 
 	    (0 == 1) 
+	    || HLT_PFJet450    
 	    || HLT_PFJet500    
+	    || HLT_AK8PFJet400 
 	    || HLT_AK8PFJet500 
+	    || HLT_PFHT1050
 	    || HLT_AK8PFJet360_TrimMass30
 	    || HLT_AK8PFJet380_TrimMass30
 	    || HLT_AK8PFJet400_TrimMass30   
 	    || HLT_AK8PFHT800_TrimMass50 
+	    || HLT_AK8PFHT750_TrimMass50 
 	    || HLT_AK8PFJet330_PFAK8BTagCSV_p17	  
 	    ;       
 	}
 	if (option == "2018") {
 	  passTrigger = 
 	    (0 == 1) 
+	    || HLT_PFHT1050
+	    || HLT_PFJet500  
+	    || HLT_AK8PFJet500 
 	    || HLT_AK8PFJet400_TrimMass30 
 	    || HLT_AK8PFHT800_TrimMass50     
 	    || HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4 
