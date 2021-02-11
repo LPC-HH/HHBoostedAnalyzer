@@ -194,7 +194,7 @@ datasetList['nano/v1/2017/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-
 datasetList['nano/v1/2017/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8.list'] = [0, 2, "2017", "ST_tW_antitop_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8"]
 datasetList['nano/v1/2017/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2017", "ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8"]
 datasetList['nano/v1/2017/ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8.list'] = [0, 2, "2017", "ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8"]
-datasetList['nano/v1/2017/TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8.list '] = [0, 2, "2017", "TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8"]
+datasetList['nano/v1/2017/TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8.list'] = [0, 2, "2017", "TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8"]
 datasetList['nano/v1/2017/TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8.list'] = [0, 2, "2017", "TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8"]
 
 #datasetList['nano/v1/2017/SingleMuon_2017B.list'] = [1, 1, "2017", ""]
@@ -286,7 +286,7 @@ datasetList['nano/v1/2018/ZH_ZToAll_HToZG_ZToLL_TuneCP5_M125_13TeV-powheg-pythia
 datasetList['nano/v1/2018/ttHToZG_M125_13TeV_powheg_pythia8.list'] = [0, 2, "2018", "ttHToZG_M125_13TeV_powheg_pythia8"]
 datasetList['nano/v1/2018/ttHToZG_ZToLL_M125_13TeV_powheg_pythia8.list'] = [0, 2, "2018", "ttHToZG_ZToLL_M125_13TeV_powheg_pythia8"]
 datasetList['nano/v1/2018/GluGluHToZG_M-125_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "GluGluHToZG_M-125_TuneCP5_13TeV-powheg-pythia8"]
-datasetList['nano/v1/2018/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8.list '] = [0, 2, "2018", "TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8"]
+datasetList['nano/v1/2018/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8"]
 datasetList['nano/v1/2018/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8.list'] = [0, 2, "2018", "TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8"]
 
 
