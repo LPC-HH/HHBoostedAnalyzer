@@ -33,7 +33,7 @@ cmsswReleaseVersion = "CMSSW_10_6_5"
 
 
 
-outputDirectoryBase = "/store/user/lpcbacon/sixie/analyzer/"+analysis+"/"+label+"/"
+outputDirectoryBase = "/store/user/lpcdihiggsboost/sixie/analyzer/"+analysis+"/"+label+"/"
 #filesPerJob = 2
 
 datasetList = OrderedDict()
