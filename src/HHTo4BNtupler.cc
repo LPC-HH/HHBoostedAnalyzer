@@ -168,6 +168,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet1PNetQCDc = -99;
     float fatJet1PNetQCDcc = -99;
     float fatJet1PNetQCDothers = -99;
+    float fatJet1_deepTagMD_W =  -99;
+    float fatJet1_deepTagMD_Z =  -99;
+    float fatJet1_deepTag_W =  -99;
+    float fatJet1_deepTag_Z =  -99;
     int   fatJet1GenMatchIndex = -99;
     float fatJet1Tau3OverTau2 = -99;
     float fatJet1_n2b1 = -99; 
@@ -189,6 +193,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet2PNetQCDc = -99;
     float fatJet2PNetQCDcc = -99;
     float fatJet2PNetQCDothers = -99;
+    float fatJet2_deepTagMD_W =  -99;
+    float fatJet2_deepTagMD_Z =  -99;
+    float fatJet2_deepTag_W =  -99;
+    float fatJet2_deepTag_Z =  -99;
     int   fatJet2GenMatchIndex = -99;
     float fatJet2Tau3OverTau2 = -99;
     bool fatJet2HasMuon = 0;
@@ -283,6 +291,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("fatJet1PNetQCDc", &fatJet1PNetQCDc, "fatJet1PNetQCDc/F");
     outputTree->Branch("fatJet1PNetQCDcc", &fatJet1PNetQCDcc, "fatJet1PNetQCDcc/F");
     outputTree->Branch("fatJet1PNetQCDothers", &fatJet1PNetQCDothers, "fatJet1PNetQCDothers/F");
+    outputTree->Branch("fatJet1_deepTagMD_W", &fatJet1_deepTagMD_W, "fatJet1_deepTagMD_W/F");
+    outputTree->Branch("fatJet1_deepTagMD_Z", &fatJet1_deepTagMD_Z, "fatJet1_deepTagMD_Z/F");
+    outputTree->Branch("fatJet1_deepTag_W", &fatJet1_deepTag_W, "fatJet1_deepTag_W/F");
+    outputTree->Branch("fatJet1_deepTag_Z", &fatJet1_deepTag_Z, "fatJet1_deepTag_Z/F"); 
     outputTree->Branch("fatJet1GenMatchIndex", &fatJet1GenMatchIndex, "fatJet1GenMatchIndex/I");
     outputTree->Branch("fatJet1Tau3OverTau2", &fatJet1Tau3OverTau2, "fatJet1Tau3OverTau2/F");
     outputTree->Branch("fatJet1_n2b1", &fatJet1_n2b1, "fatJet1_n2b1/F");
@@ -346,6 +358,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("fatJet2PNetQCDc", &fatJet2PNetQCDc, "fatJet2PNetQCDc/F");
       outputTree->Branch("fatJet2PNetQCDcc", &fatJet2PNetQCDcc, "fatJet2PNetQCDcc/F");
       outputTree->Branch("fatJet2PNetQCDothers", &fatJet2PNetQCDothers, "fatJet2PNetQCDothers/F");
+      outputTree->Branch("fatJet2_deepTagMD_W", &fatJet2_deepTagMD_W, "fatJet2_deepTagMD_W/F");
+      outputTree->Branch("fatJet2_deepTagMD_Z", &fatJet2_deepTagMD_Z, "fatJet2_deepTagMD_Z/F");
+      outputTree->Branch("fatJet2_deepTag_W", &fatJet2_deepTag_W, "fatJet2_deepTag_W/F");
+      outputTree->Branch("fatJet2_deepTag_Z", &fatJet2_deepTag_Z, "fatJet2_deepTag_Z/F"); 
       outputTree->Branch("fatJet2GenMatchIndex", &fatJet2GenMatchIndex, "fatJet2GenMatchIndex/I");
       outputTree->Branch("fatJet2Tau3OverTau2", &fatJet2Tau3OverTau2, "fatJet2Tau3OverTau2/F");
       outputTree->Branch("fatJet2HasMuon", &fatJet2HasMuon, "fatJet2HasMuon/O");
@@ -395,7 +411,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("nBTaggedJets", &nBTaggedJets, "nBTaggedJets/I");      
     } 
 
-    if (Option == 20) {
+    if (Option == 20 || Option == 21) {
       outputTree->Branch("genWPt", &genWPt, "genWPt/F");
       outputTree->Branch("genWEta", &genWEta, "genWEta/F");
       outputTree->Branch("genWPhi", &genWPhi, "genWPhi/F");
@@ -404,7 +420,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("genZPhi", &genZPhi, "genZPhi/F");
     }
 
-    if (Option == 0 || Option == 20) {            
+    if (Option == 0 || Option == 20 || Option == 21) {            
       outputTree->Branch("pho1Pt", &pho1Pt, "pho1Pt/F");
       outputTree->Branch("pho1Eta", &pho1Eta, "pho1Eta/F");
       outputTree->Branch("pho1Phi", &pho1Phi, "pho1Phi/F");  
@@ -467,6 +483,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     if (Option == 5) cout << "Option = 5 : Select Events with FatJet1 pT > 200 GeV and PNetXbb > 0.8 only\n";
     if (Option == 10) cout << "Option = 10 : Select FatJets with pT > 200 GeV and tau3/tau2 < 0.54 only\n";
     if (Option == 20) cout << "Option = 20 : Select FatJets with pT > 200 GeV and MassSD>50, but only save Jet1 info\n";
+    if (Option == 21) cout << "Option = 21 : Select FatJets with pT > 200 GeV and MassSD>50, but save all info\n";
+
 
 
     UInt_t NEventsFilled = 0;
@@ -530,6 +548,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1PNetQCDc = -99;
       fatJet1PNetQCDcc = -99;
       fatJet1PNetQCDothers = -99;
+      fatJet1_deepTagMD_W =  -99;
+      fatJet1_deepTagMD_Z =  -99;
+      fatJet1_deepTag_W =  -99;
+      fatJet1_deepTag_Z =  -99;   
       fatJet1GenMatchIndex = -99.0;
       fatJet1Tau3OverTau2 = -99;
       fatJet1_n2b1 = -99; 
@@ -551,6 +573,10 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2PNetQCDc = -99;
       fatJet2PNetQCDcc = -99;
       fatJet2PNetQCDothers = -99;
+      fatJet2_deepTagMD_W =  -99;
+      fatJet2_deepTagMD_Z =  -99;
+      fatJet2_deepTag_W =  -99;
+      fatJet2_deepTag_Z =  -99;   
       fatJet2GenMatchIndex = -99.0;
       fatJet2Tau3OverTau2 = -99;
       fatJet2HasMuon = 0;
@@ -748,7 +774,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	    fatJet2Index = selectedFatJetIndices[i];
 	  }
 	}
-      } else if (Option == 20) {
+      } else if (Option == 20 || Option == 21) {
 	for(unsigned int i = 0; i < selectedFatJetIndices.size(); i++ ) {
 	  if (FatJet_pt[selectedFatJetIndices[i]] > tmpfatJet1Pt) {
 	    tmpfatJet2Pt = fatJet1Pt;
@@ -809,6 +835,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1PNetQCDc = FatJet_ParticleNetMD_probQCDc[fatJet1Index];
       fatJet1PNetQCDcc = FatJet_ParticleNetMD_probQCDcc[fatJet1Index];
       fatJet1PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet1Index];
+      fatJet1_deepTagMD_W  =  FatJet_deepTagMD_WvsQCD[fatJet1Index];
+      fatJet1_deepTagMD_Z  =  FatJet_deepTagMD_ZvsQCD[fatJet1Index];
+      fatJet1_deepTag_W    =  FatJet_deepTag_WvsQCD[fatJet1Index]; 
+      fatJet1_deepTag_Z    =  FatJet_deepTag_ZvsQCD[fatJet1Index]; 
+    
+
       if(Higgs1MinDR < 0.4) {
 	fatJet1GenMatchIndex = Higgs1_match_idx;
       }
@@ -901,7 +933,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2PNetQCDc = FatJet_ParticleNetMD_probQCDc[fatJet2Index];
       fatJet2PNetQCDcc = FatJet_ParticleNetMD_probQCDcc[fatJet2Index];
       fatJet2PNetQCDothers = FatJet_ParticleNetMD_probQCDothers[fatJet2Index];
-
+      fatJet2_deepTagMD_W  =  FatJet_deepTagMD_WvsQCD[fatJet2Index];
+      fatJet2_deepTagMD_Z  =  FatJet_deepTagMD_ZvsQCD[fatJet2Index];
+      fatJet2_deepTag_W    =  FatJet_deepTag_WvsQCD[fatJet2Index]; 
+      fatJet2_deepTag_Z    =  FatJet_deepTag_ZvsQCD[fatJet2Index]; 
+ 
       if(Higgs2MinDR < 0.4) {
 	fatJet2GenMatchIndex = Higgs2_match_idx;
       }
@@ -1194,7 +1230,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	  (Option == 5 && fatJet1Pt > 250 && fatJet2Pt > 250 && fatJet1MassSD > 50 
 	   && fatJet2MassSD > 50 && fatJet1PNetXbb > 0.8) || 
 	  (Option == 10 && ( (fatJet1Pt > 250 && fatJet2Pt > 250) || (fatJet1Pt > 250 && lep1Id != 0)) ) || 
-	  (Option == 20 && fatJet1Pt > 250 && fatJet1MassSD > 30 && lep1Id == 0)
+	  (Option == 20 && fatJet1Pt > 250 && fatJet1MassSD > 30 && lep1Id == 0) ||
+	  (Option == 21 && fatJet1Pt > 250 && fatJet1MassSD > 30 )
 	  ) {
 	 
 

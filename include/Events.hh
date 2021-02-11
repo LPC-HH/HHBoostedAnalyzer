@@ -165,6 +165,10 @@ public :
    float* FatJet_deepTagZbb = new float[NFATJET];   //[nFatJet]
    float* FatJet_deepTagZcc = new float[NFATJET];   //[nFatJet]
    float* FatJet_deepTagZqq = new float[NFATJET];   //[nFatJet]
+   float* FatJet_deepTagMD_WvsQCD = new float[NFATJET];   //[nFatJet]
+   float* FatJet_deepTagMD_ZvsQCD = new float[NFATJET];   //[nFatJet]
+   float* FatJet_deepTag_WvsQCD = new float[NFATJET];   //[nFatJet]
+   float* FatJet_deepTag_ZvsQCD = new float[NFATJET];   //[nFatJet]
    float* FatJet_eta = new float[NFATJET];   //[nFatJet]
    float* FatJet_lsf3 = new float[NFATJET];   //[nFatJet]
    float* FatJet_mass = new float[NFATJET];   //[nFatJet]
@@ -1684,6 +1688,10 @@ public :
    TBranch        *b_FatJet_ParticleNetMD_probXbb;   //!
    TBranch        *b_FatJet_ParticleNetMD_probXcc;   //!
    TBranch        *b_FatJet_ParticleNetMD_probXqq;   //!
+   TBranch        *b_FatJet_deepTagMD_WvsQCD;   //!
+   TBranch        *b_FatJet_deepTagMD_ZvsQCD;   //!
+   TBranch        *b_FatJet_deepTag_WvsQCD;   //!
+   TBranch        *b_FatJet_deepTag_ZvsQCD;   //!
    TBranch        *b_FatJet_LSmsoftdrop;   //!
    TBranch        *b_FatJet_LSn2b1;   //!
    TBranch        *b_FatJet_LSn3b1;   //!
@@ -3389,6 +3397,10 @@ void Events::Init(TTree *tree)
    fChain->SetBranchAddress("FatJet_deepTagZbb", FatJet_deepTagZbb, &b_FatJet_deepTagZbb);
    fChain->SetBranchAddress("FatJet_deepTagZcc", FatJet_deepTagZcc, &b_FatJet_deepTagZcc);
    fChain->SetBranchAddress("FatJet_deepTagZqq", FatJet_deepTagZqq, &b_FatJet_deepTagZqq);
+   fChain->SetBranchAddress("FatJet_deepTagMD_WvsQCD", FatJet_deepTagMD_WvsQCD, &b_FatJet_deepTagMD_WvsQCD);
+   fChain->SetBranchAddress("FatJet_deepTagMD_ZvsQCD", FatJet_deepTagMD_ZvsQCD, &b_FatJet_deepTagMD_ZvsQCD);
+   fChain->SetBranchAddress("FatJet_deepTag_WvsQCD", FatJet_deepTag_WvsQCD, &b_FatJet_deepTag_WvsQCD);
+   fChain->SetBranchAddress("FatJet_deepTag_ZvsQCD", FatJet_deepTag_ZvsQCD, &b_FatJet_deepTag_ZvsQCD);
    fChain->SetBranchAddress("FatJet_eta", FatJet_eta, &b_FatJet_eta);
    fChain->SetBranchAddress("FatJet_lsf3", FatJet_lsf3, &b_FatJet_lsf3);
    fChain->SetBranchAddress("FatJet_mass", FatJet_mass, &b_FatJet_mass);
