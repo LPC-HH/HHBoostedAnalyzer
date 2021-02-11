@@ -110,6 +110,8 @@ datasets = {
 #'GJets_DR-0p4_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/bortigno-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_qcut19_94X_v3-v2-44377faedc969dcf531f5eb3e501054b/USER',
 #'GJets_DR-0p4_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/bortigno-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_qcut19_94X_v3-v2-44377faedc969dcf531f5eb3e501054b/USER',
 #'GJets_DR-0p4_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/bortigno-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_qcut19_94X_v3-v2-44377faedc969dcf531f5eb3e501054b/USER',
+#'TT_Mtt-700to1000_TuneCUETP8M2T4_13TeV-powheg-pythia8':'/TT_Mtt-700to1000_TuneCUETP8M2T4_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v2-44377faedc969dcf531f5eb3e501054b/USER',
+#'TT_Mtt-1000toInf_TuneCUETP8M2T4_13TeV-powheg-pythia8':'/TT_Mtt-1000toInf_TuneCUETP8M2T4_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v2-44377faedc969dcf531f5eb3e501054b/USER',
 
 
 # ####################################################################################################
@@ -188,6 +190,8 @@ datasets = {
 #'GJets_DR-0p4_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8_v2/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
 #'GJets_DR-0p4_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8_v2/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
 #'GJets_DR-0p4_HT-600ToInf_TuneCP5_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-600ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v2-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+#'TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8':'/TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-ext1-v4-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+#'TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8':'/TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-ext1-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
 
 
 ####################################################################################################
@@ -269,7 +273,10 @@ datasets = {
 # 'ZH_ZToAll_HToZG_ZToLL_TuneCP5_M125_13TeV-powheg-pythia8':'/ZH_ZToAll_HToZG_ZToLL_TuneCP5_M125_13TeV-powheg-pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
 # 'ttHToZG_M125_13TeV_powheg_pythia8':'/ttHToZG_M125_13TeV_powheg_pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
 # 'ttHToZG_ZToLL_M125_13TeV_powheg_pythia8':'/ttHToZG_ZToLL_M125_13TeV_powheg_pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
-    'GluGluHToZG_M-125_TuneCP5_13TeV-powheg-pythia8':'/GluGluHToZG_M-125_TuneCP5_13TeV-powheg-pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
+#    'GluGluHToZG_M-125_TuneCP5_13TeV-powheg-pythia8':'/GluGluHToZG_M-125_TuneCP5_13TeV-powheg-pythia8/sixie-NanoTuples-V2p0_RunIIAutumn18MiniAOD-102X_v15-v1-cd471944433cef30a1e69a7cb38aa7e8/USER',
+#'DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8':'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1/NANOAODSIM',
+#'TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8':'/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v1-27c3bb388d728791ecf339ca1f755fce/USER',
+#'TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8':'/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v2-27c3bb388d728791ecf339ca1f755fce/USER',
 }
 
 # if (len(sys.argv) -1 < 1):
@@ -285,6 +292,7 @@ for processName in datasets.keys():
     outputFile = open(processName+".list","w")
     print processName
     command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " instance=prod/phys03 \" -json > tmpOutput.json"
+    #command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " \" -json > tmpOutput.json"
     os.system(command)
 
     jsonFile = open("tmpOutput.json","r")
