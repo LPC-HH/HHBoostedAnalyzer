@@ -411,7 +411,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("nBTaggedJets", &nBTaggedJets, "nBTaggedJets/I");      
     } 
 
-    if (Option == 20 || Option == 21) {
+    if (Option == 0 || Option == 20 || Option == 21) {
       outputTree->Branch("genWPt", &genWPt, "genWPt/F");
       outputTree->Branch("genWEta", &genWEta, "genWEta/F");
       outputTree->Branch("genWPhi", &genWPhi, "genWPhi/F");
