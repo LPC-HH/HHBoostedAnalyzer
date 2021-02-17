@@ -112,7 +112,13 @@ datasets = {
 #'GJets_DR-0p4_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/bortigno-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_qcut19_94X_v3-v2-44377faedc969dcf531f5eb3e501054b/USER',
 #'TT_Mtt-700to1000_TuneCUETP8M2T4_13TeV-powheg-pythia8':'/TT_Mtt-700to1000_TuneCUETP8M2T4_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v2-44377faedc969dcf531f5eb3e501054b/USER',
 #'TT_Mtt-1000toInf_TuneCUETP8M2T4_13TeV-powheg-pythia8':'/TT_Mtt-1000toInf_TuneCUETP8M2T4_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v2-44377faedc969dcf531f5eb3e501054b/USER',
-
+# 'VBF_HH_CV_0_5_C2V_1_C3_1_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_0_5_C2V_1_C3_1_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER',
+# 'VBF_HH_CV_1_5_C2V_1_C3_1_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_5_C2V_1_C3_1_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER',
+# 'VBF_HH_CV_1_C2V_0_C3_1_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_0_C3_1_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER',
+# 'VBF_HH_CV_1_C2V_1_C3_0_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_0_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER',
+# 'VBF_HH_CV_1_C2V_1_C3_1_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_1_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER',
+# 'VBF_HH_CV_1_C2V_1_C3_2_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_2_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER',
+# 'VBF_HH_CV_1_C2V_2_C3_1_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_2_C3_1_dipoleRecoilOff-TuneCUETP8M1_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIISummer16MiniAODv3-PUMoriond17_94X_v3-v1-44377faedc969dcf531f5eb3e501054b/USER',
 
 # ####################################################################################################
 # #2017 Datasets
@@ -192,7 +198,13 @@ datasets = {
 #'GJets_DR-0p4_HT-600ToInf_TuneCP5_13TeV-madgraphMLM-pythia8':'/GJets_DR-0p4_HT-600ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v2-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
 #'TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8':'/TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-ext1-v4-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
 #'TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8':'/TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-ext1-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
-
+# 'VBF_HH_CV_0_5_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_0_5_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+# 'VBF_HH_CV_1_5_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_5_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+# 'VBF_HH_CV_1_C2V_0_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_0_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+# 'VBF_HH_CV_1_C2V_1_C3_0_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_0_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+# 'VBF_HH_CV_1_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+# 'VBF_HH_CV_1_C2V_1_C3_2_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_2_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+# 'VBF_HH_CV_1_C2V_2_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_2_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
 
 ####################################################################################################
 #2018 Datasets
@@ -277,6 +289,14 @@ datasets = {
 #'DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8':'/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1/NANOAODSIM',
 #'TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8':'/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v1-27c3bb388d728791ecf339ca1f755fce/USER',
 #'TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8':'/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v2-27c3bb388d728791ecf339ca1f755fce/USER',
+# 'VBF_HH_CV_0_5_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_0_5_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v2-27c3bb388d728791ecf339ca1f755fce/USER',
+# 'VBF_HH_CV_1_5_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_5_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v2-27c3bb388d728791ecf339ca1f755fce/USER',
+# 'VBF_HH_CV_1_C2V_0_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_0_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v2-27c3bb388d728791ecf339ca1f755fce/USER',
+# 'VBF_HH_CV_1_C2V_1_C3_0_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_0_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v2-27c3bb388d728791ecf339ca1f755fce/USER',
+# 'VBF_HH_CV_1_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v2-27c3bb388d728791ecf339ca1f755fce/USER',
+# 'VBF_HH_CV_1_C2V_1_C3_2_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_2_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v2-27c3bb388d728791ecf339ca1f755fce/USER',
+# 'VBF_HH_CV_1_C2V_2_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_2_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIAutumn18MiniAOD-102X_v15-v2-27c3bb388d728791ecf339ca1f755fce/USER',
+
 }
 
 # if (len(sys.argv) -1 < 1):
