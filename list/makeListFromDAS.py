@@ -205,6 +205,11 @@ datasets = {
 # 'VBF_HH_CV_1_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
 # 'VBF_HH_CV_1_C2V_1_C3_2_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_1_C3_2_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
 # 'VBF_HH_CV_1_C2V_2_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8':'/VBF_HH_CV_1_C2V_2_C3_1_dipoleRecoilOff-TuneCP5_PSweights_13TeV-madgraph-pythia8/slaurila-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+#'TTToHadronic_TuneCP5_13TeV-powheg-pythia8_new_pmx':'/TTToHadronic_TuneCP5_13TeV-powheg-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_v14-v2-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+#'TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8':'/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+#'TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_new_pmx':'/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_v14-v1-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+#'TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8':'/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8/coli-NanoTuples-30Apr2020_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_v14-v2-6f7c69ffdbb83072d4913e5f3cf0008f/USER',
+
 
 ####################################################################################################
 #2018 Datasets
