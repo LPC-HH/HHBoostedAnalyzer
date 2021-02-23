@@ -145,6 +145,15 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float genZPt = -1;
     float genZEta = -1;
     float genZPhi = -1;
+    float genTop1Mass = -1;
+    float genTop1Pt = -1;
+    float genTop1Eta = -1;
+    float genTop1Phi = -1;   
+    float genTop2Mass = -1;
+    float genTop2Pt = -1;
+    float genTop2Eta = -1;
+    float genTop2Phi = -1;   
+    float genMTT = -1;
     float genLeptonPt = -1;
     float genLeptonEta = -1;
     float genLeptonPhi = -1;
@@ -266,44 +275,48 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 
     //------------------------
     //set branches on big tree
-    //------------------------
+    //------------------------    
     outputTree->Branch("weight", &weight, "weight/F");
-    outputTree->Branch("triggerEffWeight", &triggerEffWeight, "triggerEffWeight/F");
-    outputTree->Branch("pileupWeight", &pileupWeight, "pileupWeight/F");
-    outputTree->Branch("totalWeight", &totalWeight, "totalWeight/F");
-    outputTree->Branch("run", &run, "run/i");
-    outputTree->Branch("lumi", &luminosityBlock, "lumi/i");
-    outputTree->Branch("event", &event, "event/l");
-    outputTree->Branch("npu", &Pileup_nTrueInt, "npu/F");
-    outputTree->Branch("rho", &fixedGridRhoFastjetAll, "rho/F");
- 
-    outputTree->Branch("NJets", &NJets, "NJets/I");
-    outputTree->Branch("MET", &MET, "MET/F");
-    outputTree->Branch("fatJet1Pt", &fatJet1Pt, "fatJet1Pt/F");
-    outputTree->Branch("fatJet1Eta", &fatJet1Eta, "fatJet1Eta/F");
-    outputTree->Branch("fatJet1Phi", &fatJet1Phi, "fatJet1Phi/F");
-    outputTree->Branch("fatJet1Mass", &fatJet1Mass, "fatJet1Mass/F");
-    outputTree->Branch("fatJet1MassSD", &fatJet1MassSD, "fatJet1MassSD/F");
-    outputTree->Branch("fatJet1DDBTagger", &fatJet1DDBTagger, "fatJet1DDBTagger/F");
-    outputTree->Branch("fatJet1PNetXbb", &fatJet1PNetXbb, "fatJet1PNetXbb/F");
-    outputTree->Branch("fatJet1PNetQCDb", &fatJet1PNetQCDb, "fatJet1PNetQCDb/F");
-    outputTree->Branch("fatJet1PNetQCDbb", &fatJet1PNetQCDbb, "fatJet1PNetQCDbb/F");
-    outputTree->Branch("fatJet1PNetQCDc", &fatJet1PNetQCDc, "fatJet1PNetQCDc/F");
-    outputTree->Branch("fatJet1PNetQCDcc", &fatJet1PNetQCDcc, "fatJet1PNetQCDcc/F");
-    outputTree->Branch("fatJet1PNetQCDothers", &fatJet1PNetQCDothers, "fatJet1PNetQCDothers/F");
-    outputTree->Branch("fatJet1_deepTagMD_W", &fatJet1_deepTagMD_W, "fatJet1_deepTagMD_W/F");
-    outputTree->Branch("fatJet1_deepTagMD_Z", &fatJet1_deepTagMD_Z, "fatJet1_deepTagMD_Z/F");
-    outputTree->Branch("fatJet1_deepTag_W", &fatJet1_deepTag_W, "fatJet1_deepTag_W/F");
-    outputTree->Branch("fatJet1_deepTag_Z", &fatJet1_deepTag_Z, "fatJet1_deepTag_Z/F"); 
-    outputTree->Branch("fatJet1GenMatchIndex", &fatJet1GenMatchIndex, "fatJet1GenMatchIndex/I");
-    outputTree->Branch("fatJet1Tau3OverTau2", &fatJet1Tau3OverTau2, "fatJet1Tau3OverTau2/F");
-    outputTree->Branch("fatJet1_n2b1", &fatJet1_n2b1, "fatJet1_n2b1/F");
-    outputTree->Branch("fatJet1HasMuon", &fatJet1HasMuon, "fatJet1HasMuon/O");
-    outputTree->Branch("fatJet1HasElectron", &fatJet1HasElectron, "fatJet1HasElectron/O");
-    outputTree->Branch("fatJet1HasBJetCSVLoose", &fatJet1HasBJetCSVLoose, "fatJet1HasBJetCSVLoose/O");
-    outputTree->Branch("fatJet1HasBJetCSVMedium", &fatJet1HasBJetCSVMedium, "fatJet1HasBJetCSVMedium/O");
-    outputTree->Branch("fatJet1HasBJetCSVTight", &fatJet1HasBJetCSVTight, "fatJet1HasBJetCSVTight/O");
-    outputTree->Branch("fatJet1OppositeHemisphereHasBJet", &fatJet1OppositeHemisphereHasBJet, "fatJet1OppositeHemisphereHasBJet/O");
+    outputTree->Branch("genMTT", &genMTT, "genMTT/F");
+
+    if (Option != 100) {
+      outputTree->Branch("triggerEffWeight", &triggerEffWeight, "triggerEffWeight/F");
+      outputTree->Branch("pileupWeight", &pileupWeight, "pileupWeight/F");
+      outputTree->Branch("totalWeight", &totalWeight, "totalWeight/F");
+      outputTree->Branch("run", &run, "run/i");
+      outputTree->Branch("lumi", &luminosityBlock, "lumi/i");
+      outputTree->Branch("event", &event, "event/l");
+      outputTree->Branch("npu", &Pileup_nTrueInt, "npu/F");
+      outputTree->Branch("rho", &fixedGridRhoFastjetAll, "rho/F");
+
+      outputTree->Branch("NJets", &NJets, "NJets/I");
+      outputTree->Branch("MET", &MET, "MET/F");
+      outputTree->Branch("fatJet1Pt", &fatJet1Pt, "fatJet1Pt/F");
+      outputTree->Branch("fatJet1Eta", &fatJet1Eta, "fatJet1Eta/F");
+      outputTree->Branch("fatJet1Phi", &fatJet1Phi, "fatJet1Phi/F");
+      outputTree->Branch("fatJet1Mass", &fatJet1Mass, "fatJet1Mass/F");
+      outputTree->Branch("fatJet1MassSD", &fatJet1MassSD, "fatJet1MassSD/F");
+      outputTree->Branch("fatJet1DDBTagger", &fatJet1DDBTagger, "fatJet1DDBTagger/F");
+      outputTree->Branch("fatJet1PNetXbb", &fatJet1PNetXbb, "fatJet1PNetXbb/F");
+      outputTree->Branch("fatJet1PNetQCDb", &fatJet1PNetQCDb, "fatJet1PNetQCDb/F");
+      outputTree->Branch("fatJet1PNetQCDbb", &fatJet1PNetQCDbb, "fatJet1PNetQCDbb/F");
+      outputTree->Branch("fatJet1PNetQCDc", &fatJet1PNetQCDc, "fatJet1PNetQCDc/F");
+      outputTree->Branch("fatJet1PNetQCDcc", &fatJet1PNetQCDcc, "fatJet1PNetQCDcc/F");
+      outputTree->Branch("fatJet1PNetQCDothers", &fatJet1PNetQCDothers, "fatJet1PNetQCDothers/F");
+      outputTree->Branch("fatJet1_deepTagMD_W", &fatJet1_deepTagMD_W, "fatJet1_deepTagMD_W/F");
+      outputTree->Branch("fatJet1_deepTagMD_Z", &fatJet1_deepTagMD_Z, "fatJet1_deepTagMD_Z/F");
+      outputTree->Branch("fatJet1_deepTag_W", &fatJet1_deepTag_W, "fatJet1_deepTag_W/F");
+      outputTree->Branch("fatJet1_deepTag_Z", &fatJet1_deepTag_Z, "fatJet1_deepTag_Z/F"); 
+      outputTree->Branch("fatJet1GenMatchIndex", &fatJet1GenMatchIndex, "fatJet1GenMatchIndex/I");
+      outputTree->Branch("fatJet1Tau3OverTau2", &fatJet1Tau3OverTau2, "fatJet1Tau3OverTau2/F");
+      outputTree->Branch("fatJet1_n2b1", &fatJet1_n2b1, "fatJet1_n2b1/F");
+      outputTree->Branch("fatJet1HasMuon", &fatJet1HasMuon, "fatJet1HasMuon/O");
+      outputTree->Branch("fatJet1HasElectron", &fatJet1HasElectron, "fatJet1HasElectron/O");
+      outputTree->Branch("fatJet1HasBJetCSVLoose", &fatJet1HasBJetCSVLoose, "fatJet1HasBJetCSVLoose/O");
+      outputTree->Branch("fatJet1HasBJetCSVMedium", &fatJet1HasBJetCSVMedium, "fatJet1HasBJetCSVMedium/O");
+      outputTree->Branch("fatJet1HasBJetCSVTight", &fatJet1HasBJetCSVTight, "fatJet1HasBJetCSVTight/O");
+      outputTree->Branch("fatJet1OppositeHemisphereHasBJet", &fatJet1OppositeHemisphereHasBJet, "fatJet1OppositeHemisphereHasBJet/O");
+    }
 
     if (Option == 0) {
       outputTree->Branch("genPhotonPt", &genPhotonPt, "genPhotonPt/F");
@@ -329,7 +342,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
    }
 
 
-    if (Option != 20) {
+    if (Option != 20 && Option != 100) {
       outputTree->Branch("genHiggs1Pt", &genHiggs1Pt, "genHiggs1Pt/F");
       outputTree->Branch("genHiggs1Eta", &genHiggs1Eta, "genHiggs1Eta/F");
       outputTree->Branch("genHiggs1Phi", &genHiggs1Phi, "genHiggs1Phi/F");
@@ -418,7 +431,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("genZPt", &genZPt, "genZPt/F");
       outputTree->Branch("genZEta", &genZEta, "genZEta/F");
       outputTree->Branch("genZPhi", &genZPhi, "genZPhi/F");
-    }
+   }
 
     if (Option == 0 || Option == 20 || Option == 21) {            
       outputTree->Branch("pho1Pt", &pho1Pt, "pho1Pt/F");
@@ -426,65 +439,70 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("pho1Phi", &pho1Phi, "pho1Phi/F");  
     }
 
-    outputTree->Branch("HLT_Ele27_WPTight_Gsf", &HLT_Ele27_WPTight_Gsf, "HLT_Ele27_WPTight_Gsf/O");
-    outputTree->Branch("HLT_Ele28_WPTight_Gsf", &HLT_Ele28_WPTight_Gsf, "HLT_Ele28_WPTight_Gsf/O");
-    outputTree->Branch("HLT_Ele30_WPTight_Gsf", &HLT_Ele30_WPTight_Gsf, "HLT_Ele30_WPTight_Gsf/O");
-    outputTree->Branch("HLT_Ele32_WPTight_Gsf", &HLT_Ele32_WPTight_Gsf, "HLT_Ele32_WPTight_Gsf/O");
-    outputTree->Branch("HLT_Ele35_WPTight_Gsf", &HLT_Ele35_WPTight_Gsf, "HLT_Ele35_WPTight_Gsf/O");
-    outputTree->Branch("HLT_Ele38_WPTight_Gsf", &HLT_Ele38_WPTight_Gsf, "HLT_Ele38_WPTight_Gsf/O");
-    outputTree->Branch("HLT_Ele40_WPTight_Gsf", &HLT_Ele40_WPTight_Gsf, "HLT_Ele40_WPTight_Gsf/O");
-    outputTree->Branch("HLT_IsoMu20", &HLT_IsoMu20, "HLT_IsoMu20/O");
-    outputTree->Branch("HLT_IsoMu24", &HLT_IsoMu24, "HLT_IsoMu24/O");
-    outputTree->Branch("HLT_IsoMu24_eta2p1", &HLT_IsoMu24_eta2p1, "HLT_IsoMu24_eta2p1/O");
-    outputTree->Branch("HLT_IsoMu27", &HLT_IsoMu27, "HLT_IsoMu27/O");
-    outputTree->Branch("HLT_IsoMu30", &HLT_IsoMu30, "HLT_IsoMu30/O");
-    outputTree->Branch("HLT_Mu50", &HLT_Mu50, "HLT_Mu50/O");
-    outputTree->Branch("HLT_Mu55", &HLT_Mu55, "HLT_Mu55/O");
-    outputTree->Branch("HLT_Photon175",                          &HLT_Photon175,                         "HLT_Photon175/O");
+    if (Option != 100) {
+
+      outputTree->Branch("HLT_Ele27_WPTight_Gsf", &HLT_Ele27_WPTight_Gsf, "HLT_Ele27_WPTight_Gsf/O");
+      outputTree->Branch("HLT_Ele28_WPTight_Gsf", &HLT_Ele28_WPTight_Gsf, "HLT_Ele28_WPTight_Gsf/O");
+      outputTree->Branch("HLT_Ele30_WPTight_Gsf", &HLT_Ele30_WPTight_Gsf, "HLT_Ele30_WPTight_Gsf/O");
+      outputTree->Branch("HLT_Ele32_WPTight_Gsf", &HLT_Ele32_WPTight_Gsf, "HLT_Ele32_WPTight_Gsf/O");
+      outputTree->Branch("HLT_Ele35_WPTight_Gsf", &HLT_Ele35_WPTight_Gsf, "HLT_Ele35_WPTight_Gsf/O");
+      outputTree->Branch("HLT_Ele38_WPTight_Gsf", &HLT_Ele38_WPTight_Gsf, "HLT_Ele38_WPTight_Gsf/O");
+      outputTree->Branch("HLT_Ele40_WPTight_Gsf", &HLT_Ele40_WPTight_Gsf, "HLT_Ele40_WPTight_Gsf/O");
+      outputTree->Branch("HLT_IsoMu20", &HLT_IsoMu20, "HLT_IsoMu20/O");
+      outputTree->Branch("HLT_IsoMu24", &HLT_IsoMu24, "HLT_IsoMu24/O");
+      outputTree->Branch("HLT_IsoMu24_eta2p1", &HLT_IsoMu24_eta2p1, "HLT_IsoMu24_eta2p1/O");
+      outputTree->Branch("HLT_IsoMu27", &HLT_IsoMu27, "HLT_IsoMu27/O");
+      outputTree->Branch("HLT_IsoMu30", &HLT_IsoMu30, "HLT_IsoMu30/O");
+      outputTree->Branch("HLT_Mu50", &HLT_Mu50, "HLT_Mu50/O");
+      outputTree->Branch("HLT_Mu55", &HLT_Mu55, "HLT_Mu55/O");
+      outputTree->Branch("HLT_Photon175",                          &HLT_Photon175,                         "HLT_Photon175/O");
     
-    //PFHT800 and PFHT900 only exists in 2016 data
-    outputTree->Branch("HLT_PFHT780",                                        &HLT_PFHT780,                                       "HLT_PFHT780/O");
-    outputTree->Branch("HLT_PFHT890",                                        &HLT_PFHT890,                                       "HLT_PFHT890/O");
-    outputTree->Branch("HLT_PFHT1050",                                        &HLT_PFHT1050,                                       "HLT_PFHT1050/O");
-    outputTree->Branch("HLT_AK8PFJet360_TrimMass30",                          &HLT_AK8PFJet360_TrimMass30,                         "HLT_AK8PFJet360_TrimMass30/O");
-    outputTree->Branch("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30,                         "HLT_AK8PFJet380_TrimMass30/O");
-    outputTree->Branch("HLT_AK8PFJet400_TrimMass30",                          &HLT_AK8PFJet400_TrimMass30,                         "HLT_AK8PFJet400_TrimMass30/O");
-    outputTree->Branch("HLT_AK8PFJet420_TrimMass30",                          &HLT_AK8PFJet420_TrimMass30,                         "HLT_AK8PFJet420_TrimMass30/O");
-    outputTree->Branch("HLT_AK8PFHT750_TrimMass50",                           &HLT_AK8PFHT750_TrimMass50,                          "HLT_AK8PFHT750_TrimMass50/O");
-    outputTree->Branch("HLT_AK8PFHT800_TrimMass50",                           &HLT_AK8PFHT800_TrimMass50,                          "HLT_AK8PFHT800_TrimMass50/O");
-    outputTree->Branch("HLT_AK8PFHT850_TrimMass50",                           &HLT_AK8PFHT850_TrimMass50,                          "HLT_AK8PFHT850_TrimMass50/O");
-    outputTree->Branch("HLT_AK8PFHT900_TrimMass50",                           &HLT_AK8PFHT900_TrimMass50,                          "HLT_AK8PFHT900_TrimMass50/O");
-    //outputTree->Branch("HLT_AK8PFHT700_TrimR0p1PT0p03Mass50",                 &HLT_AK8PFHT700_TrimR0p1PT0p03Mass50,                "HLT_AK8PFHT700_TrimR0p1PT0p03Mass50/O");
-    // outputTree->Branch("HLT_PFHT650_WideJetMJJ950DEtaJJ1p5",                  &HLT_PFHT650_WideJetMJJ950DEtaJJ1p5,                 "HLT_PFHT650_WideJetMJJ950DEtaJJ1p5/O");
-    // outputTree->Branch("HLT_PFHT650_WideJetMJJ900DEtaJJ1p5",                  &HLT_PFHT650_WideJetMJJ900DEtaJJ1p5,                  "HLT_PFHT650_WideJetMJJ900DEtaJJ1p5/O");
-    outputTree->Branch("HLT_PFJet450",                                        &HLT_PFJet450,                                       "HLT_PFJet450/O");
-    outputTree->Branch("HLT_PFJet500",                                        &HLT_PFJet500,                                       "HLT_PFJet500/O");
-    outputTree->Branch("HLT_PFJet550",                                        &HLT_PFJet550,                                       "HLT_PFJet550/O");
-    outputTree->Branch("HLT_AK8PFJet400",                                     &HLT_AK8PFJet400,                                    "HLT_AK8PFJet400/O");
-    outputTree->Branch("HLT_AK8PFJet450",                                     &HLT_AK8PFJet450,                                    "HLT_AK8PFJet450/O");
-    outputTree->Branch("HLT_AK8PFJet500",                                     &HLT_AK8PFJet500,                                    "HLT_AK8PFJet500/O");
-    outputTree->Branch("HLT_AK8PFJet550",                                     &HLT_AK8PFJet550,                                    "HLT_AK8PFJet550/O");
-    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17",     &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17,    "HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17/O");
-    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1",      &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1,     "HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1/O");
-    outputTree->Branch("HLT_AK8PFJet330_PFAK8BTagCSV_p17",                    &HLT_AK8PFJet330_PFAK8BTagCSV_p17,                   "HLT_AK8PFJet330_PFAK8BTagCSV_p17/O");
-    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02, "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02/O");
-    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2, "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2/O");
-    outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4, "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4/O"); 
-    outputTree->Branch("HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20/O");
-    outputTree->Branch("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087",       &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087,      "HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087/O");
-    outputTree->Branch("HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087",       &HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087,      "HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087/O");
-    outputTree->Branch("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20",     &HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20,    "HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20/O");
-    outputTree->Branch("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20/O");
-    outputTree->Branch("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20/O");	
+      //PFHT800 and PFHT900 only exists in 2016 data
+      outputTree->Branch("HLT_PFHT780",                                        &HLT_PFHT780,                                       "HLT_PFHT780/O");
+      outputTree->Branch("HLT_PFHT890",                                        &HLT_PFHT890,                                       "HLT_PFHT890/O");
+      outputTree->Branch("HLT_PFHT1050",                                        &HLT_PFHT1050,                                       "HLT_PFHT1050/O");
+      outputTree->Branch("HLT_AK8PFJet360_TrimMass30",                          &HLT_AK8PFJet360_TrimMass30,                         "HLT_AK8PFJet360_TrimMass30/O");
+      outputTree->Branch("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30,                         "HLT_AK8PFJet380_TrimMass30/O");
+      outputTree->Branch("HLT_AK8PFJet400_TrimMass30",                          &HLT_AK8PFJet400_TrimMass30,                         "HLT_AK8PFJet400_TrimMass30/O");
+      outputTree->Branch("HLT_AK8PFJet420_TrimMass30",                          &HLT_AK8PFJet420_TrimMass30,                         "HLT_AK8PFJet420_TrimMass30/O");
+      outputTree->Branch("HLT_AK8PFHT750_TrimMass50",                           &HLT_AK8PFHT750_TrimMass50,                          "HLT_AK8PFHT750_TrimMass50/O");
+      outputTree->Branch("HLT_AK8PFHT800_TrimMass50",                           &HLT_AK8PFHT800_TrimMass50,                          "HLT_AK8PFHT800_TrimMass50/O");
+      outputTree->Branch("HLT_AK8PFHT850_TrimMass50",                           &HLT_AK8PFHT850_TrimMass50,                          "HLT_AK8PFHT850_TrimMass50/O");
+      outputTree->Branch("HLT_AK8PFHT900_TrimMass50",                           &HLT_AK8PFHT900_TrimMass50,                          "HLT_AK8PFHT900_TrimMass50/O");
+      //outputTree->Branch("HLT_AK8PFHT700_TrimR0p1PT0p03Mass50",                 &HLT_AK8PFHT700_TrimR0p1PT0p03Mass50,                "HLT_AK8PFHT700_TrimR0p1PT0p03Mass50/O");
+      // outputTree->Branch("HLT_PFHT650_WideJetMJJ950DEtaJJ1p5",                  &HLT_PFHT650_WideJetMJJ950DEtaJJ1p5,                 "HLT_PFHT650_WideJetMJJ950DEtaJJ1p5/O");
+      // outputTree->Branch("HLT_PFHT650_WideJetMJJ900DEtaJJ1p5",                  &HLT_PFHT650_WideJetMJJ900DEtaJJ1p5,                  "HLT_PFHT650_WideJetMJJ900DEtaJJ1p5/O");
+      outputTree->Branch("HLT_PFJet450",                                        &HLT_PFJet450,                                       "HLT_PFJet450/O");
+      outputTree->Branch("HLT_PFJet500",                                        &HLT_PFJet500,                                       "HLT_PFJet500/O");
+      outputTree->Branch("HLT_PFJet550",                                        &HLT_PFJet550,                                       "HLT_PFJet550/O");
+      outputTree->Branch("HLT_AK8PFJet400",                                     &HLT_AK8PFJet400,                                    "HLT_AK8PFJet400/O");
+      outputTree->Branch("HLT_AK8PFJet450",                                     &HLT_AK8PFJet450,                                    "HLT_AK8PFJet450/O");
+      outputTree->Branch("HLT_AK8PFJet500",                                     &HLT_AK8PFJet500,                                    "HLT_AK8PFJet500/O");
+      outputTree->Branch("HLT_AK8PFJet550",                                     &HLT_AK8PFJet550,                                    "HLT_AK8PFJet550/O");
+      outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17",     &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17,    "HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17/O");
+      outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1",      &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1,     "HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1/O");
+      outputTree->Branch("HLT_AK8PFJet330_PFAK8BTagCSV_p17",                    &HLT_AK8PFJet330_PFAK8BTagCSV_p17,                   "HLT_AK8PFJet330_PFAK8BTagCSV_p17/O");
+      outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02, "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_p02/O");
+      outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2, "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np2/O");
+      outputTree->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4",  &HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4, "HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4/O"); 
+      outputTree->Branch("HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20/O");
+      outputTree->Branch("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087",       &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087,      "HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p087/O");
+      outputTree->Branch("HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087",       &HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087,      "HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p087/O");
+      outputTree->Branch("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20",     &HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20,    "HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20/O");
+      outputTree->Branch("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20/O");
+      outputTree->Branch("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20/O");	
+    }
 
 
     cout << "Run With Option = " << Option << "\n";
     
+    if (Option == 0) cout << "Option = 100 : No Cuts \n";
     if (Option == 2) cout << "Option = 2 : Select FatJets with pT > 200 GeV and PNetXbb > 0.8 only\n";
     if (Option == 5) cout << "Option = 5 : Select Events with FatJet1 pT > 200 GeV and PNetXbb > 0.8 only\n";
     if (Option == 10) cout << "Option = 10 : Select FatJets with pT > 200 GeV and tau3/tau2 < 0.54 only\n";
     if (Option == 20) cout << "Option = 20 : Select FatJets with pT > 200 GeV and MassSD>50, but only save Jet1 info\n";
     if (Option == 21) cout << "Option = 21 : Select FatJets with pT > 200 GeV and MassSD>50, but save all info\n";
+    if (Option == 100) cout << "Option = 100 : No Cuts, save only genMTT \n";
 
 
 
@@ -526,6 +544,15 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       genZPt = -99.0;
       genZEta = -99.0;
       genZPhi = -99.0;
+      genTop1Pt = -99.0;
+      genTop1Mass = -99.0;
+      genTop1Eta = -99.0;
+      genTop1Phi = -99.0;
+      genTop2Pt = -99.0;
+      genTop2Mass = -99.0;
+      genTop2Eta = -99.0;
+      genTop2Phi = -99.0;
+      genMTT = -99;
       genLeptonId = 0;
       genLeptonMotherId = 0;
       genLeptonPt = -99.0;
@@ -703,6 +730,28 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	    genWEta = GenPart_eta[i];
 	    genWPhi = GenPart_phi[i];
 	  }
+
+	  if ( GenPart_pdgId[i] == 6 
+	       && GenPart_status[i] == 22 
+	       ) {
+	    genTop1Mass = GenPart_mass[i];
+	    genTop1Pt = GenPart_pt[i];
+	    genTop1Eta = GenPart_eta[i];
+	    genTop1Phi = GenPart_phi[i];	   
+	  }
+	  if ( GenPart_pdgId[i] == -6 
+	       && GenPart_status[i] == 22 
+	       ) {
+	    genTop2Mass = GenPart_mass[i];
+	    genTop2Pt = GenPart_pt[i];
+	    genTop2Eta = GenPart_eta[i];
+	    genTop2Phi = GenPart_phi[i];	   
+	  }
+	  TLorentzVector Top1Vector;
+	  Top1Vector.SetPtEtaPhiM( genTop1Pt, genTop1Eta, genTop1Phi, genTop1Mass );
+	  TLorentzVector Top2Vector;
+	  Top2Vector.SetPtEtaPhiM( genTop2Pt, genTop2Eta, genTop2Phi, genTop2Mass );
+	  genMTT = (Top1Vector+Top2Vector).M();
 
 	}
 
@@ -1227,6 +1276,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //Fill Event - skim for events with two jets found
       //****************************************************
       if (
+	  Option == 100 || 
 	  Option == 0 || 
 	  (Option == 5 && fatJet1Pt > 250 && fatJet2Pt > 250 && fatJet1MassSD > 50 
 	   && fatJet2MassSD > 50 && fatJet1PNetXbb > 0.8) || 
