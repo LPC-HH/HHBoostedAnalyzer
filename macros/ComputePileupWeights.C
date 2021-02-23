@@ -212,8 +212,8 @@ void ComputePileupWeights() {
   MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8.root");
   MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8.root");
   MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8.root");
-  MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8.root");
-  MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.root");
+  MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined.root");
+  MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined.root");
   MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/VBFHHTo4B_CV_1_C2V_1_C3_1.root");
   MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/VBFHHTo4B_CV_1_5_C2V_1_C3_1_13TeV-madgraph.root");
   MCPileupFiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/MakeMCPileupDistribution/v1/nano/v1/combined/2017/VBFHHTo4B_CV_1_C2V_1_C3_0_13TeV-madgraph.root");
@@ -271,8 +271,8 @@ void ComputePileupWeights() {
   MCSamples_2017.push_back("QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8");
   MCSamples_2017.push_back("QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8");
   MCSamples_2017.push_back("TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8");
-  MCSamples_2017.push_back("TTToHadronic_TuneCP5_13TeV-powheg-pythia8");
-  MCSamples_2017.push_back("TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8");
+  MCSamples_2017.push_back("TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined");
+  MCSamples_2017.push_back("TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined");
   MCSamples_2017.push_back("VBFHHTo4B_CV_1_C2V_1_C3_1");
   MCSamples_2017.push_back("VBFHHTo4B_CV_1_5_C2V_1_C3_1_13TeV-madgraph");
   MCSamples_2017.push_back("VBFHHTo4B_CV_1_C2V_1_C3_0_13TeV-madgraph");
