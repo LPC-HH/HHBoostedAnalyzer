@@ -272,6 +272,25 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float jet4Phi = -99;
     float jet4DeepJetBTag = -99;
     int   nBTaggedJets = 0;
+    //variables for overlap removal with VBF HH->4b boosted analysis
+    int isVBFtag = 0;
+    float dijetmass = -99;
+    float vbfjet1Pt = -99;
+    float vbfjet1Eta = -99;
+    float vbfjet1Phi = -99;
+    float vbfjet1Mass = -99;
+    float vbfjet2Pt = -99;
+    float vbfjet2Eta = -99;
+    float vbfjet2Phi = -99;
+    float vbfjet2Mass = -99;
+    float vbffatJet1Pt = -99;
+    float vbffatJet1Eta = -99;
+    float vbffatJet1Phi = -99;
+    float vbffatJet1PNetXbb = -99;
+    float vbffatJet2Pt = -99;
+    float vbffatJet2Eta = -99;
+    float vbffatJet2Phi = -99;
+    float vbffatJet2PNetXbb = -99;
 
     //------------------------
     //set branches on big tree
@@ -316,6 +335,28 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("fatJet1HasBJetCSVMedium", &fatJet1HasBJetCSVMedium, "fatJet1HasBJetCSVMedium/O");
       outputTree->Branch("fatJet1HasBJetCSVTight", &fatJet1HasBJetCSVTight, "fatJet1HasBJetCSVTight/O");
       outputTree->Branch("fatJet1OppositeHemisphereHasBJet", &fatJet1OppositeHemisphereHasBJet, "fatJet1OppositeHemisphereHasBJet/O");
+        
+      //for phase-space overlap removal with VBFHH->4b boosted analysis
+      //small R VBF jets
+      outputTree->Branch("isVBFtag", &isVBFtag, "isVBFtag/I");
+      outputTree->Branch("dijetmass", &dijetmass, "dijetmass/F");
+      outputTree->Branch("vbfjet1Pt", &vbfjet1Pt, "vbfjet1Pt/F");
+      outputTree->Branch("vbfjet1Eta", &vbfjet1Eta, "vbfjet1Eta/F");
+      outputTree->Branch("vbfjet1Phi", &vbfjet1Phi, "vbfjet1Phi/F");
+      outputTree->Branch("vbfjet1Mass", &vbfjet1Mass, "vbfjet1Mass/F");
+      outputTree->Branch("vbfjet2Pt", &vbfjet2Pt, "vbfjet2Pt/F");
+      outputTree->Branch("vbfjet2Eta", &vbfjet2Eta, "vbfjet2Eta/F");
+      outputTree->Branch("vbfjet2Phi", &vbfjet2Phi, "vbfjet2Phi/F");
+      outputTree->Branch("vbfjet2Mass", &vbfjet2Mass, "vbfjet2Mass/F");
+      //leading and subleading AK8jets
+      outputTree->Branch("vbffatJet1PNetXbb", &vbffatJet1PNetXbb, "vbffatJet1PNetXbb/F");
+      outputTree->Branch("vbffatJet1Pt", &vbffatJet1Pt, "vbffatJet1Pt/F");
+      outputTree->Branch("vbffatJet1Eta", &vbffatJet1Eta, "vbffatJet1Eta/F");
+      outputTree->Branch("vbffatJet1Phi", &vbffatJet1Phi, "vbffatJet1Phi/F");
+      outputTree->Branch("vbffatJet2PNetXbb", &vbffatJet2PNetXbb, "vbffatJet2PNetXbb/F");
+      outputTree->Branch("vbffatJet2Pt", &vbffatJet2Pt, "vbffatJet2Pt/F");
+      outputTree->Branch("vbffatJet2Eta", &vbffatJet2Eta, "vbffatJet2Eta/F");
+      outputTree->Branch("vbffatJet2Phi", &vbffatJet2Phi, "vbffatJet2Phi/F");
     }
 
     if (Option == 0) {
@@ -671,6 +712,25 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       jet4Phi = -99;
       jet4DeepJetBTag = -99;
       nBTaggedJets = 0;
+      //variables for overlap removal with VBF HH->4b boosted analysis
+      isVBFtag = 0;
+      dijetmass = -99;
+      vbfjet1Pt = -99;
+      vbfjet1Eta = -99;
+      vbfjet1Phi = -99;
+      vbfjet1Mass = -99;
+      vbfjet2Pt = -99;
+      vbfjet2Eta = -99;
+      vbfjet2Phi = -99;
+      vbfjet2Mass = -99;
+      vbffatJet1Pt = -99;
+      vbffatJet1Eta = -99;
+      vbffatJet1Phi = -99;
+      vbffatJet1PNetXbb = -99;
+      vbffatJet2Pt = -99;
+      vbffatJet2Eta = -99;
+      vbffatJet2Phi = -99;
+      vbffatJet2PNetXbb = -99;
 
       //------------------------------
       //----Event variables------------
@@ -811,6 +871,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       double tmpfatJet2Pt = -999;
       double tmpfatJet1Tagger = -999;
       double tmpfatJet2Tagger = -999;
+        
+      int vbffatJet1Index = -1;
+      int vbffatJet2Index = -1;
+      double tmpvbffatJet1Pt = -999;
+      double tmpvbffatJet2Pt = -999;
+        
       if (Option <= 10) {
 	for(unsigned int i = 0; i < selectedFatJetIndices.size(); i++ ) {
 	  double fatJetTagger = FatJet_ParticleNetMD_probXbb[selectedFatJetIndices[i]]/(1.0 - FatJet_ParticleNetMD_probXcc[selectedFatJetIndices[i]] - FatJet_ParticleNetMD_probXqq[selectedFatJetIndices[i]]);
@@ -823,7 +889,27 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	    tmpfatJet2Tagger = fatJetTagger;
 	    fatJet2Index = selectedFatJetIndices[i];
 	  }
+        
+      //fat jet used in the VBF HH->4b analysis
+	  if (FatJet_pt[selectedFatJetIndices[i]] > tmpvbffatJet1Pt) {
+	    tmpvbffatJet2Pt = vbffatJet1Pt;
+	    vbffatJet2Index = vbffatJet1Index;	  
+	    tmpvbffatJet1Pt = FatJet_pt[selectedFatJetIndices[i]];
+	    vbffatJet1Index = selectedFatJetIndices[i];
+	  } else if ( FatJet_pt[selectedFatJetIndices[i]] > tmpvbffatJet2Pt ) {
+	    tmpvbffatJet2Pt = FatJet_pt[selectedFatJetIndices[i]];
+	    vbffatJet2Index = selectedFatJetIndices[i];
+	  } 
 	}
+        vbffatJet1Pt = FatJet_pt[vbffatJet1Index];
+        vbffatJet1Eta = FatJet_eta[vbffatJet1Index];
+        vbffatJet1Phi = FatJet_phi[vbffatJet1Index];
+        vbffatJet1PNetXbb = FatJet_ParticleNetMD_probXbb[vbffatJet1Index]/(1.0 - FatJet_ParticleNetMD_probXcc[vbffatJet1Index] - FatJet_ParticleNetMD_probXqq[vbffatJet1Index]);
+        vbffatJet2Pt = FatJet_pt[vbffatJet2Index];
+        vbffatJet2Eta = FatJet_eta[vbffatJet2Index];
+        vbffatJet2Phi = FatJet_phi[vbffatJet2Index];
+        vbffatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[vbffatJet2Index]/(1.0 - FatJet_ParticleNetMD_probXcc[vbffatJet2Index] - FatJet_ParticleNetMD_probXqq[vbffatJet2Index]);
+
       } else if (Option == 20 || Option == 21) {
 	for(unsigned int i = 0; i < selectedFatJetIndices.size(); i++ ) {
 	  if (FatJet_pt[selectedFatJetIndices[i]] > tmpfatJet1Pt) {
@@ -1207,6 +1293,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //*******************************
       //Count additional AK4 jets 
       //*******************************
+      vector<int> vbfjets_index;
+      vbfjets_index.clear();
       for(int i = 0; i < nJet; i++) {
 	if (Jet_pt[i] > 30 && fabs(Jet_eta[i]) < 2.5
 	    && deltaR(Jet_eta[i] , Jet_phi[i], fatJet1Eta, fatJet1Phi) > 0.8
@@ -1269,9 +1357,69 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 
 	}
 
+      //find AK4 jets for VBF HH->4b analysis
+      //Pick a pair of opposite-η jets that maximizes mjj
+      //pT>25 GeV, |η|<4.7, lepton cleaning (ΔR(j,e/μ)>0.4), AK8 jet cleaning (ΔR(j,AK8)>0.4),pass tight jet ID and medium pileup jet ID
+      //Δη(jj) > 4.0 and mjjmax > 600 GeV, |ηtag jet|>1.5 for both jets
+      if (Jet_pt[i] > 25 && fabs(Jet_eta[i]) < 4.7
+	    && deltaR(Jet_eta[i] , Jet_phi[i], vbffatJet1Eta, vbffatJet1Phi) > 0.4
+	    && deltaR(Jet_eta[i] , Jet_phi[i], vbffatJet2Eta, vbffatJet2Phi) > 0.4
+        && Jet_puId[i] >= 2 && ((Jet_pt[i] <50 && Jet_jetId[i] >= 6 )||Jet_pt[i] >50)){
+          if (year == "2016"){
+            if (Jet_puId[i] < 3) continue;
+          }
+        
+          bool islepoverlap = false;
+          for(unsigned int j = 0; j < nMuon; j++ ) { 
+              if(Muon_pt[j]>5 && deltaR(Jet_eta[i] , Jet_phi[i], Muon_eta[j], Muon_phi[j]) > 0.4){
+                  islepoverlap = true;
+                  break;
+              }
+          }
+          for(unsigned int j = 0; j < nElectron; j++ ) { 
+              if(Electron_pt[j]>7 && deltaR(Jet_eta[i] , Jet_phi[i], Electron_eta[j], Electron_phi[j]) > 0.4){
+                  islepoverlap = true;
+                  break;
+              }
+          }
+          if(!islepoverlap) vbfjets_index.push_back(i);  
+	}   
+      
       } //loop over AK4 jets
       
-       
+      //get the AK4 jets with the largest mjj
+      if(vbfjets_index.size()>1){
+          int jet1_index = -99;
+          int jet2_index = -99;
+          for(int k=0; k<vbfjets_index.size();k++){
+              for(int j=k+1; j<vbfjets_index.size();j++){
+                  if(Jet_eta[vbfjets_index[k]]*Jet_eta[vbfjets_index[j]]<0){
+                      TLorentzVector jet1,jet2;
+                      jet1.SetPtEtaPhiM(Jet_pt[vbfjets_index[k]], Jet_eta[vbfjets_index[k]], Jet_phi[vbfjets_index[k]], Jet_mass[vbfjets_index[k]]);
+                      jet2.SetPtEtaPhiM(Jet_pt[vbfjets_index[j]], Jet_eta[vbfjets_index[j]], Jet_phi[vbfjets_index[j]], Jet_mass[vbfjets_index[j]]);   
+                      float tmp_dijetmass = (jet1 + jet2).M(); 
+                      if(dijetmass < tmp_dijetmass){
+                         dijetmass = tmp_dijetmass;
+                         jet1_index = k;
+                         jet2_index = j;
+                      }              
+                  }
+              }
+          }
+          if((jet1_index > -99) && (jet2_index > -99)){
+              vbfjet1Pt = Jet_pt[vbfjets_index[jet1_index]];
+              vbfjet1Eta = Jet_eta[vbfjets_index[jet1_index]];
+              vbfjet1Phi = Jet_phi[vbfjets_index[jet1_index]];
+              vbfjet1Mass = Jet_mass[vbfjets_index[jet1_index]];
+              vbfjet2Pt = Jet_pt[vbfjets_index[jet2_index]];
+              vbfjet2Eta = Jet_eta[vbfjets_index[jet2_index]];
+              vbfjet2Phi = Jet_phi[vbfjets_index[jet2_index]];
+              vbfjet2Mass = Jet_mass[vbfjets_index[jet2_index]];
+              isVBFtag = 0;
+              if(fabs(vbfjet1Eta) > 1.5 && fabs(vbfjet2Eta) > 1.5 && dijetmass > 600 && fabs(vbfjet1Eta-vbfjet2Eta) > 4 && vbffatJet1Pt > 500 && vbffatJet2Pt > 400 && vbffatJet1PNetXbb > 0.9 && vbffatJet2PNetXbb > 0.9 && fabs(vbffatJet1Eta-vbffatJet2Eta) < 2.6 && fabs(vbffatJet1Phi-vbffatJet2Phi) > 2.6) isVBFtag = 1;
+          }
+      }
+        
       //****************************************************
       //Fill Event - skim for events with two jets found
       //****************************************************
