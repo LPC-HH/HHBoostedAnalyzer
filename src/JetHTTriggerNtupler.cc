@@ -106,6 +106,13 @@ void JetHTTriggerNtupler::Analyze(bool isData, int Option, string outputfilename
     outputTree->Branch("fatJet1DDBTagger", &fatJet1DDBTagger, "fatJet1DDBTagger/F");
     outputTree->Branch("fatJet1PNetXbb", &fatJet1PNetXbb, "fatJet1PNetXbb/F");
     outputTree->Branch("fatJet1Tau3OverTau2", &fatJet1Tau3OverTau2, "fatJet1Tau3OverTau2/F");
+    outputTree->Branch("fatJet2Pt", &fatJet2Pt, "fatJet2Pt/F");
+    outputTree->Branch("fatJet2Eta", &fatJet2Eta, "fatJet2Eta/F");
+    outputTree->Branch("fatJet2Phi", &fatJet2Phi, "fatJet2Phi/F");
+    outputTree->Branch("fatJet2MassSD", &fatJet2MassSD, "fatJet2MassSD/F");
+    outputTree->Branch("fatJet2DDBTagger", &fatJet2DDBTagger, "fatJet2DDBTagger/F");
+    outputTree->Branch("fatJet2PNetXbb", &fatJet2PNetXbb, "fatJet2PNetXbb/F");
+    outputTree->Branch("fatJet2Tau3OverTau2", &fatJet2Tau3OverTau2, "fatJet2Tau3OverTau2/F");
   
     outputTree->Branch("HLT_PFHT1050",                                        &HLT_PFHT1050,                                       "HLT_PFHT1050/O");
     outputTree->Branch("HLT_AK8PFJet360_TrimMass30",                          &HLT_AK8PFJet360_TrimMass30,                         "HLT_AK8PFJet360_TrimMass30/O");
@@ -257,7 +264,9 @@ void JetHTTriggerNtupler::Analyze(bool isData, int Option, string outputfilename
       //-------find leading fatJet------------
       //------------------------------
       int fatJetIndex = -1;
+      int fatJet2Index = -1;
       double tmpFatJetPt = -999;
+      double tmpFatJet2Pt = -999;
 
       for(unsigned int i = 0; i < nFatJet; i++ ) {       
 	//Hbb fat jet pre-selection
@@ -266,8 +275,13 @@ void JetHTTriggerNtupler::Analyze(bool isData, int Option, string outputfilename
 	if (deltaR(FatJet_eta[i], FatJet_phi[i], Muon_eta[muonIndex], Muon_phi[muonIndex]) < 1.5) continue;
 	
 	if (FatJet_pt[i] > tmpFatJetPt) {
+	  fatJet2Index = fatJetIndex;
+	  tmpFatJet2Pt = tmpFatJetPt;
 	  fatJetIndex = i;
-	  tmpFatJetPt = FatJet_pt[i];
+	  tmpFatJetPt = FatJet_pt[i];	  
+	} else if (FatJet_pt[i] > tmpFatJet2Pt) {
+	  fatJet2Index = i;
+	  tmpFatJet2Pt = FatJet_pt[i];
 	}
       }
      
@@ -279,6 +293,14 @@ void JetHTTriggerNtupler::Analyze(bool isData, int Option, string outputfilename
       fatJet1DDBTagger = FatJet_btagDDBvL[fatJetIndex];
       fatJet1PNetXbb = FatJet_ParticleNetMD_probXbb[fatJetIndex]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJetIndex] - FatJet_ParticleNetMD_probXqq[fatJetIndex]);
       fatJet1Tau3OverTau2 = FatJet_tau3[fatJetIndex] /  FatJet_tau2[fatJetIndex];
+      fatJet2Pt = FatJet_pt[fatJet2Index];
+      fatJet2Eta = FatJet_eta[fatJet2Index];
+      fatJet2Phi = FatJet_phi[fatJet2Index];
+      fatJet2Mass = FatJet_mass[fatJet2Index];
+      fatJet2MassSD = FatJet_msoftdrop[fatJet2Index];
+      fatJet2DDBTagger = FatJet_btagDDBvL[fatJet2Index];
+      fatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet2Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet2Index] - FatJet_ParticleNetMD_probXqq[fatJet2Index]);
+      fatJet2Tau3OverTau2 = FatJet_tau3[fatJet2Index] /  FatJet_tau2[fatJet2Index];
 
       //****************************************************
       //Fill Event - skim for events with two jets found
