@@ -1371,13 +1371,13 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
         
           bool islepoverlap = false;
           for(unsigned int j = 0; j < nMuon; j++ ) { 
-              if(Muon_pt[j]>5 && deltaR(Jet_eta[i] , Jet_phi[i], Muon_eta[j], Muon_phi[j]) > 0.4){
+              if(Muon_pt[j]>5 && deltaR(Jet_eta[i] , Jet_phi[i], Muon_eta[j], Muon_phi[j]) < 0.4){
                   islepoverlap = true;
                   break;
               }
           }
           for(unsigned int j = 0; j < nElectron; j++ ) { 
-              if(Electron_pt[j]>7 && deltaR(Jet_eta[i] , Jet_phi[i], Electron_eta[j], Electron_phi[j]) > 0.4){
+              if(Electron_pt[j]>7 && deltaR(Jet_eta[i] , Jet_phi[i], Electron_eta[j], Electron_phi[j]) < 0.4){
                   islepoverlap = true;
                   break;
               }
