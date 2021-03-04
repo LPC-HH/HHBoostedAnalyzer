@@ -8,6 +8,59 @@
 
 using namespace std;
 
+double HHTo4BNtupler::getTriggerEff3D( TH2F *triggerEffHist_Xbb0p0To0p9, 
+				     TH2F *triggerEffHist_Xbb0p9To0p95, 
+				     TH2F *triggerEffHist_Xbb0p95To0p98, 
+				     TH2F *triggerEffHist_Xbb0p98To1p0, 
+				     double pt, double mass, double PNetXbb ) {
+  double result = 0.0;
+  double tmpMass = 0;
+  double tmpPt = 0;
+  double tmpPNetXbb = 0;
+  TH2F* trigEffHist = 0;
+  if (PNetXbb < 0.9) {
+    trigEffHist = triggerEffHist_Xbb0p0To0p9;
+  } else if (PNetXbb < 0.95) {
+    trigEffHist = triggerEffHist_Xbb0p9To0p95;    
+  } else if (PNetXbb < 0.98) {
+    trigEffHist = triggerEffHist_Xbb0p95To0p98;    
+  } else {
+    trigEffHist = triggerEffHist_Xbb0p98To1p0;    
+  }
+  
+  if (trigEffHist) {
+    // constrain to histogram bounds
+    if( mass > trigEffHist->GetXaxis()->GetXmax() * 0.999 ) {
+      tmpMass = trigEffHist->GetXaxis()->GetXmax() * 0.999;
+    } else if ( mass < 0 ) {
+      tmpMass = 0.001;
+      //cout << "Warning: mass=" << mass << " is negative and unphysical\n";
+    } else {
+      tmpMass = mass;
+    }
+    
+    if( pt > trigEffHist->GetYaxis()->GetXmax() * 0.999 ) {
+      tmpPt = trigEffHist->GetYaxis()->GetXmax() * 0.999;
+    } else if (pt < 0) {
+      tmpPt = 0.001;
+      cout << "Warning: pt=" << pt << " is negative and unphysical\n";
+    } else {
+      tmpPt = pt;
+    }
+    
+    result = trigEffHist->GetBinContent(
+					trigEffHist->GetXaxis()->FindFixBin( tmpMass ),
+					trigEffHist->GetYaxis()->FindFixBin( tmpPt )
+					);  
+  } else {
+    std::cout << "Error: expected a histogram, got a null pointer" << std::endl;
+    return 0;
+  }
+}
+
+
+
+
 double HHTo4BNtupler::getTriggerEff( TH2F *trigEffHist , double pt, double mass ) {
   double result = 0.0;
   double tmpMass = 0;
@@ -58,21 +111,36 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     //Load auxiliary information
     //----------------------------------------  
     TH2F *triggerEffHist = 0;    
+    TH2F *triggerEffHist_Xbb0p0To0p9 = 0;    
+    TH2F *triggerEffHist_Xbb0p9To0p95 = 0;    
+    TH2F *triggerEffHist_Xbb0p95To0p98 = 0;    
+    TH2F *triggerEffHist_Xbb0p98To1p0 = 0;    
+    TH2F *triggerEffMCHist = 0;    
+    TH2F *triggerEffMCHist_Xbb0p0To0p9 = 0;    
+    TH2F *triggerEffMCHist_Xbb0p9To0p95 = 0;    
+    TH2F *triggerEffMCHist_Xbb0p95To0p98 = 0;    
+    TH2F *triggerEffMCHist_Xbb0p98To1p0 = 0;    
+
     TH1F *pileupWeightHist = 0;
     
     if (!isData) {
       string CMSSWDir = std::getenv("CMSSW_BASE");
       string triggerEffFilename = "";
+      string triggerEffMCFilename = "";
       if (year == "2016") {
 	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root";
+	triggerEffMCFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Summer16.root";
       } else if (year == "2017") {
 	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root";
+	triggerEffMCFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall17.root";
       } else if (year == "2018") {
 	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root";
+	triggerEffMCFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall18.root";
       } else {
 	cout << "[HHTo4BNtupler] Warning: year " << year << " is not supported. \n";
       }
       TFile *triggerEffFile = new TFile(triggerEffFilename.c_str(),"READ");
+      TFile *triggerEffMCFile = new TFile(triggerEffMCFilename.c_str(),"READ");
 
       if (!triggerEffFile) {
 	cout << "Warning : triggerEffFile " << triggerEffFilename << " could not be opened.\n";
@@ -80,14 +148,40 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	cout << "Opened triggerEffFile " << triggerEffFilename << "\n";
       }
       if (triggerEffFile) {
-	triggerEffHist = (TH2F*)triggerEffFile->Get("efficiency_ptmass");    
+	triggerEffHist = (TH2F*)triggerEffFile->Get("efficiency_ptmass");  
+	triggerEffHist_Xbb0p0To0p9 = (TH2F*)triggerEffFile->Get("efficiency_ptmass_Xbb0p0To0p9");  
+	triggerEffHist_Xbb0p9To0p95 = (TH2F*)triggerEffFile->Get("efficiency_ptmass_Xbb0p9To0p95");  
+	triggerEffHist_Xbb0p95To0p98 = (TH2F*)triggerEffFile->Get("efficiency_ptmass_Xbb0p95To0p98");  
+	triggerEffHist_Xbb0p98To1p0 = (TH2F*)triggerEffFile->Get("efficiency_ptmass_Xbb0p98To1p0");    
       } else {
-	cout << "Warning : could not find triggerEffHist named efficiency_ptmass in file " << triggerEffFilename << "\n";
+	cout << "Warning : could not open file " << triggerEffFilename << "\n";
       }
-      if (triggerEffHist) {
-	cout << "Found triggerEffHist in file " << triggerEffFilename << "\n";
-      }
+      if (triggerEffHist) cout << "Found triggerEffHist in file " << triggerEffFilename << "\n";
+      if (triggerEffHist_Xbb0p0To0p9) cout << "Found triggerEffHist_Xbb0p0To0p9 in file " << triggerEffFilename << "\n";
+      if (triggerEffHist_Xbb0p9To0p95) cout << "Found triggerEffHist_Xbb0p9To0p95 in file " << triggerEffFilename << "\n";
+      if (triggerEffHist_Xbb0p95To0p98) cout << "Found triggerEffHist_Xbb0p95To0p98 in file " << triggerEffFilename << "\n";
+      if (triggerEffHist_Xbb0p98To1p0) cout << "Found triggerEffHist_Xbb0p98To1p0 in file " << triggerEffFilename << "\n";
 
+      if (!triggerEffMCFile) {
+	cout << "Warning : triggerEffMCFile " << triggerEffMCFilename << " could not be opened.\n";
+      } else {
+	cout << "Opened triggerEffMCFile " << triggerEffMCFilename << "\n";
+      }
+      if (triggerEffMCFile) {
+	triggerEffMCHist = (TH2F*)triggerEffMCFile->Get("efficiency_ptmass");    
+	triggerEffMCHist_Xbb0p0To0p9 = (TH2F*)triggerEffMCFile->Get("efficiency_ptmass_Xbb0p0To0p9");  
+	triggerEffMCHist_Xbb0p9To0p95 = (TH2F*)triggerEffMCFile->Get("efficiency_ptmass_Xbb0p9To0p95");  
+	triggerEffMCHist_Xbb0p95To0p98 = (TH2F*)triggerEffMCFile->Get("efficiency_ptmass_Xbb0p95To0p98");  
+	triggerEffMCHist_Xbb0p98To1p0 = (TH2F*)triggerEffMCFile->Get("efficiency_ptmass_Xbb0p98To1p0");    
+      } else {
+	cout << "Warning : could not open file " << triggerEffMCFilename << "\n";
+      }
+      if (triggerEffMCHist) cout << "Found triggerEffMCHist in file " << triggerEffMCFilename << "\n";
+      if (triggerEffMCHist_Xbb0p0To0p9) cout << "Found triggerEffMCHist_Xbb0p0To0p9 in file " << triggerEffMCFilename << "\n";
+      if (triggerEffMCHist_Xbb0p9To0p95) cout << "Found triggerEffMCHist_Xbb0p9To0p95 in file " << triggerEffMCFilename << "\n";
+      if (triggerEffMCHist_Xbb0p95To0p98) cout << "Found triggerEffMCHist_Xbb0p95To0p98 in file " << triggerEffMCFilename << "\n";
+      if (triggerEffMCHist_Xbb0p98To1p0) cout << "Found triggerEffMCHist_Xbb0p98To1p0 in file " << triggerEffMCFilename << "\n";
+ 
       string pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupWeights.root";
       TFile *pileupWeightFile = new TFile(pileupWeightFilename.c_str(),"READ");
       if (!pileupWeightFile) {
@@ -126,6 +220,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     //------------------------  
     float weight = 0;
     float triggerEffWeight = 0;
+    float triggerEff3DWeight = 0;
+    float triggerEffMCWeight = 0;
+    float triggerEffMC3DWeight = 0;
     float pileupWeight = 0;
     float totalWeight = 0;
 
@@ -299,7 +396,16 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     outputTree->Branch("genMTT", &genMTT, "genMTT/F");
 
     if (Option != 100) {
+
       outputTree->Branch("triggerEffWeight", &triggerEffWeight, "triggerEffWeight/F");
+      outputTree->Branch("triggerEff3DWeight", &triggerEff3DWeight, "triggerEff3DWeight/F");
+      outputTree->Branch("triggerEffMCWeight", &triggerEffMCWeight, "triggerEffMCWeight/F");
+      outputTree->Branch("triggerEffMC3DWeight", &triggerEffMC3DWeight, "triggerEffMC3DWeight/F");
+
+      float triggerEff3DWeight = 0;
+      float triggerEffMCWeight = 0;
+      float triggerEffMC3DWeight = 0;
+      
       outputTree->Branch("pileupWeight", &pileupWeight, "pileupWeight/F");
       outputTree->Branch("totalWeight", &totalWeight, "totalWeight/F");
       outputTree->Branch("run", &run, "run/i");
@@ -1441,7 +1547,37 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	  triggerEffWeight = 1.0 - 
 	    (1 - getTriggerEff( triggerEffHist , fatJet1Pt, fatJet1MassSD )) * 
 	    (1 - getTriggerEff( triggerEffHist , fatJet2Pt, fatJet2MassSD ))
+	    ;
+	  triggerEff3DWeight = 1.0 - 
+	    (1 - getTriggerEff3D( triggerEffHist_Xbb0p0To0p9, 
+				  triggerEffHist_Xbb0p9To0p95, 
+				  triggerEffHist_Xbb0p95To0p98, 
+				  triggerEffHist_Xbb0p98To1p0, 
+				  fatJet1Pt, fatJet1MassSD, fatJet1PNetXbb )) * 
+	    (1 - getTriggerEff3D( triggerEffHist_Xbb0p0To0p9, 
+				  triggerEffHist_Xbb0p9To0p95, 
+				  triggerEffHist_Xbb0p95To0p98, 
+				  triggerEffHist_Xbb0p98To1p0, 
+				  fatJet2Pt, fatJet2MassSD, fatJet2PNetXbb ))
 	    ;	
+
+	  triggerEffMCWeight = 1.0 - 
+	    (1 - getTriggerEff( triggerEffMCHist , fatJet1Pt, fatJet1MassSD )) * 
+	    (1 - getTriggerEff( triggerEffMCHist , fatJet2Pt, fatJet2MassSD ))
+	    ;
+	  triggerEffMC3DWeight = 1.0 - 
+	    (1 - getTriggerEff3D( triggerEffMCHist_Xbb0p0To0p9, 
+				  triggerEffMCHist_Xbb0p9To0p95, 
+				  triggerEffMCHist_Xbb0p95To0p98, 
+				  triggerEffMCHist_Xbb0p98To1p0, 
+				  fatJet1Pt, fatJet1MassSD, fatJet1PNetXbb )) * 
+	    (1 - getTriggerEff3D( triggerEffMCHist_Xbb0p0To0p9, 
+				  triggerEffMCHist_Xbb0p9To0p95, 
+				  triggerEffMCHist_Xbb0p95To0p98, 
+				  triggerEffMCHist_Xbb0p98To1p0, 
+				  fatJet2Pt, fatJet2MassSD, fatJet2PNetXbb ))
+	    ;	
+
 	}
 	
 	//****************************************************
