@@ -122,6 +122,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     TH2F *triggerEffMCHist_Xbb0p98To1p0 = 0;    
 
     TH1F *pileupWeightHist = 0;
+    TH1F *pileupWeightUpHist = 0;
+    TH1F *pileupWeightDownHist = 0;
     
     if (!isData) {
       string CMSSWDir = std::getenv("CMSSW_BASE");
@@ -192,6 +194,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       string pileupWeightHistname = "PUWeight_" + pileupWeightName + "_" + year;
       if (pileupWeightFile) {
 	pileupWeightHist = (TH1F*)pileupWeightFile->Get(pileupWeightHistname.c_str());
+	pileupWeightUpHist = (TH1F*)pileupWeightFile->Get((pileupWeightHistname+"_SysUp").c_str());
+	pileupWeightDownHist = (TH1F*)pileupWeightFile->Get((pileupWeightHistname+"_SysDown").c_str());
       } 
       if (pileupWeightHist) {
 	cout << "Found pileupWeightHist " << pileupWeightHistname << "in file " << pileupWeightFilename << "\n";
@@ -200,6 +204,21 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	     << pileupWeightHistname 
 	     << " in file " << pileupWeightFilename << "\n";
       }
+      if (pileupWeightUpHist) {
+	cout << "Found pileupWeightUpHist " << pileupWeightHistname+"_SysUp" << "in file " << pileupWeightFilename << "\n";
+      } else {
+	cout << "Warning :  could not find pileupWeightUpHist named " 
+	     << pileupWeightHistname +"_SysUp"
+	     << " in file " << pileupWeightFilename << "\n";
+      }
+      if (pileupWeightDownHist) {
+	cout << "Found pileupWeightDownHist " << pileupWeightHistname+"_SysDown" << "in file " << pileupWeightFilename << "\n";
+      } else {
+	cout << "Warning :  could not find pileupWeightDownHist named " 
+	     << pileupWeightHistname +"_SysDown"
+	     << " in file " << pileupWeightFilename << "\n";
+      }
+    
     }
 
     //----------------------------------------
@@ -224,6 +243,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float triggerEffMCWeight = 0;
     float triggerEffMC3DWeight = 0;
     float pileupWeight = 0;
+    float pileupWeightUp = 0;
+    float pileupWeightDown = 0;
     float totalWeight = 0;
 
     float genHiggs1Pt = -1;
@@ -407,6 +428,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       float triggerEffMC3DWeight = 0;
       
       outputTree->Branch("pileupWeight", &pileupWeight, "pileupWeight/F");
+      outputTree->Branch("pileupWeightUp", &pileupWeightUp, "pileupWeightUp/F");
+      outputTree->Branch("pileupWeightDown", &pileupWeightDown, "pileupWeightDown/F");
       outputTree->Branch("totalWeight", &totalWeight, "totalWeight/F");
       outputTree->Branch("run", &run, "run/i");
       outputTree->Branch("lumi", &luminosityBlock, "lumi/i");
@@ -1585,6 +1608,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	//****************************************************      
 	if (pileupWeightHist) {
 	  pileupWeight = pileupWeightHist->GetBinContent( pileupWeightHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+	  pileupWeightUp = pileupWeightUpHist->GetBinContent( pileupWeightUpHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+	  pileupWeightDown = pileupWeightDownHist->GetBinContent( pileupWeightDownHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
 	}
 
 	//****************************************************
