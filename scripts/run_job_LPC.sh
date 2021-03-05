@@ -41,6 +41,12 @@ cp HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root $cmsswReleaseVersion/
 cp JetHTTriggerEfficiency_2017.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
 cp HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
 cp JetHTTriggerEfficiency_2018.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Summer16.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp JetHTTriggerEfficiency_Summer16.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall17.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp JetHTTriggerEfficiency_Fall17.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall18.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+cp JetHTTriggerEfficiency_Fall18.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
 cp HHBoostedAnalyzer/data/PileupWeights/PileupWeights.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
 cp PileupWeights.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
 
