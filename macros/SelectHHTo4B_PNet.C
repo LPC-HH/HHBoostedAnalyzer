@@ -394,6 +394,9 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 
 	float weight = 0;
 	float triggerEffWeight = 0;
+	float triggerEff3DWeight = 0;
+	float triggerEffMCWeight = 0;
+	float triggerEffMC3DWeight = 0;
 	float pileupWeight = 0;
 	float MET = 0;
 	float fatJet1Pt = 0;
@@ -437,6 +440,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	float mj2_over_mj1 = -99;
 	float disc_v8p2  = -99;
 	float disc_v24  = -99; 
+	bool HLT_PFHT790 = false;                                     
+	bool HLT_PFHT890 = false;                                     
 	bool HLT_PFHT1050 = false;                                     
 	bool HLT_AK8PFJet360_TrimMass30 = false;                             
 	bool HLT_AK8PFJet380_TrimMass30 = false;                             
@@ -448,7 +453,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	bool HLT_AK8PFHT900_TrimMass50 = false;                         
 	bool HLT_PFJet450 = false;                                           
 	bool HLT_PFJet500 = false;                                           
-	bool HLT_PFJet550 = false;                                           
+	bool HLT_PFJet550 = false;                                      
+	bool HLT_AK8PFJet400 = false;                                        
 	bool HLT_AK8PFJet450 = false;                                   
 	bool HLT_AK8PFJet500 = false;                                   
 	bool HLT_AK8PFJet550 = false;                                   
@@ -468,6 +474,9 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 
 	tree->SetBranchAddress("weight",&weight);
 	tree->SetBranchAddress("triggerEffWeight",&triggerEffWeight);
+	tree->SetBranchAddress("triggerEff3DWeight",&triggerEff3DWeight);
+	tree->SetBranchAddress("triggerEffMCWeight",&triggerEffMCWeight);
+	tree->SetBranchAddress("triggerEffMC3DWeight",&triggerEffMC3DWeight);
 	tree->SetBranchAddress("pileupWeight",&pileupWeight);
 	tree->SetBranchAddress("MET",&MET);                                       
 	tree->SetBranchAddress("fatJet1Pt",&fatJet1Pt);                                       
@@ -511,6 +520,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	tree->SetBranchAddress("deltaR_j1j2", &deltaR_j1j2);    
 	tree->SetBranchAddress("ptj2_over_ptj1", &ptj2_over_ptj1);
 	tree->SetBranchAddress("mj2_over_mj1", &mj2_over_mj1);
+	tree->SetBranchAddress("HLT_PFHT790",                                        &HLT_PFHT790);                             
+	tree->SetBranchAddress("HLT_PFHT890",                                        &HLT_PFHT890);                             
 	tree->SetBranchAddress("HLT_PFHT1050",                                        &HLT_PFHT1050);                             
 	tree->SetBranchAddress("HLT_AK8PFJet360_TrimMass30",                          &HLT_AK8PFJet360_TrimMass30);                             
 	tree->SetBranchAddress("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30);                             
@@ -523,6 +534,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	tree->SetBranchAddress("HLT_PFJet450",                                        &HLT_PFJet450);                                           
 	tree->SetBranchAddress("HLT_PFJet500",                                        &HLT_PFJet500);                                       
 	tree->SetBranchAddress("HLT_PFJet550",                                        &HLT_PFJet550);                                       
+	tree->SetBranchAddress("HLT_AK8PFJet400",                                     &HLT_AK8PFJet400);                                    
 	tree->SetBranchAddress("HLT_AK8PFJet450",                                     &HLT_AK8PFJet450);                                    
 	tree->SetBranchAddress("HLT_AK8PFJet500",                                     &HLT_AK8PFJet500);                                    
 	tree->SetBranchAddress("HLT_AK8PFJet550",                                     &HLT_AK8PFJet550);                                    
@@ -555,8 +567,11 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  double puWeight = 1;      
 	  double myWeight = 1;
 	  if (!isData) {	 
-	    myWeight = lumi * weight * triggerEffWeight * pileupWeight * scaleFactors[i];
-	    //myWeight = lumi * weight * triggerEffWeight * scaleFactors[i];
+	    //myWeight = lumi * weight * triggerEffWeight * pileupWeight * scaleFactors[i];
+	    myWeight = lumi * weight * triggerEff3DWeight * pileupWeight * scaleFactors[i];
+	    //myWeight = lumi * weight * triggerEffMCWeight * pileupWeight * scaleFactors[i];
+	    //myWeight = lumi * weight * triggerEffMC3DWeight * pileupWeight * scaleFactors[i];
+	    //myWeight = lumi * weight * pileupWeight * scaleFactors[i];
 	    //myWeight = lumi * weight * scaleFactors[i];
 	    //cout << "scaleFactors: " << scaleFactors[i] << "\n";
 	  }
@@ -572,6 +587,12 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	      || HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20
 	      || HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20
 	      || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 	    
+	      || HLT_AK8PFJet360_TrimMass30
+	      || HLT_AK8PFJet450 
+	      || HLT_PFJet450    
+	      // || HLT_PFHT790
+	      // || HLT_PFHT890
+	      || HLT_PFHT1050
 	      ;       
 
 	    // apply trigger efficiency correction for some triggers that were not enabled for full run
@@ -592,18 +613,23 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    }
 
 	  }
+
 	  if (year == "2017") {
 	    passTrigger = 
 	      (0 == 1) 
+	      || HLT_PFJet450    
 	      || HLT_PFJet500    
+	      //|| HLT_AK8PFJet400 
 	      || HLT_AK8PFJet500 
+	      || HLT_PFHT1050
 	      || HLT_AK8PFJet360_TrimMass30
 	      || HLT_AK8PFJet380_TrimMass30
 	      || HLT_AK8PFJet400_TrimMass30   
 	      || HLT_AK8PFHT800_TrimMass50 
-	      || HLT_AK8PFJet330_PFAK8BTagCSV_p17	  
+	      || HLT_AK8PFHT750_TrimMass50 
+	      || HLT_AK8PFJet330_PFAK8BTagCSV_p17	  	  
 	      ;       
-
+	    
 	    // apply trigger efficiency correction for some triggers that were not enabled for full run
 	    if (!isData) {
 	      // double triggerSF = 1.0;
@@ -634,6 +660,9 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  if (year == "2018") {
 	    passTrigger = 
 	      (0 == 1) 
+	      || HLT_PFHT1050
+	      || HLT_PFJet500  
+	      || HLT_AK8PFJet500 
 	      || HLT_AK8PFJet400_TrimMass30 
 	      || HLT_AK8PFHT800_TrimMass50     
 	      || HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4 
@@ -691,9 +720,9 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    //*************************************************************************
 	    //Enhanced V8p2 BDT Analysis
 	    //*************************************************************************
-	    // //Best 3-bin analysis - Bin1
-	    // if ( !(disc_v8p2 > 0.43) ) continue;
-	    // if ( !(fatJet2PNetXbb > 0.980)) continue;
+	    //Best 3-bin analysis - Bin1
+	    if ( !(disc_v8p2 > 0.43) ) continue;
+	    if ( !(fatJet2PNetXbb > 0.980)) continue;
 
 	    // //Best 3-bin analysis - Bin2
 	    // if ( (disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.980 ) ) continue;
@@ -709,7 +738,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    // 	   ( disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.950)
 	    // 	   )) continue;	  
  
-	    // if ( !(disc_v8p2 > 0.032 && fatJet2PNetXbb > 0.950) ) continue;
+	    // if ( !(disc_v8p2 > 0.03 && fatJet2PNetXbb > 0.950) ) continue;
 
 	    //*************************************************************************
 	    //*************************************************************************
@@ -960,11 +989,13 @@ void SelectHHTo4B_PNet( int option = -1) {
   //2016 Data and MC
   //***********************************
 
-  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20201117/option5/combined/BDT/Jet2Xbb0p8Skim/";
+  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210211/option5/combined/BDT/Jet2Xbb0p8Skim/";
+  //std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210211/option5/combined/BDT/";
   datafiles_2016.push_back(dir+"2016/JetHT_2016_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
-
-  bkgfiles_ttbar_2016.push_back(dir+"2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
-  bkgfiles_ttbar_2016.push_back(dir+"2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  // bkgfiles_ttbar_2016.push_back(dir+"2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  // bkgfiles_ttbar_2016.push_back(dir+"2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root"); 
+  bkgfiles_ttbar_2016.push_back(dir+"2016/TT_Mtt-1000toInf_TuneCUETP8M2T4_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_ttbar_2016.push_back(dir+"2016/TT_Mtt-700to1000_TuneCUETP8M2T4_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
   bkgfiles_H_2016.push_back(dir+"2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
   bkgfiles_H_2016.push_back(dir+"2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-combined_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
   //bkgfiles_VH_2016.push_back(dir+"2016/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
@@ -991,9 +1022,10 @@ void SelectHHTo4B_PNet( int option = -1) {
   //2017 Data and MC
   //***********************************
   datafiles_2017.push_back(dir+"2017/JetHT_2017_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
-
-  bkgfiles_ttbar_2017.push_back(dir+"2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
-  bkgfiles_ttbar_2017.push_back(dir+"2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  // bkgfiles_ttbar_2017.push_back(dir+"2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  // bkgfiles_ttbar_2017.push_back(dir+"2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_ttbar_2017.push_back(dir+"2017/TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_ttbar_2017.push_back(dir+"2017/TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
   bkgfiles_H_2017.push_back(dir+"2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
   bkgfiles_H_2017.push_back(dir+"2017/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
   bkgfiles_VH_2017.push_back(dir+"2017/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
@@ -1018,9 +1050,10 @@ void SelectHHTo4B_PNet( int option = -1) {
   //2018 Data and MC
   //***********************************
   datafiles_2018.push_back(dir+"2018/JetHT_2018_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
-
-  bkgfiles_ttbar_2018.push_back(dir+"2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
-  bkgfiles_ttbar_2018.push_back(dir+"2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  // bkgfiles_ttbar_2018.push_back(dir+"2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  // bkgfiles_ttbar_2018.push_back(dir+"2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root"); 
+  bkgfiles_ttbar_2018.push_back(dir+"2018/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_ttbar_2018.push_back(dir+"2018/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
   bkgfiles_H_2018.push_back(dir+"2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
   bkgfiles_H_2018.push_back(dir+"2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
   bkgfiles_VH_2018.push_back(dir+"2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
