@@ -887,7 +887,7 @@ void SelectHHTo4B_Preselection( int option = -1) {
   //2016 Data and MC
   //***********************************
 
-  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20201117/option5/combined/BDT/";
+  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210211/option5/combined/BDT/";
   datafiles_2016.push_back(dir+"2016/JetHT_2016B-ver2_BDTs.root");
   datafiles_2016.push_back(dir+"2016/JetHT_2016C_BDTs.root");
   datafiles_2016.push_back(dir+"2016/JetHT_2016D_BDTs.root");
@@ -896,8 +896,10 @@ void SelectHHTo4B_Preselection( int option = -1) {
   datafiles_2016.push_back(dir+"2016/JetHT_2016G_BDTs.root");
   datafiles_2016.push_back(dir+"2016/JetHT_2016H_BDTs.root");
 
-  bkgfiles_ttbar_2016.push_back(dir+"testing/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
-  bkgfiles_ttbar_2016.push_back(dir+"testing/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
+   bkgfiles_ttbar_2016.push_back(dir+"testing/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
+   bkgfiles_ttbar_2016.push_back(dir+"testing/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");   
+  // bkgfiles_ttbar_2016.push_back(dir+"testing/2016/TT_Mtt-1000toInf_TuneCUETP8M2T4_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
+   //bkgfiles_ttbar_2016.push_back(dir+"testing/2016/TT_Mtt-700to1000_TuneCUETP8M2T4_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
   bkgfiles_H_2016.push_back(dir+"2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs.root");
   bkgfiles_H_2016.push_back(dir+"2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-combined_1pb_weighted_BDTs.root");
   //bkgfiles_VH_2016.push_back(dir+"2016/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
@@ -930,8 +932,10 @@ void SelectHHTo4B_Preselection( int option = -1) {
   datafiles_2017.push_back(dir+"2017/JetHT_2017F_BDTs.root");
 
 
-  bkgfiles_ttbar_2017.push_back(dir+"testing/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
-  bkgfiles_ttbar_2017.push_back(dir+"testing/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
+   bkgfiles_ttbar_2017.push_back(dir+"testing/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
+   bkgfiles_ttbar_2017.push_back(dir+"testing/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
+  // bkgfiles_ttbar_2017.push_back(dir+"testing/2017/TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
+  // bkgfiles_ttbar_2017.push_back(dir+"testing/2017/TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");   
   bkgfiles_H_2017.push_back(dir+"2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs.root");
   bkgfiles_H_2017.push_back(dir+"2017/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
   bkgfiles_VH_2017.push_back(dir+"2017/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
@@ -959,9 +963,10 @@ void SelectHHTo4B_Preselection( int option = -1) {
   datafiles_2018.push_back(dir+"2018/JetHT_2018B_BDTs.root");
   datafiles_2018.push_back(dir+"2018/JetHT_2018C_BDTs.root");
   datafiles_2018.push_back(dir+"2018/JetHT_2018D_BDTs.root");
-
-  bkgfiles_ttbar_2018.push_back(dir+"testing/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs.root");  
-  bkgfiles_ttbar_2018.push_back(dir+"testing/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs.root");  
+   bkgfiles_ttbar_2018.push_back(dir+"testing/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs.root");  
+   bkgfiles_ttbar_2018.push_back(dir+"testing/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs.root");  
+   //bkgfiles_ttbar_2018.push_back(dir+"testing/2018/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");
+   //bkgfiles_ttbar_2018.push_back(dir+"testing/2018/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");
   bkgfiles_H_2018.push_back(dir+"2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs.root");
   bkgfiles_H_2018.push_back(dir+"2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted_BDTs.root");
   bkgfiles_VH_2018.push_back(dir+"2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
