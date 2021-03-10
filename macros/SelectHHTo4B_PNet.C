@@ -107,7 +107,9 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
       hist[i]->SetFillStyle(1001);
       
       if ( hist[i]->Integral() > 0) {
+          if ((processLabels[i] == "HHkl0") || processLabels[i] == "HHkl2p45" || processLabels[i] == "HHkl6") continue;
   	stack->Add(hist[i]);
+        
       }
     }
   } else {
@@ -116,6 +118,7 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
       hist[i]->SetFillStyle(1001);
       
       if ( hist[i]->Integral() > 0) {
+          if ((processLabels[i] == "HHkl0") || processLabels[i] == "HHkl2p45" || processLabels[i] == "HHkl6") continue;
   	stack->Add(hist[i]);
       }
     }
@@ -344,8 +347,10 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
  
   double dataYield = 0;
   double BkgYield = 0;
-  double SignalYield = 0;
-
+  double SignalYield_kl1 = 0;
+  double SignalYield_kl0 = 0;
+  double SignalYield_kl2p45 = 0;
+  double SignalYield_kl5 = 0;
 
   //*******************************************************************************************
   //Loop over all input processes
@@ -389,6 +394,9 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 
 	float weight = 0;
 	float triggerEffWeight = 0;
+	float triggerEff3DWeight = 0;
+	float triggerEffMCWeight = 0;
+	float triggerEffMC3DWeight = 0;
 	float pileupWeight = 0;
 	float MET = 0;
 	float fatJet1Pt = 0;
@@ -430,26 +438,10 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	float deltaR_j1j2 = -99;    
 	float ptj2_over_ptj1 = -99;
 	float mj2_over_mj1 = -99;
-	float disc_qcd_2017_basic0  = -99;
-	float disc_qcd_2017_basic1  = -99;
-	float disc_qcd_2017_basic2  = -99;
-	float disc_qcd_2017_enhanced  = -99;
-	float disc_qcd_2017_enhanced_v2  = -99;
-	float disc_ttbar_2017_basic0  = -99;
-	float disc_ttbar_2017_basic1  = -99;
-	float disc_ttbar_2017_basic2  = -99;
-	float disc_ttbar_2017_enhanced = -99; 
-	float disc_ttbar_2017_enhanced_v2 = -99; 
-	float disc_qcd_and_ttbar_2017_basic0  = -99;
-	float disc_qcd_and_ttbar_2017_basic1  = -99;
-	float disc_qcd_and_ttbar_2017_basic2  = -99;
-	float disc_qcd_and_ttbar_2017_enhanced  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v2  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v5  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v6  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v7  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v8  = -99;     
-	float disc_qcd_and_ttbar_2017_enhanced_v10  = -99;     
+	float disc_v8p2  = -99;
+	float disc_v24  = -99; 
+	bool HLT_PFHT790 = false;                                     
+	bool HLT_PFHT890 = false;                                     
 	bool HLT_PFHT1050 = false;                                     
 	bool HLT_AK8PFJet360_TrimMass30 = false;                             
 	bool HLT_AK8PFJet380_TrimMass30 = false;                             
@@ -461,7 +453,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	bool HLT_AK8PFHT900_TrimMass50 = false;                         
 	bool HLT_PFJet450 = false;                                           
 	bool HLT_PFJet500 = false;                                           
-	bool HLT_PFJet550 = false;                                           
+	bool HLT_PFJet550 = false;                                      
+	bool HLT_AK8PFJet400 = false;                                        
 	bool HLT_AK8PFJet450 = false;                                   
 	bool HLT_AK8PFJet500 = false;                                   
 	bool HLT_AK8PFJet550 = false;                                   
@@ -481,6 +474,9 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 
 	tree->SetBranchAddress("weight",&weight);
 	tree->SetBranchAddress("triggerEffWeight",&triggerEffWeight);
+	tree->SetBranchAddress("triggerEff3DWeight",&triggerEff3DWeight);
+	tree->SetBranchAddress("triggerEffMCWeight",&triggerEffMCWeight);
+	tree->SetBranchAddress("triggerEffMC3DWeight",&triggerEffMC3DWeight);
 	tree->SetBranchAddress("pileupWeight",&pileupWeight);
 	tree->SetBranchAddress("MET",&MET);                                       
 	tree->SetBranchAddress("fatJet1Pt",&fatJet1Pt);                                       
@@ -513,27 +509,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	tree->SetBranchAddress("hh_eta", &hh_eta);
 	tree->SetBranchAddress("hh_phi", &hh_phi);
 	tree->SetBranchAddress("hh_mass", &hh_mass);        
-	tree->SetBranchAddress("disc_qcd_2017_basic0", &disc_qcd_2017_basic0);
-	tree->SetBranchAddress("disc_qcd_2017_basic1", &disc_qcd_2017_basic1);
-	tree->SetBranchAddress("disc_qcd_2017_basic2", &disc_qcd_2017_basic2);
-	tree->SetBranchAddress("disc_qcd_2017_enhanced", &disc_qcd_2017_enhanced);
-	tree->SetBranchAddress("disc_qcd_2017_enhanced_v2", &disc_qcd_2017_enhanced_v2);
-	tree->SetBranchAddress("disc_ttbar_2017_basic0", &disc_ttbar_2017_basic0);
-	tree->SetBranchAddress("disc_ttbar_2017_basic1", &disc_ttbar_2017_basic1);
-	tree->SetBranchAddress("disc_ttbar_2017_basic2", &disc_ttbar_2017_basic2);
-	tree->SetBranchAddress("disc_ttbar_2017_enhanced", &disc_ttbar_2017_enhanced);
-	tree->SetBranchAddress("disc_ttbar_2017_enhanced_v2", &disc_ttbar_2017_enhanced_v2);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_basic0", &disc_qcd_and_ttbar_2017_basic0);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_basic1", &disc_qcd_and_ttbar_2017_basic1);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_basic2", &disc_qcd_and_ttbar_2017_basic2);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced", &disc_qcd_and_ttbar_2017_enhanced);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v2", &disc_qcd_and_ttbar_2017_enhanced_v2);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v5p2", &disc_qcd_and_ttbar_2017_enhanced_v5);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v6", &disc_qcd_and_ttbar_2017_enhanced_v6);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_2017_enhanced_v7", &disc_qcd_and_ttbar_2017_enhanced_v7);
-	//tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v8p2", &disc_qcd_and_ttbar_2017_enhanced_v8);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v24", &disc_qcd_and_ttbar_2017_enhanced_v8);
-	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v10p2", &disc_qcd_and_ttbar_2017_enhanced_v10);
+	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v8p2", &disc_v8p2);
+	tree->SetBranchAddress("disc_qcd_and_ttbar_Run2_enhanced_v24", &disc_v24);
 	tree->SetBranchAddress("fatJet1PtOverMHH", &fatJet1PtOverMHH);
 	tree->SetBranchAddress("fatJet1PtOverMSD", &fatJet1PtOverMSD);
 	tree->SetBranchAddress("fatJet2PtOverMHH", &fatJet2PtOverMHH);
@@ -543,6 +520,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	tree->SetBranchAddress("deltaR_j1j2", &deltaR_j1j2);    
 	tree->SetBranchAddress("ptj2_over_ptj1", &ptj2_over_ptj1);
 	tree->SetBranchAddress("mj2_over_mj1", &mj2_over_mj1);
+	tree->SetBranchAddress("HLT_PFHT790",                                        &HLT_PFHT790);                             
+	tree->SetBranchAddress("HLT_PFHT890",                                        &HLT_PFHT890);                             
 	tree->SetBranchAddress("HLT_PFHT1050",                                        &HLT_PFHT1050);                             
 	tree->SetBranchAddress("HLT_AK8PFJet360_TrimMass30",                          &HLT_AK8PFJet360_TrimMass30);                             
 	tree->SetBranchAddress("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30);                             
@@ -555,6 +534,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	tree->SetBranchAddress("HLT_PFJet450",                                        &HLT_PFJet450);                                           
 	tree->SetBranchAddress("HLT_PFJet500",                                        &HLT_PFJet500);                                       
 	tree->SetBranchAddress("HLT_PFJet550",                                        &HLT_PFJet550);                                       
+	tree->SetBranchAddress("HLT_AK8PFJet400",                                     &HLT_AK8PFJet400);                                    
 	tree->SetBranchAddress("HLT_AK8PFJet450",                                     &HLT_AK8PFJet450);                                    
 	tree->SetBranchAddress("HLT_AK8PFJet500",                                     &HLT_AK8PFJet500);                                    
 	tree->SetBranchAddress("HLT_AK8PFJet550",                                     &HLT_AK8PFJet550);                                    
@@ -587,9 +567,12 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  double puWeight = 1;      
 	  double myWeight = 1;
 	  if (!isData) {	 
-	    myWeight = lumi * weight * triggerEffWeight * pileupWeight * scaleFactors[i];
-	    //myWeight = lumi * weight * triggerEffWeight * scaleFactors[i];
-	    // myWeight = lumi * weight * scaleFactors[i];
+	    //myWeight = lumi * weight * triggerEffWeight * pileupWeight * scaleFactors[i];
+	    myWeight = lumi * weight * triggerEff3DWeight * pileupWeight * scaleFactors[i];
+	    //myWeight = lumi * weight * triggerEffMCWeight * pileupWeight * scaleFactors[i];
+	    //myWeight = lumi * weight * triggerEffMC3DWeight * pileupWeight * scaleFactors[i];
+	    //myWeight = lumi * weight * pileupWeight * scaleFactors[i];
+	    //myWeight = lumi * weight * scaleFactors[i];
 	    //cout << "scaleFactors: " << scaleFactors[i] << "\n";
 	  }
 
@@ -604,6 +587,12 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	      || HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20
 	      || HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20
 	      || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 	    
+	      || HLT_AK8PFJet360_TrimMass30
+	      || HLT_AK8PFJet450 
+	      || HLT_PFJet450    
+	      // || HLT_PFHT790
+	      // || HLT_PFHT890
+	      || HLT_PFHT1050
 	      ;       
 
 	    // apply trigger efficiency correction for some triggers that were not enabled for full run
@@ -624,18 +613,23 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    }
 
 	  }
+
 	  if (year == "2017") {
 	    passTrigger = 
 	      (0 == 1) 
+	      || HLT_PFJet450    
 	      || HLT_PFJet500    
+	      //|| HLT_AK8PFJet400 
 	      || HLT_AK8PFJet500 
+	      || HLT_PFHT1050
 	      || HLT_AK8PFJet360_TrimMass30
 	      || HLT_AK8PFJet380_TrimMass30
 	      || HLT_AK8PFJet400_TrimMass30   
 	      || HLT_AK8PFHT800_TrimMass50 
-	      || HLT_AK8PFJet330_PFAK8BTagCSV_p17	  
+	      || HLT_AK8PFHT750_TrimMass50 
+	      || HLT_AK8PFJet330_PFAK8BTagCSV_p17	  	  
 	      ;       
-
+	    
 	    // apply trigger efficiency correction for some triggers that were not enabled for full run
 	    if (!isData) {
 	      // double triggerSF = 1.0;
@@ -666,6 +660,9 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  if (year == "2018") {
 	    passTrigger = 
 	      (0 == 1) 
+	      || HLT_PFHT1050
+	      || HLT_PFJet500  
+	      || HLT_AK8PFJet500 
 	      || HLT_AK8PFJet400_TrimMass30 
 	      || HLT_AK8PFHT800_TrimMass50     
 	      || HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4 
@@ -723,115 +720,79 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    //*************************************************************************
 	    //Enhanced V8p2 BDT Analysis
 	    //*************************************************************************
-	    // //Best 3-bin analysis - Bin1
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.23) ) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
+	    //Best 3-bin analysis - Bin1
+	    if ( !(disc_v8p2 > 0.43) ) continue;
+	    if ( !(fatJet2PNetXbb > 0.980)) continue;
 
-	    //Best 3-bin analysis - Bin2
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.023) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 <= 0.23) ) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
-
+	    // //Best 3-bin analysis - Bin2
+	    // if ( (disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.980 ) ) continue;
+	    // if ( !( ( disc_v8p2 > 0.11 && fatJet2PNetXbb > 0.980)
+	    // 	    || 
+	    // 	    ( disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.950)
+	    // 	    )) continue;
+	   
  	    // //Best 3-bin analysis - Bin3
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.408) ) continue;
-	    // if ( !(fatJet2PNetXbb <= 0.985)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.945)) continue;
+	    // if ( (disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.980 ) ) continue;
+	    // if ( ( ( disc_v8p2 > 0.11 && fatJet2PNetXbb > 0.980)
+	    // 	   || 
+	    // 	   ( disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.950)
+	    // 	   )) continue;	  
+ 
+	    // if ( !(disc_v8p2 > 0.03 && fatJet2PNetXbb > 0.950) ) continue;
+
 	    //*************************************************************************
 	    //*************************************************************************
 
 	  
 
 	    //*************************************************************************
-	    //Enhanced V23 BDT Analysis - 
+	    //Enhanced V24 BDT Analysis - 
 	    //BDT trained with ntuples where jet1/2 are selected based on Xbb ordering
 	    //*************************************************************************
 	    // Bin1
-	    if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    if ( !(fatJet2PNetXbb > 0.985)) continue; 
-
+	    // if ( !(disc_v24 > 0.029) ) continue;
+	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
+	    // if ( !(fatJet2PNetXbb > 0.985)) continue; 
+         
 	    // Bin2
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
-	    
-            // // Bin3
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.975)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.975)) continue;
-	    // //if ( !( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.985) || (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.975)  )) continue;
-	                
-	    // // Bin4
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.028) ) continue;
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0117) ) continue;
-	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0063) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0141) ) continue;
-	    // //if ( !(fatJet1PNetXbb > 0.95)) continue;
-	    // //if ( !(fatJet2PNetXbb > 0.95)) continue;
-	    // if ( !( (fatJet1PNetXbb > 0.95 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.95)  )) continue;
-	                
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_v24 > 0.029) ) continue;	    
+	    // if ( !(fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_v24 > 0.0118) ) continue;
+	   
+            // Bin3
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_v24 > 0.028) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_v24 > 0.0118) ) continue;	  
+	    // if ( !( disc_v24 > 0.0054 && 
+	    // 	    ( (fatJet1PNetXbb > 0.955 && fatJet2PNetXbb > 0.985) 
+	    // 	      || (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.955)  
+	    // 	      ) ) ) continue;
 
-
-	    //*************************************************************************
-	    //Enhanced V23 BDT Analysis - 
-	    //BDT trained with ntuples where jet1/2 are selected based on pT ordering
-	    //*************************************************************************
-	    // Bin1
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.018) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
-
-	    // // Bin2
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.018) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0077) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.975)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.975)) continue;
-	    
-            // // Bin3
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.018) ) continue;
-	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0077) ) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0115) ) continue;
-	    // //if ( !(fatJet1PNetXbb > 0.95)) continue;
-	    // //if ( !(fatJet2PNetXbb > 0.95)) continue;
-	    // if ( !( (fatJet1PNetXbb > 0.950 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.950)  )) continue;
-	    
-
-	    //*************************************************************************
-	    //Enhanced V23 BDT Analysis
-	    //*************************************************************************
-	    // Bin1
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.033) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
-
-	    // Bin2
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.011 && disc_qcd_and_ttbar_2017_enhanced_v8 <= 0.033) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
-	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
-
-	    // Bin3
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.011)) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.014) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975)) continue;
-	    // if ( !( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.975) || (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.985))) continue;
-	    
+	 	              
 	    // Bin4
-	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.011)) continue;
-	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_qcd_and_ttbar_2017_enhanced_v8 > 0.014)) continue;
-	    // if ( !(disc_qcd_and_ttbar_2017_enhanced_v8 > 0.0045) ) continue;
-	    // if ( !(fatJet1PNetXbb > 0.95 && fatJet2PNetXbb > 0.95)) continue;
+	    // if ( (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.985 && disc_v24 > 0.028) ) continue;
+	    // if ( (fatJet1PNetXbb > 0.975 && fatJet2PNetXbb > 0.975 && disc_v24 > 0.0118) ) continue;	  
+	    // if (  disc_v24 > 0.0054 && 
+	    // 	  ( (fatJet1PNetXbb > 0.955 && fatJet2PNetXbb > 0.985) 
+	    // 	    || (fatJet1PNetXbb > 0.985 && fatJet2PNetXbb > 0.955)  
+	    // 	    ) ) continue;
+	    // if ( !( disc_v24 > 0.0024 && 
+	    // 	    ( (fatJet1PNetXbb > 0.945 && fatJet2PNetXbb > 0.945) 
+	    // 	      ) ) ) continue;
 	    
+
+
+	    
+	    //*************************************************************************
 	    //cut-based
+	    //*************************************************************************
 	    // if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
 	    // if ( !(fatJet1Pt > 310 && fatJet2Pt > 310 )) continue;
 	    // if ( !(fatJet1PNetXbb > 0.985)) continue;
 	    // if ( !(fatJet2PNetXbb > 0.985)) continue;
 	    // if ( !(fatJet1MassSD > 105 && fatJet1MassSD < 135)) continue;
 
+	    //*************************************************************************
 	    // baseline cut-based (from Zhicai)
+	    //*************************************************************************
 	    // if ( !(fatJet1Pt > 350 || fatJet2Pt > 350)) continue;
 	    // if ( !(fatJet1Pt > 300 && fatJet2Pt > 300 )) continue;
 	    // if ( !(fatJet1PNetXbb > 0.975)) continue;
@@ -877,11 +838,22 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 
 	    if (processLabels[i] == "HH") {
 	      if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
-		SignalYield += myWeight;
+              SignalYield_kl1 += myWeight;
 	      }
-	    } else {
-	      //MCYield += myWeight;
+	    } else if(processLabels[i] == "HHkl0"){
+          if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
+              SignalYield_kl0 += myWeight;
+          }
+	    } else if(processLabels[i] == "HHkl2p45"){
+          if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
+              SignalYield_kl2p45 += myWeight;
+          }
+	    } else if(processLabels[i] == "HHkl5"){
+          if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
+              SignalYield_kl5 += myWeight;
+          }
 	    }
+        
 	    histMET[i]->Fill(MET, myWeight);    
 	    histNLeptons[i]->Fill(0.0, myWeight);   
 	    histNJetsHaveLeptons[i]->Fill(NJetsHaveLeptons, myWeight);   
@@ -942,7 +914,10 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
   cout << "Selected Event Yield \n";
   cout << "Total Sideband Data: " << dataYield << "\n";
   cout << "Bkg Prediction From Sideband: " << BkgYield << "\n";
-  cout << "Signal: " << SignalYield << "\n";
+  cout << "Signal SM: " << SignalYield_kl1 << "\n";
+  cout << "Signal kl0: " << SignalYield_kl0 << "\n";
+  cout << "Signal kl2p45: " << SignalYield_kl2p45 << "\n";
+  cout << "Signal kl5: " << SignalYield_kl5 << "\n";
 
   // //--------------------------------------------------------------------------------------------------------------
   // // Output
@@ -988,101 +963,116 @@ void SelectHHTo4B_PNet( int option = -1) {
   std::vector<std::string> bkgfiles_ttH_2016;  
   std::vector<std::string> bkgfiles_qcd_2016; 
   std::vector<std::string> bkgfiles_HH_2016; 
+  std::vector<std::string> bkgfiles_HHkl0_2016;
+  std::vector<std::string> bkgfiles_HHkl2p45_2016;
+  std::vector<std::string> bkgfiles_HHkl5_2016;
   std::vector<std::string> bkgfiles_ttbar_2017;
   std::vector<std::string> bkgfiles_H_2017;
   std::vector<std::string> bkgfiles_VH_2017;
   std::vector<std::string> bkgfiles_ttH_2017;  
   std::vector<std::string> bkgfiles_qcd_2017; 
   std::vector<std::string> bkgfiles_HH_2017; 
+  std::vector<std::string> bkgfiles_HHkl0_2017;
+  std::vector<std::string> bkgfiles_HHkl2p45_2017;
+  std::vector<std::string> bkgfiles_HHkl5_2017;
   std::vector<std::string> bkgfiles_ttbar_2018;
   std::vector<std::string> bkgfiles_H_2018;
   std::vector<std::string> bkgfiles_VH_2018;
   std::vector<std::string> bkgfiles_ttH_2018;  
   std::vector<std::string> bkgfiles_qcd_2018; 
-  std::vector<std::string> bkgfiles_HH_2018; 
+  std::vector<std::string> bkgfiles_HH_2018;
+  std::vector<std::string> bkgfiles_HHkl0_2018;
+  std::vector<std::string> bkgfiles_HHkl2p45_2018;
+  std::vector<std::string> bkgfiles_HHkl5_2018;
 
   //***********************************
   //2016 Data and MC
   //***********************************
-  datafiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/JetHT_2016_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_ttbar_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
-  bkgfiles_ttbar_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
-  bkgfiles_H_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_H_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-combined_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  //bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  //bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  //  bkgfiles_VH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_ttH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/ttHTobb_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210211/option5/combined/BDT/Jet2Xbb0p8Skim/";
+  //std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210211/option5/combined/BDT/";
+  datafiles_2016.push_back(dir+"2016/JetHT_2016_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
+  // bkgfiles_ttbar_2016.push_back(dir+"2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  // bkgfiles_ttbar_2016.push_back(dir+"2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root"); 
+  bkgfiles_ttbar_2016.push_back(dir+"2016/TT_Mtt-1000toInf_TuneCUETP8M2T4_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_ttbar_2016.push_back(dir+"2016/TT_Mtt-700to1000_TuneCUETP8M2T4_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_H_2016.push_back(dir+"2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_H_2016.push_back(dir+"2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-combined_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  //bkgfiles_VH_2016.push_back(dir+"2016/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  //bkgfiles_VH_2016.push_back(dir+"2016/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2016.push_back(dir+"2016/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  //  bkgfiles_VH_2016.push_back(dir+"2016/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_ttH_2016.push_back(dir+"2016/ttHTobb_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back(dir+"2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back(dir+"2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back(dir+"2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back(dir+"2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back(dir+"2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2016.push_back(dir+"2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluToHHTo4B_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  //bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluToHHTo4B_node_cHHH0_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  //bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluToHHTo4B_node_cHHH2p45_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  //bkgfiles_HH_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluToHHTo4B_node_cHHH5_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_HH_2016.push_back(dir+"2016/GluGluToHHTo4B_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_HHkl0_2016.push_back(dir+"2016/GluGluToHHTo4B_node_cHHH0_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_HHkl2p45_2016.push_back(dir+"2016/GluGluToHHTo4B_node_cHHH2p45_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_HHkl5_2016.push_back(dir+"2016/GluGluToHHTo4B_node_cHHH5_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
 
 
 
   //***********************************
   //2017 Data and MC
   //***********************************
-  datafiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/JetHT_2017_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
+  datafiles_2017.push_back(dir+"2017/JetHT_2017_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
+  // bkgfiles_ttbar_2017.push_back(dir+"2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  // bkgfiles_ttbar_2017.push_back(dir+"2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_ttbar_2017.push_back(dir+"2017/TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  bkgfiles_ttbar_2017.push_back(dir+"2017/TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
+  bkgfiles_H_2017.push_back(dir+"2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_H_2017.push_back(dir+"2017/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2017.push_back(dir+"2017/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2017.push_back(dir+"2017/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2017.push_back(dir+"2017/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  //  bkgfiles_VH_2017.push_back(dir+"2017/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_ttH_2017.push_back(dir+"2017/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_ttbar_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
-  bkgfiles_ttbar_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
-  bkgfiles_H_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_H_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  //  bkgfiles_VH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_ttH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back(dir+"2017/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back(dir+"2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back(dir+"2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back(dir+"2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back(dir+"2017/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2017.push_back(dir+"2017/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-
-  bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
-  //bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
-  // bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
-  //bkgfiles_HH_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
+  bkgfiles_HH_2017.push_back(dir+"2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
+  bkgfiles_HHkl0_2017.push_back(dir+"2017/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");   
+  bkgfiles_HHkl2p45_2017.push_back(dir+"2017/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");   
+  bkgfiles_HHkl5_2017.push_back(dir+"2017/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");   
 
   //***********************************
   //2018 Data and MC
   //***********************************
-  datafiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/JetHT_2018_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
+  datafiles_2018.push_back(dir+"2018/JetHT_2018_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
+  // bkgfiles_ttbar_2018.push_back(dir+"2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
+  // bkgfiles_ttbar_2018.push_back(dir+"2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root"); 
+  bkgfiles_ttbar_2018.push_back(dir+"2018/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_ttbar_2018.push_back(dir+"2018/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_H_2018.push_back(dir+"2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_H_2018.push_back(dir+"2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2018.push_back(dir+"2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2018.push_back(dir+"2018/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_VH_2018.push_back(dir+"2018/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  //  bkgfiles_VH_2018.push_back(dir+"2018/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_ttH_2018.push_back(dir+"2018/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_ttbar_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
-  bkgfiles_ttbar_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
-  bkgfiles_H_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_H_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  //  bkgfiles_VH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_ttH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back(dir+"2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back(dir+"2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back(dir+"2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back(dir+"2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back(dir+"2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_qcd_2018.push_back(dir+"2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
 
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  bkgfiles_qcd_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-
-  bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  //bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  // bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
-  //bkgfiles_HH_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_HH_2018.push_back(dir+"2018/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_HHkl0_2018.push_back(dir+"2018/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_HHkl2p45_2018.push_back(dir+"2018/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
+  bkgfiles_HHkl5_2018.push_back(dir+"2018/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs_Jet2Xbb0p8Skim.root");
 
 
   //another vector to contain the different dataset years
@@ -1091,8 +1081,11 @@ void SelectHHTo4B_PNet( int option = -1) {
   std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_VH;
   std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_ttH;  
   std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_qcd; 
-  std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_HH; 
-
+  std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_HH;
+  std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_HHkl0; 
+  std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_HHkl2p45; 
+  std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_HHkl5; 
+   
   if (option == -1) {
     datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2016, "2016"));
     datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2017, "2017"));
@@ -1104,6 +1097,9 @@ void SelectHHTo4B_PNet( int option = -1) {
     bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2016 , "2016"));
     bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2016 , "2016"));
     bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2016 , "2016"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2016 , "2016"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2016 , "2016"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2016 , "2016"));
 
     bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2017 , "2017"));
     bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2017 , "2017"));
@@ -1111,6 +1107,9 @@ void SelectHHTo4B_PNet( int option = -1) {
     bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2017 , "2017"));
     bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2017 , "2017"));
     bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2017 , "2017"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2017 , "2017"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2017 , "2017"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2017 , "2017"));
 
     bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2018 , "2018"));
     bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2018 , "2018"));
@@ -1118,6 +1117,9 @@ void SelectHHTo4B_PNet( int option = -1) {
     bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2018 , "2018"));
     bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2018 , "2018"));
     bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2018 , "2018"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2018 , "2018"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2018 , "2018"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2018 , "2018"));
   }
   if (option == 0) {
     datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2016, "2016"));
@@ -1127,6 +1129,9 @@ void SelectHHTo4B_PNet( int option = -1) {
     bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2016 , "2016"));
     bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2016 , "2016"));
     bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2016 , "2016"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2016 , "2016"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2016 , "2016"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2016 , "2016"));
   }
   if (option == 1) {
     datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2017, "2017"));
@@ -1136,6 +1141,9 @@ void SelectHHTo4B_PNet( int option = -1) {
     bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2017 , "2017"));
     bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2017 , "2017"));
     bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2017 , "2017"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2017 , "2017"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2017 , "2017"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2017 , "2017"));
   }
   if (option == 2) {
     datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2018, "2018"));
@@ -1145,6 +1153,9 @@ void SelectHHTo4B_PNet( int option = -1) {
     bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2018 , "2018"));
     bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2018 , "2018"));
     bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2018 , "2018"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2018 , "2018"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2018 , "2018"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2018 , "2018"));
   }
 
   bkgfiles.push_back(bkgfiles_qcd);
@@ -1153,6 +1164,9 @@ void SelectHHTo4B_PNet( int option = -1) {
   bkgfiles.push_back(bkgfiles_VH);
   bkgfiles.push_back(bkgfiles_ttH);
   bkgfiles.push_back(bkgfiles_HH);
+  bkgfiles.push_back(bkgfiles_HHkl0);
+  bkgfiles.push_back(bkgfiles_HHkl2p45);
+  bkgfiles.push_back(bkgfiles_HHkl5);
 
   processLabels.push_back("QCD");
   processLabels.push_back("TTJets");  
@@ -1160,6 +1174,9 @@ void SelectHHTo4B_PNet( int option = -1) {
   processLabels.push_back("VH");
   processLabels.push_back("ttH");
   processLabels.push_back("HH");
+  processLabels.push_back("HHkl0");
+  processLabels.push_back("HHkl2p45");
+  processLabels.push_back("HHkl5");
   
   colors.push_back(kRed);
   colors.push_back(kAzure+10);
@@ -1167,6 +1184,9 @@ void SelectHHTo4B_PNet( int option = -1) {
   colors.push_back(kGray);
   colors.push_back(kBlue);
   colors.push_back(kMagenta+2);
+  colors.push_back(kMagenta);
+  colors.push_back(kMagenta-3);
+  colors.push_back(kMagenta+3);
  
   scaleFactors.push_back(0.72);
   scaleFactors.push_back(1.0);
@@ -1174,6 +1194,10 @@ void SelectHHTo4B_PNet( int option = -1) {
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
+  scaleFactors.push_back(1.0);
+  scaleFactors.push_back(1.0);
+  scaleFactors.push_back(1.0);
+  
 
   string label = "";
   double totalLumi = 0;

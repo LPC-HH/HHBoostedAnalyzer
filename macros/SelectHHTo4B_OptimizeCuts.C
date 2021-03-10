@@ -582,11 +582,12 @@ void SelectHHTo4B_OptimizeCuts(int option = 0) {
   //cutSets.push_back( makeCutSet( 350, 310, 0.985, 0.985, 100, 140, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999 ) ); //Exp Limit = 9.87654
   //cutSets.push_back( makeCutSet( 350, 310, 0.985, 0.985, 105, 135, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999 ) ); //Exp Limit = 9.38059
 
-  for (int i=0; i<200; i++) {
+  for (int i=0; i<100; i++) {
     double cut = 0.0 + i * ( 0.001);
 
-    cutSets.push_back( makeCutSet( -999, -999, 0.985, 0.985, -999, 999, -999, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, cut ) );  //v24
-            
+    //cutSets.push_back( makeCutSet( -999, -999, -999, 0.980, -999, 999, -999, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, cut, -999 ) );  //v8
+    cutSets.push_back( makeCutSet( -999, -999, 0.990, 0.975, -999, 999, -999, -999, -999, -999 , -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, cut ) );  //v24
+        
     
 
     
@@ -600,14 +601,14 @@ void SelectHHTo4B_OptimizeCuts(int option = 0) {
   std::vector<std::string> sigfiles_2017;
   std::vector<std::string> sigfiles_2018;
 
-  datafiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/JetHT_2016_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");     
-  sigfiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluToHHTo4B_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
+  datafiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20201117/option5/combined/BDT/Jet2Xbb0p8Skim/2016/JetHT_2016_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");     
+  sigfiles_2016.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20201117/option5/combined/BDT/Jet2Xbb0p8Skim/2016/GluGluToHHTo4B_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");
   
-  datafiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/JetHT_2017_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");    
-  sigfiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");    
+  datafiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20201117/option5/combined/BDT/Jet2Xbb0p8Skim/2017/JetHT_2017_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");    
+  sigfiles_2017.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20201117/option5/combined/BDT/Jet2Xbb0p8Skim/2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");    
 
-  datafiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/JetHT_2018_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");  
-  sigfiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
+  datafiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20201117/option5/combined/BDT/Jet2Xbb0p8Skim/2018/JetHT_2018_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");  
+  sigfiles_2018.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20201117/option5/combined/BDT/Jet2Xbb0p8Skim/2018/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");   
   
   double lumi_2016 = 35922;
   double lumi_2017 = 41480;

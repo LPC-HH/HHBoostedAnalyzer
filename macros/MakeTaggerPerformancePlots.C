@@ -34,6 +34,17 @@
 
 #endif
 
+void NormalizeHist(TH1 *hist) {
+  Double_t norm = 0;
+  for (UInt_t b=0; int(b)<hist->GetXaxis()->GetNbins()+2; ++b) {
+    norm += hist->GetBinContent(b);
+  }
+  for (UInt_t b=0; int(b)<hist->GetXaxis()->GetNbins()+2; ++b) {
+    hist->SetBinContent(b,hist->GetBinContent(b) / norm);
+    hist->SetBinError(b,hist->GetBinError(b) / norm);
+  }
+}
+
 //*************************************************************************************************
 //
 //*************************************************************************************************
@@ -686,6 +697,11 @@ void RunMakeTaggerPerformancePlots(  std::vector<std::pair<std::vector<std::stri
     ROCGraphs[i]->GetYaxis()->SetRangeUser(ymin,ymax);    
     if (i==0) {
       ROCGraphs[i]->Draw("AP");
+      ROCGraphs[i]->GetYaxis()->SetTitleSize(0.05);
+      ROCGraphs[i]->GetYaxis()->SetTitleOffset(0.9);
+      ROCGraphs[i]->GetXaxis()->SetTitleSize(0.05);
+      ROCGraphs[i]->GetXaxis()->SetTitleOffset(0.9);
+
     } else {
       ROCGraphs[i]->Draw("Psame");
     }
@@ -715,6 +731,39 @@ void RunMakeTaggerPerformancePlots(  std::vector<std::pair<std::vector<std::stri
   legend->Draw();
   cv->SetLogy();
   cv->SaveAs("ROCGraphs_PNetXbb.gif");
+  cv->SaveAs("ROCGraphs_PNetXbb.pdf");
+
+
+  //Plot the Tagger Shape
+  PNetXbbTagger_Signal->Rebin(100);
+  PNetXbbTagger_Bkg->Rebin(100);
+  NormalizeHist(PNetXbbTagger_Signal);
+  NormalizeHist(PNetXbbTagger_Bkg);
+  legend = new TLegend(0.15,0.50,0.70,0.85);
+  legend->SetTextSize(0.03);
+  legend->SetBorderSize(0);
+  legend->SetFillStyle(0);
+  legend->AddEntry(PNetXbbTagger_Signal,"Signal", "LP");
+  legend->AddEntry(PNetXbbTagger_Bkg,"QCD Bkg", "LP");
+  PNetXbbTagger_Signal->SetLineColor(kBlue);
+  PNetXbbTagger_Bkg->SetLineColor(kRed);
+  PNetXbbTagger_Signal->SetLineWidth(2);
+  PNetXbbTagger_Bkg->SetLineWidth(2);
+  PNetXbbTagger_Signal->Draw("hist");
+  PNetXbbTagger_Signal->SetStats(0);
+  PNetXbbTagger_Signal->GetYaxis()->SetTitleSize(0.05);
+  PNetXbbTagger_Signal->GetYaxis()->SetTitleOffset(0.9);
+  PNetXbbTagger_Signal->GetYaxis()->SetTitle("Fraction of Events");
+  PNetXbbTagger_Signal->GetXaxis()->SetTitleSize(0.05);
+  PNetXbbTagger_Signal->GetXaxis()->SetTitleOffset(0.9);
+  PNetXbbTagger_Signal->GetXaxis()->SetTitle("Particle-Net Xbb Tagger");
+  PNetXbbTagger_Signal->GetXaxis()->SetRangeUser(0.0,1.0);
+  PNetXbbTagger_Signal->GetYaxis()->SetRangeUser(0.002,2.0);
+  PNetXbbTagger_Bkg->Draw("histsame");
+  legend->Draw();
+  cv->SaveAs("PNetXbbShape.gif");
+  cv->SaveAs("PNetXbbShape.pdf");
+
 
 
 
