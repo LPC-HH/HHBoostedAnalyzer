@@ -17,8 +17,8 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
     //parse input list to get names of ROOT files
-    if(argc < 4){
-        cerr << "usage SkimNtuple inputList.txt <outputDirectory> <outputfileLabel> " << endl;
+    if(argc < 5){
+        cerr << "usage SkimNtuple inputList.txt <outputDirectory> <outputfileLabel> <cutString>" << endl;
         return -1;
     }
     string inputList(argv[1]);
@@ -119,16 +119,27 @@ int main(int argc, char* argv[]) {
 	    //std::cout << "[INFO] skim cut -> " << SkimCutString << std::endl;
 	    TTreeFormula *formula = new TTreeFormula("SkimCutString", SkimCutString.c_str(), inputTree);
 
+	    ULong64_t eventNum;
 	    UInt_t nFatJet;
 	    Float_t FatJet_pt[10];   //[nFatJet]
 	    Float_t FatJet_btagDDBvL[10];   //[nFatJet]
+	    Float_t inputweight = 1;
+	    Float_t inputTotalWeight = 1;
+	    Float_t weight = 1;
+	    Float_t totalWeight = 1;
+	    TBranch        *b_eventNum;   //!
 	    TBranch        *b_nFatJet;   //!
 	    TBranch        *b_FatJet_pt;   //!
 	    TBranch        *b_FatJet_btagDDBvL;   //!
+	    inputTree->SetBranchAddress("event", &eventNum, &b_eventNum);
 	    inputTree->SetBranchAddress("nFatJet", &nFatJet, &b_nFatJet);
 	    inputTree->SetBranchAddress("FatJet_pt", FatJet_pt, &b_FatJet_pt);
 	    inputTree->SetBranchAddress("FatJet_btagDDBvL", FatJet_btagDDBvL, &b_FatJet_btagDDBvL);
-	    
+	    inputTree->SetBranchAddress("weight", &inputweight);
+	    inputTree->SetBranchAddress("totalWeight", &inputTotalWeight);
+	    outputTree->SetBranchAddress("weight", &weight);
+	    outputTree->SetBranchAddress("totalWeight", &totalWeight);
+
 	    int EventsPassed = 0;
 
             //store the weights            
@@ -137,12 +148,20 @@ int main(int argc, char* argv[]) {
                 inputTree->GetEntry(n);
 
 		bool passSkim = false;		
-		
-		passSkim = formula->EvalInstance();
+		passSkim = formula->EvalInstance();		
+		weight = inputweight;
+		totalWeight = inputTotalWeight;
 
-		// passSkim = (nFatJet >= 2 
-		// 	    && FatJet_pt[0] > 200 && FatJet_pt[1] > 200
-		// 	    && FatJet_btagDDBvL[0] > 0.5 && FatJet_btagDDBvL[1] > 0.5);
+		// *****************************************************************
+		// Special version for splitting sample into training and testing
+		// ***************************************************************** 
+		//split in half into training and testing samples, and
+		//multiply the weight by 2 to compensate for the half-split
+		//training is even numbers, testing is odd numbers		
+		// passSkim = bool(eventNum % 2 == 1);
+		// weight = inputweight * 2.0 ; 
+		// totalWeight = inputTotalWeight * 2.0 ; 
+		// *********************************************************
 
 		if (passSkim) {
 		  EventsPassed++;
