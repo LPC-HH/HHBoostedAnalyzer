@@ -33,6 +33,7 @@ cmsswReleaseVersion = "CMSSW_10_6_5"
 
 
 
+
 outputDirectoryBase = "/store/user/lpcdihiggsboost/sixie/analyzer/"+analysis+"/"+label+"/"
 #filesPerJob = 2
 
