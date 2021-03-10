@@ -454,6 +454,17 @@ void ComputePileupWeights() {
   			    MCSamples_2016[i],
   			    "2016",
   			    "PileupWeights.root");
+    DoComputePileupWeights( "/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/PileupWeights/PileupTarget_2016_36p2ifb_SysUp.root",
+  			    MCPileupFiles_2016[i],
+  			    MCSamples_2016[i],
+  			    "2016_SysUp",
+  			    "PileupWeights.root");
+    DoComputePileupWeights( "/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/PileupWeights/PileupTarget_2016_36p2ifb_SysDown.root",
+  			    MCPileupFiles_2016[i],
+  			    MCSamples_2016[i],
+  			    "2016_SysDown",
+  			    "PileupWeights.root");
+
   }
 
 
@@ -464,7 +475,17 @@ void ComputePileupWeights() {
 			    MCSamples_2017[i],
 			    "2017",
 			    "PileupWeights.root");
-  }
+    DoComputePileupWeights( "/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/PileupWeights/PileupTarget_2017_41p53ifb_SysUp.root",
+			    MCPileupFiles_2017[i],
+			    MCSamples_2017[i],
+			    "2017_SysUp",
+			    "PileupWeights.root");
+     DoComputePileupWeights( "/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/PileupWeights/PileupTarget_2017_41p53ifb_SysDown.root",
+			    MCPileupFiles_2017[i],
+			    MCSamples_2017[i],
+			    "2017_SysDown",
+			    "PileupWeights.root");
+ }
 
 
    for (int i=0; i<MCSamples_2018.size() ; i++) {
@@ -473,6 +494,16 @@ void ComputePileupWeights() {
 			    MCPileupFiles_2018[i],
 			    MCSamples_2018[i],
 			    "2018",
+			    "PileupWeights.root");
+    DoComputePileupWeights( "/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/PileupWeights/PileupTarget_2018_SysUp.root",
+			    MCPileupFiles_2018[i],
+			    MCSamples_2018[i],
+			    "2018_SysUp",
+			    "PileupWeights.root");
+    DoComputePileupWeights( "/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/PileupWeights/PileupTarget_2018_SysDown.root",
+			    MCPileupFiles_2018[i],
+			    MCSamples_2018[i],
+			    "2018_SysDown",
 			    "PileupWeights.root");
   }
 
