@@ -128,8 +128,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     TH1F *pileupWeightUpHist = 0;
     TH1F *pileupWeightDownHist = 0;
     
+    string CMSSWDir = std::getenv("CMSSW_BASE");
     if (!isData) {
-      string CMSSWDir = std::getenv("CMSSW_BASE");
       string triggerEffFilename = "";
       string triggerEffMCFilename = "";
       if (year == "2016") {
@@ -235,7 +235,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       }
     else if(year == "2017")
       {
-	float tmp_jms[] = {0.982, 0.978, 0.986};
+	//float tmp_jms[] = {0.982, 0.978, 0.986};
+	float tmp_jms[] = {1.0016, 0.978, 0.986}; //Tuned to our Top control region
 	jmsValues = tmp_jms;
       }
     else if(year == "2018")
@@ -255,17 +256,20 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float* jmrValues;//{nominal, down, up}
     if(year == "2016")
       {
-	float tmp_jmr[] = {1.00, 1.0, 1.2};
+	//float tmp_jmr[] = {1.00, 1.0, 1.2};
+	float tmp_jmr[] = {1.00, 1.0, 1.09}; //Tuned to our Top control region
 	jmrValues = tmp_jmr;
       }
     else if(year == "2017")
       {
-	float tmp_jmr[] = {1.09, 1.04, 1.14};
+	//float tmp_jmr[] = {1.09, 1.04, 1.14};
+	float tmp_jmr[] = {1.03, 1.00, 1.07};  //Tuned to our Top control region
         jmrValues = tmp_jmr;
       }
     else if(year == "2018")
       {
-	float tmp_jmr[] = {1.24, 1.20, 1.28};
+	//float tmp_jmr[] = {1.24, 1.20, 1.28};
+	float tmp_jmr[] = {1.065, 1.031, 1.099}; //Tuned to our Top control region
         jmrValues = tmp_jmr;
       }
     else
@@ -278,8 +282,16 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     //----------------------------------------
     //---jet energy scale uncertainty
     //----------------------------------------
-    JetCorrectionUncertainty *jecUnc = new JetCorrectionUncertainty("/uscms/home/cmorgoth/nobackup/di_higgs/CMSSW_10_6_5/src/HHBoostedAnalyzer/data/Autumn18_V19_MC/Autumn18_V19_MC_Uncertainty_AK8PFPuppi.txt");
-
+    string JECUncertaintyFile = "";
+    if (year == "2016") {
+      JECUncertaintyFile = CMSSWDir + "/src/HHBoostedAnalyzer/data/JEC/Summer16_07Aug2017_V11_MC/Summer16_07Aug2017_V11_MC_Uncertainty_AK8PFPuppi.txt";
+    } else if (year == "2017") {
+      JECUncertaintyFile = CMSSWDir + "/src/HHBoostedAnalyzer/data/JEC/Fall17_17Nov2017_V32_MC/Fall17_17Nov2017_V32_MC_Uncertainty_AK8PFPuppi.txt";
+    } else if (year == "2018") {
+     JECUncertaintyFile = CMSSWDir + "/src/HHBoostedAnalyzer/data/JEC/Autumn18_V19_MC/Autumn18_V19_MC_Uncertainty_AK8PFPuppi.txt";
+    }
+    JetCorrectionUncertainty *jecUnc = new JetCorrectionUncertainty(JECUncertaintyFile.c_str());
+    
     //----------------------------------------
     //Output file
     //----------------------------------------  
@@ -433,9 +445,39 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float hh_eta = -99;
     float hh_phi = -99;
     float hh_mass = -99;        
+    float hh_pt_JESUp = -99;
+    float hh_pt_JESDown = -99;
+    float hh_pt_JMSUp = -99;
+    float hh_pt_JMSDown = -99;
+    float hh_pt_JMRUp = -99;
+    float hh_pt_JMRDown = -99;
+    float hh_eta_JESUp = -99;
+    float hh_eta_JESDown = -99;
+    float hh_eta_JMSUp = -99;
+    float hh_eta_JMSDown = -99;
+    float hh_eta_JMRUp = -99;
+    float hh_eta_JMRDown = -99;
+    float hh_mass_JESUp = -99;
+    float hh_mass_JESDown = -99;
+    float hh_mass_JMSUp = -99;
+    float hh_mass_JMSDown = -99;
+    float hh_mass_JMRUp = -99;
+    float hh_mass_JMRDown = -99;    
     float fatJet1PtOverMHH = -99;
+    float fatJet1PtOverMHH_JESUp = -99;
+    float fatJet1PtOverMHH_JESDown = -99;
+    float fatJet1PtOverMHH_JMSUp = -99;
+    float fatJet1PtOverMHH_JMSDown = -99;
+    float fatJet1PtOverMHH_JMRUp = -99;
+    float fatJet1PtOverMHH_JMRDown = -99;
     float fatJet1PtOverMSD = -99;
     float fatJet2PtOverMHH = -99;
+    float fatJet2PtOverMHH_JESUp = -99;
+    float fatJet2PtOverMHH_JESDown = -99;
+    float fatJet2PtOverMHH_JMSUp = -99;
+    float fatJet2PtOverMHH_JMSDown = -99;
+    float fatJet2PtOverMHH_JMRUp = -99;
+    float fatJet2PtOverMHH_JMRDown = -99;
     float fatJet2PtOverMSD = -99;
     float deltaEta_j1j2 = -99;
     float deltaPhi_j1j2 = -99;
@@ -647,17 +689,17 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("fatJet2HasBJetCSVMedium", &fatJet2HasBJetCSVMedium, "fatJet2HasBJetCSVMedium/O");
       outputTree->Branch("fatJet2HasBJetCSVTight", &fatJet2HasBJetCSVTight, "fatJet2HasBJetCSVTight/O");
       outputTree->Branch("fatJet3Pt", &fatJet3Pt, "fatJet3Pt/F");
-      outputTree->Branch("fatJet3Pt_JES_Up", &fatJet3Pt_JES_Up, "fatJet3Pt_JES_Up/F");
-      outputTree->Branch("fatJet3Pt_JES_Down", &fatJet3Pt_JES_Down, "fatJet3Pt_JES_Down/F");
+      // outputTree->Branch("fatJet3Pt_JES_Up", &fatJet3Pt_JES_Up, "fatJet3Pt_JES_Up/F");
+      // outputTree->Branch("fatJet3Pt_JES_Down", &fatJet3Pt_JES_Down, "fatJet3Pt_JES_Down/F");
       outputTree->Branch("fatJet3Eta", &fatJet3Eta, "fatJet3Eta/F");
       outputTree->Branch("fatJet3Phi", &fatJet3Phi, "fatJet3Phi/F");
       outputTree->Branch("fatJet3Mass", &fatJet3Mass, "fatJet3Mass/F");
       outputTree->Branch("fatJet3MassSD", &fatJet3MassSD, "fatJet3MassSD/F");
-      outputTree->Branch("fatJet3MassSD_UnCorrected", &fatJet3MassSD_UnCorrected, "fatJet3MassSD_UnCorrected/F");
-      outputTree->Branch("fatJet3MassSD_JMS_Up", &fatJet3MassSD_JMS_Up, "fatJet3MassSD_JMS_Up/F");
-      outputTree->Branch("fatJet3MassSD_JMS_Down", &fatJet3MassSD_JMS_Down, "fatJet3MassSD_JMS_Down/F");
-      outputTree->Branch("fatJet3MassSD_JMR_Up", &fatJet3MassSD_JMR_Up, "fatJet3MassSD_JMR_Up/F");
-      outputTree->Branch("fatJet3MassSD_JMR_Down", &fatJet3MassSD_JMR_Down, "fatJet3MassSD_JMR_Down/F");
+      // outputTree->Branch("fatJet3MassSD_UnCorrected", &fatJet3MassSD_UnCorrected, "fatJet3MassSD_UnCorrected/F");
+      // outputTree->Branch("fatJet3MassSD_JMS_Up", &fatJet3MassSD_JMS_Up, "fatJet3MassSD_JMS_Up/F");
+      // outputTree->Branch("fatJet3MassSD_JMS_Down", &fatJet3MassSD_JMS_Down, "fatJet3MassSD_JMS_Down/F");
+      // outputTree->Branch("fatJet3MassSD_JMR_Up", &fatJet3MassSD_JMR_Up, "fatJet3MassSD_JMR_Up/F");
+      // outputTree->Branch("fatJet3MassSD_JMR_Down", &fatJet3MassSD_JMR_Down, "fatJet3MassSD_JMR_Down/F");
       outputTree->Branch("fatJet3DDBTagger", &fatJet3DDBTagger, "fatJet3DDBTagger/F");
       outputTree->Branch("fatJet3PNetXbb", &fatJet3PNetXbb, "fatJet3PNetXbb/F");
       outputTree->Branch("fatJet3PNetQCDb", &fatJet3PNetQCDb, "fatJet3PNetQCDb/F");
@@ -675,9 +717,39 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("hh_eta",     &hh_eta,    "hh_eta/F");
       outputTree->Branch("hh_phi",     &hh_phi,    "hh_phi/F");
       outputTree->Branch("hh_mass",    &hh_mass,   "hh_mass/F");
+      outputTree->Branch("hh_pt_JESUp",      &hh_pt_JESUp,     "hh_pt_JESUp/F");
+      outputTree->Branch("hh_pt_JESDown",    &hh_pt_JESDown,   "hh_pt_JESDown/F");
+      outputTree->Branch("hh_pt_JMSUp",      &hh_pt_JMSUp,     "hh_pt_JMSUp/F");
+      outputTree->Branch("hh_pt_JMSDown",    &hh_pt_JMSDown,   "hh_pt_JMSDown/F");
+      outputTree->Branch("hh_pt_JMRUp",      &hh_pt_JMRUp,     "hh_pt_JMRUp/F");
+      outputTree->Branch("hh_pt_JMRDown",    &hh_pt_JMRDown,   "hh_pt_JMRDown/F");
+      outputTree->Branch("hh_eta_JESUp",      &hh_eta_JESUp,     "hh_eta_JESUp/F");
+      outputTree->Branch("hh_eta_JESDown",    &hh_eta_JESDown,   "hh_eta_JESDown/F");
+      outputTree->Branch("hh_eta_JMSUp",      &hh_eta_JMSUp,     "hh_eta_JMSUp/F");
+      outputTree->Branch("hh_eta_JMSDown",    &hh_eta_JMSDown,   "hh_eta_JMSDown/F");
+      outputTree->Branch("hh_eta_JMRUp",      &hh_eta_JMRUp,     "hh_eta_JMRUp/F");
+      outputTree->Branch("hh_eta_JMRDown",    &hh_eta_JMRDown,   "hh_eta_JMRDown/F");
+      outputTree->Branch("hh_mass_JESUp",      &hh_mass_JESUp,     "hh_mass_JESUp/F");
+      outputTree->Branch("hh_mass_JESDown",    &hh_mass_JESDown,   "hh_mass_JESDown/F");
+      outputTree->Branch("hh_mass_JMSUp",      &hh_mass_JMSUp,     "hh_mass_JMSUp/F");
+      outputTree->Branch("hh_mass_JMSDown",    &hh_mass_JMSDown,   "hh_mass_JMSDown/F");
+      outputTree->Branch("hh_mass_JMRUp",      &hh_mass_JMRUp,     "hh_mass_JMRUp/F");
+      outputTree->Branch("hh_mass_JMRDown",    &hh_mass_JMRDown,   "hh_mass_JMRDown/F");
       outputTree->Branch("fatJet1PtOverMHH",    &fatJet1PtOverMHH,   "fatJet1PtOverMHH/F");
+      outputTree->Branch("fatJet1PtOverMHH_JESUp",    &fatJet1PtOverMHH_JESUp,   "fatJet1PtOverMHH_JESUp/F");
+      outputTree->Branch("fatJet1PtOverMHH_JESDown",  &fatJet1PtOverMHH_JESDown, "fatJet1PtOverMHH_JESDown/F");
+      outputTree->Branch("fatJet1PtOverMHH_JMSUp",    &fatJet1PtOverMHH_JMSUp,   "fatJet1PtOverMHH_JMSUp/F");
+      outputTree->Branch("fatJet1PtOverMHH_JMSDown",  &fatJet1PtOverMHH_JMSDown, "fatJet1PtOverMHH_JMSDown/F");
+      outputTree->Branch("fatJet1PtOverMHH_JMRUp",    &fatJet1PtOverMHH_JMRUp,   "fatJet1PtOverMHH_JMRUp/F");
+      outputTree->Branch("fatJet1PtOverMHH_JMRDown",  &fatJet1PtOverMHH_JMRDown, "fatJet1PtOverMHH_JMRDown/F");
       outputTree->Branch("fatJet1PtOverMSD",    &fatJet1PtOverMSD,   "fatJet1PtOverMSD/F");
       outputTree->Branch("fatJet2PtOverMHH",    &fatJet2PtOverMHH,   "fatJet2PtOverMHH/F");
+      outputTree->Branch("fatJet2PtOverMHH_JESUp",    &fatJet2PtOverMHH_JESUp,   "fatJet2PtOverMHH_JESUp/F");
+      outputTree->Branch("fatJet2PtOverMHH_JESDown",  &fatJet2PtOverMHH_JESDown, "fatJet2PtOverMHH_JESDown/F");
+      outputTree->Branch("fatJet2PtOverMHH_JMSUp",    &fatJet2PtOverMHH_JMSUp,   "fatJet2PtOverMHH_JMSUp/F");
+      outputTree->Branch("fatJet2PtOverMHH_JMSDown",  &fatJet2PtOverMHH_JMSDown, "fatJet2PtOverMHH_JMSDown/F");
+      outputTree->Branch("fatJet2PtOverMHH_JMRUp",    &fatJet2PtOverMHH_JMRUp,   "fatJet2PtOverMHH_JMRUp/F");
+      outputTree->Branch("fatJet2PtOverMHH_JMRDown",  &fatJet2PtOverMHH_JMRDown, "fatJet2PtOverMHH_JMRDown/F");
       outputTree->Branch("fatJet2PtOverMSD",    &fatJet2PtOverMSD,   "fatJet2PtOverMSD/F");
       outputTree->Branch("deltaEta_j1j2",    &deltaEta_j1j2,   "deltaEta_j1j2/F");
       outputTree->Branch("deltaPhi_j1j2",    &deltaPhi_j1j2,   "deltaPhi_j1j2/F");
@@ -928,9 +1000,39 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       hh_eta = -99;
       hh_phi = -99;
       hh_mass = -99;
+      hh_pt_JESUp = -99;
+      hh_pt_JESDown = -99;
+      hh_pt_JMSUp = -99;
+      hh_pt_JMSDown = -99;
+      hh_pt_JMRUp = -99;
+      hh_pt_JMRDown = -99;
+      hh_eta_JESUp = -99;
+      hh_eta_JESDown = -99;
+      hh_eta_JMSUp = -99;
+      hh_eta_JMSDown = -99;
+      hh_eta_JMRUp = -99;
+      hh_eta_JMRDown = -99;
+      hh_mass_JESUp = -99;
+      hh_mass_JESDown = -99;
+      hh_mass_JMSUp = -99;
+      hh_mass_JMSDown = -99;
+      hh_mass_JMRUp = -99;
+      hh_mass_JMRDown = -99;  
       fatJet1PtOverMHH = -99;
+      fatJet1PtOverMHH_JESUp = -99;
+      fatJet1PtOverMHH_JESDown = -99;
+      fatJet1PtOverMHH_JMSUp = -99;
+      fatJet1PtOverMHH_JMSDown = -99;
+      fatJet1PtOverMHH_JMRUp = -99;
+      fatJet1PtOverMHH_JMRDown = -99;
       fatJet1PtOverMSD = -99;
       fatJet2PtOverMHH = -99;
+      fatJet2PtOverMHH_JESUp = -99;
+      fatJet2PtOverMHH_JESDown = -99;
+      fatJet2PtOverMHH_JMSUp = -99;
+      fatJet2PtOverMHH_JMSDown = -99;
+      fatJet2PtOverMHH_JMRUp = -99;
+      fatJet2PtOverMHH_JMRDown = -99;
       fatJet2PtOverMSD = -99;
       deltaEta_j1j2 = -99;
       deltaPhi_j1j2 = -99;
@@ -1095,16 +1197,16 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //-------------------------------------------------------------
       //--- define random numbers for jet mass smearing correction
       //-------------------------------------------------------------
-      double corr_fatJet1_mass = rnd->Gaus( 0.0, jmrValues[0] - 1.0 );
-      double corr_fatJet1_mass_JMRUp = (jmrValues[2] / jmrValues[0]) * corr_fatJet1_mass;
-      double corr_fatJet1_mass_JMRDown = (jmrValues[1] / jmrValues[0]) * corr_fatJet1_mass;
-      double corr_fatJet2_mass = rnd->Gaus( 0.0, jmrValues[0] - 1.0 );
-      double corr_fatJet2_mass_JMRUp = (jmrValues[2] / jmrValues[0]) * corr_fatJet2_mass;
-      double corr_fatJet2_mass_JMRDown = (jmrValues[1] / jmrValues[0]) * corr_fatJet2_mass;
-      double corr_fatJet3_mass = rnd->Gaus( 0.0, jmrValues[0] - 1.0 );
-      double corr_fatJet3_mass_JMRUp = (jmrValues[2] / jmrValues[0]) * corr_fatJet3_mass;
-      double corr_fatJet3_mass_JMRDown = (jmrValues[1] / jmrValues[0]) * corr_fatJet3_mass;           
-
+      double corr_fatJet1_mass_JMRUp = rnd->Gaus( 0.0, jmrValues[2] - 1.0 );
+      double corr_fatJet1_mass = (fmax(jmrValues[0] - 1.0,0.0))/(jmrValues[2] - 1.0) * corr_fatJet1_mass_JMRUp;
+      double corr_fatJet1_mass_JMRDown = (fmax(jmrValues[1] - 1.0,0.0))/(jmrValues[2] - 1.0) * corr_fatJet1_mass_JMRUp;
+      double corr_fatJet2_mass_JMRUp = rnd->Gaus( 0.0, jmrValues[2] - 1.0 );
+      double corr_fatJet2_mass = (fmax(jmrValues[0] - 1.0,0.0))/(jmrValues[2] - 1.0) * corr_fatJet2_mass_JMRUp;
+      double corr_fatJet2_mass_JMRDown = (fmax(jmrValues[1] - 1.0,0.0))/(jmrValues[2] - 1.0) * corr_fatJet2_mass_JMRUp;
+      double corr_fatJet3_mass_JMRUp = rnd->Gaus( 0.0, jmrValues[2] - 1.0 );
+      double corr_fatJet3_mass = (fmax(jmrValues[0] - 1.0,0.0))/(jmrValues[2] - 1.0) * corr_fatJet3_mass_JMRUp;
+      double corr_fatJet3_mass_JMRDown = (fmax(jmrValues[1] - 1.0,0.0))/(jmrValues[2] - 1.0) * corr_fatJet3_mass_JMRUp;
+           
       //------------------------------
       //-------find fatJet------------
       //------------------------------
@@ -1216,34 +1318,26 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //----------Fill higgs candidate information
       //------------------------------------------------------
    
-      TLorentzVector Higgs1Jet;
-      Higgs1Jet.SetPtEtaPhiM(FatJet_pt[fatJet1Index],FatJet_eta[fatJet1Index],FatJet_phi[fatJet1Index],FatJet_msoftdrop[fatJet1Index]);
-      float Higgs1MinDR = 999.;
-      int Higgs1_match_idx = -1;
-      for( int j = 0; j < genHiggsVector.size(); j++) {
-	if(Higgs1Jet.DeltaR(genHiggsVector[j]) < Higgs1MinDR) {
-	  Higgs1MinDR = Higgs1Jet.DeltaR(genHiggsVector[j]);
-	  Higgs1_match_idx = j;
-	}
-      }
       fatJet1Pt = FatJet_pt[fatJet1Index];
       fatJet1Eta = FatJet_eta[fatJet1Index];
-      if ( !isData )
-	{
-	  jecUnc->setJetEta(fatJet1Eta);
-	  jecUnc->setJetPt(fatJet1Pt);
-	  double unc                = jecUnc->getUncertainty(true);
-	  fatJet1Pt_JES_Up   = fatJet1Pt*(1+unc);
-	  fatJet1Pt_JES_Down = fatJet1Pt/(1+unc);
-	}
       fatJet1Phi                = FatJet_phi[fatJet1Index];
       fatJet1Mass               = FatJet_mass[fatJet1Index];
       fatJet1MassSD_UnCorrected = FatJet_msoftdrop[fatJet1Index];
-      fatJet1MassSD             = ( 1.0 + corr_fatJet1_mass )*jmsValues[0]*fatJet1MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
-      fatJet1MassSD_JMS_Down    = (jmsValues[1]/jmsValues[0])*fatJet1MassSD;//jet mass scale down
-      fatJet1MassSD_JMS_Up      = (jmsValues[2]/jmsValues[0])*fatJet1MassSD;//jrt mass scale up
-      fatJet1MassSD_JMR_Down    = ( 1.0 + corr_fatJet1_mass_JMRDown )*jmsValues[0]*fatJet1MassSD_UnCorrected;//jet mass resolution down -- wrt scale corrected value -- for resolution subtract 1.0 from width
-      fatJet1MassSD_JMR_Up      = ( 1.0 + corr_fatJet1_mass_JMRUp )*jmsValues[0]*fatJet1MassSD_UnCorrected;//jrt mass resolution up -- wrt to scale corrected value -- for resolution subtract 1.0 from width
+      fatJet1MassSD = jmsValues[0]*fatJet1MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
+
+      //For MC apply jet energy and mass corrections
+      if ( !isData ) {
+	jecUnc->setJetEta(fatJet1Eta);
+	jecUnc->setJetPt(fatJet1Pt);
+	double unc = jecUnc->getUncertainty(true);
+	fatJet1Pt_JES_Up   = fatJet1Pt*(1+unc);
+	fatJet1Pt_JES_Down = fatJet1Pt/(1+unc);
+	fatJet1MassSD             = ( 1.0 + corr_fatJet1_mass )*jmsValues[0]*fatJet1MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
+	fatJet1MassSD_JMS_Down    = (jmsValues[1]/jmsValues[0])*fatJet1MassSD;//jet mass scale down
+	fatJet1MassSD_JMS_Up      = (jmsValues[2]/jmsValues[0])*fatJet1MassSD;//jrt mass scale up
+	fatJet1MassSD_JMR_Down    = ( 1.0 + corr_fatJet1_mass_JMRDown )*jmsValues[0]*fatJet1MassSD_UnCorrected;//jet mass resolution down -- wrt scale corrected value -- for resolution subtract 1.0 from width
+	fatJet1MassSD_JMR_Up      = ( 1.0 + corr_fatJet1_mass_JMRUp )*jmsValues[0]*fatJet1MassSD_UnCorrected;//jrt mass resolution up -- wrt to scale corrected value -- for resolution subtract 1.0 from width
+      } 
       
       fatJet1DDBTagger = FatJet_btagDDBvL[fatJet1Index];
       fatJet1PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet1Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet1Index] - FatJet_ParticleNetMD_probXqq[fatJet1Index]);
@@ -1256,13 +1350,38 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1_deepTagMD_Z  =  FatJet_deepTagMD_ZvsQCD[fatJet1Index];
       fatJet1_deepTag_W    =  FatJet_deepTag_WvsQCD[fatJet1Index]; 
       fatJet1_deepTag_Z    =  FatJet_deepTag_ZvsQCD[fatJet1Index]; 
-    
+      fatJet1Tau3OverTau2 = FatJet_tau3[fatJet1Index] /  FatJet_tau2[fatJet1Index];
+      fatJet1_n2b1 = FatJet_n2b1[fatJet1Index];
 
+      //****************************************
+      //Define Higgs Jet TLorentzVectors
+      //****************************************
+      TLorentzVector Higgs1Jet;
+      Higgs1Jet.SetPtEtaPhiM(fatJet1Pt,fatJet1Eta,fatJet1Phi,fatJet1MassSD);
+      float Higgs1MinDR = 999.;
+      int Higgs1_match_idx = -1;
+      for( int j = 0; j < genHiggsVector.size(); j++) {
+	if(Higgs1Jet.DeltaR(genHiggsVector[j]) < Higgs1MinDR) {
+	  Higgs1MinDR = Higgs1Jet.DeltaR(genHiggsVector[j]);
+	  Higgs1_match_idx = j;
+	}
+      }
       if(Higgs1MinDR < 0.4) {
 	fatJet1GenMatchIndex = Higgs1_match_idx;
       }
-      fatJet1Tau3OverTau2 = FatJet_tau3[fatJet1Index] /  FatJet_tau2[fatJet1Index];
-      fatJet1_n2b1 = FatJet_n2b1[fatJet1Index];
+      TLorentzVector Higgs1Jet_JESUp;
+      Higgs1Jet_JESUp.SetPtEtaPhiM(fatJet1Pt_JES_Up,fatJet1Eta,fatJet1Phi,fatJet1MassSD);
+      TLorentzVector Higgs1Jet_JESDown;
+      Higgs1Jet_JESDown.SetPtEtaPhiM(fatJet1Pt_JES_Down,fatJet1Eta,fatJet1Phi,fatJet1MassSD);
+      TLorentzVector Higgs1Jet_JMSUp;
+      Higgs1Jet_JMSUp.SetPtEtaPhiM(fatJet1Pt,fatJet1Eta,fatJet1Phi,fatJet1MassSD_JMS_Up);
+      TLorentzVector Higgs1Jet_JMSDown;
+      Higgs1Jet_JMSDown.SetPtEtaPhiM(fatJet1Pt,fatJet1Eta,fatJet1Phi,fatJet1MassSD_JMS_Down);
+      TLorentzVector Higgs1Jet_JMRUp;
+      Higgs1Jet_JMRUp.SetPtEtaPhiM(fatJet1Pt,fatJet1Eta,fatJet1Phi,fatJet1MassSD_JMR_Up);
+      TLorentzVector Higgs1Jet_JMRDown;
+      Higgs1Jet_JMRDown.SetPtEtaPhiM(fatJet1Pt,fatJet1Eta,fatJet1Phi,fatJet1MassSD_JMR_Down);
+
 
       //find any bjets in opposite hemisphere as fatJet1
       double btagMediumCut = -1;
@@ -1327,36 +1446,26 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 
 
 
-      TLorentzVector Higgs2Jet;
-      Higgs2Jet.SetPtEtaPhiM(FatJet_pt[fatJet2Index],FatJet_eta[fatJet2Index],FatJet_phi[fatJet2Index],FatJet_msoftdrop[fatJet2Index]);
-      float Higgs2MinDR = 999.;
-      int Higgs2_match_idx = -1;
-      for( int j = 0; j < genHiggsVector.size(); j++) {
-	if(Higgs2Jet.DeltaR(genHiggsVector[j]) < Higgs2MinDR) {
-	  Higgs2MinDR = Higgs2Jet.DeltaR(genHiggsVector[j]);
-	  Higgs2_match_idx = j;
-	}
-      }
-     
       fatJet2Pt = FatJet_pt[fatJet2Index];
       fatJet2Eta = FatJet_eta[fatJet2Index];
-      if ( !isData )
-        {
-          jecUnc->setJetEta(fatJet2Eta);
-          jecUnc->setJetPt(fatJet2Pt);
-          double unc                = jecUnc->getUncertainty(true);
-          fatJet2Pt_JES_Up   = fatJet2Pt*(1+unc);
-          fatJet2Pt_JES_Down = fatJet2Pt/(1+unc);
-        }
       fatJet2Phi                = FatJet_phi[fatJet2Index];
       fatJet2Mass               = FatJet_mass[fatJet2Index];
-      //jet2 mass scale and resolution
       fatJet2MassSD_UnCorrected = FatJet_msoftdrop[fatJet2Index];
-      fatJet2MassSD             = ( 1.0 + corr_fatJet2_mass )*jmsValues[0]*fatJet2MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
-      fatJet2MassSD_JMS_Down    = (jmsValues[1]/jmsValues[0])*fatJet2MassSD;//jet mass scale down
-      fatJet2MassSD_JMS_Up      = (jmsValues[2]/jmsValues[0])*fatJet2MassSD;//jrt mass scale up
-      fatJet2MassSD_JMR_Down    = ( 1.0 + corr_fatJet2_mass_JMRDown )*jmsValues[0]*fatJet2MassSD_UnCorrected;//jet mass resolution down -- wrt scale corrected value -- for resolution subtract 1.0 from width
-      fatJet2MassSD_JMR_Up      = ( 1.0 + corr_fatJet2_mass_JMRUp )*jmsValues[0]*fatJet2MassSD_UnCorrected;//jrt mass resolution up -- wrt to scale corrected value -- for resolution subtract 1.0 from width
+      fatJet2MassSD             = jmsValues[0]*fatJet2MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
+
+     //For MC apply jet energy and mass corrections
+      if ( !isData ) {
+	jecUnc->setJetEta(fatJet2Eta);
+	jecUnc->setJetPt(fatJet2Pt);
+	double unc                = jecUnc->getUncertainty(true);
+	fatJet2Pt_JES_Up   = fatJet2Pt*(1+unc);
+	fatJet2Pt_JES_Down = fatJet2Pt/(1+unc);
+        fatJet2MassSD             = ( 1.0 + corr_fatJet2_mass )*jmsValues[0]*fatJet2MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
+	fatJet2MassSD_JMS_Down    = (jmsValues[1]/jmsValues[0])*fatJet2MassSD;//jet mass scale down
+	fatJet2MassSD_JMS_Up      = (jmsValues[2]/jmsValues[0])*fatJet2MassSD;//jrt mass scale up
+	fatJet2MassSD_JMR_Down    = ( 1.0 + corr_fatJet2_mass_JMRDown )*jmsValues[0]*fatJet2MassSD_UnCorrected;//jet mass resolution down -- wrt scale corrected value -- for resolution subtract 1.0 from width
+	fatJet2MassSD_JMR_Up      = ( 1.0 + corr_fatJet2_mass_JMRUp )*jmsValues[0]*fatJet2MassSD_UnCorrected;//jrt mass resolution up -- wrt to scale corrected value -- for resolution subtract 1.0 from width
+       }
      
       fatJet2DDBTagger = FatJet_btagDDBvL[fatJet2Index];
       fatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet2Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet2Index] - FatJet_ParticleNetMD_probXqq[fatJet2Index]);
@@ -1369,12 +1478,36 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2_deepTagMD_Z  =  FatJet_deepTagMD_ZvsQCD[fatJet2Index];
       fatJet2_deepTag_W    =  FatJet_deepTag_WvsQCD[fatJet2Index]; 
       fatJet2_deepTag_Z    =  FatJet_deepTag_ZvsQCD[fatJet2Index]; 
- 
+      fatJet2Tau3OverTau2 = FatJet_tau3[fatJet2Index] /  FatJet_tau2[fatJet2Index];
+
+
+      TLorentzVector Higgs2Jet;
+      Higgs2Jet.SetPtEtaPhiM(FatJet_pt[fatJet2Index],FatJet_eta[fatJet2Index],FatJet_phi[fatJet2Index],FatJet_msoftdrop[fatJet2Index]);
+      float Higgs2MinDR = 999.;
+      int Higgs2_match_idx = -1;
+      for( int j = 0; j < genHiggsVector.size(); j++) {
+	if(Higgs2Jet.DeltaR(genHiggsVector[j]) < Higgs2MinDR) {
+	  Higgs2MinDR = Higgs2Jet.DeltaR(genHiggsVector[j]);
+	  Higgs2_match_idx = j;
+	}
+      }
       if(Higgs2MinDR < 0.4) {
 	fatJet2GenMatchIndex = Higgs2_match_idx;
       }
-      fatJet2Tau3OverTau2 = FatJet_tau3[fatJet2Index] /  FatJet_tau2[fatJet2Index];
-      
+      TLorentzVector Higgs2Jet_JESUp;
+      Higgs2Jet_JESUp.SetPtEtaPhiM(fatJet2Pt_JES_Up,fatJet2Eta,fatJet2Phi,fatJet2MassSD);
+      TLorentzVector Higgs2Jet_JESDown;
+      Higgs2Jet_JESDown.SetPtEtaPhiM(fatJet2Pt_JES_Down,fatJet2Eta,fatJet2Phi,fatJet2MassSD);
+      TLorentzVector Higgs2Jet_JMSUp;
+      Higgs2Jet_JMSUp.SetPtEtaPhiM(fatJet2Pt,fatJet2Eta,fatJet2Phi,fatJet2MassSD_JMS_Up);
+      TLorentzVector Higgs2Jet_JMSDown;
+      Higgs2Jet_JMSDown.SetPtEtaPhiM(fatJet2Pt,fatJet2Eta,fatJet2Phi,fatJet2MassSD_JMS_Down);
+      TLorentzVector Higgs2Jet_JMRUp;
+      Higgs2Jet_JMRUp.SetPtEtaPhiM(fatJet2Pt,fatJet2Eta,fatJet2Phi,fatJet2MassSD_JMR_Up);
+      TLorentzVector Higgs2Jet_JMRDown;
+      Higgs2Jet_JMRDown.SetPtEtaPhiM(fatJet2Pt,fatJet2Eta,fatJet2Phi,fatJet2MassSD_JMR_Down);
+
+       
       //find muon inside jet
       for(unsigned int q = 0; q < nMuon; q++ ) {       
 	if (Muon_pt[q] > 30 && Muon_looseId[q] && 
@@ -1427,24 +1560,23 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //------------------------------------------------------
       fatJet3Pt = FatJet_pt[fatJet3Index];
       fatJet3Eta = FatJet_eta[fatJet3Index];
-      if ( !isData )
-        {
+      fatJet3Phi                = FatJet_phi[fatJet3Index];
+      fatJet3Mass               = FatJet_mass[fatJet3Index];
+      fatJet3MassSD_UnCorrected = FatJet_msoftdrop[fatJet3Index];
+      fatJet3MassSD             = jmsValues[0]*fatJet3MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
+      if ( !isData ) {
           jecUnc->setJetEta(fatJet3Eta);
           jecUnc->setJetPt(fatJet3Pt);
           double unc                = jecUnc->getUncertainty(true);
           fatJet3Pt_JES_Up   = fatJet3Pt*(1+unc);
           fatJet3Pt_JES_Down = fatJet3Pt/(1+unc);
-        }
-      fatJet3Phi                = FatJet_phi[fatJet3Index];
-      fatJet3Mass               = FatJet_mass[fatJet3Index];
-      //jet3 mass scale and resolution
-      fatJet3MassSD_UnCorrected = FatJet_msoftdrop[fatJet3Index];
-      fatJet3MassSD             = ( 1.0 + corr_fatJet3_mass )*jmsValues[0]*fatJet3MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
-      fatJet3MassSD_JMS_Down    = (jmsValues[1]/jmsValues[0])*fatJet3MassSD;//jet mass scale down
-      fatJet3MassSD_JMS_Up      = (jmsValues[2]/jmsValues[0])*fatJet3MassSD;//jrt mass scale up
-      fatJet3MassSD_JMR_Down    = ( 1.0 + corr_fatJet3_mass_JMRDown )*jmsValues[0]*fatJet3MassSD_UnCorrected;//jet mass resolution down -- wrt scale corrected value -- for resolution subtract 1.0 from width
-      fatJet3MassSD_JMR_Up      = ( 1.0 + corr_fatJet3_mass_JMRUp )*jmsValues[0]*fatJet3MassSD_UnCorrected;//jrt mass resolution up -- wrt to scale corrected value -- for resolution subtract 1.0 from width
-
+	  fatJet3MassSD             = ( 1.0 + corr_fatJet3_mass )*jmsValues[0]*fatJet3MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
+	  fatJet3MassSD_JMS_Down    = (jmsValues[1]/jmsValues[0])*fatJet3MassSD;//jet mass scale down
+	  fatJet3MassSD_JMS_Up      = (jmsValues[2]/jmsValues[0])*fatJet3MassSD;//jrt mass scale up
+	  fatJet3MassSD_JMR_Down    = ( 1.0 + corr_fatJet3_mass_JMRDown )*jmsValues[0]*fatJet3MassSD_UnCorrected;//jet mass resolution down -- wrt scale corrected value -- for resolution subtract 1.0 from width
+	  fatJet3MassSD_JMR_Up      = ( 1.0 + corr_fatJet3_mass_JMRUp )*jmsValues[0]*fatJet3MassSD_UnCorrected;//jrt mass resolution up -- wrt to scale corrected value -- for resolution subtract 1.0 from width
+      }
+      
 
 
       fatJet3DDBTagger = FatJet_btagDDBvL[fatJet3Index];
@@ -1509,12 +1641,45 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       hh_pt = (Higgs1Jet+Higgs2Jet).Pt();
       hh_eta = (Higgs1Jet+Higgs2Jet).Eta();
       hh_phi = (Higgs1Jet+Higgs2Jet).Phi();
-      hh_mass = (Higgs1Jet+Higgs2Jet).M();      
-    
+      hh_mass = (Higgs1Jet+Higgs2Jet).M();     
       fatJet1PtOverMHH = fatJet1Pt / hh_mass;
       fatJet1PtOverMSD = fatJet1Pt / fatJet1MassSD;
       fatJet2PtOverMHH = fatJet2Pt / hh_mass;
       fatJet2PtOverMSD = fatJet2Pt / fatJet1MassSD;
+
+      if ( !isData ) {
+	hh_pt_JESUp = (Higgs1Jet_JESUp+Higgs2Jet_JESUp).Pt();
+	hh_pt_JESDown = (Higgs1Jet_JESDown+Higgs2Jet_JESDown).Pt();
+	hh_pt_JMSUp = (Higgs1Jet_JMSUp+Higgs2Jet_JMSUp).Pt();
+	hh_pt_JMSDown = (Higgs1Jet_JMSDown+Higgs2Jet_JMSDown).Pt();
+	hh_pt_JMRUp = (Higgs1Jet_JMRUp+Higgs2Jet_JMRUp).Pt();
+	hh_pt_JMRDown = (Higgs1Jet_JMRDown+Higgs2Jet_JMRDown).Pt();
+	hh_eta_JESUp = (Higgs1Jet_JESUp+Higgs2Jet_JESUp).Eta();
+	hh_eta_JESDown = (Higgs1Jet_JESDown+Higgs2Jet_JESDown).Eta();
+	hh_eta_JMSUp = (Higgs1Jet_JMSUp+Higgs2Jet_JMSUp).Eta();
+	hh_eta_JMSDown = (Higgs1Jet_JMSDown+Higgs2Jet_JMSDown).Eta();
+	hh_eta_JMRUp = (Higgs1Jet_JMRUp+Higgs2Jet_JMRUp).Eta();
+	hh_eta_JMRDown = (Higgs1Jet_JMRDown+Higgs2Jet_JMRDown).Eta();
+	hh_mass_JESUp = (Higgs1Jet_JESUp+Higgs2Jet_JESUp).M();
+	hh_mass_JESDown = (Higgs1Jet_JESDown+Higgs2Jet_JESDown).M();
+	hh_mass_JMSUp = (Higgs1Jet_JMSUp+Higgs2Jet_JMSUp).M();
+	hh_mass_JMSDown = (Higgs1Jet_JMSDown+Higgs2Jet_JMSDown).M();
+	hh_mass_JMRUp = (Higgs1Jet_JMRUp+Higgs2Jet_JMRUp).M();
+	hh_mass_JMRDown = (Higgs1Jet_JMRDown+Higgs2Jet_JMRDown).M();  
+	fatJet1PtOverMHH_JESUp = fatJet1Pt_JES_Up / hh_mass_JESUp;
+	fatJet1PtOverMHH_JESDown = fatJet1Pt_JES_Down / hh_mass_JESDown;
+	fatJet1PtOverMHH_JMSUp = fatJet1Pt / hh_mass_JMSUp;
+	fatJet1PtOverMHH_JMSDown = fatJet1Pt / hh_mass_JMSDown;
+	fatJet1PtOverMHH_JMRUp = fatJet1Pt / hh_mass_JMRUp;
+	fatJet1PtOverMHH_JMRDown = fatJet1Pt / hh_mass_JMRDown;
+	fatJet2PtOverMHH_JESUp = fatJet2Pt_JES_Up / hh_mass_JESUp;
+	fatJet2PtOverMHH_JESDown = fatJet2Pt_JES_Down / hh_mass_JESDown;
+	fatJet2PtOverMHH_JMSUp = fatJet2Pt / hh_mass_JMSUp;
+	fatJet2PtOverMHH_JMSDown = fatJet2Pt / hh_mass_JMSDown;
+	fatJet2PtOverMHH_JMRUp = fatJet2Pt / hh_mass_JMRUp;
+	fatJet2PtOverMHH_JMRDown = fatJet2Pt / hh_mass_JMRDown;	
+      }
+
       deltaEta_j1j2 = fabs(fatJet1Eta - fatJet2Eta);
       deltaPhi_j1j2 = deltaPhi(fatJet1Phi, fatJet2Phi);
       deltaR_j1j2 = deltaR(fatJet1Eta, fatJet1Phi, fatJet2Eta, fatJet2Phi);
