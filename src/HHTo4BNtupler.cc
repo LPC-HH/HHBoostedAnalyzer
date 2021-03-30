@@ -1840,63 +1840,49 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //pT>25 GeV, |η|<4.7, lepton cleaning (ΔR(j,e/μ)>0.4), AK8 jet cleaning (ΔR(j,AK8)>0.4),pass tight jet ID and medium pileup jet ID
       //Δη(jj) > 4.0 and mjjmax > 600 GeV, |ηtag jet|>1.5 for both jets
       if (Jet_pt[i] > 25 && fabs(Jet_eta[i]) < 4.7
-	    && deltaR(Jet_eta[i] , Jet_phi[i], vbffatJet1Eta, vbffatJet1Phi) > 0.4
-	    && deltaR(Jet_eta[i] , Jet_phi[i], vbffatJet2Eta, vbffatJet2Phi) > 0.4
-        && Jet_puId[i] >= 2 && ((Jet_pt[i] <50 && Jet_jetId[i] >= 6 )||Jet_pt[i] >50)){
+	    && deltaR(Jet_eta[i] , Jet_phi[i], vbffatJet1Eta, vbffatJet1Phi) > 1.2
+	    && deltaR(Jet_eta[i] , Jet_phi[i], vbffatJet2Eta, vbffatJet2Phi) > 1.2
+        && Jet_jetId[i] >= 2 && ((Jet_pt[i] <50 && Jet_puId[i] >= 6 )||Jet_pt[i] >50)){
           if (year == "2016"){
-            if (Jet_puId[i] < 3) continue;
+            if (Jet_jetId[i] < 3) continue;
           }
         
           bool islepoverlap = false;
           for(unsigned int j = 0; j < nMuon; j++ ) { 
-              if(Muon_pt[j]>5 && deltaR(Jet_eta[i] , Jet_phi[i], Muon_eta[j], Muon_phi[j]) < 0.4){
+	    if(Muon_pt[j]>5 && fabs(Muon_eta[j])<2.4 && abs(Muon_dxy[j]) < 0.05 and abs(Muon_dz[j]) < 0.2 && deltaR(Jet_eta[i] , Jet_phi[i], Muon_eta[j], Muon_phi[j]) < 0.4){
                   islepoverlap = true;
                   break;
               }
           }
           for(unsigned int j = 0; j < nElectron; j++ ) { 
-              if(Electron_pt[j]>7 && deltaR(Jet_eta[i] , Jet_phi[i], Electron_eta[j], Electron_phi[j]) < 0.4){
+	    if(Electron_pt[j]>7 && fabs(Electron_eta[j])<2.5 && abs(Electron_dxy[j]) < 0.05 and abs(Electron_dz[j]) < 0.2 && deltaR(Jet_eta[i] , Jet_phi[i], Electron_eta[j], Electron_phi[j]) < 0.4){
                   islepoverlap = true;
                   break;
               }
           }
           if(!islepoverlap) vbfjets_index.push_back(i);  
-	}   
+      }   
       
       } //loop over AK4 jets
       
-      //get the AK4 jets with the largest mjj
+      //get the AK4 jets with the largest pt
       if(vbfjets_index.size()>1){
-          int jet1_index = -99;
-          int jet2_index = -99;
-          for(int k=0; k<vbfjets_index.size();k++){
-              for(int j=k+1; j<vbfjets_index.size();j++){
-                  if(Jet_eta[vbfjets_index[k]]*Jet_eta[vbfjets_index[j]]<0){
-                      TLorentzVector jet1,jet2;
-                      jet1.SetPtEtaPhiM(Jet_pt[vbfjets_index[k]], Jet_eta[vbfjets_index[k]], Jet_phi[vbfjets_index[k]], Jet_mass[vbfjets_index[k]]);
-                      jet2.SetPtEtaPhiM(Jet_pt[vbfjets_index[j]], Jet_eta[vbfjets_index[j]], Jet_phi[vbfjets_index[j]], Jet_mass[vbfjets_index[j]]);   
-                      float tmp_dijetmass = (jet1 + jet2).M(); 
-                      if(dijetmass < tmp_dijetmass){
-                         dijetmass = tmp_dijetmass;
-                         jet1_index = k;
-                         jet2_index = j;
-                      }              
-                  }
-              }
-          }
-          if((jet1_index > -99) && (jet2_index > -99)){
-              vbfjet1Pt = Jet_pt[vbfjets_index[jet1_index]];
-              vbfjet1Eta = Jet_eta[vbfjets_index[jet1_index]];
-              vbfjet1Phi = Jet_phi[vbfjets_index[jet1_index]];
-              vbfjet1Mass = Jet_mass[vbfjets_index[jet1_index]];
-              vbfjet2Pt = Jet_pt[vbfjets_index[jet2_index]];
-              vbfjet2Eta = Jet_eta[vbfjets_index[jet2_index]];
-              vbfjet2Phi = Jet_phi[vbfjets_index[jet2_index]];
-              vbfjet2Mass = Jet_mass[vbfjets_index[jet2_index]];
-              isVBFtag = 0;
-              if(fabs(vbfjet1Eta) > 1.5 && fabs(vbfjet2Eta) > 1.5 && dijetmass > 600 && fabs(vbfjet1Eta-vbfjet2Eta) > 4 && vbffatJet1Pt > 500 && vbffatJet2Pt > 400 && vbffatJet1PNetXbb > 0.9 && vbffatJet2PNetXbb > 0.9 && fabs(vbffatJet1Eta-vbffatJet2Eta) < 2.6 && fabs(vbffatJet1Phi-vbffatJet2Phi) > 2.6) isVBFtag = 1;
-          }
+	vbfjet1Pt = Jet_pt[vbfjets_index[0]];
+	vbfjet1Eta = Jet_eta[vbfjets_index[0]];
+	vbfjet1Phi = Jet_phi[vbfjets_index[0]];
+	vbfjet1Mass = Jet_mass[vbfjets_index[0]];
+	vbfjet2Pt = Jet_pt[vbfjets_index[1]];
+	vbfjet2Eta = Jet_eta[vbfjets_index[1]];
+	vbfjet2Phi = Jet_phi[vbfjets_index[1]];
+	vbfjet2Mass = Jet_mass[vbfjets_index[1]];
+	isVBFtag = 0;
+	TLorentzVector jet1,jet2;
+	jet1.SetPtEtaPhiM(vbfjet1Pt,vbfjet1Eta,vbfjet1Phi,vbfjet1Mass);
+	jet2.SetPtEtaPhiM(vbfjet2Pt,vbfjet2Eta,vbfjet2Phi,vbfjet2Mass);   
+	dijetmass = (jet1 + jet2).M(); 
+	if(dijetmass > 500. && fabs(vbfjet1Eta-vbfjet2Eta) > 4.) isVBFtag = 1;
       }
+    
         
       //****************************************************
       //Fill Event - skim for events with two jets found
