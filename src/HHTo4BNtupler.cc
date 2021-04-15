@@ -868,9 +868,13 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 
 
       //fill normalization histogram
-      weight = genWeight / fabs(genWeight);
-      NEvents->SetBinContent( 1, NEvents->GetBinContent(1) + weight);
+      // weight = genWeight / fabs(genWeight);
+      // NEvents->SetBinContent( 1, NEvents->GetBinContent(1) + weight);
 
+      //Use the non-normalized version because some samples have non-equal genWeights
+      weight = genWeight;
+      NEvents->SetBinContent( 1, NEvents->GetBinContent(1) + weight);
+      
 
       //reset tree variables
       genHiggs1Pt = -99.0;
