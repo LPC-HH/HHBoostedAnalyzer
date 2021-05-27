@@ -386,13 +386,17 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  continue;
 	} else {
 	  tree = (TTree*)file->Get("tree");
+	  //tree = (TTree*)file->Get("Events");
 	}
 	if (!tree) {
 	  cout << "Tree could not be found in input file " << (inputfiles[i][y].first)[j] << "\n"; 
 	  continue;
 	}
 
+	uint run = 0;
+	ULong64_t event = 0;
 	float weight = 0;
+	float xsecWeight = 0;
 	float triggerEffWeight = 0;
 	float triggerEff3DWeight = 0;
 	float triggerEffMCWeight = 0;
@@ -472,7 +476,10 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	bool HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20 = false;
 	bool HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 = false;
 
+	tree->SetBranchAddress("run",&run);
+	tree->SetBranchAddress("event",&event);
 	tree->SetBranchAddress("weight",&weight);
+	tree->SetBranchAddress("xsecWeight",&xsecWeight);
 	tree->SetBranchAddress("triggerEffWeight",&triggerEffWeight);
 	tree->SetBranchAddress("triggerEff3DWeight",&triggerEff3DWeight);
 	tree->SetBranchAddress("triggerEffMCWeight",&triggerEffMCWeight);
@@ -568,7 +575,15 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  double myWeight = 1;
 	  if (!isData) {	 
 	    //myWeight = lumi * weight * triggerEffWeight * pileupWeight * scaleFactors[i];
-	    myWeight = lumi * weight * triggerEff3DWeight * pileupWeight * scaleFactors[i];
+	    if (processLabels[i] == "HH" || processLabels[i] == "HHkl0" || processLabels[i] == "HHkl0" || processLabels[i] == "HHkl0") {
+	      myWeight = lumi * weight * triggerEff3DWeight * pileupWeight * scaleFactors[i];
+	      // cout << "weight = " << weight << " " << xsecWeight << " " << myWeight << " | " << lumi << " " 
+	      // 	   << triggerEff3DWeight << " " << pileupWeight << " " << scaleFactors[i] << " " 
+	      // 	   << "\n";
+	    } else {
+	      myWeight = lumi * weight * triggerEff3DWeight * pileupWeight * scaleFactors[i];
+	    }
+
 	    //myWeight = lumi * weight * triggerEffMCWeight * pileupWeight * scaleFactors[i];
 	    //myWeight = lumi * weight * triggerEffMC3DWeight * pileupWeight * scaleFactors[i];
 	    //myWeight = lumi * weight * pileupWeight * scaleFactors[i];
@@ -694,7 +709,6 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 
 	  if (!passTrigger) continue;
 
-
 	  //if (isData) continue;
 
 	  //******************************
@@ -717,12 +731,16 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  //SR selection
 	  if (channelOption == 1) {
 
+	    // if (processLabels[i] == "HHkl5") cout << disc_v8p2  << " : " << fatJet2PNetXbb << "\n";
+
 	    //*************************************************************************
 	    //Enhanced V8p2 BDT Analysis
 	    //*************************************************************************
 	    //Best 3-bin analysis - Bin1
 	    if ( !(disc_v8p2 > 0.43) ) continue;
 	    if ( !(fatJet2PNetXbb > 0.980)) continue;
+
+	    // if (processLabels[i] == "HHkl5") cout << "pass\n";
 
 	    // //Best 3-bin analysis - Bin2
 	    // if ( (disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.980 ) ) continue;
@@ -812,6 +830,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  if (fatJet2HasMuon || fatJet2HasElectron) NJetsHaveLeptons++;
 
 	  if (isData) {
+	    cout << "Data Event: " << run << " : " << event << " | " << fatJet2MassSD << "\n";
 	    if ( (fatJet2MassSD > 75 && fatJet2MassSD <= 95) || 
 		 (fatJet2MassSD >= 135 && fatJet2MassSD < 155)
 		 ) {
@@ -837,21 +856,24 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  } else {
 
 	    if (processLabels[i] == "HH") {
+	      // cout << fatJet2MassSD << "\n";
 	      if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
-              SignalYield_kl1 += myWeight;
+		SignalYield_kl1 += myWeight;
+		//cout << "signal yield : " << myWeight << " " << SignalYield_kl1 << "\n";
 	      }
 	    } else if(processLabels[i] == "HHkl0"){
-          if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
-              SignalYield_kl0 += myWeight;
-          }
+	      if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
+		SignalYield_kl0 += myWeight;
+	      }
 	    } else if(processLabels[i] == "HHkl2p45"){
-          if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
-              SignalYield_kl2p45 += myWeight;
-          }
+	      if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
+		SignalYield_kl2p45 += myWeight;
+	      }
 	    } else if(processLabels[i] == "HHkl5"){
-          if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
-              SignalYield_kl5 += myWeight;
-          }
+	      if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
+		SignalYield_kl5 += myWeight;
+		//cout << "signal yield : " << myWeight << " " << SignalYield_kl5 << "\n";
+	      }
 	    }
         
 	    histMET[i]->Fill(MET, myWeight);    
@@ -889,21 +911,21 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
   //*******************************************************************************************
   //MR
   //*******************************************************************************************
-  PlotDataAndStackedBkg( histMET, processLabels, color, true, "MET", totalLumi, Label);
-  PlotDataAndStackedBkg( histNLeptons, processLabels, color, true, "NLeptons", totalLumi, Label);
-  PlotDataAndStackedBkg( histNJetsHaveLeptons, processLabels, color, true, "NJetsHaveLeptons", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet1Mass, processLabels, color, true, "Jet1_Mass", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet1Pt, processLabels, color, true, "Jet1_Pt", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet1DDB, processLabels, color, true, "Jet1_DDB", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet1PNetXbb, processLabels, color, true, "Jet1_PNetXbb", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet1Tau3OverTau2, processLabels, color, true, "Jet1_Tau3OverTau2", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet2Mass, processLabels, color, true, "Jet2_Mass", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet2Pt, processLabels, color, true, "Jet2_Pt", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet2DDB, processLabels, color, true, "Jet2_DDB", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet2PNetXbb, processLabels, color, true, "Jet2_PNetXbb", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet2Tau3OverTau2, processLabels, color, true, "Jet2_Tau3OverTau2", totalLumi, Label);
-  PlotDataAndStackedBkg( histHHPt, processLabels, color, true, "HHPt", totalLumi, Label);
-  PlotDataAndStackedBkg( histHHMass, processLabels, color, true, "HHMass", totalLumi, Label);
+  // PlotDataAndStackedBkg( histMET, processLabels, color, true, "MET", totalLumi, Label);
+  // PlotDataAndStackedBkg( histNLeptons, processLabels, color, true, "NLeptons", totalLumi, Label);
+  // PlotDataAndStackedBkg( histNJetsHaveLeptons, processLabels, color, true, "NJetsHaveLeptons", totalLumi, Label);
+  // PlotDataAndStackedBkg( histJet1Mass, processLabels, color, true, "Jet1_Mass", totalLumi, Label);
+  // PlotDataAndStackedBkg( histJet1Pt, processLabels, color, true, "Jet1_Pt", totalLumi, Label);
+  // PlotDataAndStackedBkg( histJet1DDB, processLabels, color, true, "Jet1_DDB", totalLumi, Label);
+  // PlotDataAndStackedBkg( histJet1PNetXbb, processLabels, color, true, "Jet1_PNetXbb", totalLumi, Label);
+  // PlotDataAndStackedBkg( histJet1Tau3OverTau2, processLabels, color, true, "Jet1_Tau3OverTau2", totalLumi, Label);
+  // PlotDataAndStackedBkg( histJet2Mass, processLabels, color, true, "Jet2_Mass", totalLumi, Label);
+  // PlotDataAndStackedBkg( histJet2Pt, processLabels, color, true, "Jet2_Pt", totalLumi, Label);
+  // PlotDataAndStackedBkg( histJet2DDB, processLabels, color, true, "Jet2_DDB", totalLumi, Label);
+  // PlotDataAndStackedBkg( histJet2PNetXbb, processLabels, color, true, "Jet2_PNetXbb", totalLumi, Label);
+  // PlotDataAndStackedBkg( histJet2Tau3OverTau2, processLabels, color, true, "Jet2_Tau3OverTau2", totalLumi, Label);
+  // PlotDataAndStackedBkg( histHHPt, processLabels, color, true, "HHPt", totalLumi, Label);
+  // PlotDataAndStackedBkg( histHHMass, processLabels, color, true, "HHMass", totalLumi, Label);
 
 
   //--------------------------------------------------------------------------------------------------------------
@@ -945,7 +967,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 
 
 
-void SelectHHTo4B_PNet( int option = -1) {
+void SelectHHTo4B_PNet_old( int option = -1) {
 
   std::vector<std::pair<std::vector<std::string>,std::string > > datafiles;
   std::vector<std::vector<std::pair<std::vector<std::string>,std::string > > > bkgfiles;
@@ -989,8 +1011,8 @@ void SelectHHTo4B_PNet( int option = -1) {
   //2016 Data and MC
   //***********************************
 
-  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210211/option5/combined/BDT/Jet2Xbb0p8Skim/";
-  //std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210211/option5/combined/BDT/";
+  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210310/option5/combined/BDT/Jet2Xbb0p8Skim/";
+  //std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210310/option5/combined/BDT/";
   datafiles_2016.push_back(dir+"2016/JetHT_2016_GoodLumi_BDTs_Jet2Xbb0p8Skim.root");
   // bkgfiles_ttbar_2016.push_back(dir+"2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root");  
   // bkgfiles_ttbar_2016.push_back(dir+"2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs_Jet2Xbb0p8Skim.root"); 
@@ -1215,9 +1237,76 @@ void SelectHHTo4B_PNet( int option = -1) {
 
 
 //**********************************
-//E-Mu Yields :
+//Signal Yields
+//Input dir: /eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210310/option5/combined/BDT/Jet2Xbb0p8Skim/
 //**********************************
+//Run2
+//**********************************
+// Total Sideband Data: 34
+// Bkg Prediction From Sideband: 15
+// Signal SM: 1.26895
+// Signal kl0: 1.60079
+// Signal kl2p45: 0.895425
+// Signal kl5: 0.489505
+//**********************************
+//2016
+//**********************************
+// Total Sideband Data: 7
+// Bkg Prediction From Sideband: 3
+// Signal SM: 0.347854
+// Signal kl0: 0.468039
+// Signal kl2p45: 0.248576
+// Signal kl5: 0.189798
+// Data Event: 275066 : 146728718 | 55.1875
+// Data Event: 274442 : 291411788 | 59.7812
+// Data Event: 274969 : 632361064 | 57.875
+// Data Event: 275376 : 4123729944 | 77.8125
+// Data Event: 275913 : 236787120 | 91.1875
+// Data Event: 276525 : 1674571901 | 91.0625
+// Data Event: 278808 : 1779321422 | 71.8125
+//**********************************
+//2017
+//**********************************
+// Total Sideband Data: 12
+// Bkg Prediction From Sideband: 6
+// Signal SM: 0.385545
+// Signal kl0: 0.484469
+// Signal kl2p45: 0.305192
+// Signal kl5: 0 -> pileup weights were 0
+// Data Event: 297292 : 684544219 | 73.242
+// Data Event: 297563 : 149751850 | 54.2742
+// Data Event: 299185 : 149574039 | 193.058
+// Data Event: 302553 : 10317478 | 81.7556
+// Data Event: 302597 : 342441731 | 91.083
+// Data Event: 304663 : 446444622 | 151.367
+// Data Event: 304447 : 1122700775 | 92.335
+// Data Event: 305440 : 213904833 | 94.2756
+// Data Event: 306138 : 605214355 | 60.0021
+// Data Event: 306125 : 908719081 | 147.235
+// Data Event: 305377 : 1938920733 | 71.4266
+// Data Event: 306422 : 206705829 | 50.5808
+//**********************************
+//2018
+//**********************************
+// Total Sideband Data: 15
+// Bkg Prediction From Sideband: 6
+// Signal SM: 0.535548
+// Signal kl0: 0.648284
+// Signal kl2p45: 0.341657
+// Signal kl5: 0.299707
+// Data Event: 316239 : 50746757 | 53.7445
+// Data Event: 315488 : 561542536 | 88.5461
+// Data Event: 317435 : 1971102267 | 74.775
+// Data Event: 319524 : 1455197576 | 202.64
+// Data Event: 320062 : 15542801 | 208.248
+// Data Event: 319579 : 4120095389 | 67.9206
+// Data Event: 319756 : 281698296 | 57.1406
+// Data Event: 323471 : 446491710 | 74.8996
+// Data Event: 323524 : 531503535 | 160.766
+// Data Event: 325101 : 809359026 | 64.8673
+// Data Event: 321434 : 893894674 | 78.3891
+// Data Event: 324765 : 674358843 | 85.9912
+// Data Event: 320840 : 279692193 | 83.4364
+// Data Event: 322179 : 1328262165 | 85.742
+// Data Event: 321140 : 1045519814 | 154.286
 
-//MuEG Triggers ( 30 - 20 )
-// Data: 148
-// MC: 156.16
