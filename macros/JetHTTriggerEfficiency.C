@@ -423,6 +423,55 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   TH2F *efficiency_ptmass_Xbb0p95To0p98 = createEfficiencyHist2D(histJetPtMass_Numerator_Xbb0p95To0p98, histJetPtMass_Denominator_Xbb0p95To0p98, "Efficiency_PtMass_Xbb0p95To0p98" , massbins, ptbins);  
   TH2F *efficiency_ptmass_Xbb0p98To1p0 = createEfficiencyHist2D(histJetPtMass_Numerator_Xbb0p98To1p0, histJetPtMass_Denominator_Xbb0p98To1p0, "Efficiency_PtMass_Xbb0p98To1p0" , massbins, ptbins);  
 
+  TGraphAsymmErrors *efficiency_Pt_massBin6_Xbb0p0To0p9 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p0To0p9, histJetPtMass_Denominator_Xbb0p0To0p9,
+				 "efficiency_Pt_massBin6_Xbb0p0To0p9",
+				 6, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin7_Xbb0p0To0p9 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p0To0p9, histJetPtMass_Denominator_Xbb0p0To0p9,
+				 "efficiency_Pt_massBin7_Xbb0p0To0p9",
+				 7, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin8_Xbb0p0To0p9 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p0To0p9, histJetPtMass_Denominator_Xbb0p0To0p9,
+				 "efficiency_Pt_massBin8_Xbb0p0To0p9",
+				 8, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin6_Xbb0p9To0p95 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p9To0p95, histJetPtMass_Denominator_Xbb0p9To0p95,
+				 "efficiency_Pt_massBin6_Xbb0p9To0p95",
+				 6, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin7_Xbb0p9To0p95 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p9To0p95, histJetPtMass_Denominator_Xbb0p9To0p95,
+				 "efficiency_Pt_massBin7_Xbb0p9To0p95",
+				 7, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin8_Xbb0p9To0p95 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p9To0p95, histJetPtMass_Denominator_Xbb0p9To0p95,
+				 "efficiency_Pt_massBin8_Xbb0p9To0p95",
+				 8, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin6_Xbb0p95To0p98 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p95To0p98, histJetPtMass_Denominator_Xbb0p95To0p98,
+				 "efficiency_Pt_massBin6_Xbb0p95To0p98",
+				 6, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin7_Xbb0p95To0p98 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p95To0p98, histJetPtMass_Denominator_Xbb0p95To0p98,
+				 "efficiency_Pt_massBin7_Xbb0p95To0p98",
+				 7, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin8_Xbb0p95To0p98 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p95To0p98, histJetPtMass_Denominator_Xbb0p95To0p98,
+				 "efficiency_Pt_massBin8_Xbb0p95To0p98",
+				 8, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin6_Xbb0p98To1p0 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p98To1p0, histJetPtMass_Denominator_Xbb0p98To1p0,
+				 "efficiency_Pt_massBin6_Xbb0p98To1p0",
+				 6, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin7_Xbb0p98To1p0 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p98To1p0, histJetPtMass_Denominator_Xbb0p98To1p0,
+				 "efficiency_Pt_massBin7_Xbb0p98To1p0",
+				 7, massbins, ptbins);
+  TGraphAsymmErrors *efficiency_Pt_massBin8_Xbb0p98To1p0 = 
+    createEfficiencyYSliceFrom2D(histJetPtMass_Numerator_Xbb0p98To1p0, histJetPtMass_Denominator_Xbb0p98To1p0,
+				 "efficiency_Pt_massBin8_Xbb0p98To1p0",
+				 8, massbins, ptbins);
+
  //--------------------------------------------------------------------------------------------------------------
   // Draw
   //==============================================================================================================
@@ -540,7 +589,20 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   file->WriteTObject(efficiency_ptmass_Xbb0p9To0p95, "efficiency_ptmass_Xbb0p9To0p95", "WriteDelete");
   file->WriteTObject(efficiency_ptmass_Xbb0p95To0p98, "efficiency_ptmass_Xbb0p95To0p98", "WriteDelete");
   file->WriteTObject(efficiency_ptmass_Xbb0p98To1p0, "efficiency_ptmass_Xbb0p98To1p0", "WriteDelete");
-  
+  file->WriteTObject(efficiency_Pt_massBin6_Xbb0p0To0p9, "efficiency_Pt_massBin6_Xbb0p0To0p9", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin7_Xbb0p0To0p9, "efficiency_Pt_massBin7_Xbb0p0To0p9", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin8_Xbb0p0To0p9, "efficiency_Pt_massBin8_Xbb0p0To0p9", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin6_Xbb0p9To0p95, "efficiency_Pt_massBin6_Xbb0p9To0p95", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin7_Xbb0p9To0p95, "efficiency_Pt_massBin7_Xbb0p9To0p95", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin8_Xbb0p9To0p95, "efficiency_Pt_massBin8_Xbb0p9To0p95", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin6_Xbb0p95To0p98, "efficiency_Pt_massBin6_Xbb0p95To0p98", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin7_Xbb0p95To0p98, "efficiency_Pt_massBin7_Xbb0p95To0p98", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin8_Xbb0p95To0p98, "efficiency_Pt_massBin8_Xbb0p95To0p98", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin6_Xbb0p98To1p0, "efficiency_Pt_massBin6_Xbb0p98To1p0", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin7_Xbb0p98To1p0, "efficiency_Pt_massBin7_Xbb0p98To1p0", "WriteDelete");
+  file->WriteTObject(efficiency_Pt_massBin8_Xbb0p98To1p0, "efficiency_Pt_massBin8_Xbb0p98To1p0", "WriteDelete");
+
+
   file->Close();
   delete file;       
 

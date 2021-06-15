@@ -583,7 +583,8 @@ TGraphAsymmErrors* createEfficiencyGraph(TH1F* numerator, TH1F* denominator,
 //--------------------------------------------------------------------------------------------------
   TH2F* createEfficiencyHist2D(TH2F* numerator, TH2F* denominator,
                                std::string histname, 
-                               vector<Double_t> xbins, vector<Double_t> ybins ) {
+                               vector<Double_t> xbins, vector<Double_t> ybins			       
+			       ) {
     
   TH2F *n = numerator;
   TH2F *d = denominator;
@@ -619,4 +620,73 @@ TGraphAsymmErrors* createEfficiencyGraph(TH1F* numerator, TH1F* denominator,
   }
 
   return eff;
+}
+
+//--------------------------------------------------------------------------------------------------
+// Create Efficiency Graph. Use Clopper Pearson uncertainty intervals.
+//--------------------------------------------------------------------------------------------------
+TGraphAsymmErrors* createEfficiencyYSliceFrom2D(TH2F* numerator, TH2F* denominator,
+						std::string histname, 
+						int XBinIndexForSlice,
+						vector<Double_t> xbins, vector<Double_t> ybins
+						) {
+  
+  TH2F *n = numerator;
+  TH2F *d = denominator;
+  if (xbins.size() > 0 && ybins.size() > 0) {
+    n = rebin(numerator,xbins,ybins);
+    d = rebin(denominator,xbins,ybins);
+  }
+
+  int nbins = n->GetNbinsY();
+  Double_t x[nbins];
+  Double_t y[nbins];
+  Double_t xErrLow[nbins];
+  Double_t xErrHigh[nbins];
+  Double_t yErrLow[nbins];
+  Double_t yErrHigh[nbins];
+
+
+  
+  int b = XBinIndexForSlice;    
+  for (int c=0; c<nbins ; ++c) {
+
+    x[c] = n->GetYaxis()->GetBinCenter(c+1); 
+    xErrLow[c] =  n->GetYaxis()->GetBinCenter(c+1) - n->GetYaxis()->GetBinLowEdge(c+1);  
+    xErrHigh[c] = n->GetYaxis()->GetBinUpEdge(c+1) - n->GetYaxis()->GetBinCenter(c+1);  
+
+    Double_t num = TMath::Nint(n->GetBinContent(b,c+1));
+    Double_t den = TMath::Nint(d->GetBinContent(b,c+1));
+
+    //zero out 1/1 situations
+    if (num == 1 && den == 1) {
+      num = 0; den = 0;
+    }
+
+    Double_t ratio = 0;
+    Double_t errLow = 0;
+    Double_t errHigh = 0;
+    if (den > 0) {
+      ratio = num / den;
+      if (ratio > 1) ratio = 1;
+      errLow = ratio - TEfficiency::ClopperPearson((UInt_t)den, (UInt_t)num, 0.68269, kFALSE);
+      errHigh = TEfficiency::ClopperPearson((UInt_t)den, (UInt_t)num, 0.68269, kTRUE) - ratio;
+    }
+
+    y[c] = ratio;
+    yErrLow[c] = errLow;
+    yErrHigh[c] = errHigh;
+
+    cout << "slice " << b << "," << c << " : " << num << " / " << den << " = " << ratio << " - " << errLow << " + " << errHigh << endl;
+
+  }
+
+  
+  TGraphAsymmErrors *efficiency = new TGraphAsymmErrors(nbins, x, y, xErrLow, xErrHigh, yErrLow,yErrHigh );
+  efficiency->SetName(histname.c_str());
+  //  efficiency->SetTitle(histname.c_str());
+  //  efficiency->GetXaxis()->SetTitle(n->GetXaxis()->GetTitle());
+  //  efficiency->GetYaxis()->SetTitle("Efficiency");
+     
+  return efficiency;
 }
