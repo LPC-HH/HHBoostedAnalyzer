@@ -59,6 +59,9 @@ double HHTo4BNtupler::getTriggerEff3D( TH2F *triggerEffHist_Xbb0p0To0p9,
     std::cout << "Error: expected a histogram, got a null pointer" << std::endl;
     return 0;
   }
+  //cout << "mass = " << mass << " , pt = " << pt << " : trigEff = " << result << "\n";
+
+  return result; 
 }
 
 
@@ -368,6 +371,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet1MassSD_JMR_Down     = -99;//jet mass resolution down
     float fatJet1DDBTagger = -99;
     float fatJet1PNetXbb = -99;
+    float fatJet1PNetXjj = -99;
     float fatJet1PNetQCDb = -99;
     float fatJet1PNetQCDbb = -99;
     float fatJet1PNetQCDc = -99;
@@ -400,6 +404,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float fatJet2MassSD_JMR_Down     = -99;//jet mass resolution down
     float fatJet2DDBTagger = -99;
     float fatJet2PNetXbb = -99;
+    float fatJet2PNetXjj = -99;
     float fatJet2PNetQCDb = -99;
     float fatJet2PNetQCDbb = -99;
     float fatJet2PNetQCDc = -99;
@@ -575,6 +580,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("fatJet1MassSD_JMR_Down", &fatJet1MassSD_JMR_Down, "fatJet1MassSD_JMR_Down/F");
       outputTree->Branch("fatJet1DDBTagger", &fatJet1DDBTagger, "fatJet1DDBTagger/F");
       outputTree->Branch("fatJet1PNetXbb", &fatJet1PNetXbb, "fatJet1PNetXbb/F");
+      outputTree->Branch("fatJet1PNetXjj", &fatJet1PNetXjj, "fatJet1PNetXjj/F");
       outputTree->Branch("fatJet1PNetQCDb", &fatJet1PNetQCDb, "fatJet1PNetQCDb/F");
       outputTree->Branch("fatJet1PNetQCDbb", &fatJet1PNetQCDbb, "fatJet1PNetQCDbb/F");
       outputTree->Branch("fatJet1PNetQCDc", &fatJet1PNetQCDc, "fatJet1PNetQCDc/F");
@@ -672,6 +678,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("fatJet2MassSD_JMR_Down", &fatJet2MassSD_JMR_Down, "fatJet2MassSD_JMR_Down/F");
       outputTree->Branch("fatJet2DDBTagger", &fatJet2DDBTagger, "fatJet2DDBTagger/F");
       outputTree->Branch("fatJet2PNetXbb", &fatJet2PNetXbb, "fatJet2PNetXbb/F");
+      outputTree->Branch("fatJet2PNetXjj", &fatJet2PNetXjj, "fatJet2PNetXjj/F");
       outputTree->Branch("fatJet2PNetQCDb", &fatJet2PNetQCDb, "fatJet2PNetQCDb/F");
       outputTree->Branch("fatJet2PNetQCDbb", &fatJet2PNetQCDbb, "fatJet2PNetQCDbb/F");
       outputTree->Branch("fatJet2PNetQCDc", &fatJet2PNetQCDc, "fatJet2PNetQCDc/F");
@@ -874,7 +881,6 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //Use the non-normalized version because some samples have non-equal genWeights
       weight = genWeight;
       NEvents->SetBinContent( 1, NEvents->GetBinContent(1) + weight);
-      
 
       //reset tree variables
       genHiggs1Pt = -99.0;
@@ -927,6 +933,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1MassSD_JMR_Down    = -99.0;
       fatJet1DDBTagger = -99.0;
       fatJet1PNetXbb = -99;
+      fatJet1PNetXjj = -99;
       fatJet1PNetQCDb = -99;
       fatJet1PNetQCDbb = -99;
       fatJet1PNetQCDc = -99;
@@ -959,6 +966,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2MassSD_JMR_Down    = -99.0;
       fatJet2DDBTagger = -99.0;
       fatJet2PNetXbb = -99;
+      fatJet2PNetXjj = -99;
       fatJet2PNetQCDb = -99;
       fatJet2PNetQCDbb = -99;
       fatJet2PNetQCDc = -99;
@@ -1345,6 +1353,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       
       fatJet1DDBTagger = FatJet_btagDDBvL[fatJet1Index];
       fatJet1PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet1Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet1Index] - FatJet_ParticleNetMD_probXqq[fatJet1Index]);
+      fatJet1PNetXjj = (FatJet_ParticleNetMD_probXbb[fatJet1Index] + FatJet_ParticleNetMD_probXcc[fatJet1Index] + FatJet_ParticleNetMD_probXqq[fatJet1Index])/(FatJet_ParticleNetMD_probXbb[fatJet1Index] + FatJet_ParticleNetMD_probXcc[fatJet1Index] + FatJet_ParticleNetMD_probXqq[fatJet1Index]+FatJet_ParticleNetMD_probQCDb[fatJet1Index]+FatJet_ParticleNetMD_probQCDbb[fatJet1Index]+FatJet_ParticleNetMD_probQCDc[fatJet1Index]+FatJet_ParticleNetMD_probQCDcc[fatJet1Index]+FatJet_ParticleNetMD_probQCDothers[fatJet1Index]);
       fatJet1PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet1Index];
       fatJet1PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet1Index];
       fatJet1PNetQCDc = FatJet_ParticleNetMD_probQCDc[fatJet1Index];
@@ -1473,6 +1482,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
      
       fatJet2DDBTagger = FatJet_btagDDBvL[fatJet2Index];
       fatJet2PNetXbb = FatJet_ParticleNetMD_probXbb[fatJet2Index]/(1.0 - FatJet_ParticleNetMD_probXcc[fatJet2Index] - FatJet_ParticleNetMD_probXqq[fatJet2Index]);
+      fatJet2PNetXjj = (FatJet_ParticleNetMD_probXbb[fatJet2Index] + FatJet_ParticleNetMD_probXcc[fatJet2Index] + FatJet_ParticleNetMD_probXqq[fatJet2Index])/(FatJet_ParticleNetMD_probXbb[fatJet2Index] + FatJet_ParticleNetMD_probXcc[fatJet2Index] + FatJet_ParticleNetMD_probXqq[fatJet2Index]+FatJet_ParticleNetMD_probQCDb[fatJet2Index]+FatJet_ParticleNetMD_probQCDbb[fatJet2Index]+FatJet_ParticleNetMD_probQCDc[fatJet2Index]+FatJet_ParticleNetMD_probQCDcc[fatJet2Index]+FatJet_ParticleNetMD_probQCDothers[fatJet2Index]);
+
       fatJet2PNetQCDb = FatJet_ParticleNetMD_probQCDb[fatJet2Index];
       fatJet2PNetQCDbb = FatJet_ParticleNetMD_probQCDbb[fatJet2Index];
       fatJet2PNetQCDc = FatJet_ParticleNetMD_probQCDc[fatJet2Index];
