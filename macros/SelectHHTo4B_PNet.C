@@ -25,11 +25,68 @@
 #include <TCanvas.h>                
 #include <TLegend.h> 
 #include <THStack.h> 
+#include <TRandom3.h> 
+#include <TGraphAsymmErrors.h> 
 
 #include "HHBoostedAnalyzer/macros/tdrstyle.C"
 #include "HHBoostedAnalyzer/macros/CMS_lumi.C"
 
 #endif
+
+
+double getTriggerEff3D( TH2F *triggerEffHist_Xbb0p0To0p9,
+			TH2F *triggerEffHist_Xbb0p9To0p95, 
+			TH2F *triggerEffHist_Xbb0p95To0p98, 
+			TH2F *triggerEffHist_Xbb0p98To1p0, 
+			double pt, double mass, double PNetXbb ) {
+  double result = 0.0;
+  double tmpMass = 0;
+  double tmpPt = 0;
+  double tmpPNetXbb = 0;
+  TH2F* trigEffHist = 0;
+  
+  if (PNetXbb < 0.9) {
+    trigEffHist = triggerEffHist_Xbb0p0To0p9;
+  } else if (PNetXbb < 0.95) {
+    trigEffHist = triggerEffHist_Xbb0p9To0p95;    
+  } else if (PNetXbb < 0.98) {
+    trigEffHist = triggerEffHist_Xbb0p95To0p98;    
+  } else {
+    trigEffHist = triggerEffHist_Xbb0p98To1p0;    
+  }
+  
+  if (trigEffHist) {
+    // constrain to histogram bounds
+    if( mass > trigEffHist->GetXaxis()->GetXmax() * 0.999 ) {
+      tmpMass = trigEffHist->GetXaxis()->GetXmax() * 0.999;
+    } else if ( mass < 0 ) {
+      tmpMass = 0.001;
+      //cout << "Warning: mass=" << mass << " is negative and unphysical\n";
+    } else {
+      tmpMass = mass;
+    }
+    if( pt > trigEffHist->GetYaxis()->GetXmax() * 0.999 ) {
+      tmpPt = trigEffHist->GetYaxis()->GetXmax() * 0.999;
+    } else if (pt < 0) {
+      tmpPt = 0.001;
+      cout << "Warning: pt=" << pt << " is negative and unphysical\n";
+    } else {
+      tmpPt = pt;
+    }
+    result = trigEffHist->GetBinContent(
+					trigEffHist->GetXaxis()->FindFixBin( tmpMass ),
+					trigEffHist->GetYaxis()->FindFixBin( tmpPt )
+					);  
+
+    return result;
+  } else {
+    std::cout << "Error: expected a histogram, got a null pointer" << std::endl;
+    return 0;
+  }
+}
+
+
+
 
 double getTriggerEff( TH2F *trigEffHist , double pt, double mass ) {
   double result = 0.0;
@@ -70,6 +127,93 @@ double getTriggerEff( TH2F *trigEffHist , double pt, double mass ) {
 
   return result; 
 }
+
+
+// double getTriggerCorrection (TGraphAsymmErrors *correction, double fatJet1Pt) {
+double getTriggerCorrection (double fatJet1Pt, int category, string year) {
+
+  double result = 1.0;
+  
+  if (year == "2016") {
+    if (category == 1) {
+      if (fatJet1Pt >= 300 && fatJet1Pt < 350) result = 1.70;
+      if (fatJet1Pt >= 350 && fatJet1Pt < 400) result = 1.32;
+      if (fatJet1Pt >= 400 && fatJet1Pt < 450) result = 1.10;
+    } 
+    if (category == 2) {
+      if (fatJet1Pt >= 300 && fatJet1Pt < 350) result = 1.53;
+      if (fatJet1Pt >= 350 && fatJet1Pt < 400) result = 1.21;
+      if (fatJet1Pt >= 400 && fatJet1Pt < 450) result = 1.05;
+    } 
+    if (category == 3) {
+      if (fatJet1Pt >= 300 && fatJet1Pt < 350) result = 1.50;
+      if (fatJet1Pt >= 350 && fatJet1Pt < 400) result = 1.18;
+      if (fatJet1Pt >= 400 && fatJet1Pt < 450) result = 1.06;
+    } 
+  }
+
+  if (year == "2017") {
+    if (category == 1) {
+      if (fatJet1Pt >= 300 && fatJet1Pt < 350) result = 0.89;
+      if (fatJet1Pt >= 350 && fatJet1Pt < 400) result = 0.89;
+      if (fatJet1Pt >= 400 && fatJet1Pt < 450) result = 0.96;
+    } 
+    if (category == 2) {
+      if (fatJet1Pt >= 300 && fatJet1Pt < 350) result = 0.80;
+      if (fatJet1Pt >= 350 && fatJet1Pt < 400) result = 0.80;
+      if (fatJet1Pt >= 400 && fatJet1Pt < 450) result = 1.00;
+    } 
+    if (category == 3) {
+      if (fatJet1Pt >= 300 && fatJet1Pt < 350) result = 0.90;
+      if (fatJet1Pt >= 350 && fatJet1Pt < 400) result = 0.95;
+      if (fatJet1Pt >= 400 && fatJet1Pt < 450) result = 1.00;
+    } 
+  }
+
+  if (year == "2018") {
+    if (category == 1) {
+      if (fatJet1Pt >= 300 && fatJet1Pt < 350) result = 0.97;
+      if (fatJet1Pt >= 350 && fatJet1Pt < 400) result = 1.02;
+      if (fatJet1Pt >= 400 && fatJet1Pt < 450) result = 0.99;
+    } 
+    if (category == 2) {
+      if (fatJet1Pt >= 300 && fatJet1Pt < 350) result = 1.02;
+      if (fatJet1Pt >= 350 && fatJet1Pt < 400) result = 0.97;
+      if (fatJet1Pt >= 400 && fatJet1Pt < 450) result = 1.00;
+    } 
+    if (category == 3) {
+      if (fatJet1Pt >= 300 && fatJet1Pt < 350) result = 1.00;
+      if (fatJet1Pt >= 350 && fatJet1Pt < 400) result = 0.99;
+      if (fatJet1Pt >= 400 && fatJet1Pt < 450) result = 0.97;
+    } 
+  }
+
+
+  return result;
+
+
+
+  // // cout << "jet pt = " << fatJet1Pt << "\n";
+
+  // if (fatJet1Pt <= 200 || fatJet1Pt >= 600) return 1.0;
+
+  // for (int i=0; i<correction->GetN(); i++) {
+
+  //   double x = 0;
+  //   double y = 0;
+  //   correction->GetPoint(i,x,y);    
+
+  //   // cout << i << " " << x << " " <<  y << " | "	
+  //   // 	 << "\n";
+
+  //   if (fatJet1Pt >= x - 5 && fatJet1Pt <= x + 5) result = y;  
+  // }
+
+  // // cout << "Result = " << result << "\n";
+
+  return result;
+}
+
 
 void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, vector<int> color,  bool hasData, string varName, double lumi, string label ) {
 
@@ -240,12 +384,45 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
   //--------------------------------------------------------------------------------------------------------------
   // Settings 
   //============================================================================================================== 
-  // TFile *triggerEff2016File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root","READ");
-  // TFile *triggerEff2017File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root","READ");
-  // TFile *triggerEff2018File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root","READ");
-  // TH2F *triggerEff2016Hist = (TH2F*)triggerEff2016File->Get("efficiency_ptmass");
-  // TH2F *triggerEff2017Hist = (TH2F*)triggerEff2017File->Get("efficiency_ptmass");
-  // TH2F *triggerEff2018Hist = (TH2F*)triggerEff2018File->Get("efficiency_ptmass");
+  TRandom3 myRandom(1); 
+  // TFile *triggerEff2016File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Summer16.root","READ");
+  // TFile *triggerEff2017File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall17.root","READ");
+  // TFile *triggerEff2018File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall18.root","READ");
+
+  TFile *triggerEff2016File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root","READ");
+  TFile *triggerEff2017File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root","READ");
+  TFile *triggerEff2018File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root","READ");
+  TH2F *triggerEff2016Hist = (TH2F*)triggerEff2016File->Get("efficiency_ptmass");
+  TH2F *triggerEff2017Hist = (TH2F*)triggerEff2017File->Get("efficiency_ptmass");
+  TH2F *triggerEff2018Hist = (TH2F*)triggerEff2018File->Get("efficiency_ptmass");
+  TH2F *triggerEff2016Hist_Xbb0p0To0p9 = (TH2F*)triggerEff2016File->Get("efficiency_ptmass_Xbb0p0To0p9");
+  TH2F *triggerEff2016Hist_Xbb0p9To0p95 = (TH2F*)triggerEff2016File->Get("efficiency_ptmass_Xbb0p9To0p95");
+  TH2F *triggerEff2016Hist_Xbb0p95To0p98 = (TH2F*)triggerEff2016File->Get("efficiency_ptmass_Xbb0p95To0p98");
+  TH2F *triggerEff2016Hist_Xbb0p98To1p0 = (TH2F*)triggerEff2016File->Get("efficiency_ptmass_Xbb0p98To1p0");
+  TH2F *triggerEff2017Hist_Xbb0p0To0p9 = (TH2F*)triggerEff2017File->Get("efficiency_ptmass_Xbb0p0To0p9");
+  TH2F *triggerEff2017Hist_Xbb0p9To0p95 = (TH2F*)triggerEff2017File->Get("efficiency_ptmass_Xbb0p9To0p95");
+  TH2F *triggerEff2017Hist_Xbb0p95To0p98 = (TH2F*)triggerEff2017File->Get("efficiency_ptmass_Xbb0p95To0p98");
+  TH2F *triggerEff2017Hist_Xbb0p98To1p0 = (TH2F*)triggerEff2017File->Get("efficiency_ptmass_Xbb0p98To1p0");
+  TH2F *triggerEff2018Hist_Xbb0p0To0p9 = (TH2F*)triggerEff2018File->Get("efficiency_ptmass_Xbb0p0To0p9");
+  TH2F *triggerEff2018Hist_Xbb0p9To0p95 = (TH2F*)triggerEff2018File->Get("efficiency_ptmass_Xbb0p9To0p95");
+  TH2F *triggerEff2018Hist_Xbb0p95To0p98 = (TH2F*)triggerEff2018File->Get("efficiency_ptmass_Xbb0p95To0p98");
+  TH2F *triggerEff2018Hist_Xbb0p98To1p0 = (TH2F*)triggerEff2018File->Get("efficiency_ptmass_Xbb0p98To1p0");
+
+  if(!triggerEff2016Hist) assert(false);
+  if(!triggerEff2016Hist_Xbb0p0To0p9) assert(false);
+  if(!triggerEff2016Hist_Xbb0p9To0p95) assert(false);
+  if(!triggerEff2016Hist_Xbb0p95To0p98) assert(false);
+  if(!triggerEff2016Hist_Xbb0p98To1p0) assert(false);
+  if(!triggerEff2017Hist) assert(false);
+  if(!triggerEff2017Hist_Xbb0p0To0p9) assert(false);
+  if(!triggerEff2017Hist_Xbb0p9To0p95) assert(false);
+  if(!triggerEff2017Hist_Xbb0p95To0p98) assert(false);
+  if(!triggerEff2017Hist_Xbb0p98To1p0) assert(false);
+  if(!triggerEff2018Hist) assert(false);
+  if(!triggerEff2018Hist_Xbb0p0To0p9) assert(false);
+  if(!triggerEff2018Hist_Xbb0p9To0p95) assert(false);
+  if(!triggerEff2018Hist_Xbb0p95To0p98) assert(false);
+  if(!triggerEff2018Hist_Xbb0p98To1p0) assert(false);
 
   //*****************************************************************************************
   //Set up for input files 
@@ -315,17 +492,17 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
     histNLeptons.push_back(new TH1D(Form("histNLeptons_%s",processLabels[i].c_str()), "; NLeptons ; Number of Events", 10, -0.5, 9.5));
     histNJetsHaveLeptons.push_back(new TH1D(Form("histNJetsHaveLeptons_%s",processLabels[i].c_str()), "; NJetsHaveLeptons ; Number of Events", 3, -0.5, 2.5));
     histJet1Mass.push_back(new TH1D(Form("histJet1Mass_%s",processLabels[i].c_str()), "; Jet1 Mass [GeV] ; Number of Events", 25, 0, 500));
-    histJet1Pt.push_back(new TH1D(Form("histJet1Pt_%s",processLabels[i].c_str()), "; Jet1 p_{T} [GeV] ; Number of Events", 25, 0, 2000));
+    histJet1Pt.push_back(new TH1D(Form("histJet1Pt_%s",processLabels[i].c_str()), "; Jet1 p_{T} [GeV] ; Number of Events", 40, 0, 2000));
     histJet1DDB.push_back(new TH1D(Form("histJet1DDB_%s",processLabels[i].c_str()), "; Jet1 DDB ; Number of Events", 25, 0, 1.0));
     histJet1PNetXbb.push_back(new TH1D(Form("histJet1PNetXbb_%s",processLabels[i].c_str()), "; Jet1 PNetXbb ; Number of Events", 25, 0, 1.0));
     histJet1Tau3OverTau2.push_back(new TH1D(Form("histJet1Tau3OverTau2_%s",processLabels[i].c_str()), "; Jet1 Tau3OverTau2 ; Number of Events", 25, 0, 1.0));
     histJet2Mass.push_back(new TH1D(Form("histJet2Mass_%s",processLabels[i].c_str()), "; Jet2 Mass [GeV] ; Number of Events", 25, 15, 515));
-    histJet2Pt.push_back(new TH1D(Form("histJet2Pt_%s",processLabels[i].c_str()), "; Jet2 p_{T} [GeV] ; Number of Events", 25, 0, 1000));
+    histJet2Pt.push_back(new TH1D(Form("histJet2Pt_%s",processLabels[i].c_str()), "; Jet2 p_{T} [GeV] ; Number of Events", 40, 0, 1000));
     histJet2DDB.push_back(new TH1D(Form("histJet1DDB_%s",processLabels[i].c_str()), "; Jet2 DDB ; Number of Events", 25, 0, 1.0));
     histJet2PNetXbb.push_back(new TH1D(Form("histJet2PNetXbb_%s",processLabels[i].c_str()), "; Jet2 PNetXbb ; Number of Events", 25, 0, 1.0));
     histJet2Tau3OverTau2.push_back(new TH1D(Form("histJet1Tau3OverTau2_%s",processLabels[i].c_str()), "; Jet2 Tau3OverTau2 ; Number of Events", 25, 0, 1.0));
-    histHHPt.push_back(new TH1D(Form("histHHPt_%s",processLabels[i].c_str()), "; HH p_{T} [GeV] ; Number of Events", 25, 0, 1000));
-    histHHMass.push_back(new TH1D(Form("histHHMass_%s",processLabels[i].c_str()), "; m_{HH} [GeV] ; Number of Events", 25, 0, 2000));
+    histHHPt.push_back(new TH1D(Form("histHHPt_%s",processLabels[i].c_str()), "; HH p_{T} [GeV] ; Number of Events", 40, 0, 1000));
+    histHHMass.push_back(new TH1D(Form("histHHMass_%s",processLabels[i].c_str()), "; m_{HH} [GeV] ; Number of Events", 40, 0, 2000));
 
 
     histMET[i]->Sumw2();
@@ -404,6 +581,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	float pileupWeight = 0;
 	float MET = 0;
 	float fatJet1Pt = 0;
+	float fatJet1Eta = 0;
 	float fatJet1MassSD = 0;
 	float fatJet1DDBTagger = 0;
 	float fatJet1PNetXbb = -99;
@@ -417,6 +595,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	bool fatJet1HasBJetCSVMedium = 0;
 	bool fatJet1HasBJetCSVTight = 0;      
 	float fatJet2Pt = 0;
+	float fatJet2Eta = 0;
 	float fatJet2MassSD = 0;
 	float fatJet2DDBTagger = 0;
 	float fatJet2PNetXbb = -99;
@@ -487,6 +666,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	tree->SetBranchAddress("pileupWeight",&pileupWeight);
 	tree->SetBranchAddress("MET",&MET);                                       
 	tree->SetBranchAddress("fatJet1Pt",&fatJet1Pt);                                       
+	tree->SetBranchAddress("fatJet1Eta",&fatJet1Eta);                                       
 	tree->SetBranchAddress("fatJet1MassSD",&fatJet1MassSD);                                       
 	tree->SetBranchAddress("fatJet1DDBTagger",&fatJet1DDBTagger);
 	tree->SetBranchAddress("fatJet1PNetXbb",&fatJet1PNetXbb); 
@@ -500,6 +680,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	tree->SetBranchAddress("fatJet1HasBJetCSVMedium",&fatJet1HasBJetCSVMedium);
 	tree->SetBranchAddress("fatJet1HasBJetCSVTight",&fatJet1HasBJetCSVTight);
 	tree->SetBranchAddress("fatJet2Pt",&fatJet2Pt);                                       
+	tree->SetBranchAddress("fatJet2Eta",&fatJet2Eta);                                       
 	tree->SetBranchAddress("fatJet2MassSD",&fatJet2MassSD);                                       
 	tree->SetBranchAddress("fatJet2DDBTagger",&fatJet2DDBTagger);
 	tree->SetBranchAddress("fatJet2PNetXbb",&fatJet2PNetXbb); 
@@ -570,18 +751,19 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
       
 
 	  if (ientry % 100000 == 0) cout << "Event " << ientry << endl;      
+	  float q = myRandom.Uniform(1);
 
 	  double puWeight = 1;      
 	  double myWeight = 1;
 	  if (!isData) {	 
 	    //myWeight = lumi * weight * triggerEffWeight * pileupWeight * scaleFactors[i];
-	    if (processLabels[i] == "HH" || processLabels[i] == "HHkl0" || processLabels[i] == "HHkl0" || processLabels[i] == "HHkl0") {
-	      myWeight = lumi * weight * triggerEff3DWeight * pileupWeight * scaleFactors[i];
+	    if (processLabels[i] == "HH" || processLabels[i] == "HHkl0" || processLabels[i] == "HHkl0" || processLabels[i] == "HHkl0") {	      
+	      myWeight = lumi * weight * pileupWeight * scaleFactors[i];
 	      // cout << "weight = " << weight << " " << xsecWeight << " " << myWeight << " | " << lumi << " " 
 	      // 	   << triggerEff3DWeight << " " << pileupWeight << " " << scaleFactors[i] << " " 
 	      // 	   << "\n";
-	    } else {
-	      myWeight = lumi * weight * triggerEff3DWeight * pileupWeight * scaleFactors[i];
+	    } else {	      
+	      myWeight = lumi * weight * pileupWeight * scaleFactors[i];
 	    }
 
 	    //myWeight = lumi * weight * triggerEffMCWeight * pileupWeight * scaleFactors[i];
@@ -612,19 +794,43 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 
 	    // apply trigger efficiency correction for some triggers that were not enabled for full run
 	    if (!isData) {
-	      // double triggerSF = 1.0;
-	      // if (HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20)                         triggerSF = 1.0;
-	      // else if (HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 
-	      // 	     || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20)                 triggerSF = 19.9 / 35.9;	      
-	      // else                                                                      triggerSF = 0;
-	      // myWeight = myWeight * triggerSF;	  
+	      // passTrigger = 
+	      // 	(0 == 1)
+	      // 	|| HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20
+	      // 	|| (HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 * bool(q < 19.88/35.92) )
+	      // 	|| (HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 * bool(q < 19.88/35.92) )
+	      // 	|| HLT_AK8PFJet360_TrimMass30
+	      // 	|| HLT_AK8PFJet450 
+	      // 	|| HLT_PFJet450    
+	      // 	|| HLT_PFHT790
+	      // 	|| HLT_PFHT890
+	      // 	|| HLT_PFHT1050
+	      // 	;
 
+	  
 	      passTrigger = true;
-	      // double triggerEff = 1.0 - 
-	      //   (1 - getTriggerEff( triggerEff2016Hist , fatJet1Pt, fatJet1MassSD )) * 
-	      //   (1 - getTriggerEff( triggerEff2016Hist , fatJet2Pt, fatJet2MassSD ))
-	      //   ;
-	      // myWeight = myWeight * triggerEff;
+	      double triggerEff = 1.0 - 
+	        (1 - getTriggerEff( triggerEff2016Hist , fatJet1Pt, fatJet1MassSD )) * 
+	        (1 - getTriggerEff( triggerEff2016Hist , fatJet2Pt, fatJet2MassSD ))
+	        ;
+	      double  triggerEff3D = 1.0 - 
+	      	(1 - getTriggerEff3D( triggerEff2016Hist_Xbb0p0To0p9, 
+	      			      triggerEff2016Hist_Xbb0p9To0p95, 
+	      			      triggerEff2016Hist_Xbb0p95To0p98, 
+	      			      triggerEff2016Hist_Xbb0p98To1p0, 
+	      			      fatJet1Pt, fatJet1MassSD, fatJet1PNetXbb )
+		 ) * 
+	      	(1 - getTriggerEff3D( triggerEff2016Hist_Xbb0p0To0p9, 
+	      			      triggerEff2016Hist_Xbb0p9To0p95, 
+	      			      triggerEff2016Hist_Xbb0p95To0p98, 
+	      			      triggerEff2016Hist_Xbb0p98To1p0, 
+	      			      fatJet2Pt, fatJet2MassSD, fatJet2PNetXbb )
+		 )
+	      	;
+
+	      double triggerCorrection = getTriggerCorrection(fatJet1Pt,1,"2016");
+	      triggerCorrection = 1.0;
+	      myWeight = myWeight * triggerEff3D * triggerCorrection;
 	    }
 
 	  }
@@ -647,25 +853,43 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    
 	    // apply trigger efficiency correction for some triggers that were not enabled for full run
 	    if (!isData) {
-	      // double triggerSF = 1.0;
-	      // if (HLT_PFJet500 || HLT_AK8PFJet500)                                    triggerSF = 1.0;
-	      // else {
-	      //   //cout << "fail\n";
-	      //   if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)          triggerSF = 36.42 / 41.48;
-	      //   else if (HLT_AK8PFJet380_TrimMass30)                                    triggerSF = 31.15 / 41.48;            
-	      //   else if (HLT_AK8PFJet360_TrimMass30)                                    triggerSF = 28.23 / 41.48;
-	      //   else if (HLT_AK8PFJet330_PFAK8BTagCSV_p17)                              triggerSF = 7.73 / 41.48;	    
-	      //   else                                                                    triggerSF = 0;
-	      //   //cout << "triggerSF = " << triggerSF << "\n";
-	      // }
-	      // myWeight = myWeight * triggerSF;
-	    
+	      // passTrigger = 
+	      // 	(0 == 1) 
+	      // 	|| (HLT_PFJet450                         * bool(q < 10.45/41.48) )
+	      // 	|| HLT_PFJet500    
+	      // 	|| HLT_AK8PFJet400 
+	      // 	|| HLT_AK8PFJet500 
+	      // 	|| HLT_PFHT1050
+	      // 	|| (HLT_AK8PFJet360_TrimMass30           * bool(q < 28.23/41.48) )
+	      // 	|| (HLT_AK8PFJet380_TrimMass30           * bool(q < 31.15/41.48) )
+	      // 	|| (HLT_AK8PFJet400_TrimMass30           * bool(q < 36.67/41.48) )
+	      // 	|| (HLT_AK8PFHT800_TrimMass50            * bool(q < 36.42/41.48) )
+	      // 	|| (HLT_AK8PFHT750_TrimMass50            * bool(q < 30.90/41.48) )
+	      // 	|| (HLT_AK8PFJet330_PFAK8BTagCSV_p17     * bool(q < 7.73/41.48) )
+	      // 	;
+	      
 	      passTrigger = true;
-	      // double triggerEff = 1.0 - 
-	      //   (1 - getTriggerEff( triggerEff2017Hist , fatJet1Pt, fatJet1MassSD )) * 
-	      //   (1 - getTriggerEff( triggerEff2017Hist , fatJet2Pt, fatJet2MassSD ))
-	      //   ;
-	      // myWeight = myWeight * triggerEff;
+	      double triggerEff = 1.0 - 
+	        (1 - getTriggerEff( triggerEff2017Hist , fatJet1Pt, fatJet1MassSD )) * 
+	        (1 - getTriggerEff( triggerEff2017Hist , fatJet2Pt, fatJet2MassSD ))
+	        ;
+	      double  triggerEff3D = 1.0 - 
+	      	(1 - getTriggerEff3D( triggerEff2017Hist_Xbb0p0To0p9, 
+	      			      triggerEff2017Hist_Xbb0p9To0p95, 
+	      			      triggerEff2017Hist_Xbb0p95To0p98, 
+	      			      triggerEff2017Hist_Xbb0p98To1p0, 
+	      			      fatJet1Pt, fatJet1MassSD, fatJet1PNetXbb )) * 
+	      	(1 - getTriggerEff3D( triggerEff2017Hist_Xbb0p0To0p9, 
+	      			      triggerEff2017Hist_Xbb0p9To0p95, 
+	      			      triggerEff2017Hist_Xbb0p95To0p98, 
+	      			      triggerEff2017Hist_Xbb0p98To1p0, 
+	      			      fatJet2Pt, fatJet2MassSD, fatJet2PNetXbb ))
+	      	;
+	      double triggerCorrection = getTriggerCorrection(fatJet1Pt,1,"2017");
+	      triggerCorrection = 1.0;
+	      myWeight = myWeight * triggerEff3D * triggerCorrection;
+
+	    
 	    }
 
 
@@ -686,19 +910,40 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 
 	    // apply trigger efficiency correction for some triggers that were not enabled for full run
 	    if (!isData) {
-	      // double triggerSF = 1.0;
-	      // if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)              triggerSF = 1.0;
-	      // else if (HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4)              triggerSF = 54.5 / 59.7;	        
-	      // else                                                                      triggerSF = 0;
-
-	      // myWeight = myWeight * triggerSF;	  
-
+	      passTrigger = 
+	      	// (0 == 1) 
+	      	// || HLT_PFHT1050
+	      	// || HLT_PFJet500  
+	      	// || HLT_AK8PFJet500 
+	      	// || HLT_AK8PFJet400_TrimMass30 
+	      	// || HLT_AK8PFHT800_TrimMass50     
+	      	// || (HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4  * bool(q < 54.44/59.74))
+	      	// ;   
+	      
 	      passTrigger = true;
-	      // double triggerEff = 1.0 - 
-	      //   (1 - getTriggerEff( triggerEff2018Hist , fatJet1Pt, fatJet1MassSD )) * 
-	      //   (1 - getTriggerEff( triggerEff2018Hist , fatJet2Pt, fatJet2MassSD ))
-	      //   ;
-	      // myWeight = myWeight * triggerEff;
+	      double triggerEff = 1.0 - 
+	        (1 - getTriggerEff( triggerEff2018Hist , fatJet1Pt, fatJet1MassSD )) * 
+	        (1 - getTriggerEff( triggerEff2018Hist , fatJet2Pt, fatJet2MassSD ))
+	        ;
+	      double  triggerEff3D = 1.0 - 
+	      	(1 - getTriggerEff3D( triggerEff2018Hist_Xbb0p0To0p9, 
+	      			      triggerEff2018Hist_Xbb0p9To0p95, 
+	      			      triggerEff2018Hist_Xbb0p95To0p98, 
+	      			      triggerEff2018Hist_Xbb0p98To1p0, 
+	      			      fatJet1Pt, fatJet1MassSD, fatJet1PNetXbb )) * 
+	      	(1 - getTriggerEff3D( triggerEff2018Hist_Xbb0p0To0p9, 
+	      			      triggerEff2018Hist_Xbb0p9To0p95, 
+	      			      triggerEff2018Hist_Xbb0p95To0p98, 
+	      			      triggerEff2018Hist_Xbb0p98To1p0, 
+	      			      fatJet2Pt, fatJet2MassSD, fatJet2PNetXbb ))
+	      	;
+	      double triggerCorrection = getTriggerCorrection(fatJet1Pt,1,"2018");
+	      triggerCorrection = 1.0;
+	      myWeight = myWeight * triggerEff3D * triggerCorrection;
+
+
+
+
 	    }   
 	  }
 
@@ -714,8 +959,10 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  //******************************
 	  //Selection Cuts 
 	  //******************************
-	  if ( !(fatJet1Pt > 250 )) continue;
-	  if ( !(fatJet2Pt > 250 )) continue;
+	  if ( !(fabs(fatJet1Eta) <= 2.4)) continue;
+	  if ( !(fabs(fatJet2Eta) <= 2.4)) continue;
+	  if ( !(fatJet1Pt > 300 )) continue;
+	  if ( !(fatJet2Pt > 300 )) continue;
 	  if ( !(fatJet1MassSD > 50)) continue;
 	  if ( !(fatJet2MassSD > 50)) continue;
 
@@ -739,17 +986,15 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    //Best 3-bin analysis - Bin1
 	    if ( !(disc_v8p2 > 0.43) ) continue;
 	    if ( !(fatJet2PNetXbb > 0.980)) continue;
-
-	    // if (processLabels[i] == "HHkl5") cout << "pass\n";
-
-	    // //Best 3-bin analysis - Bin2
+	   
+	    //Best 3-bin analysis - Bin2
 	    // if ( (disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.980 ) ) continue;
 	    // if ( !( ( disc_v8p2 > 0.11 && fatJet2PNetXbb > 0.980)
 	    // 	    || 
 	    // 	    ( disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.950)
 	    // 	    )) continue;
 	   
- 	    // //Best 3-bin analysis - Bin3
+	    //Best 3-bin analysis - Bin3
 	    // if ( (disc_v8p2 > 0.43 && fatJet2PNetXbb > 0.980 ) ) continue;
 	    // if ( ( ( disc_v8p2 > 0.11 && fatJet2PNetXbb > 0.980)
 	    // 	   || 
@@ -948,12 +1193,18 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
   file->cd();
 
   for(int i=0; i<int(inputfiles.size()); i++) {
-    file->WriteTObject(histJet1Mass[i], Form("histJet1Mass_%s",processLabels[i].c_str()), "WriteDelete");
-    file->WriteTObject(histJet1Pt[i], Form("histJet1Pt_%s",processLabels[i].c_str()), "WriteDelete");
-    file->WriteTObject(histJet2Mass[i], Form("histJet2Mass_%s",processLabels[i].c_str()), "WriteDelete");
-    file->WriteTObject(histJet2Pt[i], Form("histJet2Pt_%s",processLabels[i].c_str()), "WriteDelete");
-    file->WriteTObject(histNJetsHaveLeptons[i], Form("histNJetsHaveLeptons_%s",processLabels[i].c_str()), "WriteDelete");
-    file->WriteTObject(histMET[i], Form("histMET_%s",processLabels[i].c_str()), "WriteDelete");
+
+    if (processLabels[i] == "HH") {
+
+      file->WriteTObject(histJet1Mass[i], Form("histJet1Mass_%s",processLabels[i].c_str()), "WriteDelete");
+      file->WriteTObject(histJet1Pt[i], Form("histJet1Pt_%s",processLabels[i].c_str()), "WriteDelete");
+      file->WriteTObject(histJet2Mass[i], Form("histJet2Mass_%s",processLabels[i].c_str()), "WriteDelete");
+      file->WriteTObject(histJet2Pt[i], Form("histJet2Pt_%s",processLabels[i].c_str()), "WriteDelete");
+      file->WriteTObject(histNJetsHaveLeptons[i], Form("histNJetsHaveLeptons_%s",processLabels[i].c_str()), "WriteDelete");
+      file->WriteTObject(histMET[i], Form("histMET_%s",processLabels[i].c_str()), "WriteDelete");
+      file->WriteTObject(histHHPt[i], Form("histHHPt_%s",processLabels[i].c_str()), "WriteDelete");
+      file->WriteTObject(histHHMass[i], Form("histHHMass_%s",processLabels[i].c_str()), "WriteDelete");
+    }
   } 
   
   file->Close();
@@ -967,7 +1218,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 
 
 
-void SelectHHTo4B_PNet_old( int option = -1) {
+void SelectHHTo4B_PNet( int option = -1) {
 
   std::vector<std::pair<std::vector<std::string>,std::string > > datafiles;
   std::vector<std::vector<std::pair<std::vector<std::string>,std::string > > > bkgfiles;
@@ -1269,9 +1520,9 @@ void SelectHHTo4B_PNet_old( int option = -1) {
 //**********************************
 // Total Sideband Data: 12
 // Bkg Prediction From Sideband: 6
-// Signal SM: 0.385545
-// Signal kl0: 0.484469
-// Signal kl2p45: 0.305192
+// Signal SM: 0.345569
+// Signal kl0: 0.420142
+// Signal kl2p45: 0.273261
 // Signal kl5: 0 -> pileup weights were 0
 // Data Event: 297292 : 684544219 | 73.242
 // Data Event: 297563 : 149751850 | 54.2742
