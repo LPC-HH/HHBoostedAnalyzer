@@ -353,7 +353,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     int   genLeptonMotherId = 0;
     float genPhotonPt = -1;
     float genPhotonEta = -1;
-    float genPhotonPhi = -1;
+    float genPhotonPhi = -1;    
 
     int NJets = 0;
     float MET = -1;
@@ -536,6 +536,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     float vbffatJet2Eta = -99;
     float vbffatJet2Phi = -99;
     float vbffatJet2PNetXbb = -99;
+
+    float genJetEta[1000];
+    float genJetPhi[1000];
+    float genJetMass[1000];
+    float genJetPt[1000];
+    int genJetPartonFlavor[1000];
 
     //------------------------
     //set branches on big tree
@@ -841,10 +847,19 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       outputTree->Branch("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20/O");	
     }
 
+    if (Option == 0) {
+      outputTree->Branch("nGenJet", &nGenJet, "nGenJet/I");
+      outputTree->Branch("GenJet_eta", &genJetEta, "GenJet_eta[nGenJet]/F");
+      outputTree->Branch("GenJet_phi", &genJetPhi, "GenJet_phi[nGenJet]/F");
+      outputTree->Branch("GenJet_pt", &genJetPt, "GenJet_pt[nGenJet]/F");
+      outputTree->Branch("GenJet_mass", &genJetMass, "GenJet_mass[nGenJet]/F");
+      outputTree->Branch("GenJet_partonFlavour", &genJetPartonFlavor, "GenJet_partonFlavour[nGenJet]/I");
+    }
+
 
     cout << "Run With Option = " << Option << "\n";
     
-    if (Option == 0) cout << "Option = 100 : No Cuts \n";
+    if (Option == 0) cout << "Option = 0 : No Cuts \n";
     if (Option == 2) cout << "Option = 2 : Select FatJets with pT > 200 GeV and PNetXbb > 0.8 only\n";
     if (Option == 5) cout << "Option = 5 : Select Events with FatJet1 pT > 200 GeV and PNetXbb > 0.8 only\n";
     if (Option == 10) cout << "Option = 10 : Select FatJets with pT > 200 GeV and tau3/tau2 < 0.54 only\n";
@@ -1099,10 +1114,30 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       vbffatJet2Phi = -99;
       vbffatJet2PNetXbb = -99;
 
+      for(int i = 0; i < nGenJet; i++) {
+	genJetEta[i] = -999;
+	genJetPhi[i] = -999;
+ 	genJetPt[i] = -999;
+ 	genJetMass[i] = -999;
+ 	genJetPartonFlavor[i] = -999;
+      }
+
       //------------------------------
       //----Event variables------------
       //------------------------------
       MET = MET_pt;
+
+      //------------------------------
+      //----gen-jets------------
+      //------------------------------
+      for(int i = 0; i < nGenJet; i++) {
+	genJetEta[i] = GenJet_eta[i];
+	genJetPhi[i] = GenJet_phi[i];
+ 	genJetPt[i] = GenJet_pt[i];
+ 	genJetMass[i] = GenJet_mass[i];
+ 	genJetPartonFlavor[i] = GenJet_partonFlavour[i];
+      }
+
 
       //------------------------------
       //----find gen-higgs------------
