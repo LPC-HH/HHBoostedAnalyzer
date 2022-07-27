@@ -333,6 +333,8 @@ datasetList['nano/v1/2018/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8.list'] =
 #datasetList['nano/v1/2018/GJets_DR-0p4_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2, "2018", "GJets_DR-0p4_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8"]
 #datasetList['nano/v1/2018/GJets_DR-0p4_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2, "2018", "GJets_DR-0p4_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8"]
 #datasetList['nano/v1/2018/GJets_DR-0p4_HT-600ToInf_TuneCP5_13TeV-madgraphMLM-pythia8.list'] = [0, 2, "2018", "GJets_DR-0p4_HT-600ToInf_TuneCP5_13TeV-madgraphMLM-pythia8"]
+datasetList['nano/v1/2018/HHHTo6b_SM.list'] = [0, 2, "2018", "HHHTo6b_SM"]
+datasetList['nano/v1/2018/HHHTo4b2g_SM.list'] = [0, 2, "2018", "HHHTo4b2g_SM"]
 
 
 CMSSW_BASE_DIR = os.getenv('CMSSW_BASE')
