@@ -40,6 +40,16 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
     float MET = -1;
     int NJets = 0;
     int NBTags = 0;
+    //tau
+    unsigned int nTaus = 0;//other variable for ID taus
+    float tauPt[20];
+    float tauEta[20];
+    float tauPhi[20];
+    //gen tau
+    int nGenTau = 0;
+    float genTauPt[5];
+    float genTauEta[5];
+    float genTauPhi[5];
 
     //------------------------
     //set branches on big tree
@@ -47,16 +57,25 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
     outputTree->Branch("weight", &weight, "weight/F");
     outputTree->Branch("genZ_Pt", &genZ_Pt, "genZ_Pt/F");
     outputTree->Branch("genZ_Eta", &genZ_Eta, "genZ_Eta/F");
-  //   outputTree->Branch("lep1Id", &lep1Id, "lep1Id/I");
-  //   outputTree->Branch("lep1Pt", &lep1Pt, "lep1Pt/F");
-  //   outputTree->Branch("lep1Eta", &lep1Eta, "lep1Eta/F");
-  //   outputTree->Branch("lep1Phi", &lep1Phi, "lep1Phi/F");
-  //   outputTree->Branch("lep2Id", &lep2Id, "lep2Id/I");
-  //   outputTree->Branch("lep2Pt", &lep2Pt, "lep2Pt/F");
-  //   outputTree->Branch("lep2Eta", &lep2Eta, "lep2Eta/F");
-  //   outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
+    
+    outputTree->Branch("lep1Id", &lep1Id, "lep1Id/I");
+    outputTree->Branch("lep1Pt", &lep1Pt, "lep1Pt/F");
+    outputTree->Branch("lep1Eta", &lep1Eta, "lep1Eta/F");
+    outputTree->Branch("lep1Phi", &lep1Phi, "lep1Phi/F");
+    outputTree->Branch("lep2Id", &lep2Id, "lep2Id/I");
+    outputTree->Branch("lep2Pt", &lep2Pt, "lep2Pt/F");
+    outputTree->Branch("lep2Eta", &lep2Eta, "lep2Eta/F");
+    outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
+    
+    //tau
+    
+    outputTree->Branch("nTau", &nTaus, "nTau/i");
+    outputTree->Branch("tauPt", tauPt, "tauPt[nTau]/F");
+    outputTree->Branch("tauEta", tauEta, "tauEta[nTau]/F");
+    outputTree->Branch("tauPhi", tauPhi, "tauPhi[nTau]/F");
+    
   //   outputTree->Branch("dileptonMass", &dileptonMass, "dileptonMass/F");
-  //   outputTree->Branch("MET", &MET, "MET/F");
+    outputTree->Branch("MET", &MET, "MET/F");
   //   outputTree->Branch("NJets", &NJets, "NJets/I");
   //   outputTree->Branch("NBTags", &NBTags, "NBTags/I");
 
@@ -118,6 +137,15 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
 	}
       }
       
+      //reset taus
+      nTaus  = 0;
+      for( int i = 0; i < 20; i++)
+	{
+	  tauPt[i] = 0.0;
+	  tauEta[i] = 0.0;
+	  tauPhi[i] = 0.0;
+	}
+
       //***********************
       //Select Leptons
       //***********************
@@ -151,6 +179,22 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
 	GoodLeptons.push_back(thisElectron);
       }
 
+      for(int i = 0; i < nTau;  i++){
+        if(Tau_pt[i] < 20) continue;
+        if(abs(Tau_eta[i]) > 2.3) continue;
+        if (!( Tau_idDeepTau2017v2p1VSjet[i] > 16 && Tau_idDeepTau2017v2p1VSe[i] > 1 && Tau_idDeepTau2017v2p1VSmu[i] > 0 )) continue;//pass tau id against jets, muon, electron (med,VVL,VL)
+        GoodLeptonId.push_back(15 * Tau_charge[i]);
+	GoodLeptonPt.push_back(Tau_pt[i]);
+        GoodLeptonEta.push_back(Tau_eta[i]);
+	GoodLeptonPhi.push_back(Tau_phi[i]);
+	tauPt[nTaus] = Tau_pt[i];
+	tauEta[nTaus] = Tau_eta[i];
+	tauPhi[nTaus] = Tau_phi[i];
+	nTaus++;
+        TLorentzVector thisTau; thisTau.SetPtEtaPhiM(Tau_pt[i], Tau_eta[i], Tau_phi[i], 1.77686);
+        GoodLeptons.push_back(thisTau);
+      }
+
       TLorentzVector lep1;
       TLorentzVector lep2;
       for (int i=0; i<GoodLeptonId.size();i++) {
@@ -180,6 +224,12 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
 	if (Jet_pt[i] > 30 && Jet_btagCSVV2[i] > 0.5803) NBTags++;
       }
      
+      //*************************
+      //TAUS
+      //*************************
+      std::cout << " BLAH" << std::endl;
+
+
 
       //***********************
       //Fill Event
