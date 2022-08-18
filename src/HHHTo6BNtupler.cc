@@ -525,18 +525,22 @@ void HHHTo6BNtupler::Analyze(bool isData, int Option, string outputfilename, str
     float jet1Eta = -99;
     float jet1Phi = -99;
     float jet1DeepJetBTag = -99;
+    bool  jet1BTag = false;
     float jet2Pt = -99;
     float jet2Eta = -99;
     float jet2Phi = -99;
     float jet2DeepJetBTag = -99;
+    bool  jet2BTag = false;
     float jet3Pt = -99;
     float jet3Eta = -99;
     float jet3Phi = -99;
     float jet3DeepJetBTag = -99;
+    bool  jet3BTag = false;
     float jet4Pt = -99;
     float jet4Eta = -99;
     float jet4Phi = -99;
     float jet4DeepJetBTag = -99;
+    bool  jet4BTag = false;
     int   nBTaggedJets = 0;
     //variables for overlap removal with VBF HH->4b boosted analysis
     int isVBFtag = 0;
@@ -659,18 +663,22 @@ void HHHTo6BNtupler::Analyze(bool isData, int Option, string outputfilename, str
       outputTree->Branch("jet1Eta", &jet1Eta, "jet1Eta/F");
       outputTree->Branch("jet1Phi", &jet1Phi, "jet1Phi/F");
       outputTree->Branch("jet1DeepJetBTag", &jet1DeepJetBTag, "jet1DeepJetBTag/F");      
+      outputTree->Branch("jet1BTag", &jet1BTag, "jet1BTag/O");
       outputTree->Branch("jet2Pt", &jet2Pt, "jet2Pt/F");
       outputTree->Branch("jet2Eta", &jet2Eta, "jet2Eta/F");
       outputTree->Branch("jet2Phi", &jet2Phi, "jet2Phi/F");
       outputTree->Branch("jet2DeepJetBTag", &jet2DeepJetBTag, "jet2DeepJetBTag/F");      
+      outputTree->Branch("jet2BTag", &jet2BTag, "jet2BTag/O");
       outputTree->Branch("jet3Pt", &jet3Pt, "jet3Pt/F");
       outputTree->Branch("jet3Eta", &jet3Eta, "jet3Eta/F");
       outputTree->Branch("jet3Phi", &jet3Phi, "jet3Phi/F");
       outputTree->Branch("jet3DeepJetBTag", &jet3DeepJetBTag, "jet3DeepJetBTag/F");      
+      outputTree->Branch("jet3BTag", &jet3BTag, "jet3BTag/O");
       outputTree->Branch("jet4Pt", &jet4Pt, "jet4Pt/F");
       outputTree->Branch("jet4Eta", &jet4Eta, "jet4Eta/F");
       outputTree->Branch("jet4Phi", &jet4Phi, "jet4Phi/F");
       outputTree->Branch("jet4DeepJetBTag", &jet4DeepJetBTag, "jet4DeepJetBTag/F");      
+      outputTree->Branch("jet4BTag", &jet4BTag, "jet4BTag/O");
    }
 
 
@@ -1144,18 +1152,22 @@ void HHHTo6BNtupler::Analyze(bool isData, int Option, string outputfilename, str
       jet1Eta = -99;
       jet1Phi = -99;
       jet1DeepJetBTag = -99;
+      jet1BTag = false;
       jet2Pt = -99;
       jet2Eta = -99;
       jet2Phi = -99;
       jet2DeepJetBTag = -99;
+      jet2BTag = false;
       jet3Pt = -99;
       jet3Eta = -99;
       jet3Phi = -99;
       jet3DeepJetBTag = -99;
+      jet3BTag = false;
       jet4Pt = -99;
       jet4Eta = -99;
       jet4Phi = -99;
       jet4DeepJetBTag = -99;
+      jet4BTag = false;
       nBTaggedJets = 0;
       //variables for overlap removal with VBF HH->4b boosted analysis
       isVBFtag = 0;
@@ -1933,9 +1945,10 @@ void HHHTo6BNtupler::Analyze(bool isData, int Option, string outputfilename, str
 
       }
 
-      //*******************************
-      //Count additional AK4 jets 
-      //*******************************
+      //*******************************************************
+      //Find additional AK4 jets for resolved Higgs Candidates
+      //*******************************************************
+      vector<int> ak4jets_index; ak4jets_index.clear();
       vector<int> vbfjets_index;
       vbfjets_index.clear();
       for(int i = 0; i < nJet; i++) {
@@ -1946,68 +1959,25 @@ void HHHTo6BNtupler::Analyze(bool isData, int Option, string outputfilename, str
 	  NJets++;
 	}
 
-	bool passBTag = false;
-	if (year == "2018") {
-	  if (Jet_pt[i] > 40 && fabs(Jet_eta[i]) < 2.5
-	      && Jet_btagDeepFlavB[i] > 0.2770
-	      && Jet_puId[i] >= 2	
-	      && Jet_jetId[i] >= 4
-	      ) {
-	    passBTag = true;
-	  }
-	} else if (year == "2017" ) {
-	  if (Jet_pt[i] > 40 && fabs(Jet_eta[i]) < 2.5
-	      && Jet_btagDeepFlavB[i] > 0.3033
-	      && Jet_puId[i] >= 2
-	      && Jet_jetId[i] >= 4
-	      ) {
-	    passBTag = true;
-	  }
-	} else if (year == "2016") {
-	  if (Jet_pt[i] > 30 && fabs(Jet_eta[i]) < 2.4
-	      && Jet_btagDeepFlavB[i] > 0.3033
-	      && Jet_puId[i] >= 2
-	      && Jet_jetId[i] >= 4
-	      ) {
-	    passBTag = true;
-	  }
-	}
-	
-	if (passBTag) {
-	  nBTaggedJets++;
-
-	  if (nBTaggedJets==1) {
-	    jet1Pt = Jet_pt[i];
-	    jet1Eta = Jet_eta[i];
-	    jet1Phi = Jet_phi[i];
-	  }
-	  if (nBTaggedJets==2) {
-	    jet2Pt = Jet_pt[i];
-	    jet2Eta = Jet_eta[i];
-	    jet2Phi = Jet_phi[i];
-	  }
-	  if (nBTaggedJets==3) {
-	    jet3Pt = Jet_pt[i];
-	    jet3Eta = Jet_eta[i];
-	    jet3Phi = Jet_phi[i];
-	  }
-	  if (nBTaggedJets==4) {
-	    jet4Pt = Jet_pt[i];
-	    jet4Eta = Jet_eta[i];
-	    jet4Phi = Jet_phi[i];
-	  }
-
-
+	if (Jet_pt[i] > 30 && fabs(Jet_eta[i]) < 2.5
+	    && !(fatJet1PNetXbb > 0.9 && deltaR(Jet_eta[i] , Jet_phi[i], fatJet1Eta, fatJet1Phi) < 0.8)
+	    && !(fatJet2PNetXbb > 0.9 && deltaR(Jet_eta[i] , Jet_phi[i], fatJet2Eta, fatJet2Phi) < 0.8)
+	    && !(fatJet3PNetXbb > 0.9 && deltaR(Jet_eta[i] , Jet_phi[i], fatJet3Eta, fatJet3Phi) < 0.8)
+	    ) {
+	  ak4jets_index.push_back(i);
 	}
 
-      //find AK4 jets for VBF HH->4b analysis
-      //Pick a pair of opposite-η jets that maximizes mjj
-      //pT>25 GeV, |η|<4.7, lepton cleaning (ΔR(j,e/μ)>0.4), AK8 jet cleaning (ΔR(j,AK8)>0.4),pass tight jet ID and medium pileup jet ID
-      //Δη(jj) > 4.0 and mjjmax > 600 GeV, |ηtag jet|>1.5 for both jets
-      if (Jet_pt[i] > 25 && fabs(Jet_eta[i]) < 4.7
+	//******************************************************
+	//find AK4 jets for VBF HH->4b analysis
+	//Pick a pair of opposite-η jets that maximizes mjj
+	//pT>25 GeV, |η|<4.7, lepton cleaning (ΔR(j,e/μ)>0.4), 
+	//AK8 jet cleaning (ΔR(j,AK8)>0.4),pass tight jet ID and medium pileup jet ID
+	//Δη(jj) > 4.0 and mjjmax > 600 GeV, |ηtag jet|>1.5 for both jets
+	//******************************************************
+	if (Jet_pt[i] > 25 && fabs(Jet_eta[i]) < 4.7
 	    && deltaR(Jet_eta[i] , Jet_phi[i], vbffatJet1Eta, vbffatJet1Phi) > 1.2
 	    && deltaR(Jet_eta[i] , Jet_phi[i], vbffatJet2Eta, vbffatJet2Phi) > 1.2
-        && Jet_jetId[i] >= 2 && ((Jet_pt[i] <50 && Jet_puId[i] >= 6 )||Jet_pt[i] >50)){
+	    && Jet_jetId[i] >= 2 && ((Jet_pt[i] <50 && Jet_puId[i] >= 6 )||Jet_pt[i] >50)){
           if (year == "2016"){
             if (Jet_jetId[i] < 3) continue;
           }
@@ -2015,22 +1985,24 @@ void HHHTo6BNtupler::Analyze(bool isData, int Option, string outputfilename, str
           bool islepoverlap = false;
           for(unsigned int j = 0; j < nMuon; j++ ) { 
 	    if(Muon_pt[j]>5 && fabs(Muon_eta[j])<2.4 && abs(Muon_dxy[j]) < 0.05 and abs(Muon_dz[j]) < 0.2 && deltaR(Jet_eta[i] , Jet_phi[i], Muon_eta[j], Muon_phi[j]) < 0.4){
-                  islepoverlap = true;
-                  break;
-              }
+	      islepoverlap = true;
+	      break;
+	    }
           }
           for(unsigned int j = 0; j < nElectron; j++ ) { 
 	    if(Electron_pt[j]>7 && fabs(Electron_eta[j])<2.5 && abs(Electron_dxy[j]) < 0.05 and abs(Electron_dz[j]) < 0.2 && deltaR(Jet_eta[i] , Jet_phi[i], Electron_eta[j], Electron_phi[j]) < 0.4){
-                  islepoverlap = true;
-                  break;
-              }
+	      islepoverlap = true;
+	      break;
+	    }
           }
           if(!islepoverlap) vbfjets_index.push_back(i);  
-      }   
+	}   
       
       } //loop over AK4 jets
       
-      //get the AK4 jets with the largest pt
+      //************************************************************
+      //get the AK4 jets with the largest pt for VBF selection
+      //************************************************************
       if(vbfjets_index.size()>1){
 	vbfjet1Pt = Jet_pt[vbfjets_index[0]];
 	vbfjet1Eta = Jet_eta[vbfjets_index[0]];
@@ -2048,7 +2020,75 @@ void HHHTo6BNtupler::Analyze(bool isData, int Option, string outputfilename, str
 	if(dijetmass > 500. && fabs(vbfjet1Eta-vbfjet2Eta) > 4.) isVBFtag = 1;
       }
     
-        
+      //************************************************************
+      //Save the AK4 jets for resolved Higgs candidates
+      //************************************************************
+      //sort by decreasing b-tag discriminator
+      for(int p = 0; p<ak4jets_index.size(); p++) {
+	for(int q = p+1; q<ak4jets_index.size(); q++) {	  
+	  if(Jet_btagDeepFlavB[ak4jets_index[q]] > Jet_btagDeepFlavB[ak4jets_index[p]]) {
+	    int temp = ak4jets_index[p];
+	    ak4jets_index[p] = ak4jets_index[q];
+	    ak4jets_index[q] = temp;
+	  }
+	}
+      }
+           
+
+      for(int q = 0; q < ak4jets_index.size(); q++) {
+
+	bool passBTag = false;
+	if (year == "2018") {
+	  if (Jet_pt[ak4jets_index[q]] > 40 && fabs(Jet_eta[ak4jets_index[q]]) < 2.5
+	      && Jet_btagDeepFlavB[ak4jets_index[q]] > 0.2770
+	      && Jet_puId[ak4jets_index[q]] >= 2	
+	      && Jet_jetId[ak4jets_index[q]] >= 4
+	      ) {
+	    passBTag = true;
+	  }
+	} else if (year == "2017" ) {
+	  if (Jet_pt[ak4jets_index[q]] > 40 && fabs(Jet_eta[ak4jets_index[q]]) < 2.5
+	      && Jet_btagDeepFlavB[ak4jets_index[q]] > 0.3033
+	      && Jet_puId[ak4jets_index[q]] >= 2
+	      && Jet_jetId[ak4jets_index[q]] >= 4
+	      ) {
+	    passBTag = true;
+	  }
+	} else if (year == "2016") {
+	  if (Jet_pt[ak4jets_index[q]] > 30 && fabs(Jet_eta[ak4jets_index[q]]) < 2.4
+	      && Jet_btagDeepFlavB[ak4jets_index[q]] > 0.3033
+	      && Jet_puId[ak4jets_index[q]] >= 2
+	      && Jet_jetId[ak4jets_index[q]] >= 4
+	      ) {
+	    passBTag = true;
+	  }
+	}
+	
+	//Fill the top-4 AK4 jets
+	if (jet1Pt < 0) {
+	  jet1Pt = Jet_pt[ak4jets_index[q]];
+	  jet1Eta = Jet_eta[ak4jets_index[q]];
+	  jet1Phi = Jet_phi[ak4jets_index[q]];
+	  jet1BTag = passBTag;
+	} else if (jet2Pt < 0) {
+	  jet2Pt = Jet_pt[ak4jets_index[q]];
+	  jet2Eta = Jet_eta[ak4jets_index[q]];
+	  jet2Phi = Jet_phi[ak4jets_index[q]];
+	  jet2BTag = passBTag;
+	} else if (jet3Pt < 0) {
+	  jet3Pt = Jet_pt[ak4jets_index[q]];
+	  jet3Eta = Jet_eta[ak4jets_index[q]];
+	  jet3Phi = Jet_phi[ak4jets_index[q]];
+	  jet3BTag = passBTag;
+	} else if (jet4Pt < 0) {
+	  jet4Pt = Jet_pt[ak4jets_index[q]];
+	  jet4Eta = Jet_eta[ak4jets_index[q]];
+	  jet4Phi = Jet_phi[ak4jets_index[q]];
+	  jet4BTag = passBTag;
+	}
+      } //loop over cleaned AK4 jets
+
+
       //****************************************************
       //Fill Event - skim for events with two jets found
       //****************************************************
