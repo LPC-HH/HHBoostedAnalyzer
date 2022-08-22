@@ -8,6 +8,13 @@
 
 using namespace std;
 
+int VLLntupler::FindMotherIndex(int dautherIndex)
+{
+  if( GenPart_pdgId[GenPart_genPartIdxMother[dautherIndex]] != GenPart_pdgId[dautherIndex] ) return GenPart_genPartIdxMother[dautherIndex];
+  else( FindMotherIndex( GenPart_genPartIdxMother[dautherIndex] ) );
+};
+
+
 void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string label, string pileupWeightName)
 {
  
@@ -47,9 +54,19 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
     float tauPhi[20];
     //gen tau
     int nGenTau = 0;
-    float genTauPt[5];
-    float genTauEta[5];
-    float genTauPhi[5];
+    float genTau_Pt[5];
+    float genTau_Eta[5];
+    float genTau_Phi[5];
+    //gen LLP
+    int nGenLLP = 0;
+    float genLLP_Pt[5];
+    float genLLP_Eta[5];
+    float genLLP_Phi[5];
+    //gen VLL
+    int nGenVLL = 0;
+    float genVLL_Pt[5];
+    float genVLL_Eta[5];
+    float genVLL_Phi[5];
 
     //------------------------
     //set branches on big tree
@@ -68,11 +85,15 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
     outputTree->Branch("lep2Phi", &lep2Phi, "lep2Phi/F");
     
     //tau
-    
     outputTree->Branch("nTau", &nTaus, "nTau/i");
     outputTree->Branch("tauPt", tauPt, "tauPt[nTau]/F");
     outputTree->Branch("tauEta", tauEta, "tauEta[nTau]/F");
     outputTree->Branch("tauPhi", tauPhi, "tauPhi[nTau]/F");
+    //gen tau
+    outputTree->Branch("nGenTau", &nGenTau, "nGenTau/i");
+    outputTree->Branch("genTau_Pt", genTau_Pt, "genTau_Pt[nGenTau]/F");
+    outputTree->Branch("genTau_Eta", genTau_Eta, "genTau_Eta[nGenTau]/F");
+    outputTree->Branch("genTau_Phi", genTau_Phi, "genTau_Phi[nGenTau]/F");
     
   //   outputTree->Branch("dileptonMass", &dileptonMass, "dileptonMass/F");
     outputTree->Branch("MET", &MET, "MET/F");
@@ -144,6 +165,15 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
 	  tauPt[i] = 0.0;
 	  tauEta[i] = 0.0;
 	  tauPhi[i] = 0.0;
+	}
+      
+      //reset genTaus
+      nGenTau = 0;
+      for( int i = 0; i < 5; i++)
+        {
+	  genTau_Pt[i]  = 0.0;
+	  genTau_Eta[i] = 0.0;
+	  genTau_Phi[i] = 0.0;
 	}
 
       //***********************
@@ -225,9 +255,36 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
       }
      
       //*************************
-      //TAUS
+      //Gen Taus
       //*************************
-      std::cout << " BLAH" << std::endl;
+      for( int i = 0; i < nGenPart; i++)
+	{
+	  if( abs(GenPart_pdgId[i]) ==  15 && GenPart_status[i] == 2  && abs(GenPart_pdgId[FindMotherIndex(i)]) == 5000002 )
+	    {
+	      genTau_Pt[nGenTau] = GenPart_pt[i];
+	      genTau_Eta[nGenTau] = GenPart_eta[i];
+	      genTau_Phi[nGenTau] = GenPart_phi[i];
+	      nGenTau++;
+	    }
+	}
+
+      //match Reco Taus to Gen taus
+      std::cout << "=============================" << std::endl;
+      for (int i = 0; i < nTaus; i++)
+	{
+	  float minDeltaR = 999.;
+	  TLorentzVector thisTau; thisTau.SetPtEtaPhiM(Tau_pt[i], Tau_eta[i], Tau_phi[i], 1.77686);
+	  for( int j = 0; j < nGenTau; j++ )
+	    {
+	      TLorentzVector thisGenTau; thisGenTau.SetPtEtaPhiM(genTau_Pt[j], genTau_Eta[j], genTau_Phi[j], 1.77686);
+	      if ( thisTau.DeltaR( thisGenTau ) < minDeltaR )
+		{
+		  minDeltaR = thisTau.DeltaR( thisGenTau );
+		}
+	      //std::cout << i << " minDR: " << minDeltaR << std::endl;
+	    }
+	  std::cout<< i << " minDR: " << minDeltaR<< std::endl;
+	}
 
 
 
