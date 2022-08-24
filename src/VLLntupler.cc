@@ -52,6 +52,7 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
     float tauPt[20];
     float tauEta[20];
     float tauPhi[20];
+    float tauDeltaR[20];
     //gen tau
     int nGenTau = 0;
     float genTau_Pt[5];
@@ -89,6 +90,8 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
     outputTree->Branch("tauPt", tauPt, "tauPt[nTau]/F");
     outputTree->Branch("tauEta", tauEta, "tauEta[nTau]/F");
     outputTree->Branch("tauPhi", tauPhi, "tauPhi[nTau]/F");
+    outputTree->Branch("tauDeltaR", tauDeltaR, "tauDeltaR[nTau]/F");
+
     //gen tau
     outputTree->Branch("nGenTau", &nGenTau, "nGenTau/i");
     outputTree->Branch("genTau_Pt", genTau_Pt, "genTau_Pt[nGenTau]/F");
@@ -165,6 +168,7 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
 	  tauPt[i] = 0.0;
 	  tauEta[i] = 0.0;
 	  tauPhi[i] = 0.0;
+	  tauDeltaR[i] = 0.0;
 	}
       
       //reset genTaus
@@ -284,6 +288,7 @@ void VLLntupler::Analyze(bool isData, int Option, string outputfilename, string 
 	      //std::cout << i << " minDR: " << minDeltaR << std::endl;
 	    }
 	  std::cout<< i << " minDR: " << minDeltaR<< std::endl;
+	  tauDeltaR[i] = minDeltaR;
 	}
 
 
