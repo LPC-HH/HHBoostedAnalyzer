@@ -71,7 +71,7 @@ datasets = {
 # /TTJets_SingleLeptFromT_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM
 # /TTJets_SingleLeptFromTbar_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM
 
-
+    "VLLPair_VLLToTauS_MVLL1000_MS10_ctau100":"/VLLPair_VLLToTauS_MVLL1000_MS10_ctau100/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL1000_MS10_ctau100_batch1_v1-00000000000000000000000000000000/USER"
 }
 
 # if (len(sys.argv) -1 < 1):
@@ -86,8 +86,8 @@ for processName in datasets.keys():
 
     outputFile = open(processName+".list","w")
     print processName
-    #command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " instance=prod/phys03 \" -json > tmpOutput.json"
-    command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " \" -json > tmpOutput.json"
+    command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " instance=prod/phys03 \" -json > tmpOutput.json"
+    #command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " \" -json > tmpOutput.json"
     print (command)
     os.system(command)
 
