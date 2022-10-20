@@ -71,7 +71,14 @@ datasets = {
 # /TTJets_SingleLeptFromT_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM
 # /TTJets_SingleLeptFromTbar_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM
 
-    "VLLPair_VLLToTauS_MVLL1000_MS10_ctau100":"/VLLPair_VLLToTauS_MVLL1000_MS10_ctau100/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL1000_MS10_ctau100_batch1_v1-00000000000000000000000000000000/USER"
+
+
+
+
+    #"VLLPair_VLLToTauS_MVLL1000_MS10_ctau100":"/VLLPair_VLLToTauS_MVLL1000_MS10_ctau100/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL1000_MS10_ctau100_batch1_v1-00000000000000000000000000000000/USER",
+    #"VLLPair_VLLToTauS_MVLL200_MS10_ctau300":"/VLLPair_VLLToTauS_MVLL200_MS10_ctau300/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL200_MS10_ctau300_batch2_v1-00000000000000000000000000000000/USER",
+    #"VLLPair_VLLToTauS_MVLL300_MS10_ctau300":"/VLLPair_VLLToTauS_MVLL300_MS10_ctau300/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL300_MS10_ctau300_batch2_v1-00000000000000000000000000000000/USER",
+    "VLLPair_VLLToTauS_MVLL700_MS10_ctau100":"/VLLPair_VLLToTauS_MVLL700_MS10_ctau100/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL700_MS10_ctau100_batch2_v1-00000000000000000000000000000000/USER",
 }
 
 # if (len(sys.argv) -1 < 1):
