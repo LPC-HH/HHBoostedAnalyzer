@@ -22,6 +22,15 @@ datasets = {
 # "JetHT_2016F":"/JetHT/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
 # "JetHT_2016G":"/JetHT/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
 # "JetHT_2016H":"/JetHT/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "MET_2016B-v1_HIPM":"/MET/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "MET_2016B-v2_HIPM":"/MET/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "MET_2016C_HIPM":"/MET/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "MET_2016D_HIPM":"/MET/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "MET_2016E_HIPM":"/MET/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "MET_2016F_HIPM":"/MET/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "MET_2016F":"/MET/Run2016F-UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "MET_2016G":"/MET/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "MET_2016H":"/MET/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
 
 # ####################################################################################################
 # #2017 Datasets
@@ -31,7 +40,11 @@ datasets = {
 #"JetHT_2017D":"/JetHT/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
 #"JetHT_2017E":"/JetHT/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
 #"JetHT_2017F":"/JetHT/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
-
+# "MET_2017B":"/MET/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "MET_2017C":"/MET/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "MET_2017D":"/MET/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "MET_2017E":"/MET/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "MET_2017F":"/MET/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
 ####################################################################################################
 #2018 Datasets
 ####################################################################################################   
@@ -39,6 +52,10 @@ datasets = {
 #"JetHT_2018B":"/JetHT/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
 #"JetHT_2018C":"/JetHT/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
 #"JetHT_2018D":"/JetHT/Run2018D-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD",
+#"MET_2018A":"/MET/Run2018A-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD",
+#"MET_2018B":"/MET/Run2018B-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD",
+#"MET_2018C":"/MET/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
+#"MET_2018D":"/MET/Run2018D-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
 
 # "DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-sherpa":"/DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-sherpa/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM",
 # "DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-sherpa":"/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-sherpa/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM",
@@ -93,8 +110,8 @@ for processName in datasets.keys():
 
     outputFile = open(processName+".list","w")
     print processName
-    command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " instance=prod/phys03 \" -json > tmpOutput.json"
-    #command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " \" -json > tmpOutput.json"
+    #command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " instance=prod/phys03 \" -json > tmpOutput.json"
+    command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " \" -json > tmpOutput.json"
     print (command)
     os.system(command)
 
