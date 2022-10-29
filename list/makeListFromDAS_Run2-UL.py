@@ -31,7 +31,15 @@ datasets = {
 # "MET_2016F":"/MET/Run2016F-UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
 # "MET_2016G":"/MET/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
 # "MET_2016H":"/MET/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
-
+# "SingleMuon_2016B-v1_HIPM":"/SingleMuon/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "SingleMuon_2016B-v2_HIPM":"/SingleMuon/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "SingleMuon_2016C_HIPM":"/SingleMuon/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "SingleMuon_2016D_HIPM":"/SingleMuon/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "SingleMuon_2016E_HIPM":"/SingleMuon/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "SingleMuon_2016F_HIPM":"/SingleMuon/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "SingleMuon_2016F":"/SingleMuon/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "SingleMuon_2016G":"/SingleMuon/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "SingleMuon_2016H":"/SingleMuon/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
 # ####################################################################################################
 # #2017 Datasets
 # ####################################################################################################   
@@ -45,6 +53,13 @@ datasets = {
 # "MET_2017D":"/MET/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
 # "MET_2017E":"/MET/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
 # "MET_2017F":"/MET/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "SingleMuon_2017B":"/SingleMuon/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "SingleMuon_2017C":"/SingleMuon/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "SingleMuon_2017D":"/SingleMuon/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "SingleMuon_2017E":"/SingleMuon/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "SingleMuon_2017F":"/SingleMuon/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "SingleMuon_2017G":"/SingleMuon/Run2017G-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "SingleMuon_2017H":"/SingleMuon/Run2017H-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
 ####################################################################################################
 #2018 Datasets
 ####################################################################################################   
@@ -56,6 +71,10 @@ datasets = {
 #"MET_2018B":"/MET/Run2018B-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD",
 #"MET_2018C":"/MET/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
 #"MET_2018D":"/MET/Run2018D-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
+#"SingleMuon_2018A":"/SingleMuon/Run2018A-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD",
+#"SingleMuon_2018B":"/SingleMuon/Run2018B-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD",
+#"SingleMuon_2018C":"/SingleMuon/Run2018C-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD",
+#"SingleMuon_2018D":"/SingleMuon/Run2018D-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
 
 # "DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-sherpa":"/DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-sherpa/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM",
 # "DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-sherpa":"/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-sherpa/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM",
@@ -95,7 +114,7 @@ datasets = {
     #"VLLPair_VLLToTauS_MVLL1000_MS10_ctau100":"/VLLPair_VLLToTauS_MVLL1000_MS10_ctau100/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL1000_MS10_ctau100_batch1_v1-00000000000000000000000000000000/USER",
     #"VLLPair_VLLToTauS_MVLL200_MS10_ctau300":"/VLLPair_VLLToTauS_MVLL200_MS10_ctau300/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL200_MS10_ctau300_batch2_v1-00000000000000000000000000000000/USER",
     #"VLLPair_VLLToTauS_MVLL300_MS10_ctau300":"/VLLPair_VLLToTauS_MVLL300_MS10_ctau300/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL300_MS10_ctau300_batch2_v1-00000000000000000000000000000000/USER",
-    "VLLPair_VLLToTauS_MVLL700_MS10_ctau100":"/VLLPair_VLLToTauS_MVLL700_MS10_ctau100/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL700_MS10_ctau100_batch2_v1-00000000000000000000000000000000/USER",
+    #"VLLPair_VLLToTauS_MVLL700_MS10_ctau100":"/VLLPair_VLLToTauS_MVLL700_MS10_ctau100/lpclonglived-crab_PrivateProduction_UL18_DR_step5_VLLPair_VLLToTauS_MVLL700_MS10_ctau100_batch2_v1-00000000000000000000000000000000/USER",
 }
 
 # if (len(sys.argv) -1 < 1):
