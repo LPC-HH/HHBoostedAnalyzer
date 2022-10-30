@@ -49,6 +49,15 @@ datasets = {
 # "SingleElectron_2016F":"/SingleElectron/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
 # "SingleElectron_2016G":"/SingleElectron/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
 # "SingleElectron_2016H":"/SingleElectron/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "Tau_2016B-v1_HIPM":"/Tau/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "Tau_2016B-v2_HIPM":"/Tau/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "Tau_2016C_HIPM":"/Tau/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "Tau_2016D_HIPM":"/Tau/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "Tau_2016E_HIPM":"/Tau/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "Tau_2016F_HIPM":"/Tau/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "Tau_2016F":"/Tau/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "Tau_2016G":"/Tau/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "Tau_2016H":"/Tau/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD",
 
 
 # ####################################################################################################
@@ -76,6 +85,11 @@ datasets = {
 # "SingleElectron_2017D":"/SingleElectron/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
 # "SingleElectron_2017E":"/SingleElectron/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
 # "SingleElectron_2017F":"/SingleElectron/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "Tau_2017B":"/Tau/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "Tau_2017C":"/Tau/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "Tau_2017D":"/Tau/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
+# "Tau_2017E":"/Tau/Run2017E-UL2017_MiniAODv2_NanoAODv9-v2/NANOAOD",
+# "Tau_2017F":"/Tau/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD",
 
 ####################################################################################################
 #2018 Datasets
@@ -96,6 +110,12 @@ datasets = {
 #"EGamma_2018B":"/EGamma/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
 #"EGamma_2018C":"/EGamma/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
 #"EGamma_2018D":"/EGamma/Run2018D-UL2018_MiniAODv2_NanoAODv9-v3/NANOAOD",
+#"Tau_2018A":"/Tau/Run2018A-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
+#"Tau_2018B":"/Tau/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
+#"Tau_2018C":"/Tau/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD",
+#"Tau_2018D":"/Tau/Run2018D-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD",
+
+
 
 # "DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-sherpa":"/DiPhotonJetsBox1BJet_MGG-80toInf_13TeV-sherpa/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM",
 # "DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-sherpa":"/DiPhotonJetsBox2BJets_MGG-80toInf_13TeV-sherpa/RunIISummer20UL18NanoAODv9-106X_upgrade2018_realistic_v16_L1v1-v1/NANOAODSIM",
