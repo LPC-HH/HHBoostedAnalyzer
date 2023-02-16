@@ -25,7 +25,7 @@ sampleName=$9
 workDir=`pwd`
 executable=Run${analysisType}
 source /cvmfs/cms.cern.ch/cmsset_default.sh
-export SCRAM_ARCH=slc7_amd64_gcc820
+export SCRAM_ARCH=slc7_amd64_gcc10
 #tar -zxvf cms_setup.tar.gz
 scramv1 project CMSSW $cmsswReleaseVersion
 

@@ -29,7 +29,7 @@ outputfile = "HHTo4BNtuple" + "_" + label
 #analysis = "MakeMCPileupDistribution"
 #outputfile = "MCPileupDistribution" + "_" + label
 
-cmsswReleaseVersion = "CMSSW_10_6_5"
+cmsswReleaseVersion = "CMSSW_12_6_3"
 
 
 
