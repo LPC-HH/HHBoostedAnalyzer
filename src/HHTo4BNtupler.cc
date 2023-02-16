@@ -144,6 +144,9 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       } else if (year == "2018") {
 	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root";
 	triggerEffMCFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall18.root";
+      } else if (year == "2022") {
+	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root";
+	triggerEffMCFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall18.root";
       } else {
 	cout << "[HHTo4BNtupler] Warning: year " << year << " is not supported. \n";
       }
@@ -247,6 +250,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	float tmp_jms[] = {0.997, 0.993, 1.001};
 	jmsValues = tmp_jms;
       }
+    else if(year == "2022")
+      {
+	float tmp_jms[] = {0.997, 0.993, 1.001};
+	jmsValues = tmp_jms;
+      }
     else
       {
 	std::cout << "year is not acceptable! Use: 2016, 2017, 2018" << std::endl;
@@ -275,6 +283,12 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	float tmp_jmr[] = {1.065, 1.031, 1.099}; //Tuned to our Top control region
         jmrValues = tmp_jmr;
       }
+    else if(year == "2022")
+      {
+	//float tmp_jmr[] = {1.24, 1.20, 1.28};
+	float tmp_jmr[] = {1.065, 1.031, 1.099}; //Tuned to our Top control region
+        jmrValues = tmp_jmr;
+      }
     else
       {
 	std::cout << "year is not acceptable! Use: 2016, 2017, 2018" << std::endl;
@@ -291,6 +305,8 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     } else if (year == "2017") {
       JECUncertaintyFile = CMSSWDir + "/src/HHBoostedAnalyzer/data/JEC/Fall17_17Nov2017_V32_MC/Fall17_17Nov2017_V32_MC_Uncertainty_AK8PFPuppi.txt";
     } else if (year == "2018") {
+     JECUncertaintyFile = CMSSWDir + "/src/HHBoostedAnalyzer/data/JEC/Autumn18_V19_MC/Autumn18_V19_MC_Uncertainty_AK8PFPuppi.txt";
+    } else if (year == "2022") {
      JECUncertaintyFile = CMSSWDir + "/src/HHBoostedAnalyzer/data/JEC/Autumn18_V19_MC/Autumn18_V19_MC_Uncertainty_AK8PFPuppi.txt";
     }
     JetCorrectionUncertainty *jecUnc = new JetCorrectionUncertainty(JECUncertaintyFile.c_str());
@@ -881,6 +897,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     Long64_t nbytes = 0, nb = 0;
 
     cout << "nentries = " << nentries << "\n";
+    nentries = 100000;
     for (UInt_t jentry=0; jentry<nentries;jentry++) {
       //begin event
       if(jentry % 1000 == 0) cout << "Processing entry " << jentry << endl;
@@ -1259,7 +1276,11 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       //------------------------------
       vector<int> selectedFatJetIndices;
 
+
       for(unsigned int i = 0; i < nFatJet; i++ ) {       
+
+	//cout << "fatJets: " << i << " " << FatJet_pt[i] << " " << FatJet_ParticleNetMD_probXbb[i] << "\n";
+
 	//Hbb fat jet pre-selection
 	if (FatJet_pt[i] < 200) continue;
 	
@@ -1368,7 +1389,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet1Pt = FatJet_pt[fatJet1Index];
       fatJet1Eta = FatJet_eta[fatJet1Index];
       fatJet1Phi                = FatJet_phi[fatJet1Index];
-      fatJet1Mass               = FatJet_mass[fatJet1Index];
+      fatJet1Mass               = FatJet_ParticleNetMass[fatJet1Index];
       fatJet1MassSD_UnCorrected = FatJet_msoftdrop[fatJet1Index];
       fatJet1MassSD = jmsValues[0]*fatJet1MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
 
@@ -1436,6 +1457,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       if (year == "2016") btagMediumCut = 0.3033;
       else if (year == "2017") btagMediumCut = 0.3033 ;
       else if (year == "2018") btagMediumCut = 0.2770;
+      else if (year == "2022") btagMediumCut = 0.2770;
       for(unsigned int q = 0; q < nJet; q++ ) {       
 	if (Jet_pt[q] > 25 && Jet_btagDeepB[q] > btagMediumCut && 
 	    deltaPhi(fatJet1Phi, Jet_phi[q]) > 2.5
@@ -1497,7 +1519,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet2Pt = FatJet_pt[fatJet2Index];
       fatJet2Eta = FatJet_eta[fatJet2Index];
       fatJet2Phi                = FatJet_phi[fatJet2Index];
-      fatJet2Mass               = FatJet_mass[fatJet2Index];
+      fatJet2Mass               = FatJet_ParticleNetMass[fatJet2Index];
       fatJet2MassSD_UnCorrected = FatJet_msoftdrop[fatJet2Index];
       fatJet2MassSD             = jmsValues[0]*fatJet2MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
 
@@ -1611,7 +1633,7 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
       fatJet3Pt = FatJet_pt[fatJet3Index];
       fatJet3Eta = FatJet_eta[fatJet3Index];
       fatJet3Phi                = FatJet_phi[fatJet3Index];
-      fatJet3Mass               = FatJet_mass[fatJet3Index];
+      fatJet3Mass               = FatJet_ParticleNetMass[fatJet3Index];
       fatJet3MassSD_UnCorrected = FatJet_msoftdrop[fatJet3Index];
       fatJet3MassSD             = jmsValues[0]*fatJet3MassSD_UnCorrected;//correct, mass scale and resolution, for resolution subtract 1.0 from width
       if ( !isData ) {
@@ -1832,7 +1854,15 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
 	}
 
 	bool passBTag = false;
-	if (year == "2018") {
+	if (year == "2022") {
+	  if (Jet_pt[i] > 40 && fabs(Jet_eta[i]) < 2.5
+	      && Jet_btagDeepFlavB[i] > 0.2770
+	      && Jet_puId[i] >= 2	
+	      && Jet_jetId[i] >= 4
+	      ) {
+	    passBTag = true;
+	  }
+	} else if (year == "2018") {
 	  if (Jet_pt[i] > 40 && fabs(Jet_eta[i]) < 2.5
 	      && Jet_btagDeepFlavB[i] > 0.2770
 	      && Jet_puId[i] >= 2	

@@ -128,6 +128,7 @@ public :
    float* FatJet_ParticleNetMD_probXbb = new float[NFATJET];   //[nFatJet]
    float* FatJet_ParticleNetMD_probXcc = new float[NFATJET];   //[nFatJet]
    float* FatJet_ParticleNetMD_probXqq = new float[NFATJET];   //[nFatJet]
+   float* FatJet_ParticleNetMass = new float[NFATJET];   //[nFatJet]
    float* FatJet_LSmsoftdrop = new float[NFATJET];   //[nFatJet]
    float* FatJet_LSn2b1= new float[NFATJET];   //[nFatJet]
    float* FatJet_LSn3b1 = new float[NFATJET];   //[nFatJet]
@@ -1688,6 +1689,7 @@ public :
    TBranch        *b_FatJet_ParticleNetMD_probXbb;   //!
    TBranch        *b_FatJet_ParticleNetMD_probXcc;   //!
    TBranch        *b_FatJet_ParticleNetMD_probXqq;   //!
+   TBranch        *b_FatJet_ParticleNetMass;   //!
    TBranch        *b_FatJet_deepTagMD_WvsQCD;   //!
    TBranch        *b_FatJet_deepTagMD_ZvsQCD;   //!
    TBranch        *b_FatJet_deepTag_WvsQCD;   //!
@@ -3348,7 +3350,7 @@ void Events::Init(TTree *tree)
    fChain->SetBranchAddress("SubJet_mass", SubJet_mass, &b_SubJet_mass);
    fChain->SetBranchAddress("SubJet_phi", SubJet_phi, &b_SubJet_phi);
    fChain->SetBranchAddress("SubJet_pt", SubJet_pt, &b_SubJet_pt);
-   fChain->SetBranchAddress("SubJet_rawFactor", SubJet_rawFactor, &b_SubJet_rawFactor);
+   fChain->SetBranchAddress("SubJet_rawFactor", SubJet_rawFactor, &b_SubJet_rawFactor); 
    fChain->SetBranchAddress("SubJet_nBHadrons", SubJet_nBHadrons, &b_SubJet_nBHadrons);
    fChain->SetBranchAddress("SubJet_nCHadrons", SubJet_nCHadrons, &b_SubJet_nCHadrons);
    fChain->SetBranchAddress("nFatJet", &nFatJet, &b_nFatJet);
@@ -3356,10 +3358,11 @@ void Events::Init(TTree *tree)
    fChain->SetBranchAddress("FatJet_ParticleNetMD_probQCDbb", FatJet_ParticleNetMD_probQCDbb, &b_FatJet_ParticleNetMD_probQCDbb);
    fChain->SetBranchAddress("FatJet_ParticleNetMD_probQCDc", FatJet_ParticleNetMD_probQCDc, &b_FatJet_ParticleNetMD_probQCDc);
    fChain->SetBranchAddress("FatJet_ParticleNetMD_probQCDcc", FatJet_ParticleNetMD_probQCDcc, &b_FatJet_ParticleNetMD_probQCDcc);
-   fChain->SetBranchAddress("FatJet_ParticleNetMD_probQCDothers", FatJet_ParticleNetMD_probQCDothers, &b_FatJet_ParticleNetMD_probQCDothers);
-   fChain->SetBranchAddress("FatJet_ParticleNetMD_probXbb", FatJet_ParticleNetMD_probXbb, &b_FatJet_ParticleNetMD_probXbb);
-   fChain->SetBranchAddress("FatJet_ParticleNetMD_probXcc", FatJet_ParticleNetMD_probXcc, &b_FatJet_ParticleNetMD_probXcc);
-   fChain->SetBranchAddress("FatJet_ParticleNetMD_probXqq", FatJet_ParticleNetMD_probXqq, &b_FatJet_ParticleNetMD_probXqq);
+   fChain->SetBranchAddress("FatJet_particleNetMD_QCD", FatJet_ParticleNetMD_probQCDothers, &b_FatJet_ParticleNetMD_probQCDothers);
+   fChain->SetBranchAddress("FatJet_particleNetMD_Xbb", FatJet_ParticleNetMD_probXbb, &b_FatJet_ParticleNetMD_probXbb);
+   fChain->SetBranchAddress("FatJet_particleNetMD_Xcc", FatJet_ParticleNetMD_probXcc, &b_FatJet_ParticleNetMD_probXcc);
+   fChain->SetBranchAddress("FatJet_particleNetMD_Xqq", FatJet_ParticleNetMD_probXqq, &b_FatJet_ParticleNetMD_probXqq);
+   fChain->SetBranchAddress("FatJet_particleNet_mass", FatJet_ParticleNetMass, &b_FatJet_ParticleNetMass);
    fChain->SetBranchAddress("FatJet_LSmsoftdrop", FatJet_LSmsoftdrop, &b_FatJet_LSmsoftdrop);
    fChain->SetBranchAddress("FatJet_LSn2b1", FatJet_LSn2b1, &b_FatJet_LSn2b1);
    fChain->SetBranchAddress("FatJet_LSn3b1", FatJet_LSn3b1, &b_FatJet_LSn3b1);
