@@ -14,12 +14,15 @@ datasets = {
 ####################################################################################################
 #2022 Datasets
 ####################################################################################################   
-'JetMET_2022C':'/JetMET/Run2022C-PromptNanoAODv10_v1-v1/NANOAOD',
-'JetMET_2022D-v1':'/JetMET/Run2022D-PromptNanoAODv10_v1-v1/NANOAOD',
-'JetMET_2022D-v2':'/JetMET/Run2022D-PromptNanoAODv10_v2-v1/NANOAOD',
-'JetMET_2022E':'/JetMET/Run2022E-PromptNanoAODv10_v1-v3/NANOAOD',
-'JetMET_2022F':'/JetMET/Run2022F-PromptNanoAODv10_v1-v2/NANOAOD',
-'JetMET_2022G':'/JetMET/Run2022G-PromptNanoAODv10_v1-v1/NANOAOD',
+#'JetMET_2022C':'/JetMET/Run2022C-PromptNanoAODv10_v1-v1/NANOAOD',
+#'JetMET_2022D-v1':'/JetMET/Run2022D-PromptNanoAODv10_v1-v1/NANOAOD',
+#'JetMET_2022D-v2':'/JetMET/Run2022D-PromptNanoAODv10_v2-v1/NANOAOD',
+#'JetMET_2022E':'/JetMET/Run2022E-PromptNanoAODv10_v1-v3/NANOAOD',
+#'JetMET_2022F':'/JetMET/Run2022F-PromptNanoAODv10_v1-v2/NANOAOD',
+#'JetMET_2022G':'/JetMET/Run2022G-PromptNanoAODv10_v1-v1/NANOAOD',
+
+'ggHH_cHHH_1_TSG':'/ggHH_cHHH_1/lpcdihiggsboost-crab_PrivateProduction_Summer22_DR_step4_MINIAODSIM_ggHH_cHHH_1_batch1_v1-d6bc479936f2e9630ab1411154a88dc7/USER',
+
 
 }
 
@@ -35,8 +38,8 @@ for processName in datasets.keys():
 
     outputFile = open(processName+".list","w")
     print processName
-    #command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " instance=prod/phys03 \" -json > tmpOutput.json"
-    command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " \" -json > tmpOutput.json"
+    command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " instance=prod/phys03 \" -json > tmpOutput.json"
+    #command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " \" -json > tmpOutput.json"
     print (command)
     os.system(command)
 

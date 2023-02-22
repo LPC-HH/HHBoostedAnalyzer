@@ -38,6 +38,8 @@ void usage()
 	    << "    --optionNumber=<option number> (optional)\n"
 	    << "    --year=<year> (optional)\n" 
 	    << "    --pileupWeightName=<sampleName> (optional)\n" 
+	    << "    --startEventNumber=<startEventNumber> (optional)\n" 
+	    << "    --endEventNumber=<endEventNumber> (optional)\n" 
 	    << "-h  --help"
 	    << std::endl;
 };
@@ -124,13 +126,36 @@ int main(int argc, char* argv[]){
       std::cerr << "[WARNING]: pileupWeightName not provided, using default empty pileupWeightName" << std::endl;
     }
  
+
+  //-----------------------------------------
+  //Get Start and End Event Number
+  //-----------------------------------------
+  int numberOfJobs = 1;
+  int jobIndex = 0;
+  std::string _numberOfJobs = ParseCommandLine( argc, argv, "--numberOfJobs=" );
+  if ( _numberOfJobs != "" )
+    {
+      numberOfJobs = atoi( _numberOfJobs.c_str() );
+    }  
+  std::string _jobIndex = ParseCommandLine( argc, argv, "--jobIndex=" );
+  if ( _jobIndex != "" )
+    {
+      jobIndex = atoi( _jobIndex.c_str() );
+    }  
+  
+
+
+
+
   std::cout << "[INFO]: <input list> --> " << inputFileName << std::endl;
   std::cout << "[INFO]: isData --> " << isData << std::endl;
   std::cout << "[INFO]: outputFileName --> " << outputFileName << std::endl;
   std::cout << "[INFO]: option --> " << option << std::endl;
   std::cout << "[INFO]: year --> " << year << std::endl;
   std::cout << "[INFO]: pileupWeightName --> " << pileupWeightName << std::endl;
-    
+  std::cout << "[INFO]: numberOfJobs --> " << numberOfJobs << std::endl;
+  std::cout << "[INFO]: jobIndex --> " << jobIndex << std::endl;
+  
     //build the TChain
     //tree name is set give the structure in the first root file, see while loop below
     TChain* theChain = new TChain();
@@ -162,7 +187,7 @@ int main(int argc, char* argv[]){
     //------ EXECUTE ------//
     cout << "Executing HHTo4BNtupler..." << endl;
     //analyzer.EnableAll();
-    analyzer.Analyze(isData, option, outputFileName, year, pileupWeightName);
+    analyzer.Analyze(isData, numberOfJobs, jobIndex, option, outputFileName, year, pileupWeightName);
     cout << "Process completed!" << endl;
     cerr << "------------------------------" << endl; //present so that an empty .err file corresponds to a failed job
     

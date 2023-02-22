@@ -108,7 +108,7 @@ double HHTo4BNtupler::getTriggerEff( TH2F *trigEffHist , double pt, double mass 
 }
 
 
-void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, string year, string pileupWeightName)
+void HHTo4BNtupler::Analyze(bool isData, int numberOfJobs, int jobIndex, int Option, string outputfilename, string year, string pileupWeightName)
 {
  
     cout << "Initializing..." << endl;
@@ -888,17 +888,31 @@ void HHTo4BNtupler::Analyze(bool isData, int Option, string outputfilename, stri
     //-------------------------------
     TRandom3* rnd = new TRandom3(1);
 
-
     UInt_t NEventsFilled = 0;
  
     //begin loop
-    if (fChain == 0) return;
+    if (fChain == 0) return; 
     UInt_t nentries = fChain->GetEntries();
     Long64_t nbytes = 0, nb = 0;
+    UInt_t numberOfJobs_ = 1;
+    if (numberOfJobs > 0) numberOfJobs_ = numberOfJobs;
+    UInt_t jobIndex_ = 0;
+    if (jobIndex >= 0) jobIndex_ = jobIndex;
+
+    if (jobIndex_ > numberOfJobs_ - 1) {
+      cout << "Error: JobIndex ("<<jobIndex_<<") exceeds Number of Jobs (" << numberOfJobs_ << ") + 1. Stopping Job.\n";
+      return;
+    }
+    int numberOfEventsPerJob = floor(float(nentries) / float(numberOfJobs_)) ;
+    UInt_t startEventNumber = jobIndex_ * numberOfEventsPerJob;
+    UInt_t endEventNumber = min( (jobIndex_+ 1) * numberOfEventsPerJob, nentries);
 
     cout << "nentries = " << nentries << "\n";
-    nentries = 100000;
-    for (UInt_t jentry=0; jentry<nentries;jentry++) {
+    cout << "startEventNumber = " << startEventNumber << "\n";
+    cout << "endEventNumber = " << endEventNumber << "\n";
+
+    //nentries = 100000;
+    for (UInt_t jentry=startEventNumber; jentry<endEventNumber;jentry++) {
       //begin event
       if(jentry % 1000 == 0) cout << "Processing entry " << jentry << endl;
       Long64_t ientry = LoadTree(jentry);
