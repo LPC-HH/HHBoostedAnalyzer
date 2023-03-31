@@ -145,7 +145,7 @@ void HHTo4BNtupler::Analyze(bool isData, int numberOfJobs, int jobIndex, int Opt
 	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root";
 	triggerEffMCFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall18.root";
       } else if (year == "2022") {
-	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root";
+	triggerEffFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2022.root";
 	triggerEffMCFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall18.root";
       } else {
 	cout << "[HHTo4BNtupler] Warning: year " << year << " is not supported. \n";

@@ -21,7 +21,7 @@ datasets = {
 #'JetMET_2022F':'/JetMET/Run2022F-PromptNanoAODv10_v1-v2/NANOAOD',
 #'JetMET_2022G':'/JetMET/Run2022G-PromptNanoAODv10_v1-v1/NANOAOD',
 
-'ggHH_cHHH_1_TSG':'/ggHH_cHHH_1/lpcdihiggsboost-crab_PrivateProduction_Summer22_DR_step4_MINIAODSIM_ggHH_cHHH_1_batch1_v1-d6bc479936f2e9630ab1411154a88dc7/USER',
+'ggHH_cHHH_1_TSG':'/ggHH_cHHH_1/lpcdihiggsboost-crab_PrivateProduction_Summer22_DR_step4_MINIAODSIM_ggHH_cHHH_1_batch1_v2-00000000000000000000000000000000/USER',
 
 
 }
