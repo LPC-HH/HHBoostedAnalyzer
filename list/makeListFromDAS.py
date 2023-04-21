@@ -278,6 +278,11 @@ datasets = {
 # "NMSSM_XToYHTo2b2g_MX-800_TuneCP5_13TeV-madgraph-pythia8":"/NMSSM_XToYHTo2b2g_MX-800_TuneCP5_13TeV-madgraph-pythia8/sixie-NanoTuples-V2p0_RunIIFall17MiniAODv2-PU2017_12Apr2018_RP_94X_v14-v1-11808738aa05d1901a77e0a4a3559b49/USER",
 # "NMSSM_XToYHTo2b2g_MX-900_TuneCP5_13TeV-madgraph-pythia8":"/NMSSM_XToYHTo2b2g_MX-900_TuneCP5_13TeV-madgraph-pythia8/sixie-NanoTuples-V2p0_RunIIFall17MiniAODv2-PU2017_12Apr2018_RP_94X_v14-v1-11808738aa05d1901a77e0a4a3559b49/USER",
 
+"PrivateProd_ggHH_kl_5p00_kt_1p00_c2_0p00":"/ggHH_kl_5p00_kt_1p00_c2_0p00/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall18_DR_step3_ggHH_kl_5p00_kt_1p00_c2_0p00_batch1_v1-b63beb1ae05c0e254c43785544367ee5_v3-11808738aa05d1901a77e0a4a3559b49/USER",
+"PrivateProd_ggHH_BM1_JHEP04":"/ggHH_BM1_JHEP04/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall18_DR_step3_ggHH_BM1_JHEP04_batch1_v1-b63beb1ae05c0e254c43785544367ee5_v3-11808738aa05d1901a77e0a4a3559b49/USER",
+"PrivateProd_ggHH_BM1_LHC":"/ggHH_BM1_LHC/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall18_DR_step3_ggHH_BM1_LHC_batch1_v1-b63beb1ae05c0e254c43785544367ee5_v3-11808738aa05d1901a77e0a4a3559b49/USER",
+"PrivateProd_ggHH_BM2_LHC":"/ggHH_BM2_LHC/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall18_DR_step3_ggHH_BM2_LHC_batch1_v1-b63beb1ae05c0e254c43785544367ee5_v3-11808738aa05d1901a77e0a4a3559b49/USER",
+
 
 ####################################################################################################
 #2018 Datasets
