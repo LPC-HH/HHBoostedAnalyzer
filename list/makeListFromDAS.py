@@ -155,6 +155,12 @@ datasets = {
 # "NMSSM_XToYHTo2b2g_MX-900_TuneCUETP8M1_13TeV-madgraph-pythia8":"/NMSSM_XToYHTo2b2g_MX-900_TuneCUETP8M1_13TeV-madgraph-pythia8/sixie-NanoTuples-V2p0_RunIISummer16MiniAODv3-PUMoriond17_RP_94X_v3-v1-0185a8db413c92e1bf268f4636ab8496/USER",
 #"PrivateProd_ggHH_kl_5p00_kt_1p00_c2_0p00":"/ggHH_kl_5p00_kt_1p00_c2_0p00/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_kl_5p00_kt_1p00_c2_0p00_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
 #"PrivateProd_ggHH_BM1_JHEP04":"/ggHH_BM1_JHEP04/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM1_JHEP04_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
+#"PrivateProd_ggHH_BM2_JHEP04":"/ggHH_BM2_JHEP04/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM2_JHEP04_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
+#"PrivateProd_ggHH_BM3_JHEP04":"/ggHH_BM3_JHEP04/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM3_JHEP04_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
+#"PrivateProd_ggHH_BM4_JHEP04":"/ggHH_BM4_JHEP04/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM4_JHEP04_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
+#"PrivateProd_ggHH_BM5_JHEP04":"/ggHH_BM5_JHEP04/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM5_JHEP04_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
+#"PrivateProd_ggHH_BM6_JHEP04":"/ggHH_BM6_JHEP04/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM6_JHEP04_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
+#"PrivateProd_ggHH_BM7_JHEP04":"/ggHH_BM7_JHEP04/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM7_JHEP04_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
 
 
 # ####################################################################################################
