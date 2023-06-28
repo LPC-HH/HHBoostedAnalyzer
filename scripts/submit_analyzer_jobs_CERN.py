@@ -17,22 +17,77 @@ queueType = "longlunch"
 
 
 analysis = "HHTo4BNtupler"
-option = 5
+option = 21
 cmsswReleaseVersion = "CMSSW_12_6_3"
-label = "option5"
+label = "option"+str(option)
 filesPerJob = 1
 outputfile = "HHTo4BNtuple" + "_" + label
 outputDirectoryBase = "/store/group/phys_susy/razor/Run3Analysis/HH/"+analysis+"/"+label+"/"
 
 datasetList = OrderedDict()
 #2022 ntuples
-datasetList['nano/run3/2022/JetMET_2022C.list'] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022D-v1.list'] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022D-v2.list'] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022E.list'] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022F.list'] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022G.list'] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/EGamma_2022A.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/EGamma_2022B.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/EGamma_2022C.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/EGamma_2022D.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/EGamma_2022E.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/EGamma_2022F.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/EGamma_2022G.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/JetHT_2022A.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/JetHT_2022B.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/JetHT_2022C.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/JetMET_2022C.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/JetMET_2022D.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/JetMET_2022E.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/JetMET_2022F.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/JetMET_2022G.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/SingleMuon_2022A.list"] = [1, 1, "2022", "", 10] 
+datasetList["nano/run3/2022/SingleMuon_2022B.list"] = [1, 1, "2022", "", 10] 
+datasetList["nano/run3/2022/SingleMuon_2022C.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/Muon_2022C.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/Muon_2022D.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/Muon_2022E.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/Muon_2022F.list"] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/Muon_2022G.list"] = [1, 1, "2022", "", 10]
+
+
 datasetList['nano/run3/2022/ggHH_cHHH_1_TSG.list'] = [0, 1, "2022", "", 1]
+datasetList["nano/run3/2022/TTtoLNu2Q_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/VBFHto2B_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/WW_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/WZ_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/WminusH_Hto2B_Wto2Q_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/WplusH_Hto2B_Wto2Q_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/ZH_Hto2B_Zto2Q_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/ZZ_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/ggHto2B_Pt200ToInf_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/ggZH_Hto2B_Zto2Q_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/ttH_Hto2B_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/TTto4Q_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt50to80_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt80to120_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt120to170_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt170to300_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt300to470_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt470to600_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt600to800_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt800to1000_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt1000to1400_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt1400to1800_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt1800to2400_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt2400to3200_postEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/QCDPt3200toInf_postEE.list"] = [0, 1, "2022", "", 10]
+#datasetList["nano/run3/2022/Wto2Q-3Jets_HT-400to600_PostEE.list"] = [0, 1, "2022", "", 10]
+#datasetList["nano/run3/2022/Wto2Q-3Jets_HT-800_PostEE.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/DYJetsToLL_M50ToInf_PostEE.list"] = [0, 1, "2022", "", 10]
+
+
+datasetList["nano/run3/2022/Wto2Q-3Jets_HT-200to400.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/Wto2Q-3Jets_HT-400to600.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/Wto2Q-3Jets_HT-600to800.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/Wto2Q-3Jets_HT-800.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/WtoLNu-2Jets.list"] = [0, 1, "2022", "", 10]
+
 
 #create directory for condor jobs
 

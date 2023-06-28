@@ -861,6 +861,27 @@ void HHTo4BNtupler::Analyze(bool isData, int numberOfJobs, int jobIndex, int Opt
       outputTree->Branch("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20",     &HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20,    "HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20/O");
       outputTree->Branch("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20/O");
       outputTree->Branch("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20,       "HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20/O");	
+      outputTree->Branch("HLT_QuadPFJet70_50_40_30", &HLT_QuadPFJet70_50_40_30, "HLT_QuadPFJet70_50_40_30/O");
+      outputTree->Branch("HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65", &HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65, "HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65/O");
+      outputTree->Branch("HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65", &HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65, "HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65/O");
+      outputTree->Branch("HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65", &HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65, "HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65/O");
+      outputTree->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_PFDiJet30_PFBTagParticleNet_2BTagSum0p65", &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_PFDiJet30_PFBTagParticleNet_2BTagSum0p65, "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_PFDiJet30_PFBTagParticleNet_2BTagSum0p65/O");
+      outputTree->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_QuadPFJet70_50_40_30", &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_QuadPFJet70_50_40_30, "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_QuadPFJet70_50_40_30/O");
+      outputTree->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65", &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65, "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65/O");
+      outputTree->Branch("HLT_AK8PFJet230_SoftDropMass40", &HLT_AK8PFJet230_SoftDropMass40, "HLT_AK8PFJet230_SoftDropMass40/O");
+      outputTree->Branch("HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35, "HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35/O");
+      outputTree->Branch("HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35, "HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35/O");
+      outputTree->Branch("HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35, "HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35/O");
+      outputTree->Branch("HLT_AK8PFJet400_SoftDropMass40", &HLT_AK8PFJet400_SoftDropMass40, "HLT_AK8PFJet400_SoftDropMass40/O");
+      outputTree->Branch("HLT_AK8PFJet425_SoftDropMass40", &HLT_AK8PFJet425_SoftDropMass40, "HLT_AK8PFJet425_SoftDropMass40/O");
+      outputTree->Branch("HLT_AK8PFJet450_SoftDropMass40", &HLT_AK8PFJet450_SoftDropMass40, "HLT_AK8PFJet450_SoftDropMass40/O");
+      outputTree->Branch("HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetTauTau0p30", &HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetTauTau0p30, "HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetTauTau0p30/O");
+      outputTree->Branch("HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetTauTau0p30", &HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetTauTau0p30, "HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetTauTau0p30/O");
+      outputTree->Branch("HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetTauTau0p30", &HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetTauTau0p30, "HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetTauTau0p30/O");
+      outputTree->Branch("HLT_IsoMu50_AK8PFJet230_SoftDropMass40", &HLT_IsoMu50_AK8PFJet230_SoftDropMass40, "HLT_IsoMu50_AK8PFJet230_SoftDropMass40/O");
+      outputTree->Branch("HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35, "HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35/O");
+      outputTree->Branch("HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40", &HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40, "HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40/O");
+      outputTree->Branch("HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35, "HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35/O"); 
     }
 
     if (Option == 0) {
@@ -1781,7 +1802,8 @@ void HHTo4BNtupler::Analyze(bool isData, int numberOfJobs, int jobIndex, int Opt
 	if (fabs(Muon_eta[i]) > 2.4) continue;
 	if (Muon_miniPFRelIso_all[i] > 0.2) continue;
 	if (!Muon_tightId) continue;
-	
+		
+
 	if (lep1Id == 0) {
 	  lep1Pt = Muon_pt[i];
 	  lep1Eta = Muon_eta[i];
