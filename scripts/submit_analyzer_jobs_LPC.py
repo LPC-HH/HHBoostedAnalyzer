@@ -8,17 +8,8 @@ import glob
 import sys
 from collections import OrderedDict
 
-queueType = "longlunch"
-#option = 2
-#label = "v7"
-#option = 10
-#label = "v9"
-#option = 0
-#label = "option0"
-option = 5
-label = "option5"
-#option = 1
-#label = "v1"
+option = 21
+label = "option"+str(option)
 
 analysis = "HHTo4BNtupler"
 outputfile = "HHTo4BNtuple" + "_" + label
@@ -33,19 +24,19 @@ cmsswReleaseVersion = "CMSSW_12_6_3"
 
 
 
-
 outputDirectoryBase = "/store/user/lpcdihiggsboost/sixie/analyzer/"+analysis+"/"+label+"/"
-#filesPerJob = 2
+filesPerJob = 1
 
 datasetList = OrderedDict()
 
 #2022 ntuples
-datasetList['nano/run3/2022/JetMET_2022C.list'] = [1, 1, "2022", ""]
-datasetList['nano/run3/2022/JetMET_2022D-v1.list'] = [1, 1, "2022", ""]
-datasetList['nano/run3/2022/JetMET_2022D-v2.list'] = [1, 1, "2022", ""]
-datasetList['nano/run3/2022/JetMET_2022E.list'] = [1, 1, "2022", ""]
-datasetList['nano/run3/2022/JetMET_2022F.list'] = [1, 1, "2022", ""]
-datasetList['nano/run3/2022/JetMET_2022G.list'] = [1, 1, "2022", ""]
+datasetList["nano/run3/2022/EGamma_2022C.list"] = [1, 1, "2022", "", 10]
+datasetList['nano/run3/2022/JetMET_2022C.list'] = [1, 1, "2022", "", 10]
+datasetList['nano/run3/2022/JetMET_2022D-v1.list'] = [1, 1, "2022", "", 10]
+datasetList['nano/run3/2022/JetMET_2022D-v2.list'] = [1, 1, "2022", "", 10]
+datasetList['nano/run3/2022/JetMET_2022E.list'] = [1, 1, "2022", "", 10]
+datasetList['nano/run3/2022/JetMET_2022F.list'] = [1, 1, "2022", "", 10]
+datasetList['nano/run3/2022/JetMET_2022G.list'] = [1, 1, "2022", "", 10]
 
 
 
@@ -69,6 +60,7 @@ for listfile in datasetList.keys():
 
     year = datasetList[listfile][2]
     sampleName = datasetList[listfile][3]
+    numberOfJobsPerFile = datasetList[listfile][4]
 
     #####################################
     #Job Splitting
@@ -78,7 +70,7 @@ for listfile in datasetList.keys():
         isData = "yes"
     filesPerJob = datasetList[listfile][1]
     tmpJobFileCount = 0
-    nJobs = 1
+    nJobs = numberOfJobsPerFile
 
     if os.path.exists(Analyzer_DIR+"/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/" + "input_list_" + str(nJobs) + ".txt"):
         print "Warning: condor directory " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + " is not empty. Skipping."
@@ -97,8 +89,8 @@ for listfile in datasetList.keys():
         if tmpJobFileCount >= filesPerJob:
             tmpOutputListFile.close()
             tmpJobFileCount = 0
-            nJobs = nJobs + 1           
-            tmpOutputListFile = open( Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/" + "input_list_" + str(nJobs) + ".txt","w")
+            nJobs = nJobs + numberOfJobsPerFile
+            tmpOutputListFile = open( Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/" + "input_list_" + str(nJobs/numberOfJobsPerFile) + ".txt","w")
           
         #write input file into job list file
         tmpOutputListFile.write(line)
@@ -136,7 +128,7 @@ Universe  = vanilla
 Executable = ./run_job_LPC.sh
 """
     tmpCondorJDLFile.write(tmpCondorJDLFileTemplate)
-    tmpCondorJDLFile.write("Arguments = " + analysis + " " + str(isData) + " " + str(option) + " " + "$(I) " + outputfile + " " + outputDirectory + " " + cmsswReleaseVersion + " " + year + " " + sampleName + "\n")
+    tmpCondorJDLFile.write("Arguments = " + analysis + " " + str(isData) + " " + str(option) + " " + "$(I) " + str(numberOfJobsPerFile) + " " + outputfile + " " + outputDirectory + " " + cmsswReleaseVersion + " " + year + " " + sampleName + "\n")
 
     tmpCondorJDLFileTemplate = """
 Log = log/job.$(Cluster).$(Process).log

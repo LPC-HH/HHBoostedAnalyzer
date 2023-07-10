@@ -13,11 +13,18 @@ analysisType=$1
 isData=$2
 option=$3
 jobnumber=$4
-outputfile=$5
-outputDirectory=$6
-cmsswReleaseVersion=$7
-year=$8
-sampleName=$9
+nJobsPerFile=$5
+outputfile=$6
+outputDirectory=$7
+cmsswReleaseVersion=$8
+year=$9
+sampleName=$10
+
+###############################################
+#calculate filenumber and jobIndex
+###############################################
+filenumber=$(((($jobnumber-1)/$nJobsPerFile)+1))
+jobIndex=$((($jobnumber-1)%$nJobsPerFile))
 
 ############################
 #define exec and setup cmssw
@@ -79,16 +86,16 @@ ls inputs/* > tmp_input_list.txt
 #run executable
 ###########################
 echo "Executing Analysis executable:"
-echo "./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} --isData=${isData} "
-./${executable} tmp_input_list.txt --outputFile=${outputfile}_${jobnumber}.root --optionNumber=${option} --isData=${isData} --year=${year} --pileupWeightName=${sampleName}
+echo "./${executable} tmp_input_list.txt --outputFile=${outputfile}_${filenumber}_Part${jobIndex}Of${nJobsPerFile}.root --optionNumber=${option} --isData=${isData} --numberOfJobs=${nJobsPerFile} --jobIndex=${jobIndex}"
+./${executable} tmp_input_list.txt --outputFile=${outputfile}_${filenumber}_Part${jobIndex}Of${nJobsPerFile}.root --optionNumber=${option} --isData=${isData} --year=${year} --pileupWeightName=${sampleName} --numberOfJobs=${nJobsPerFile} --jobIndex=${jobIndex}
 
 ls -l
 ##########################################################
 #copy outputfile to /eos space -- define in submitter code
 ##########################################################
 eosmkdir -p ${outputDirectory}
-xrdcp -f ${outputfile}_${jobnumber}.root root://cmseos.fnal.gov/${outputDirectory}/${outputfile}_${jobnumber}.root 
-rm ${outputfile}_${jobnumber}.root
+xrdcp -f ${outputfile}_${filenumber}_Part${jobIndex}Of${nJobsPerFile}.root root://cmseos.fnal.gov/${outputDirectory}/${outputfile}_${filenumber}_Part${jobIndex}Of${nJobsPerFile}.root  
+rm ${outputfile}_${filenumber}_Part${jobIndex}Of${nJobsPerFile}.root
 rm inputs -rv 
 
 cd -
