@@ -41,7 +41,6 @@ scramv1 project CMSSW $cmsswReleaseVersion
 ########################################
 cp code.tgz $cmsswReleaseVersion/src/
 cp input_list.tgz $cmsswReleaseVersion/src/
-cp ${executable} $cmsswReleaseVersion/src/.
 mkdir -p $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
 cp HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
 cp JetHTTriggerEfficiency_2016.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
