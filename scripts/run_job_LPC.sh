@@ -39,6 +39,7 @@ scramv1 project CMSSW $cmsswReleaseVersion
 #########################################
 #copy input list and exec to cmssw folder
 ########################################
+cp code.tgz $cmsswReleaseVersion/src/
 cp input_list.tgz $cmsswReleaseVersion/src/
 cp ${executable} $cmsswReleaseVersion/src/.
 mkdir -p $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
@@ -69,11 +70,15 @@ cp Autumn18_V19_MC_Uncertainty_AK8PFPuppi.txt $cmsswReleaseVersion/src/HHBoosted
 cd $cmsswReleaseVersion/src/
 eval `scram runtime -sh`
 tar vxzf input_list.tgz
-inputfilelist=input_list_${jobnumber}.txt
+tar vxzf code.tgz
+make clean
+make
+ls -l
 
 ###################################
 #copy input files ahead of time
 ###################################
+inputfilelist=input_list_${jobnumber}.txt
 mkdir inputs/
 for i in `cat $inputfilelist`
 do
