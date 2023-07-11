@@ -553,11 +553,11 @@ void HHTo4BNtupler::Analyze(bool isData, int numberOfJobs, int jobIndex, int Opt
     float vbffatJet2Phi = -99;
     float vbffatJet2PNetXbb = -99;
 
-    float genJetEta[1000];
-    float genJetPhi[1000];
-    float genJetMass[1000];
-    float genJetPt[1000];
-    int genJetPartonFlavor[1000];
+    float genJetEta[NGENJET];
+    float genJetPhi[NGENJET];
+    float genJetMass[NGENJET];
+    float genJetPt[NGENJET];
+    int genJetPartonFlavor[NGENJET];
 
     //------------------------
     //set branches on big tree
@@ -1166,30 +1166,33 @@ void HHTo4BNtupler::Analyze(bool isData, int numberOfJobs, int jobIndex, int Opt
       vbffatJet2Phi = -99;
       vbffatJet2PNetXbb = -99;
 
-      for(int i = 0; i < nGenJet; i++) {
-	genJetEta[i] = -999;
-	genJetPhi[i] = -999;
- 	genJetPt[i] = -999;
- 	genJetMass[i] = -999;
- 	genJetPartonFlavor[i] = -999;
-      }
-
       //------------------------------
       //----Event variables------------
       //------------------------------
       MET = MET_pt;
 
-      //------------------------------
-      //----gen-jets------------
-      //------------------------------
-      for(int i = 0; i < nGenJet; i++) {
-	genJetEta[i] = GenJet_eta[i];
-	genJetPhi[i] = GenJet_phi[i];
- 	genJetPt[i] = GenJet_pt[i];
- 	genJetMass[i] = GenJet_mass[i];
- 	genJetPartonFlavor[i] = GenJet_partonFlavour[i];
+      for(int i = 0; i < NGENJET; i++) {
+	genJetEta[i] = -999;
+	genJetPhi[i] = -999;
+	genJetPt[i] = -999;
+	genJetMass[i] = -999;
+	genJetPartonFlavor[i] = -999;
       }
 
+      if (!isData) {
+	//------------------------------
+	//----gen-jets------------
+	//------------------------------
+	for(int i = 0; i < nGenJet; i++) {
+	  genJetEta[i] = GenJet_eta[i];
+	  genJetPhi[i] = GenJet_phi[i];
+	  genJetPt[i] = GenJet_pt[i];
+	  genJetMass[i] = GenJet_mass[i];
+	  genJetPartonFlavor[i] = GenJet_partonFlavour[i];
+	}
+      }
+
+    
 
       //------------------------------
       //----find gen-higgs------------
