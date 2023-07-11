@@ -78,7 +78,7 @@ ls -l
 ###################################
 #copy input files ahead of time
 ###################################
-inputfilelist=input_list_${jobnumber}.txt
+inputfilelist=input_list_${filenumber}.txt
 mkdir inputs/
 for i in `cat $inputfilelist`
 do
