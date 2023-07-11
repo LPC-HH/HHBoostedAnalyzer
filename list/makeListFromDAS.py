@@ -171,6 +171,8 @@ datasets = {
 #"PrivateProd_ggHH_kl_1p00_kt_1p00_c2_3p00":"/ggHH_kl_1p00_kt_1p00_c2_3p00/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_kl_1p00_kt_1p00_c2_3p00_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
 #"PrivateProd_ggHH_BM2_JHEP03":"/ggHH_BM2_JHEP03/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM2_JHEP03_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
 #"PrivateProd_ggHH_BM4_JHEP03":"/ggHH_BM4_JHEP03/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM4_JHEP03_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
+"PrivateProd_ggHH_BM1_JHEP03":"/ggHH_BM1_JHEP03/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM1_JHEP03_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
+"PrivateProd_ggHH_BM6_JHEP03":"/ggHH_BM6_JHEP03/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Summer16_DR_step3_ggHH_BM6_JHEP03_batch1_v1-bd3e7bcff6c9bcad356ea4ed7e4f08b4_v1-0185a8db413c92e1bf268f4636ab8496/USER",
 
 # ####################################################################################################
 # #2017 Datasets
@@ -320,7 +322,7 @@ datasets = {
 #"PrivateProd_ggHH_kl_1p00_kt_1p00_c2_3p00":"/ggHH_kl_1p00_kt_1p00_c2_3p00/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall17_DR_step3_ggHH_kl_1p00_kt_1p00_c2_3p00_batch1_v1-b63beb1ae05c0e254c43785544367ee5_v1-11808738aa05d1901a77e0a4a3559b49/USER",
 #"PrivateProd_ggHH_BM1_JHEP03":"/ggHH_BM1_JHEP03/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall17_DR_step3_ggHH_BM1_JHEP03_batch1_v1-b63beb1ae05c0e254c43785544367ee5_v1-11808738aa05d1901a77e0a4a3559b49/USER",
 #"PrivateProd_ggHH_BM2_JHEP03":"/ggHH_BM2_JHEP03/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall17_DR_step3_ggHH_BM2_JHEP03_batch1_v1-b63beb1ae05c0e254c43785544367ee5_v1-11808738aa05d1901a77e0a4a3559b49/USER",
-"PrivateProd_ggHH_BM4_JHEP03":"/ggHH_BM4_JHEP03/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall17_DR_step3_ggHH_BM4_JHEP03_batch1_v1-b63beb1ae05c0e254c43785544367ee5_v1-11808738aa05d1901a77e0a4a3559b49/USER",
+#"PrivateProd_ggHH_BM4_JHEP03":"/ggHH_BM4_JHEP03/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall17_DR_step3_ggHH_BM4_JHEP03_batch1_v1-b63beb1ae05c0e254c43785544367ee5_v1-11808738aa05d1901a77e0a4a3559b49/USER",
 #"PrivateProd_ggHH_BM6_JHEP03":"/ggHH_BM6_JHEP03/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall17_DR_step3_ggHH_BM6_JHEP03_batch1_v1-b63beb1ae05c0e254c43785544367ee5_v1-11808738aa05d1901a77e0a4a3559b49/USER",
 #"PrivateProd_ggHH_BM8_JHEP04":"/ggHH_BM8_JHEP04/lpcdihiggsboost-NanoTuples-V2p0_phys_higgs-crab_PrivateProduction_Fall17_DR_step3_ggHH_BM8_JHEP04_batch1_v2-b63beb1ae05c0e254c43785544367ee5_v1-11808738aa05d1901a77e0a4a3559b49/USER",
 
