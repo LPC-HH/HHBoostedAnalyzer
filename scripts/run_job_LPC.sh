@@ -39,7 +39,8 @@ scramv1 project CMSSW $cmsswReleaseVersion
 #########################################
 #copy input list and exec to cmssw folder
 ########################################
-cp code.tgz $cmsswReleaseVersion/src/
+#cp code.tgz $cmsswReleaseVersion/src/
+cp $executable $cmsswReleaseVersion/src/
 cp input_list.tgz $cmsswReleaseVersion/src/
 mkdir -p $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
 cp HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
@@ -69,9 +70,9 @@ cp Autumn18_V19_MC_Uncertainty_AK8PFPuppi.txt $cmsswReleaseVersion/src/HHBoosted
 cd $cmsswReleaseVersion/src/
 eval `scram runtime -sh`
 tar vxzf input_list.tgz
-tar vxzf code.tgz
-make clean
-make
+#tar vxzf code.tgz
+#make clean
+#make
 ls -l
 
 ###################################
