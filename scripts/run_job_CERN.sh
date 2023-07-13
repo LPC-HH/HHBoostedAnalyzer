@@ -79,7 +79,8 @@ echo "input filelist : ${inputfilelist}"
 ###################################
 #copy input files ahead of time
 ###################################
-mkdir inputs/
+rm -rf inputs/
+mkdir -p inputs/
 for i in `cat $inputfilelist`
 do
 echo "Copying Input File: " $i
@@ -87,7 +88,17 @@ xrdcp $i ./inputs/
 done
 ls inputs/* > tmp_input_list.txt 
 echo "Input files"
-ls -l inputs/
+ls -l inputs/*
+
+############################################
+#use this if the files are local on lxplus
+############################################
+#for i in `cat $inputfilelist`
+#do
+#echo "Copying Input File: " $i
+#ls -l $i
+#done
+#cp $inputfilelist tmp_input_list.txt #Use this if files are all at CERN
 
 
 ###########################
