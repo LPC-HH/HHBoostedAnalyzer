@@ -835,6 +835,13 @@ void HHTo4BNtupler::Analyze(bool isData, int numberOfJobs, int jobIndex, int Opt
       outputTree->Branch("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30,                         "HLT_AK8PFJet380_TrimMass30/O");
       outputTree->Branch("HLT_AK8PFJet400_TrimMass30",                          &HLT_AK8PFJet400_TrimMass30,                         "HLT_AK8PFJet400_TrimMass30/O");
       outputTree->Branch("HLT_AK8PFJet420_TrimMass30",                          &HLT_AK8PFJet420_TrimMass30,                         "HLT_AK8PFJet420_TrimMass30/O");
+      outputTree->Branch("HLT_AK8PFJet400_MassSD30",                            &HLT_AK8PFJet400_MassSD30,       "HLT_AK8PFJet400_MassSD30/O");
+      outputTree->Branch("HLT_AK8PFJet420_MassSD30",                            &HLT_AK8PFJet420_MassSD30,       "HLT_AK8PFJet420_MassSD30/O");
+      outputTree->Branch("HLT_AK8PFJet450_MassSD30",                            &HLT_AK8PFJet450_MassSD30,       "HLT_AK8PFJet450_MassSD30/O");
+      outputTree->Branch("HLT_AK8DiPFJet250_250_MassSD30",                      &HLT_AK8DiPFJet250_250_MassSD30, "HLT_AK8DiPFJet250_250_MassSD30/O");
+      outputTree->Branch("HLT_AK8DiPFJet250_250_MassSD50",                      &HLT_AK8DiPFJet250_250_MassSD50, "HLT_AK8DiPFJet250_250_MassSD50/O");
+      outputTree->Branch("HLT_AK8DiPFJet260_260_MassSD30",                      &HLT_AK8DiPFJet260_260_MassSD30, "HLT_AK8DiPFJet260_260_MassSD30/O");
+      outputTree->Branch("HLT_AK8DiPFJet270_270_MassSD30",                      &HLT_AK8DiPFJet270_270_MassSD30, "HLT_AK8DiPFJet270_270_MassSD30/O");
       outputTree->Branch("HLT_AK8PFHT750_TrimMass50",                           &HLT_AK8PFHT750_TrimMass50,                          "HLT_AK8PFHT750_TrimMass50/O");
       outputTree->Branch("HLT_AK8PFHT800_TrimMass50",                           &HLT_AK8PFHT800_TrimMass50,                          "HLT_AK8PFHT800_TrimMass50/O");
       outputTree->Branch("HLT_AK8PFHT850_TrimMass50",                           &HLT_AK8PFHT850_TrimMass50,                          "HLT_AK8PFHT850_TrimMass50/O");

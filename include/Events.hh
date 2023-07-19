@@ -2199,6 +2199,13 @@ public :
    TBranch        *b_HLT_AK8PFJet380_TrimMass30;   //!
    TBranch        *b_HLT_AK8PFJet400_TrimMass30;   //!
    TBranch        *b_HLT_AK8PFJet420_TrimMass30;   //!
+   TBranch        *b_HLT_AK8PFJet400_MassSD30;   //!
+   TBranch        *b_HLT_AK8PFJet420_MassSD30;   //!
+   TBranch        *b_HLT_AK8PFJet450_MassSD30;   //!
+   TBranch        *b_HLT_AK8DiPFJet250_250_MassSD30;   //!
+   TBranch        *b_HLT_AK8DiPFJet250_250_MassSD50;   //!
+   TBranch        *b_HLT_AK8DiPFJet260_260_MassSD30;   //!
+   TBranch        *b_HLT_AK8DiPFJet270_270_MassSD30;   //!
    TBranch        *b_HLT_AK8PFHT750_TrimMass50;   //!
    TBranch        *b_HLT_AK8PFHT800_TrimMass50;   //!
    TBranch        *b_HLT_AK8PFHT850_TrimMass50;   //!
@@ -3893,6 +3900,13 @@ void Events::Init(TTree *tree)
    fChain->SetBranchAddress("HLT_AK8PFJet380_TrimMass30", &HLT_AK8PFJet380_TrimMass30, &b_HLT_AK8PFJet380_TrimMass30);
    fChain->SetBranchAddress("HLT_AK8PFJet400_TrimMass30", &HLT_AK8PFJet400_TrimMass30, &b_HLT_AK8PFJet400_TrimMass30);
    fChain->SetBranchAddress("HLT_AK8PFJet420_TrimMass30", &HLT_AK8PFJet420_TrimMass30, &b_HLT_AK8PFJet420_TrimMass30);
+   fChain->SetBranchAddress("HLT_AK8PFJet400_MassSD30", &HLT_AK8PFJet400_MassSD30, &b_HLT_AK8PFJet400_MassSD30);
+   fChain->SetBranchAddress("HLT_AK8PFJet420_MassSD30", &HLT_AK8PFJet420_MassSD30, &b_HLT_AK8PFJet420_MassSD30);
+   fChain->SetBranchAddress("HLT_AK8PFJet450_MassSD30", &HLT_AK8PFJet450_MassSD30, &b_HLT_AK8PFJet450_MassSD30);
+   fChain->SetBranchAddress("HLT_AK8DiPFJet250_250_MassSD30", &HLT_AK8DiPFJet250_250_MassSD30, &b_HLT_AK8DiPFJet250_250_MassSD30);
+   fChain->SetBranchAddress("HLT_AK8DiPFJet250_250_MassSD50", &HLT_AK8DiPFJet250_250_MassSD50, &b_HLT_AK8DiPFJet250_250_MassSD50);
+   fChain->SetBranchAddress("HLT_AK8DiPFJet260_260_MassSD30", &HLT_AK8DiPFJet260_260_MassSD30, &b_HLT_AK8DiPFJet260_260_MassSD30);
+   fChain->SetBranchAddress("HLT_AK8DiPFJet270_270_MassSD30", &HLT_AK8DiPFJet270_270_MassSD30, &b_HLT_AK8DiPFJet270_270_MassSD30);
    fChain->SetBranchAddress("HLT_AK8PFHT750_TrimMass50", &HLT_AK8PFHT750_TrimMass50, &b_HLT_AK8PFHT750_TrimMass50);
    fChain->SetBranchAddress("HLT_AK8PFHT800_TrimMass50", &HLT_AK8PFHT800_TrimMass50, &b_HLT_AK8PFHT800_TrimMass50);
    fChain->SetBranchAddress("HLT_AK8PFHT850_TrimMass50", &HLT_AK8PFHT850_TrimMass50, &b_HLT_AK8PFHT850_TrimMass50);
