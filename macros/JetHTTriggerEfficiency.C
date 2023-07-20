@@ -36,9 +36,25 @@
 
 
 //=== MAIN MACRO ================================================================================================= 
+double deltaPhi(double phi1, double phi2) {
+  double dphi = phi1-phi2;
+  while (dphi > TMath::Pi())
+    dphi -= TMath::TwoPi();
+  while (dphi <= -TMath::Pi())
+    dphi += TMath::TwoPi();
+  return dphi;
+}
+
+double deltaR(double eta1, double phi1, double eta2, double phi2) {
+  double dphi = deltaPhi(phi1,phi2);
+  double deta = eta1 - eta2;
+  return sqrt( dphi*dphi + deta*deta);
+}
 
 
-void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, string option, int channelOption = -1, bool isData = true, string label = "") {
+
+
+void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, string option, int channelOption = -1, bool isData = true, string label = "", string plotlabel = "") {
   
   string Label = "";
   if (label != "") Label = "_" + label;
@@ -110,7 +126,12 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
     ULong64_t event = 0;
     float weight = 0;
     float MET = 0;
+    float lep1Pt = -99;
+    float lep1Eta = -99;
+    float lep1Phi = -99;
+    int   lep1Id = 0;
     float fatJet1Pt = 0;
+    float fatJet1Phi = 0;
     float fatJet1Eta = 0;
     float fatJet1MassSD = 0;
     float fatJet1DDBTagger = 0;
@@ -151,13 +172,25 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
     float ptj2_over_ptj1 = -99;
     float mj2_over_mj1 = -99;
 
+    bool HLT_IsoMu27 = false;
+    bool HLT_IsoMu30 = false;
+    bool HLT_Mu27 = false;
+    bool HLT_Mu50 = false;
+    bool HLT_Mu55 = false;
     bool HLT_PFHT790 = false;                                     
     bool HLT_PFHT890 = false;                                     
     bool HLT_PFHT1050 = false;                                     
     bool HLT_AK8PFJet360_TrimMass30 = false;                             
     bool HLT_AK8PFJet380_TrimMass30 = false;                             
     bool HLT_AK8PFJet400_TrimMass30 = false;                             
-    bool HLT_AK8PFJet420_TrimMass30 = false;                             
+    bool HLT_AK8PFJet420_TrimMass30 = false; 
+    bool HLT_AK8PFJet400_MassSD30 = false; 
+    bool HLT_AK8PFJet420_MassSD30 = false; 
+    bool HLT_AK8PFJet450_MassSD30 = false; 
+    bool HLT_AK8DiPFJet250_250_MassSD30 = false; 
+    bool HLT_AK8DiPFJet250_250_MassSD50 = false; 
+    bool HLT_AK8DiPFJet260_260_MassSD30 = false; 
+    bool HLT_AK8DiPFJet270_270_MassSD30 = false; 
     bool HLT_AK8PFHT750_TrimMass50 = false;                         
     bool HLT_AK8PFHT800_TrimMass50 = false;                         
     bool HLT_AK8PFHT850_TrimMass50 = false;                         
@@ -182,18 +215,35 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
     bool HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 = false;
     bool HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20 = false;
     bool HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 = false;
-    bool HLT_IsoMu27 = false;
-    bool HLT_IsoMu30 = false;
-    bool HLT_Mu27 = false;
-    bool HLT_Mu50 = false;
-    bool HLT_Mu55 = false;
- 
+    bool HLT_QuadPFJet70_50_40_30 = false;
+    bool HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65 = false;
+    bool HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65 = false;
+    bool HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65 = false;
+    bool HLT_AK8PFJet230_SoftDropMass40 = false;
+    bool HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35 = false;
+    bool HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35 = false;
+    bool HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35 = false;
+    bool HLT_AK8PFJet400_SoftDropMass40 = false;
+    bool HLT_AK8PFJet425_SoftDropMass40 = false;
+    bool HLT_AK8PFJet450_SoftDropMass40 = false;
+    bool HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetTauTau0p30 = false;
+    bool HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetTauTau0p30 = false;
+    bool HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetTauTau0p30 = false;
+    bool HLT_IsoMu50_AK8PFJet230_SoftDropMass40 = false;
+    bool HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35 = false;
+    bool HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40 = false;
+    bool HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35 = false;
 
     tree->SetBranchAddress("run",&run);                                       
     tree->SetBranchAddress("event",&event);                                       
     tree->SetBranchAddress("weight",&weight);                                       
     tree->SetBranchAddress("MET",&MET);                                       
+    tree->SetBranchAddress("lep1Pt",&lep1Pt);                                       
+    tree->SetBranchAddress("lep1Eta",&lep1Eta);                                       
+    tree->SetBranchAddress("lep1Phi",&lep1Phi);                                       
+    tree->SetBranchAddress("lep1Id",&lep1Id);                                       
     tree->SetBranchAddress("fatJet1Pt",&fatJet1Pt);                                       
+    tree->SetBranchAddress("fatJet1Phi",&fatJet1Phi);
     tree->SetBranchAddress("fatJet1Eta",&fatJet1Eta);                                       
     tree->SetBranchAddress("fatJet1MassSD",&fatJet1MassSD);                                       
     tree->SetBranchAddress("fatJet1DDBTagger",&fatJet1DDBTagger);
@@ -240,6 +290,13 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
     tree->SetBranchAddress("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30);                             
     tree->SetBranchAddress("HLT_AK8PFJet400_TrimMass30",                          &HLT_AK8PFJet400_TrimMass30);                             
     tree->SetBranchAddress("HLT_AK8PFJet420_TrimMass30",                          &HLT_AK8PFJet420_TrimMass30);                             
+    tree->SetBranchAddress("HLT_AK8PFJet400_MassSD30", &HLT_AK8PFJet400_MassSD30); 
+    tree->SetBranchAddress("HLT_AK8PFJet420_MassSD30", &HLT_AK8PFJet420_MassSD30); 
+    tree->SetBranchAddress("HLT_AK8PFJet450_MassSD30", &HLT_AK8PFJet450_MassSD30); 
+    tree->SetBranchAddress("HLT_AK8DiPFJet250_250_MassSD30", &HLT_AK8DiPFJet250_250_MassSD30); 
+    tree->SetBranchAddress("HLT_AK8DiPFJet250_250_MassSD50", &HLT_AK8DiPFJet250_250_MassSD50); 
+    tree->SetBranchAddress("HLT_AK8DiPFJet260_260_MassSD30", &HLT_AK8DiPFJet260_260_MassSD30); 
+    tree->SetBranchAddress("HLT_AK8DiPFJet270_270_MassSD30", &HLT_AK8DiPFJet270_270_MassSD30); 
     tree->SetBranchAddress("HLT_AK8PFHT750_TrimMass50",                           &HLT_AK8PFHT750_TrimMass50);                         
     tree->SetBranchAddress("HLT_AK8PFHT800_TrimMass50",                           &HLT_AK8PFHT800_TrimMass50);                         
     tree->SetBranchAddress("HLT_AK8PFHT850_TrimMass50",                           &HLT_AK8PFHT850_TrimMass50);                         
@@ -263,13 +320,29 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
     tree->SetBranchAddress("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20",     &HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20);
     tree->SetBranchAddress("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20);
     tree->SetBranchAddress("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20);
- 
     tree->SetBranchAddress("HLT_IsoMu27", &HLT_IsoMu27);
     tree->SetBranchAddress("HLT_IsoMu30", &HLT_IsoMu30);
     tree->SetBranchAddress("HLT_Mu27", &HLT_Mu27);
     tree->SetBranchAddress("HLT_Mu50", &HLT_Mu50);
-    tree->SetBranchAddress("HLT_Mu55", &HLT_Mu55);
- 
+    tree->SetBranchAddress("HLT_Mu55", &HLT_Mu55); 
+    tree->SetBranchAddress("HLT_QuadPFJet70_50_40_30", &HLT_QuadPFJet70_50_40_30);
+    tree->SetBranchAddress("HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65", &HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65);
+    tree->SetBranchAddress("HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65", &HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65);
+    tree->SetBranchAddress("HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65", &HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65);
+    tree->SetBranchAddress("HLT_AK8PFJet230_SoftDropMass40", &HLT_AK8PFJet230_SoftDropMass40);
+    tree->SetBranchAddress("HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35);
+    tree->SetBranchAddress("HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35);
+    tree->SetBranchAddress("HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35);
+    tree->SetBranchAddress("HLT_AK8PFJet400_SoftDropMass40", &HLT_AK8PFJet400_SoftDropMass40);
+    tree->SetBranchAddress("HLT_AK8PFJet425_SoftDropMass40", &HLT_AK8PFJet425_SoftDropMass40);
+    tree->SetBranchAddress("HLT_AK8PFJet450_SoftDropMass40", &HLT_AK8PFJet450_SoftDropMass40);
+    tree->SetBranchAddress("HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetTauTau0p30", &HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetTauTau0p30);
+    tree->SetBranchAddress("HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetTauTau0p30", &HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetTauTau0p30);
+    tree->SetBranchAddress("HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetTauTau0p30", &HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetTauTau0p30);
+    tree->SetBranchAddress("HLT_IsoMu50_AK8PFJet230_SoftDropMass40", &HLT_IsoMu50_AK8PFJet230_SoftDropMass40);
+    tree->SetBranchAddress("HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35);
+    tree->SetBranchAddress("HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40", &HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40);
+    tree->SetBranchAddress("HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35);
 
     cout << "file " << datafiles[i] << " | Total Entries: " << tree->GetEntries() << "\n";
 
@@ -278,138 +351,67 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
       
       if (ientry % 100000 == 0) cout << "Event " << ientry << endl;      
     
+
+
       //******************************
       //Reference Trigger Selection
       //******************************
       if (!(HLT_IsoMu27 || HLT_IsoMu30 || HLT_Mu27 || HLT_Mu50 || HLT_Mu55)) continue;
-      
-      if (!(fabs(fatJet1Eta) < 2.4)) continue;
-      //if (!(fabs(fatJet2Pt) > 250)) continue;
+      if (!(abs(lep1Id) == 13 && lep1Pt > 30 )) continue;
+      if (!(deltaR(lep1Eta,lep1Phi, fatJet1Eta, fatJet1Phi) > 1.5)) continue;
 
+      if (!(fabs(fatJet1Eta) < 2.4)) continue;
+
+      
 
       //******************************
       //Trigger Selection
       //******************************
       float q = myRandom.Uniform(1);
       bool passTrigger = false;
-      	if (option == "2016") {
-
-	 
-	  //For Data
-	  if (isData) {
-
-	      passTrigger = 
-		(0 == 1)
-		 || HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20
-		|| HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20
-		|| HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 	    
-		|| HLT_AK8PFJet360_TrimMass30
-		|| HLT_AK8PFJet450 * bool(run > 274444)
-		|| HLT_PFJet450    
-		|| HLT_PFHT790
-		|| HLT_PFHT890
-		|| HLT_PFHT1050
-		
-		// || (HLT_AK8PFJet500 * bool(run > 274444))//extra one just for testing 				
-		;       
-
-	  } else {
-	    //For simulation
-	    passTrigger = 
-	      (0 == 1)
-	       || HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20
-	      || (HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 * bool(q < 19.88/35.92) )
-	      || (HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 * bool(q < 19.88/35.92) )
-	      || HLT_AK8PFJet360_TrimMass30
-	      || (HLT_AK8PFJet450 * bool(q < 33.18/35.92) )
-	      || HLT_PFJet450    
-	      || HLT_PFHT790
-	      || HLT_PFHT890
-	      || HLT_PFHT1050
-
-	      //|| HLT_AK8PFJet500 //extra one just for testing 
-	      ;       
-	  }
-	  
-	  
-
-	}
-	if (option == "2017") {
-	 
-	 if (isData) {
-	   //For Data
-	   if (run >= 297050 && run <= 299329) { //the HLT_AK8PFJet360_TrimMass30, HLT_AK8PFJet380_TrimMass30, HLT_AK8PFJet330_PFAK8BTagCSV_p17 triggers are messed up in those runs, so we don't include it
-	      
-	    passTrigger = (0 == 1) 
-	      || HLT_PFJet450    
-	      || HLT_PFJet500    
-	      || HLT_AK8PFJet400 
-	      || HLT_AK8PFJet500 
-	      || HLT_PFHT1050
-	      || HLT_AK8PFJet400_TrimMass30   
-	      || HLT_AK8PFHT800_TrimMass50 
-	      || HLT_AK8PFHT750_TrimMass50
-	      ;
-	  } 
-	  else {
-	    passTrigger = 
-	      (0 == 1) 
-	      || HLT_PFJet450    
-	      || HLT_PFJet500    
-	      || HLT_AK8PFJet400 
-	      || HLT_AK8PFJet500 
-	      || HLT_PFHT1050
-	      || HLT_AK8PFJet360_TrimMass30
-	      || HLT_AK8PFJet380_TrimMass30
-	      || HLT_AK8PFJet400_TrimMass30   
-	      || HLT_AK8PFHT800_TrimMass50 
-	      || HLT_AK8PFHT750_TrimMass50 
-	      || HLT_AK8PFJet330_PFAK8BTagCSV_p17
-	      ;     
-	    
-	  }
-	 } else {
-	   //For MC simulation
-	   passTrigger = 
-	     (0 == 1) 
-	     || (HLT_PFJet450                         * bool(q < 10.45/41.48) )
-	     || HLT_PFJet500    
-	     || HLT_AK8PFJet400 
-	     || HLT_AK8PFJet500 
-	     || HLT_PFHT1050
-	     || (HLT_AK8PFJet360_TrimMass30           * bool(q < 28.23/41.48) )
-	     || (HLT_AK8PFJet380_TrimMass30           * bool(q < 31.15/41.48) )
-	     || (HLT_AK8PFJet400_TrimMass30           * bool(q < 36.67/41.48) )
-	     || (HLT_AK8PFHT800_TrimMass50            * bool(q < 36.42/41.48) )
-	     || (HLT_AK8PFHT750_TrimMass50            * bool(q < 30.90/41.48) )
-	     || (HLT_AK8PFJet330_PFAK8BTagCSV_p17     * bool(q < 7.73/41.48) )
-	     ;
-	 }
-
-
-	}
-	if (option == "2018") {
+ 
+	if (option == "2022") {
 	  if (isData) {
 	    //For Data
 	    passTrigger = 
 	      (0 == 1) 
-	      || HLT_PFHT1050
-	      || HLT_PFJet500  
-	      || HLT_AK8PFJet500 
-	      || HLT_AK8PFJet400_TrimMass30 
-	      || HLT_AK8PFHT800_TrimMass50     
-	      || HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4 
+	      // || HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65
+	      // || HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65
+	      // || HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65
+	      // || HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35
+	      // || HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35
+	      // || HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35
+	      // || HLT_AK8PFJet400_SoftDropMass40
+	      // || HLT_AK8PFJet425_SoftDropMass40
+	      // || HLT_AK8PFJet450_SoftDropMass40	  
+	      // || HLT_AK8PFJet400_MassSD30
+	      // || HLT_AK8PFJet420_MassSD30
+	      // || HLT_AK8PFJet450_MassSD30
+	      // || HLT_AK8DiPFJet250_250_MassSD30
+	      // || HLT_AK8DiPFJet250_250_MassSD50
+	      // || HLT_AK8DiPFJet260_260_MassSD30
+	      || HLT_AK8DiPFJet270_270_MassSD30
 	      ;    
 	  } else {
 	    //For MC Simulation
 	    passTrigger = 
 	      (0 == 1) 
-	      || HLT_PFHT1050
-	      || HLT_PFJet500  
-	      || HLT_AK8PFJet500 
-	      || HLT_AK8PFJet400_TrimMass30 
-	      || HLT_AK8PFHT800_TrimMass50     
-	      || (HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4  * bool(q < 54.44/59.74))
+	      // || HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65
+	      // || HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65
+	      // || HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65
+	      //|| HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35
+	      // || HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35
+	      // || HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35
+	      // || HLT_AK8PFJet400_SoftDropMass40
+	      // || HLT_AK8PFJet425_SoftDropMass40
+	      //|| HLT_AK8PFJet450_SoftDropMass40	  
+	      // || HLT_AK8PFJet400_MassSD30
+	      // || HLT_AK8PFJet420_MassSD30
+	      // || HLT_AK8PFJet450_MassSD30
+	      // || HLT_AK8DiPFJet250_250_MassSD30
+	      // || HLT_AK8DiPFJet250_250_MassSD50
+	      // || HLT_AK8DiPFJet260_260_MassSD30
+	      // || HLT_AK8DiPFJet270_270_MassSD30
 	      ;   
 	  }	   
 	}
@@ -449,7 +451,7 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
 	}
 
 	
-	if (fatJet1MassSD > 30) {
+	if (fatJet1MassSD > 60 && fatJet1PNetXbb > 0.9) {
 	  histJetPt_Denominator ->Fill(fatJet1Pt);
 	  if (passTrigger) {
 	    histJetPt_Numerator ->Fill(fatJet1Pt);
@@ -474,14 +476,14 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
 	  // }
 	}
 
-	if (fatJet1Pt > 600) {
+	if (fatJet1Pt > 400 && fatJet1PNetXbb > 0.9) {
 	  histJetMass_Denominator->Fill(fatJet1MassSD);
 	  if (passTrigger) {
 	    histJetMass_Numerator->Fill(fatJet1MassSD);
 	  } 
 	}
 
-	if (fatJet1MassSD > 30 && fatJet1Pt > 300 && fatJet1Pt < 400) {
+	if (fatJet1MassSD > 60 && fatJet1Pt > 400) {
 	  histJetPNetXbb_Denominator->Fill(fatJet1PNetXbb);
 	  if (passTrigger) {	 	  
 	    histJetPNetXbb_Numerator->Fill(fatJet1PNetXbb);
@@ -594,7 +596,7 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   efficiency_pt->GetYaxis()->SetTitle("Efficiency");
   efficiency_pt->GetYaxis()->SetTitleOffset(1.2);
   efficiency_pt->SetLineWidth(3);  
-  cv->SaveAs(("JetHTTriggerEfficiency"+Label+"_Pt.gif").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency"+Label+"_Pt.gif").c_str());
 
   cv = new TCanvas("cv","cv",800,600);
   efficiency_mass->Draw("AP");
@@ -604,7 +606,7 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   efficiency_mass->GetYaxis()->SetTitle("Efficiency");
   efficiency_mass->GetYaxis()->SetTitleOffset(1.2);
   efficiency_mass->SetLineWidth(3);  
-  cv->SaveAs(("JetHTTriggerEfficiency"+Label+"_Mass.gif").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency"+Label+"_Mass.gif").c_str());
 
   cv = new TCanvas("cv","cv",800,600);
   efficiency_PNetXbb->Draw("AP");
@@ -614,7 +616,7 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   efficiency_PNetXbb->GetYaxis()->SetTitle("Efficiency");
   efficiency_PNetXbb->GetYaxis()->SetTitleOffset(1.2);
   efficiency_PNetXbb->SetLineWidth(3);  
-  cv->SaveAs(("JetHTTriggerEfficiency"+Label+"_PNetXbb.gif").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency"+Label+"_PNetXbb.gif").c_str());
 
   cv = new TCanvas("cv","cv",800,600);
   cv->SetRightMargin(0.15);
@@ -627,8 +629,8 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   efficiency_ptmass->GetZaxis()->SetTitle("Trigger Efficiency");
   //efficiency_ptmass->GetZaxis()->SetRangeUser(0.0,1.0);
   efficiency_ptmass->SetLineWidth(3);  
-  cv->SaveAs(("JetHTTriggerEfficiency"+Label+"_ptmass.gif").c_str());
-  cv->SaveAs(("JetHTTriggerEfficiency"+Label+"_ptmass.pdf").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency"+Label+"_ptmass.gif").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency"+Label+"_ptmass.pdf").c_str());
 
   cv = new TCanvas("cv","cv",800,600);
   cv->SetRightMargin(0.15);
@@ -640,8 +642,8 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   efficiency_ptmass_Xbb0p0To0p9->GetYaxis()->SetTitleOffset(1.2);
   efficiency_ptmass_Xbb0p0To0p9->GetZaxis()->SetTitle("Trigger Efficiency");
   efficiency_ptmass_Xbb0p0To0p9->SetLineWidth(3);  
-  cv->SaveAs(("JetHTTriggerEfficiency_Xbb0p0To0p9"+Label+"_ptmass.gif").c_str());
-  cv->SaveAs(("JetHTTriggerEfficiency_Xbb0p0To0p9"+Label+"_ptmass.pdf").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency_Xbb0p0To0p9"+Label+"_ptmass.gif").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency_Xbb0p0To0p9"+Label+"_ptmass.pdf").c_str());
 
   cv = new TCanvas("cv","cv",800,600);
   cv->SetRightMargin(0.15);
@@ -653,8 +655,8 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   efficiency_ptmass_Xbb0p9To0p95->GetYaxis()->SetTitleOffset(1.2);
   efficiency_ptmass_Xbb0p9To0p95->GetZaxis()->SetTitle("Trigger Efficiency");
   efficiency_ptmass_Xbb0p9To0p95->SetLineWidth(3);  
-  cv->SaveAs(("JetHTTriggerEfficiency_Xbb0p9To0p95"+Label+"_ptmass.gif").c_str());
-  cv->SaveAs(("JetHTTriggerEfficiency_Xbb0p9To0p95"+Label+"_ptmass.pdf").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency_Xbb0p9To0p95"+Label+"_ptmass.gif").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency_Xbb0p9To0p95"+Label+"_ptmass.pdf").c_str());
 
   cv = new TCanvas("cv","cv",800,600);
   cv->SetRightMargin(0.15);
@@ -666,8 +668,8 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   efficiency_ptmass_Xbb0p95To0p98->GetYaxis()->SetTitleOffset(1.2);
   efficiency_ptmass_Xbb0p95To0p98->GetZaxis()->SetTitle("Trigger Efficiency");
   efficiency_ptmass_Xbb0p95To0p98->SetLineWidth(3);  
-  cv->SaveAs(("JetHTTriggerEfficiency_Xbb0p95To0p98"+Label+"_ptmass.gif").c_str());
-  cv->SaveAs(("JetHTTriggerEfficiency_Xbb0p95To0p98"+Label+"_ptmass.pdf").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency_Xbb0p95To0p98"+Label+"_ptmass.gif").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency_Xbb0p95To0p98"+Label+"_ptmass.pdf").c_str());
 
   cv = new TCanvas("cv","cv",800,600);
   cv->SetRightMargin(0.15);
@@ -679,13 +681,13 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
   efficiency_ptmass_Xbb0p98To1p0->GetYaxis()->SetTitleOffset(1.2);
   efficiency_ptmass_Xbb0p98To1p0->GetZaxis()->SetTitle("Trigger Efficiency");
   efficiency_ptmass_Xbb0p98To1p0->SetLineWidth(3);  
-  cv->SaveAs(("JetHTTriggerEfficiency_Xbb0p98To1p0"+Label+"_ptmass.gif").c_str());
-  cv->SaveAs(("JetHTTriggerEfficiency_Xbb0p98To1p0"+Label+"_ptmass.pdf").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency_Xbb0p98To1p0"+Label+"_ptmass.gif").c_str());
+  cv->SaveAs((plotlabel+"JetHTTriggerEfficiency_Xbb0p98To1p0"+Label+"_ptmass.pdf").c_str());
 
    //--------------------------------------------------------------------------------------------------------------
   // Output
   //==============================================================================================================
-  TFile *file = TFile::Open(("JetHTTriggerEfficiency"+Label+".root").c_str(), "UPDATE");
+  TFile *file = TFile::Open((plotlabel+"JetHTTriggerEfficiency"+Label+".root").c_str(), "UPDATE");
   file->cd();
 
   file->WriteTObject(efficiency_pt, "efficiency_pt", "WriteDelete");
@@ -721,55 +723,32 @@ void RunMeasureJetHTTriggerEfficiency(  vector<string> datafiles, double lumi, s
 
 
 
-void JetHTTriggerEfficiency( int option = 0) {
+void JetHTTriggerEfficiency( int option = 0, string plotlabel = "") {
 
   vector<string> datafiles;
   if (option == 0) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/SingleMuon_2016B-ver2.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/SingleMuon_2016C.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/SingleMuon_2016D.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/SingleMuon_2016E.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/SingleMuon_2016F.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/SingleMuon_2016G.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/SingleMuon_2016H.root");    
-  } else if (option == 1) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/SingleMuon_2017B.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/SingleMuon_2017C.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/SingleMuon_2017D.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/SingleMuon_2017E.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/SingleMuon_2017F.root ");  
-    
-  } else if (option == 2) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2018/SingleMuon_2018A.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2018/SingleMuon_2018B.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2018/SingleMuon_2018C.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2018/SingleMuon_2018D.root");
-  }
-  
+    // datafiles.push_back("/eos/user/s/sixie/data/HH/option21/2022/SingleMuon_2022A.root");
+    // datafiles.push_back("/eos/user/s/sixie/data/HH/option21/2022/SingleMuon_2022B.root");
+    // datafiles.push_back("/eos/user/s/sixie/data/HH/option21/2022/SingleMuon_2022C.root");
+    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run3Analysis/HH/HHTo4BNtupler/option21/nano/run3/combined/2022/Muon_2022C.root");
+    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run3Analysis/HH/HHTo4BNtupler/option21/nano/run3/combined/2022/Muon_2022D.root");
+    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run3Analysis/HH/HHTo4BNtupler/option21/nano/run3/combined/2022/Muon_2022E.root");
+    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run3Analysis/HH/HHTo4BNtupler/option21/nano/run3/combined/2022/Muon_2022F.root");
+    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run3Analysis/HH/HHTo4BNtupler/option21/nano/run3/combined/2022/Muon_2022G.root");
+    // datafiles.push_back("/eos/user/s/sixie/data/HH/option21/2022/EGamma_2022A.root");
+    // datafiles.push_back("/eos/user/s/sixie/data/HH/option21/2022/EGamma_2022B.root");
+    // datafiles.push_back("/eos/user/s/sixie/data/HH/option21/2022/EGamma_2022C.root");
+    // datafiles.push_back("/eos/user/s/sixie/data/HH/option21/2022/EGamma_2022D.root");
+    // datafiles.push_back("/eos/user/s/sixie/data/HH/option21/2022/EGamma_2022E.root");
+    // datafiles.push_back("/eos/user/s/sixie/data/HH/option21/2022/EGamma_2022F.root");
+    // datafiles.push_back("/eos/user/s/sixie/data/HH/option21/2022/EGamma_2022G.root");  
 
+
+  } 
 
   if (option == 10) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/WJetsToQQ_HT-800toInf_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/WJetsToQQ_HT400to600_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2016/WJetsToQQ_HT600to800_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-    // datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20211020/2016/GluGluToHHTo4B_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8.root");
-  } else if (option == 11) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_new_pmx.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/WJetsToQQ_HT-800toInf_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/WJetsToQQ_HT400to600_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2017/WJetsToQQ_HT600to800_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-    // datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20211020/2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8.root");
-
-  } else if (option == 12) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-ext3.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2018/WJetsToQQ_HT-800toInf_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2018/WJetsToQQ_HT400to600_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20210225/2018/WJetsToQQ_HT600to800_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8.root");
-    // datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/JetHTTriggerNtupler/20211020/2018/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8.root");
+    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run3Analysis/HH/HHTo4BNtupler/option21/nano/run3/combined/2022/TTtoLNu2Q_PostEE.root");
+    //datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run3Analysis/HH/HHTo4BNtupler/option21/nano/run3/combined/2022/WtoLNu-2Jets.root");
   }
 
 
@@ -778,46 +757,24 @@ void JetHTTriggerEfficiency( int option = 0) {
   string optionString = "";
   bool isData = false;
   if (option == 0) {
-    lumi = 35922;
-    yearlabel = "2016";
-    optionString = "2016";
+    lumi = 30000;
+    yearlabel = "2022";
+    optionString = "2022";
     isData = true;
   } 
-  if (option == 1) {
-    lumi = 41480;
-    yearlabel = "2017";   
-    optionString = "2017"; 
-    isData = true;
-  } 
-  if (option == 2) {
-    lumi = 59741;
-    yearlabel = "2018";
-    optionString = "2018";
-    isData = true;
-  } 
+ 
   if (option == 10) {
     lumi = 35922;
-    yearlabel = "Summer16";
-    optionString = "2016";
+    yearlabel = "Summer22";
+    optionString = "2022";
     isData = false;
   } 
-  if (option == 11) {
-    lumi = 41480;
-    yearlabel = "Fall17"; 
-    optionString = "2017";   
-    isData = false;
-  } 
-  if (option == 12) {
-    lumi = 59741;
-    yearlabel = "Fall18";
-    optionString = "2018";
-    isData = false;
-  } 
+ 
  
   //*********************************************************************
   //Measure 
   //********************************************************************* 
-  RunMeasureJetHTTriggerEfficiency(datafiles, lumi, optionString,1,isData,yearlabel);
+  RunMeasureJetHTTriggerEfficiency(datafiles, lumi, optionString,1,isData,yearlabel, plotlabel);
 
  
 }
