@@ -884,9 +884,22 @@ void SelectHHTo4B_1LTopCR( int option = -1) {
   //2016 Data and MC
   //***********************************
 
-  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option10/combined/1LTopSkim/";
-  datafiles_2016.push_back(dir+"2016/SingleMuon_2016_1LTopSkim.root");
-  datafiles_2016.push_back(dir+"2016/SingleElectron_2016_1LTopSkim.root");
+  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210310/option10/combined/1LTopSkim/";
+  datafiles_2016.push_back(dir+"2016/SingleElectron_2016B-ver2_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleElectron_2016C_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleElectron_2016D_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleElectron_2016E_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleElectron_2016F_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleElectron_2016G_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleElectron_2016H_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleMuon_2016B-ver2_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleMuon_2016C_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleMuon_2016D_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleMuon_2016E_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleMuon_2016F_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleMuon_2016G_1LTopSkim.root");
+  datafiles_2016.push_back(dir+"2016/SingleMuon_2016H_1LTopSkim.root");
+  
 
   bkgfiles_ttbar1L_2016.push_back(dir+"2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
   bkgfiles_ttbar1L_2016.push_back(dir+"2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");
@@ -910,8 +923,17 @@ void SelectHHTo4B_1LTopCR( int option = -1) {
   //***********************************
   //2017 Data and MC
   //***********************************
-  datafiles_2017.push_back(dir+"2017/SingleMuon_2017_1LTopSkim.root");
-  datafiles_2017.push_back(dir+"2017/SingleElectron_2017_1LTopSkim.root");
+  datafiles_2017.push_back(dir+"2017/SingleElectron_2017B_1LTopSkim.root");
+  datafiles_2017.push_back(dir+"2017/SingleElectron_2017C_1LTopSkim.root");
+  datafiles_2017.push_back(dir+"2017/SingleElectron_2017D_1LTopSkim.root");
+  datafiles_2017.push_back(dir+"2017/SingleElectron_2017E_1LTopSkim.root");
+  datafiles_2017.push_back(dir+"2017/SingleElectron_2017F_1LTopSkim.root");
+  datafiles_2017.push_back(dir+"2017/SingleMuon_2017B_1LTopSkim.root");
+  datafiles_2017.push_back(dir+"2017/SingleMuon_2017C_1LTopSkim.root");
+  datafiles_2017.push_back(dir+"2017/SingleMuon_2017D_1LTopSkim.root");
+  datafiles_2017.push_back(dir+"2017/SingleMuon_2017E_1LTopSkim.root");
+  datafiles_2017.push_back(dir+"2017/SingleMuon_2017F_1LTopSkim.root");
+
 
   bkgfiles_ttbar1L_2017.push_back(dir+"2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
   bkgfiles_ttbar1L_2017.push_back(dir+"2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");
@@ -933,9 +955,16 @@ void SelectHHTo4B_1LTopCR( int option = -1) {
 
   //***********************************
   //2018 Data and MC
-  //***********************************
-  datafiles_2018.push_back(dir+"2018/SingleMuon_2018_1LTopSkim.root");
-  datafiles_2018.push_back(dir+"2018/EGamma_2018_1LTopSkim.root");
+  //***********************************  
+  datafiles_2018.push_back(dir+"2018/EGamma_2018A_1LTopSkim.root");
+  datafiles_2018.push_back(dir+"2018/EGamma_2018B_1LTopSkim.root");
+  datafiles_2018.push_back(dir+"2018/EGamma_2018C_1LTopSkim.root");
+  datafiles_2018.push_back(dir+"2018/EGamma_2018D_1LTopSkim.root");
+  datafiles_2018.push_back(dir+"2018/SingleMuon_2018A_1LTopSkim.root");
+  datafiles_2018.push_back(dir+"2018/SingleMuon_2018B_1LTopSkim.root");
+  datafiles_2018.push_back(dir+"2018/SingleMuon_2018C_1LTopSkim.root");
+  datafiles_2018.push_back(dir+"2018/SingleMuon_2018D_1LTopSkim.root");
+  
 
   bkgfiles_ttbar1L_2018.push_back(dir+"2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_1LTopSkim.root");  
   bkgfiles_ttbar1L_2018.push_back(dir+"2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_1LTopSkim.root");
