@@ -70,53 +70,99 @@ double getTriggerEff( TH2F *trigEffHist , double pt, double mass ) {
   return result; 
 }
 
+// Taken from here: https://github.com/cms-jet/TopTaggingScaleFactors/tree/master/scaleFactors
 
 double TopTagSF( string workingPoint, string year, double pt ) {
   double result = 1.0;
-  if (workingPoint == "0.46") {
+  if (workingPoint == "0.40") {
     if (year == "2016") {
       if (pt > 600) {
-	result = 1.00;
+	result = 0.930;
       } else if (pt > 480) { 
-	result = 0.988;
+	result = 1.013;
       } else if (pt > 400) { 
-	result = 0.976;
+	result = 1.041;
       } else if (pt > 300) { 
-	result = 0.93;
+	result = 0.926;
       } else {
-	result = 0.93; //this isn't measured, so we take the value of the last bin measured. 
+	result = 0.926; //this isn't measured, so we take the value of the last bin measured. 
       }      
     } 
     else if (year == "2017") {
       if (pt > 600) {
-	result = 0.87;
+	result = 0.760;
       } else if (pt > 480) { 
-	result = 0.89;
+	result = 0.851;
       } else if (pt > 400) { 
-	result = 0.95;
+	result = 0.856;
       } else if (pt > 300) { 
-	result = 0.93;
+	result = 0.879;
       } else {
-	result = 0.93; //this isn't measured, so we take the value of the last bin measured. 
+	result = 0.879; //this isn't measured, so we take the value of the last bin measured. 
       }      
     } 
     else if (year == "2018") {
       if (pt > 600) {
-	result = 0.847;
+	result = 0.787;
       } else if (pt > 480) { 
-	result = 0.93;
+	result = 0.911;
       } else if (pt > 400) { 
-	result = 0.976;
+	result = 0.923;
       } else if (pt > 300) { 
-	result = 0.93;
+	result = 0.888;
       } else {
-	result = 0.93; //this isn't measured, so we take the value of the last bin measured. 
+	result = 0.888; //this isn't measured, so we take the value of the last bin measured. 
       }      
     } 
     else {
       cout << "[TopTagSF] Warning: year=" << year << " is not supported\n";
     }
-  }  else {
+  } 
+  else if (workingPoint == "0.46") {
+    if (year == "2016") {
+      if (pt > 600) {
+	result = 0.993;
+      } else if (pt > 480) { 
+	result = 0.980;
+      } else if (pt > 400) { 
+	result = 1.012;
+      } else if (pt > 300) { 
+	result = 0.922;
+      } else {
+	result = 0.922; //this isn't measured, so we take the value of the last bin measured. 
+      }      
+    } 
+    else if (year == "2017") {
+      if (pt > 600) {
+	result = 0.873;
+      } else if (pt > 480) { 
+	result = 0.887;
+      } else if (pt > 400) { 
+	result = 0.946;
+      } else if (pt > 300) { 
+	result = 0.932;
+      } else {
+	result = 0.932; //this isn't measured, so we take the value of the last bin measured. 
+      }      
+    } 
+    else if (year == "2018") {
+      if (pt > 600) {
+	result = 0.848;
+      } else if (pt > 480) { 
+	result = 0.916;
+      } else if (pt > 400) { 
+	result = 0.967;
+      } else if (pt > 300) { 
+	result = 0.917;
+      } else {
+	result = 0.917; //this isn't measured, so we take the value of the last bin measured. 
+      }      
+    } 
+    else {
+      cout << "[TopTagSF] Warning: year=" << year << " is not supported\n";
+    }
+  }
+  else {
     cout << "[TopTagSF] Warning: workingPoint=" << workingPoint << " is not supported\n";
   }
   return result;   
@@ -288,9 +334,9 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
   //--------------------------------------------------------------------------------------------------------------
   // Settings 
   //============================================================================================================== 
-  TFile *triggerEff2016File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root","READ");
-  TFile *triggerEff2017File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root","READ");
-  TFile *triggerEff2018File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root","READ");
+  TFile *triggerEff2016File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2016.root","READ");
+  TFile *triggerEff2017File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2017.root","READ");
+  TFile *triggerEff2018File = new TFile("/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_2018.root","READ");
   TH2F *triggerEff2016Hist = (TH2F*)triggerEff2016File->Get("efficiency_ptmass");
   TH2F *triggerEff2017Hist = (TH2F*)triggerEff2017File->Get("efficiency_ptmass");
   TH2F *triggerEff2018Hist = (TH2F*)triggerEff2018File->Get("efficiency_ptmass");
@@ -346,7 +392,7 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
     histNLeptons.push_back(new TH1D(Form("histNLeptons_%s",processLabels[i].c_str()), "; NLeptons ; Number of Events", 10, -0.5, 9.5));
     histNJetsHaveLeptons.push_back(new TH1D(Form("histNJetsHaveLeptons_%s",processLabels[i].c_str()), "; NJetsHaveLeptons ; Number of Events", 3, -0.5, 2.5));
     histJet1Mass.push_back(new TH1D(Form("histJet1Mass_%s",processLabels[i].c_str()), "; Jet1 Mass [GeV] ; Number of Events", 25, 0, 500));
-    histJet1Pt.push_back(new TH1D(Form("histJet1Pt_%s",processLabels[i].c_str()), "; Jet1 p_{T} [GeV] ; Number of Events", 25, 0, 2000));
+    histJet1Pt.push_back(new TH1D(Form("histJet1Pt_%s",processLabels[i].c_str()), "; Jet1 p_{T} [GeV] ; Number of Events", 50, 0, 2000));
     histJet1DDB.push_back(new TH1D(Form("histJet1DDB_%s",processLabels[i].c_str()), "; Jet1 DDB ; Number of Events", 25, 0, 1.0));
     histJet1PNetXbb.push_back(new TH1D(Form("histJet1PNetXbb_%s",processLabels[i].c_str()), "; Jet1 PNetXbb ; Number of Events", 25, 0, 1.0));
     histJet1Tau3OverTau2.push_back(new TH1D(Form("histJet1Tau3OverTau2_%s",processLabels[i].c_str()), "; Jet1 Tau3OverTau2 ; Number of Events", 25, 0, 1.0));
@@ -565,7 +611,7 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	//******************************
 	//Selection Cuts 
 	//******************************
-	if ( !(fatJet1Pt > 500 )) continue;
+	if ( !(fatJet1Pt > 300 )) continue;
 	if ( !(fatJet2Pt > 300 )) continue;
 	if ( !(fatJet1MassSD > 50)) continue;
 	if ( !(fatJet2MassSD > 30)) continue;
@@ -593,6 +639,7 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	    // else                                                                      triggerSF = 0;
 	    // myWeight = myWeight * triggerSF;	  
 
+	    passTrigger = true;
 	    double triggerEff = 1.0 - 
 	      (1 - getTriggerEff( triggerEff2016Hist , fatJet1Pt, fatJet1MassSD )) * 
 	      (1 - getTriggerEff( triggerEff2016Hist , fatJet2Pt, fatJet2MassSD ))
@@ -611,7 +658,7 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	    || HLT_AK8PFJet380_TrimMass30
 	    || HLT_AK8PFJet400_TrimMass30   
 	    || HLT_AK8PFHT800_TrimMass50 
-	    || HLT_AK8PFJet330_PFAK8BTagCSV_p17	  
+	    || HLT_AK8PFJet330_PFAK8BTagCSV_p17		    
 	    ;       
 
 	  // apply trigger efficiency correction for some triggers that were not enabled for full run
@@ -635,10 +682,7 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	      (1 - getTriggerEff( triggerEff2017Hist , fatJet2Pt, fatJet2MassSD ))
 	      ;
 	    myWeight = myWeight * triggerEff;
-
 	  }
-
-
 	}
 
 
@@ -657,8 +701,9 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 	    // if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)              triggerSF = 1.0;
 	    // else if (HLT_AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4)              triggerSF = 54.5 / 59.7;	        
 	    // else                                                                      triggerSF = 0;
-	    // myWeight = myWeight * triggerSF;	  
+	     // myWeight = myWeight * triggerSF;	  
 
+	    passTrigger = true;
 	    double triggerEff = 1.0 - 
 	      (1 - getTriggerEff( triggerEff2018Hist , fatJet1Pt, fatJet1MassSD )) * 
 	      (1 - getTriggerEff( triggerEff2018Hist , fatJet2Pt, fatJet2MassSD ))
@@ -683,16 +728,16 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 
 	//TTbar Hadronic CR
 	if (channelOption == 20) {
-	  if (!(fatJet1Tau3OverTau2 < 0.46)) continue;
-	  if (!(fatJet2Tau3OverTau2 < 0.46)) continue;
-	  //if (!(fatJet1PNetXbb > 0.3)) continue;
-	  //if (!(fatJet2PNetXbb > 0.3)) continue;
+	  if (!(fatJet1Tau3OverTau2 < 0.40)) continue;
+	  if (!(fatJet2Tau3OverTau2 < 0.40)) continue;
+	   if (!(fatJet1PNetXbb > 0.2)) continue;
+	   if (!(fatJet2PNetXbb > 0.2)) continue;
 	  if (!fatJet1HasBJetCSVLoose) continue;
 	  if (!fatJet2HasBJetCSVLoose) continue;
 
 	  if (processLabels[i] == "TTJets") {
-	    double fatJet1TopTagSF = TopTagSF("0.46", option, fatJet1Pt);
-	    double fatJet2TopTagSF = TopTagSF("0.46", option, fatJet2Pt);
+	    double fatJet1TopTagSF = TopTagSF("0.40", option, fatJet1Pt);
+	    double fatJet2TopTagSF = TopTagSF("0.40", option, fatJet2Pt);
 	    myWeight = myWeight * fatJet1TopTagSF * fatJet2TopTagSF;
 	  }
 	}
@@ -849,104 +894,88 @@ void SelectHHTo4B_TopCR( int option = 1) {
   vector<string> bkgfiles_qcd; 
   vector<string> bkgfiles_HH; 
 
+  string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210310/option10/combined/Tau32TopSkim/BDT/";
+
   if (option == 0) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/JetHT_2016_GoodLumi.root");
-
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted.root");  
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted.root");  
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-combined_1pb_weighted.root");
-    //bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    //bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/ttHTobb_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-
-    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/GluGluToHHTo4B_node_SM_13TeV-madgraph_1pb_weighted.root");
+    datafiles.push_back(dir+"2016/JetHT_2016B-ver2_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2016/JetHT_2016C_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2016/JetHT_2016D_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2016/JetHT_2016E_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2016/JetHT_2016F_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2016/JetHT_2016G_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2016/JetHT_2016H_Tau32TopSkim_BDTs.root");    
+    bkgfiles_ttbar.push_back(dir+"2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");  
+    bkgfiles_ttbar.push_back(dir+"2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");  
+    bkgfiles_qcd.push_back(dir+"2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_HH.push_back(dir+"2016/GluGluToHHTo4B_node_SM_13TeV-madgraph_1pb_weighted_Tau32TopSkim_BDTs.root");
   }
 
-
   if (option == 1) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/JetHT_2017_GoodLumi.root");
-
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");  
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");  
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");
-
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-
-    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/GluGluToHHTo4B_node_SM_1pb_weighted.root");
+    datafiles.push_back(dir+"2017/JetHT_2017B_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2017/JetHT_2017C_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2017/JetHT_2017D_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2017/JetHT_2017E_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2017/JetHT_2017F_Tau32TopSkim_BDTs.root");
+    bkgfiles_ttbar.push_back(dir+"2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Tau32TopSkim_BDTs.root");  
+    bkgfiles_ttbar.push_back(dir+"2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Tau32TopSkim_BDTs.root");  
+    bkgfiles_qcd.push_back(dir+"2017/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2017/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2017/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_HH.push_back(dir+"2017/GluGluToHHTo4B_node_SM_1pb_weighted_Tau32TopSkim_BDTs.root");
   }
 
   if (option == 2) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/JetHT_2018_GoodLumi.root");
-
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted.root");  
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted.root");  
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");
-
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-
-    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/GluGluToHHTo4B_node_SM_13TeV-madgraph_1pb_weighted.root");
+    datafiles.push_back(dir+"2018/JetHT_2018A_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2018/JetHT_2018B_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2018/JetHT_2018C_Tau32TopSkim_BDTs.root");
+    datafiles.push_back(dir+"2018/JetHT_2018D_Tau32TopSkim_BDTs.root");
+    bkgfiles_ttbar.push_back(dir+"2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Tau32TopSkim_BDTs.root");  
+    bkgfiles_ttbar.push_back(dir+"2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Tau32TopSkim_BDTs.root");  
+    bkgfiles_qcd.push_back(dir+"2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_qcd.push_back(dir+"2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Tau32TopSkim_BDTs.root");
+    bkgfiles_HH.push_back(dir+"2018/GluGluToHHTo4B_node_SM_13TeV-madgraph_1pb_weighted_Tau32TopSkim_BDTs.root");
   }
 
 
   bkgfiles.push_back(bkgfiles_qcd);
   bkgfiles.push_back(bkgfiles_ttbar);
-  bkgfiles.push_back(bkgfiles_H);
-  bkgfiles.push_back(bkgfiles_VH);
-  bkgfiles.push_back(bkgfiles_ttH);
-  bkgfiles.push_back(bkgfiles_HH);
+  // bkgfiles.push_back(bkgfiles_H);
+  // bkgfiles.push_back(bkgfiles_VH);
+  // bkgfiles.push_back(bkgfiles_ttH);
+  // bkgfiles.push_back(bkgfiles_HH);
 
   processLabels.push_back("QCD");
   processLabels.push_back("TTJets");  
-  processLabels.push_back("H");
-  processLabels.push_back("VH");
-  processLabels.push_back("ttH");
-  processLabels.push_back("HH");
+  // processLabels.push_back("H");
+  // processLabels.push_back("VH");
+  // processLabels.push_back("ttH");
+  // processLabels.push_back("HH");
 
   colors.push_back(kRed);
   colors.push_back(kAzure+10);
-  colors.push_back(kGreen+2);
-  colors.push_back(kGray);
-  colors.push_back(kBlue);
-  colors.push_back(kMagenta+2);
+  // colors.push_back(kGreen+2);
+  // colors.push_back(kGray);
+  // colors.push_back(kBlue);
+  // colors.push_back(kMagenta+2);
  
   scaleFactors.push_back(0.72);
   scaleFactors.push_back(1.0);
-  scaleFactors.push_back(1.0);
-  scaleFactors.push_back(1.0);
-  scaleFactors.push_back(1.0);
-  scaleFactors.push_back(1.0);
+  // scaleFactors.push_back(1.0);
+  // scaleFactors.push_back(1.0);
+  // scaleFactors.push_back(1.0);
+  // scaleFactors.push_back(1.0);
 
   double lumi = 0;
   string yearlabel = "";
