@@ -103,12 +103,17 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
 
   TH1D *histSignal = 0;
 
+  cout << "hist[] size : " << hist.size() << "\n";
+
   if (hasData) {
+    cout << "hasData\n";
     for (int i = hist.size()-1; i >= 1; --i) {
       hist[i]->SetFillColor(color[i]);
       hist[i]->SetFillStyle(1001);
       hist[i]->SetLineColor(color[i]);
       
+      cout << processLabels[i] << " : " << hist[i]->Integral() << "\n";
+
       if ( hist[i]->Integral() > 0) {
 
 	if (processLabels[i] == "HH") {
@@ -116,11 +121,13 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
 	}
 
 	if ((processLabels[i] == "HH") || (processLabels[i] == "HHkl0") || processLabels[i] == "HHkl2p45" || processLabels[i] == "HHkl6") continue;
+	cout << "Add : " << i << processLabels[i] << "\n";
   	stack->Add(hist[i]);
         
       }
     }
   } else {
+    cout << "noData\n";
     for (int i = hist.size()-1; i >= 0; --i) {
       hist[i]->SetFillColor(color[i]);
       hist[i]->SetFillStyle(1001);
@@ -388,13 +395,13 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
       //inputfiles[i][y] is a pair < vector<string> , string >
       string year = inputfiles[i][y].second;
       double lumi = 0;
-      if (year == "2016") {
-	lumi = 35922;
+      if (year == "2022") {
+	lumi = 35182;
       } 
-      if (year == "2017") {
+      if (year == "2023") {
 	lumi = 41480;
       } 
-      if (year == "2018") {
+      if (year == "2024") {
 	lumi = 59741;
       }      
 
@@ -487,7 +494,30 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	bool HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 = false;
 	bool HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20 = false;
 	bool HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 = false;
-
+	bool HLT_AK8DiPFJet250_250_MassSD30 = false; 
+	bool HLT_AK8DiPFJet250_250_MassSD50 = false; 
+	bool HLT_AK8DiPFJet260_260_MassSD30 = false; 
+	bool HLT_AK8DiPFJet270_270_MassSD30 = false; 
+	bool HLT_QuadPFJet70_50_40_30 = false;
+	bool HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65 = false;
+	bool HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65 = false;
+	bool HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65 = false;
+	bool HLT_AK8PFJet230_SoftDropMass40 = false;
+	bool HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35 = false;
+	bool HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35 = false;
+	bool HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35 = false;
+	bool HLT_AK8PFJet400_SoftDropMass40 = false;
+	bool HLT_AK8PFJet425_SoftDropMass40 = false;
+	bool HLT_AK8PFJet450_SoftDropMass40 = false;
+	bool HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetTauTau0p30 = false;
+	bool HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetTauTau0p30 = false;
+	bool HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetTauTau0p30 = false;
+	bool HLT_IsoMu50_AK8PFJet230_SoftDropMass40 = false;
+	bool HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35 = false;
+	bool HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40 = false;
+	bool HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35 = false;
+	
+	
 	tree->SetBranchAddress("weight",&weight);
 	tree->SetBranchAddress("triggerEffWeight",&triggerEffWeight);
 	tree->SetBranchAddress("pileupWeight",&pileupWeight);
@@ -561,7 +591,29 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	tree->SetBranchAddress("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20",     &HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20);
 	tree->SetBranchAddress("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20);
 	tree->SetBranchAddress("HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20",        &HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20);
- 
+	tree->SetBranchAddress("HLT_AK8DiPFJet250_250_MassSD30", &HLT_AK8DiPFJet250_250_MassSD30); 
+	tree->SetBranchAddress("HLT_AK8DiPFJet250_250_MassSD50", &HLT_AK8DiPFJet250_250_MassSD50); 
+	tree->SetBranchAddress("HLT_AK8DiPFJet260_260_MassSD30", &HLT_AK8DiPFJet260_260_MassSD30); 
+	tree->SetBranchAddress("HLT_AK8DiPFJet270_270_MassSD30", &HLT_AK8DiPFJet270_270_MassSD30); 
+	tree->SetBranchAddress("HLT_QuadPFJet70_50_40_30", &HLT_QuadPFJet70_50_40_30);
+	tree->SetBranchAddress("HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65", &HLT_QuadPFJet70_50_40_30_PFBTagParticleNet_2BTagSum0p65);
+	tree->SetBranchAddress("HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65", &HLT_QuadPFJet70_50_40_35_PFBTagParticleNet_2BTagSum0p65);
+	tree->SetBranchAddress("HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65", &HLT_QuadPFJet70_50_45_35_PFBTagParticleNet_2BTagSum0p65);
+	tree->SetBranchAddress("HLT_AK8PFJet230_SoftDropMass40", &HLT_AK8PFJet230_SoftDropMass40);
+	tree->SetBranchAddress("HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35);
+	tree->SetBranchAddress("HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35);
+	tree->SetBranchAddress("HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetBB0p35);
+	tree->SetBranchAddress("HLT_AK8PFJet400_SoftDropMass40", &HLT_AK8PFJet400_SoftDropMass40);
+	tree->SetBranchAddress("HLT_AK8PFJet425_SoftDropMass40", &HLT_AK8PFJet425_SoftDropMass40);
+	tree->SetBranchAddress("HLT_AK8PFJet450_SoftDropMass40", &HLT_AK8PFJet450_SoftDropMass40);
+	tree->SetBranchAddress("HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetTauTau0p30", &HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetTauTau0p30);
+	tree->SetBranchAddress("HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetTauTau0p30", &HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetTauTau0p30);
+	tree->SetBranchAddress("HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetTauTau0p30", &HLT_AK8PFJet275_SoftDropMass40_PFAK8ParticleNetTauTau0p30);
+	tree->SetBranchAddress("HLT_IsoMu50_AK8PFJet230_SoftDropMass40", &HLT_IsoMu50_AK8PFJet230_SoftDropMass40);
+	tree->SetBranchAddress("HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35);
+	tree->SetBranchAddress("HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40", &HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40);
+	tree->SetBranchAddress("HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35", &HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35);
+
 
 	bool isData = false;
 	if ( processLabels[i] == "Data") isData = true;
@@ -577,9 +629,10 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  double puWeight = 1;      
 	  double myWeight = 1;
 	  if (!isData) {	 
-	    myWeight = lumi * weight * triggerEffWeight * pileupWeight * scaleFactors[i];
+	    //myWeight = lumi * weight * triggerEffWeight * pileupWeight * scaleFactors[i];
 	    //myWeight = lumi * weight * triggerEffWeight * scaleFactors[i];
-	    //myWeight = lumi * weight * scaleFactors[i];
+	    myWeight = lumi * weight * scaleFactors[i];
+	    //cout << " weight: " << lumi << " " << weight << " " << scaleFactors[i] << " " << triggerEffWeight << " " << pileupWeight << "\n";
 	    //cout << "scaleFactors: " << scaleFactors[i] << "\n";
 	  }
 
@@ -588,72 +641,59 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  //******************************
 	  bool passTrigger = false;
 
-	  if (year == "2016") {
+	  if (year == "2022") {
 	    passTrigger = 
 	      (0 == 1)
-	      || HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20
-	      || HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20
-	      || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20	 	    
+	      || HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35
+	      //|| HLT_AK8PFJet425_SoftDropMass40
 	      ;       
 
 	    // apply trigger efficiency correction for some triggers that were not enabled for full run
 	    if (!isData) {
-	      // double triggerSF = 1.0;
-	      // if (HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20)                         triggerSF = 1.0;
-	      // else if (HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20 
-	      // 	     || HLT_AK8DiPFJet250_200_TrimMass30_BTagCSV_p20)                 triggerSF = 19.9 / 35.9;	      
-	      // else                                                                      triggerSF = 0;
-	      // myWeight = myWeight * triggerSF;	  
-
-	      passTrigger = true;
-	      // double triggerEff = 1.0 - 
-	      //   (1 - getTriggerEff( triggerEff2016Hist , fatJet1Pt, fatJet1MassSD )) * 
-	      //   (1 - getTriggerEff( triggerEff2016Hist , fatJet2Pt, fatJet2MassSD ))
-	      //   ;
-	      // myWeight = myWeight * triggerEff;
-	    }
-
-	  }
-	  if (year == "2017") {
 	    passTrigger = 
-	      (0 == 1) 
-	      || HLT_PFJet500    
-	      || HLT_AK8PFJet500 
-	      || HLT_AK8PFJet360_TrimMass30
-	      || HLT_AK8PFJet380_TrimMass30
-	      || HLT_AK8PFJet400_TrimMass30   
-	      || HLT_AK8PFHT800_TrimMass50 
-	      || HLT_AK8PFJet330_PFAK8BTagCSV_p17	  
+	      (0 == 1)
+	      || HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35
+	      //|| HLT_AK8PFJet425_SoftDropMass40
+	      ;       
+
+	    myWeight = myWeight;
+	    //maybe needs a MC to data correction factor
+	    // double triggerEff = 1.0 - 
+	    //   (1 - getTriggerEff( triggerEff2016Hist , fatJet1Pt, fatJet1MassSD )) * 
+	    //   (1 - getTriggerEff( triggerEff2016Hist , fatJet2Pt, fatJet2MassSD ))
+	    //   ;
+	    // myWeight = myWeight * triggerEff;
+	    }
+
+	  }
+	  if (year == "2023") {
+	    passTrigger = 
+	      (0 == 1)
+	      || HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35
+	      //|| HLT_AK8PFJet425_SoftDropMass40
 	      ;       
 
 	    // apply trigger efficiency correction for some triggers that were not enabled for full run
 	    if (!isData) {
-	      // double triggerSF = 1.0;
-	      // if (HLT_PFJet500 || HLT_AK8PFJet500)                                    triggerSF = 1.0;
-	      // else {
-	      //   //cout << "fail\n";
-	      //   if (HLT_AK8PFJet400_TrimMass30 || HLT_AK8PFHT800_TrimMass50)          triggerSF = 36.42 / 41.48;
-	      //   else if (HLT_AK8PFJet380_TrimMass30)                                    triggerSF = 31.15 / 41.48;            
-	      //   else if (HLT_AK8PFJet360_TrimMass30)                                    triggerSF = 28.23 / 41.48;
-	      //   else if (HLT_AK8PFJet330_PFAK8BTagCSV_p17)                              triggerSF = 7.73 / 41.48;	    
-	      //   else                                                                    triggerSF = 0;
-	      //   //cout << "triggerSF = " << triggerSF << "\n";
-	      // }
-	      // myWeight = myWeight * triggerSF;
-	    
-	      passTrigger = true;
-	      // double triggerEff = 1.0 - 
-	      //   (1 - getTriggerEff( triggerEff2017Hist , fatJet1Pt, fatJet1MassSD )) * 
-	      //   (1 - getTriggerEff( triggerEff2017Hist , fatJet2Pt, fatJet2MassSD ))
-	      //   ;
-	      // myWeight = myWeight * triggerEff;
-	    }
+	    passTrigger = 
+	      (0 == 1)
+	      || HLT_AK8PFJet250_SoftDropMass40_PFAK8ParticleNetBB0p35
+	      //|| HLT_AK8PFJet425_SoftDropMass40
+	      ;       
 
+	    myWeight = myWeight;
+	    //maybe needs a MC to data correction factor
+	    // double triggerEff = 1.0 - 
+	    //   (1 - getTriggerEff( triggerEff2016Hist , fatJet1Pt, fatJet1MassSD )) * 
+	    //   (1 - getTriggerEff( triggerEff2016Hist , fatJet2Pt, fatJet2MassSD ))
+	    //   ;
+	    // myWeight = myWeight * triggerEff;
+	    }	  
 
 	  }
 
 
-	  if (year == "2018") {
+	  if (year == "2024") {
 	    passTrigger = 
 	      (0 == 1) 
 	      || HLT_AK8PFJet400_TrimMass30 
@@ -698,6 +738,8 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	  if ( !(fatJet1MassSD > 50)) continue;
 	  if ( !(fatJet2MassSD > 50)) continue;
 	 
+	  //cout << "pass: " << fatJet1Pt << " " << fatJet2Pt << " " << fatJet2MassSD << "\n";
+
 	  //blind the data
 	  if (isData) {if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) continue;}
 	  
@@ -720,7 +762,7 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    histMET[i]->Fill(MET);    
 	    histNLeptons[i]->Fill(0.0);   
 	    histNJetsHaveLeptons[i]->Fill(NJetsHaveLeptons);   
-	    histJet1Mass[i]->Fill(fatJet1MassSD);      
+	    histJet1Mass[i]->Fill(fatJet1MassSD);   
 	    histJet1Pt[i]->Fill(fatJet1Pt);
 	    histJet1DDB[i]->Fill(fatJet1DDBTagger);
 	    histJet1PNetXbb[i]->Fill(fatJet1PNetXbb);
@@ -731,27 +773,29 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
 	    histJet2PNetXbb[i]->Fill(fatJet2PNetXbb);
 	    histJet2Tau3OverTau2[i]->Fill(fatJet2Tau3OverTau2);
 	    histHHPt[i]->Fill(hh_pt);    
-	    histHHMass[i]->Fill(hh_mass);    
-	  } else {
+	    histHHMass[i]->Fill(hh_mass); 
+	    //cout << "fill data\n";
 
+	  } else {
+	    
 	    if (processLabels[i] == "HH") {
 	      if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
-              SignalYield_kl1 += myWeight;
+		SignalYield_kl1 += myWeight;
+		//cout << "fill signal\n";
 	      }
 	    } else if(processLabels[i] == "HHkl0"){
-          if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
-              SignalYield_kl0 += myWeight;
-          }
+	      if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
+		SignalYield_kl0 += myWeight;
+	      }
 	    } else if(processLabels[i] == "HHkl2p45"){
-          if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
-              SignalYield_kl2p45 += myWeight;
-          }
+	      if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
+		SignalYield_kl2p45 += myWeight;
+	      }
 	    } else if(processLabels[i] == "HHkl5"){
-          if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
-              SignalYield_kl5 += myWeight;
-          }
+	      if ( (fatJet2MassSD > 95 && fatJet2MassSD < 135)) {
+		SignalYield_kl5 += myWeight;
+	      }
 	    }
-        
 	    histMET[i]->Fill(MET, myWeight);    
 	    histNLeptons[i]->Fill(0.0, myWeight);   
 	    histNJetsHaveLeptons[i]->Fill(NJetsHaveLeptons, myWeight);   
@@ -785,24 +829,32 @@ void RunSelectHHTo4B(  std::vector<std::pair<std::vector<std::string>,std::strin
   TLegend *legend = 0;
 
   //*******************************************************************************************
-  //MR
+  //Plots
   //*******************************************************************************************
-  PlotDataAndStackedBkg( histMET, processLabels, color, true, "MET", totalLumi, Label);
-  PlotDataAndStackedBkg( histNLeptons, processLabels, color, true, "NLeptons", totalLumi, Label);
-  PlotDataAndStackedBkg( histNJetsHaveLeptons, processLabels, color, true, "NJetsHaveLeptons", totalLumi, Label);
+  //PlotDataAndStackedBkg( histMET, processLabels, color, true, "MET", totalLumi, Label);
+  //PlotDataAndStackedBkg( histNLeptons, processLabels, color, true, "NLeptons", totalLumi, Label);
+  //PlotDataAndStackedBkg( histNJetsHaveLeptons, processLabels, color, true, "NJetsHaveLeptons", totalLumi, Label);
+  cout << "hist 1 " << histJet1Mass.size() << "\n";
   PlotDataAndStackedBkg( histJet1Mass, processLabels, color, true, "Jet1_Mass", totalLumi, Label);
+  cout << "hist 2\n";
   PlotDataAndStackedBkg( histJet1Pt, processLabels, color, true, "Jet1_Pt", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet1DDB, processLabels, color, true, "Jet1_DDB", totalLumi, Label);
+  cout << "hist 3\n";
+  //PlotDataAndStackedBkg( histJet1DDB, processLabels, color, true, "Jet1_DDB", totalLumi, Label);
   PlotDataAndStackedBkg( histJet1PNetXbb, processLabels, color, true, "Jet1_PNetXbb", totalLumi, Label);
+  cout << "hist 4\n";
   PlotDataAndStackedBkg( histJet1Tau3OverTau2, processLabels, color, true, "Jet1_Tau3OverTau2", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet2Mass, processLabels, color, true, "Jet2_Mass", totalLumi, Label);
+  cout << "hist 5\n";  PlotDataAndStackedBkg( histJet2Mass, processLabels, color, true, "Jet2_Mass", totalLumi, Label);
   PlotDataAndStackedBkg( histJet2Pt, processLabels, color, true, "Jet2_Pt", totalLumi, Label);
-  PlotDataAndStackedBkg( histJet2DDB, processLabels, color, true, "Jet2_DDB", totalLumi, Label);
+  cout << "hist 6\n";
+  //PlotDataAndStackedBkg( histJet2DDB, processLabels, color, true, "Jet2_DDB", totalLumi, Label);
   PlotDataAndStackedBkg( histJet2PNetXbb, processLabels, color, true, "Jet2_PNetXbb", totalLumi, Label);
+  cout << "hist 7\n";
   PlotDataAndStackedBkg( histJet2Tau3OverTau2, processLabels, color, true, "Jet2_Tau3OverTau2", totalLumi, Label);
+  cout << "hist 8\n";
   PlotDataAndStackedBkg( histHHPt, processLabels, color, true, "HHPt", totalLumi, Label);
+  cout << "hist 9\n";
   PlotDataAndStackedBkg( histHHMass, processLabels, color, true, "HHMass", totalLumi, Label);
-
+  cout << "hist 10\n";
 
   //--------------------------------------------------------------------------------------------------------------
   // Tables
@@ -851,141 +903,147 @@ void SelectHHTo4B_Preselection( int option = -1) {
   std::vector<int> colors;
   std::vector<float> scaleFactors;
 
-  std::vector<std::string> datafiles_2016;
-  std::vector<std::string> datafiles_2017;
-  std::vector<std::string> datafiles_2018;
+  std::vector<std::string> datafiles_2022;
+  std::vector<std::string> datafiles_2023;
+  std::vector<std::string> datafiles_2024;
 
-  std::vector<std::string> bkgfiles_ttbar_2016;
-  std::vector<std::string> bkgfiles_H_2016;
-  std::vector<std::string> bkgfiles_VH_2016;
-  std::vector<std::string> bkgfiles_ttH_2016;  
-  std::vector<std::string> bkgfiles_qcd_2016; 
-  std::vector<std::string> bkgfiles_HH_2016; 
-  std::vector<std::string> bkgfiles_HHkl0_2016;
-  std::vector<std::string> bkgfiles_HHkl2p45_2016;
-  std::vector<std::string> bkgfiles_HHkl5_2016;
-  std::vector<std::string> bkgfiles_ttbar_2017;
-  std::vector<std::string> bkgfiles_H_2017;
-  std::vector<std::string> bkgfiles_VH_2017;
-  std::vector<std::string> bkgfiles_ttH_2017;  
-  std::vector<std::string> bkgfiles_qcd_2017; 
-  std::vector<std::string> bkgfiles_HH_2017; 
-  std::vector<std::string> bkgfiles_HHkl0_2017;
-  std::vector<std::string> bkgfiles_HHkl2p45_2017;
-  std::vector<std::string> bkgfiles_HHkl5_2017;
-  std::vector<std::string> bkgfiles_ttbar_2018;
-  std::vector<std::string> bkgfiles_H_2018;
-  std::vector<std::string> bkgfiles_VH_2018;
-  std::vector<std::string> bkgfiles_ttH_2018;  
-  std::vector<std::string> bkgfiles_qcd_2018; 
-  std::vector<std::string> bkgfiles_HH_2018;
-  std::vector<std::string> bkgfiles_HHkl0_2018;
-  std::vector<std::string> bkgfiles_HHkl2p45_2018;
-  std::vector<std::string> bkgfiles_HHkl5_2018;
-
-  //***********************************
-  //2016 Data and MC
-  //***********************************
-
-  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20210211/option5/combined/BDT/";
-  datafiles_2016.push_back(dir+"2016/JetHT_2016B-ver2_BDTs.root");
-  datafiles_2016.push_back(dir+"2016/JetHT_2016C_BDTs.root");
-  datafiles_2016.push_back(dir+"2016/JetHT_2016D_BDTs.root");
-  datafiles_2016.push_back(dir+"2016/JetHT_2016E_BDTs.root");
-  datafiles_2016.push_back(dir+"2016/JetHT_2016F_BDTs.root");
-  datafiles_2016.push_back(dir+"2016/JetHT_2016G_BDTs.root");
-  datafiles_2016.push_back(dir+"2016/JetHT_2016H_BDTs.root");
-
-   bkgfiles_ttbar_2016.push_back(dir+"testing/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
-   bkgfiles_ttbar_2016.push_back(dir+"testing/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");   
-  // bkgfiles_ttbar_2016.push_back(dir+"testing/2016/TT_Mtt-1000toInf_TuneCUETP8M2T4_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
-   //bkgfiles_ttbar_2016.push_back(dir+"testing/2016/TT_Mtt-700to1000_TuneCUETP8M2T4_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
-  bkgfiles_H_2016.push_back(dir+"2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_H_2016.push_back(dir+"2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-combined_1pb_weighted_BDTs.root");
-  //bkgfiles_VH_2016.push_back(dir+"2016/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  //bkgfiles_VH_2016.push_back(dir+"2016/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_VH_2016.push_back(dir+"2016/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  //  bkgfiles_VH_2016.push_back(dir+"2016/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_ttH_2016.push_back(dir+"2016/ttHTobb_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-
-  bkgfiles_qcd_2016.push_back(dir+"testing/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2016.push_back(dir+"testing/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2016.push_back(dir+"testing/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2016.push_back(dir+"testing/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2016.push_back(dir+"testing/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2016.push_back(dir+"testing/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_Testing_BDTs.root");
-
-  bkgfiles_HH_2016.push_back(dir+"testing/2016/GluGluToHHTo4B_node_cHHH1_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_HHkl0_2016.push_back(dir+"2016/GluGluToHHTo4B_node_cHHH0_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_HHkl2p45_2016.push_back(dir+"2016/GluGluToHHTo4B_node_cHHH2p45_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_HHkl5_2016.push_back(dir+"2016/GluGluToHHTo4B_node_cHHH5_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");
-
-
+  std::vector<std::string> bkgfiles_ttbar_2022;
+  std::vector<std::string> bkgfiles_H_2022;
+  std::vector<std::string> bkgfiles_VH_2022;
+  std::vector<std::string> bkgfiles_ttH_2022;  
+  std::vector<std::string> bkgfiles_qcd_2022; 
+  std::vector<std::string> bkgfiles_HH_2022; 
+  std::vector<std::string> bkgfiles_HHkl0_2022;
+  std::vector<std::string> bkgfiles_HHkl2p45_2022;
+  std::vector<std::string> bkgfiles_HHkl5_2022;
+  std::vector<std::string> bkgfiles_ttbar_2023;
+  std::vector<std::string> bkgfiles_H_2023;
+  std::vector<std::string> bkgfiles_VH_2023;
+  std::vector<std::string> bkgfiles_ttH_2023;  
+  std::vector<std::string> bkgfiles_qcd_2023; 
+  std::vector<std::string> bkgfiles_HH_2023; 
+  std::vector<std::string> bkgfiles_HHkl0_2023;
+  std::vector<std::string> bkgfiles_HHkl2p45_2023;
+  std::vector<std::string> bkgfiles_HHkl5_2023;
+  std::vector<std::string> bkgfiles_ttbar_2024;
+  std::vector<std::string> bkgfiles_H_2024;
+  std::vector<std::string> bkgfiles_VH_2024;
+  std::vector<std::string> bkgfiles_ttH_2024;  
+  std::vector<std::string> bkgfiles_qcd_2024; 
+  std::vector<std::string> bkgfiles_HH_2024;
+  std::vector<std::string> bkgfiles_HHkl0_2024;
+  std::vector<std::string> bkgfiles_HHkl2p45_2024;
+  std::vector<std::string> bkgfiles_HHkl5_2024;
 
   //***********************************
-  //2017 Data and MC
+  //2022 Data and MC
   //***********************************
-  datafiles_2017.push_back(dir+"2017/JetHT_2017B_BDTs.root");
-  datafiles_2017.push_back(dir+"2017/JetHT_2017C_BDTs.root");
-  datafiles_2017.push_back(dir+"2017/JetHT_2017D_BDTs.root");
-  datafiles_2017.push_back(dir+"2017/JetHT_2017E_BDTs.root");
-  datafiles_2017.push_back(dir+"2017/JetHT_2017F_BDTs.root");
+
+  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run3Analysis/HH/HHTo4BNtupler/option5/nano/run3/combined/";
+  datafiles_2022.push_back(dir+"2022/JetHT_2022A_GoodLumi.root");
+  datafiles_2022.push_back(dir+"2022/JetHT_2022B_GoodLumi.root");
+  datafiles_2022.push_back(dir+"2022/JetHT_2022C_GoodLumi.root");
+  datafiles_2022.push_back(dir+"2022/JetMET_2022C_GoodLumi.root");
+  datafiles_2022.push_back(dir+"2022/JetMET_2022D_GoodLumi.root");
+  datafiles_2022.push_back(dir+"2022/JetMET_2022E_GoodLumi.root");
+  datafiles_2022.push_back(dir+"2022/JetMET_2022F_GoodLumi.root");
+  datafiles_2022.push_back(dir+"2022/JetMET_2022G_GoodLumi.root");
+
+  bkgfiles_ttbar_2022.push_back(dir+"2022/TTto4Q_postEE_1pb_weighted.root");  
+  bkgfiles_ttbar_2022.push_back(dir+"2022/TTtoLNu2Q_PostEE_1pb_weighted.root");   
+  bkgfiles_H_2022.push_back(dir+"2022/ggHto2B_Pt200ToInf_PostEE_1pb_weighted.root");
+  bkgfiles_H_2022.push_back(dir+"2022/VBFHto2B_PostEE_1pb_weighted.root");
+  bkgfiles_VH_2022.push_back(dir+"2022/WminusH_Hto2B_Wto2Q_PostEE_1pb_weighted.root");
+  bkgfiles_VH_2022.push_back(dir+"2022/WplusH_Hto2B_Wto2Q_PostEE_1pb_weighted.root");
+  bkgfiles_VH_2022.push_back(dir+"2022/ZH_Hto2B_Zto2Q_PostEE_1pb_weighted.root");
+  bkgfiles_ttH_2022.push_back(dir+"2022/ttH_Hto2B_PostEE_1pb_weighted.root");
+
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt80to120_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt120to170_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt170to300_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt300to470_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt470to600_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt600to800_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt800to1000_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt1000to1400_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt1400to1800_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt1800to2400_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt2400to3200_postEE_1pb_weighted.root");
+  bkgfiles_qcd_2022.push_back(dir+"2022/QCDPt3200toInf_postEE_1pb_weighted.root");
+  
 
 
-   bkgfiles_ttbar_2017.push_back(dir+"testing/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
-   bkgfiles_ttbar_2017.push_back(dir+"testing/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
-  // bkgfiles_ttbar_2017.push_back(dir+"testing/2017/TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");  
-  // bkgfiles_ttbar_2017.push_back(dir+"testing/2017/TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");   
-  bkgfiles_H_2017.push_back(dir+"2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_H_2017.push_back(dir+"2017/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_VH_2017.push_back(dir+"2017/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_VH_2017.push_back(dir+"2017/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_VH_2017.push_back(dir+"2017/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  //  bkgfiles_VH_2017.push_back(dir+"2017/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_ttH_2017.push_back(dir+"2017/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");
+  bkgfiles_HH_2022.push_back(dir+"2022/ggHH_cHHH_1_TSG_1pb_weighted.root");
+  //bkgfiles_HHkl0_2022.push_back(dir+"2022/GluGluToHHTo4B_node_cHHH0_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");
+  //bkgfiles_HHkl2p45_2022.push_back(dir+"2022/GluGluToHHTo4B_node_cHHH2p45_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");
+  //bkgfiles_HHkl5_2022.push_back(dir+"2022/GluGluToHHTo4B_node_cHHH5_TuneCUETP8M1_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");
 
-  bkgfiles_qcd_2017.push_back(dir+"testing/2017/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2017.push_back(dir+"testing/2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2017.push_back(dir+"testing/2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2017.push_back(dir+"testing/2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2017.push_back(dir+"testing/2017/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2017.push_back(dir+"testing/2017/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_Testing_BDTs.root");
 
-  bkgfiles_HH_2017.push_back(dir+"testing/2017/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");   
-  bkgfiles_HHkl0_2017.push_back(dir+"2017/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");   
-  bkgfiles_HHkl2p45_2017.push_back(dir+"2017/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");   
-  bkgfiles_HHkl5_2017.push_back(dir+"2017/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");   
 
   //***********************************
-  //2018 Data and MC
+  //2023 Data and MC
   //***********************************
-  datafiles_2018.push_back(dir+"2018/JetHT_2018A_BDTs.root");
-  datafiles_2018.push_back(dir+"2018/JetHT_2018B_BDTs.root");
-  datafiles_2018.push_back(dir+"2018/JetHT_2018C_BDTs.root");
-  datafiles_2018.push_back(dir+"2018/JetHT_2018D_BDTs.root");
-   bkgfiles_ttbar_2018.push_back(dir+"testing/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs.root");  
-   bkgfiles_ttbar_2018.push_back(dir+"testing/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_Testing_BDTs.root");  
-   //bkgfiles_ttbar_2018.push_back(dir+"testing/2018/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");
-   //bkgfiles_ttbar_2018.push_back(dir+"testing/2018/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_H_2018.push_back(dir+"2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_H_2018.push_back(dir+"2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted_BDTs.root");
-  bkgfiles_VH_2018.push_back(dir+"2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_VH_2018.push_back(dir+"2018/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_VH_2018.push_back(dir+"2018/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  //  bkgfiles_VH_2018.push_back(dir+"2018/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_ttH_2018.push_back(dir+"2018/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");
+  datafiles_2023.push_back(dir+"2023/JetHT_2023B_GoodLumi.root");
+  datafiles_2023.push_back(dir+"2023/JetHT_2023C_GoodLumi.root");
+  datafiles_2023.push_back(dir+"2023/JetHT_2023D_GoodLumi.root");
+  datafiles_2023.push_back(dir+"2023/JetHT_2023E_GoodLumi.root");
+  datafiles_2023.push_back(dir+"2023/JetHT_2023F_GoodLumi.root");
 
-  bkgfiles_qcd_2018.push_back(dir+"testing/2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2018.push_back(dir+"testing/2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2018.push_back(dir+"testing/2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2018.push_back(dir+"testing/2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2018.push_back(dir+"testing/2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_qcd_2018.push_back(dir+"testing/2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_Testing_BDTs.root");
 
-  bkgfiles_HH_2018.push_back(dir+"testing/2018/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_Testing_BDTs.root");
-  bkgfiles_HHkl0_2018.push_back(dir+"2018/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_HHkl2p45_2018.push_back(dir+"2018/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");
-  bkgfiles_HHkl5_2018.push_back(dir+"2018/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted_BDTs.root");
+   bkgfiles_ttbar_2023.push_back(dir+"testing/2023/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");  
+   bkgfiles_ttbar_2023.push_back(dir+"testing/2023/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");  
+  // bkgfiles_ttbar_2023.push_back(dir+"testing/2023/TT_Mtt-1000toInf_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted.root");  
+  // bkgfiles_ttbar_2023.push_back(dir+"testing/2023/TT_Mtt-700to1000_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted.root");   
+  bkgfiles_H_2023.push_back(dir+"2023/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
+  bkgfiles_H_2023.push_back(dir+"2023/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted.root");
+  bkgfiles_VH_2023.push_back(dir+"2023/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+  bkgfiles_VH_2023.push_back(dir+"2023/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+  bkgfiles_VH_2023.push_back(dir+"2023/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+  //  bkgfiles_VH_2023.push_back(dir+"2023/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+  bkgfiles_ttH_2023.push_back(dir+"2023/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");
+
+  bkgfiles_qcd_2023.push_back(dir+"testing/2023/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+  bkgfiles_qcd_2023.push_back(dir+"testing/2023/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+  bkgfiles_qcd_2023.push_back(dir+"testing/2023/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+  bkgfiles_qcd_2023.push_back(dir+"testing/2023/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+  bkgfiles_qcd_2023.push_back(dir+"testing/2023/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+  bkgfiles_qcd_2023.push_back(dir+"testing/2023/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
+
+  bkgfiles_HH_2023.push_back(dir+"testing/2023/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");   
+  bkgfiles_HHkl0_2023.push_back(dir+"2023/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");   
+  bkgfiles_HHkl2p45_2023.push_back(dir+"2023/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");   
+  bkgfiles_HHkl5_2023.push_back(dir+"2023/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");   
+
+  //***********************************
+  //2024 Data and MC
+  //***********************************
+  datafiles_2024.push_back(dir+"2024/JetHT_2024A_GoodLumi.root");
+  datafiles_2024.push_back(dir+"2024/JetHT_2024B_GoodLumi.root");
+  datafiles_2024.push_back(dir+"2024/JetHT_2024C_GoodLumi.root");
+  datafiles_2024.push_back(dir+"2024/JetHT_2024D_GoodLumi.root");
+   bkgfiles_ttbar_2024.push_back(dir+"testing/2024/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted.root");  
+   bkgfiles_ttbar_2024.push_back(dir+"testing/2024/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted.root");  
+   //bkgfiles_ttbar_2024.push_back(dir+"testing/2024/TT_Mtt-1000toInf_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");
+   //bkgfiles_ttbar_2024.push_back(dir+"testing/2024/TT_Mtt-700to1000_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");
+  bkgfiles_H_2024.push_back(dir+"2024/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
+  bkgfiles_H_2024.push_back(dir+"2024/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted.root");
+  bkgfiles_VH_2024.push_back(dir+"2024/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+  bkgfiles_VH_2024.push_back(dir+"2024/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+  bkgfiles_VH_2024.push_back(dir+"2024/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+  //  bkgfiles_VH_2024.push_back(dir+"2024/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
+  bkgfiles_ttH_2024.push_back(dir+"2024/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");
+
+  bkgfiles_qcd_2024.push_back(dir+"testing/2024/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+  bkgfiles_qcd_2024.push_back(dir+"testing/2024/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+  bkgfiles_qcd_2024.push_back(dir+"testing/2024/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+  bkgfiles_qcd_2024.push_back(dir+"testing/2024/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+  bkgfiles_qcd_2024.push_back(dir+"testing/2024/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+  bkgfiles_qcd_2024.push_back(dir+"testing/2024/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
+
+  bkgfiles_HH_2024.push_back(dir+"testing/2024/GluGluToHHTo4B_node_cHHH1_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");
+  bkgfiles_HHkl0_2024.push_back(dir+"2024/GluGluToHHTo4B_node_cHHH0_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");
+  bkgfiles_HHkl2p45_2024.push_back(dir+"2024/GluGluToHHTo4B_node_cHHH2p45_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");
+  bkgfiles_HHkl5_2024.push_back(dir+"2024/GluGluToHHTo4B_node_cHHH5_TuneCP5_PSWeights_13TeV-powheg-pythia8_1pb_weighted.root");
 
 
   //another vector to contain the different dataset years
@@ -1000,75 +1058,75 @@ void SelectHHTo4B_Preselection( int option = -1) {
   std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_HHkl5; 
    
   if (option == -1) {
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2016, "2016"));
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2017, "2017"));
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2018, "2018"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2022, "2022"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2023, "2023"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2024, "2024"));
 
-    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2016 , "2016"));
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2016 , "2016"));
-    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2016 , "2016"));
-    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2016 , "2016"));
-    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2016 , "2016"));
-    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2016 , "2016"));
-    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2016 , "2016"));
-    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2016 , "2016"));
-    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2016 , "2016"));
+    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2022 , "2022"));
+    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2022 , "2022"));
+    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2022 , "2022"));
+    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2022 , "2022"));
+    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2022 , "2022"));
+    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2022 , "2022"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2022 , "2022"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2022 , "2022"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2022 , "2022"));
 
-    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2017 , "2017"));
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2017 , "2017"));
-    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2017 , "2017"));
-    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2017 , "2017"));
-    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2017 , "2017"));
-    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2017 , "2017"));
-    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2017 , "2017"));
-    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2017 , "2017"));
-    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2017 , "2017"));
+    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2023 , "2023"));
+    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2023 , "2023"));
+    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2023 , "2023"));
+    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2023 , "2023"));
+    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2023 , "2023"));
+    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2023 , "2023"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2023 , "2023"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2023 , "2023"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2023 , "2023"));
 
-    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2018 , "2018"));
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2018 , "2018"));
-    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2018 , "2018"));
-    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2018 , "2018"));
-    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2018 , "2018"));
-    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2018 , "2018"));
-    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2018 , "2018"));
-    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2018 , "2018"));
-    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2018 , "2018"));
+    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2024 , "2024"));
+    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2024 , "2024"));
+    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2024 , "2024"));
+    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2024 , "2024"));
+    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2024 , "2024"));
+    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2024 , "2024"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2024 , "2024"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2024 , "2024"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2024 , "2024"));
   }
   if (option == 0) {
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2016, "2016"));
-    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2016 , "2016"));
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2016 , "2016"));
-    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2016 , "2016"));
-    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2016 , "2016"));
-    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2016 , "2016"));
-    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2016 , "2016"));
-    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2016 , "2016"));
-    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2016 , "2016"));
-    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2016 , "2016"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2022, "2022"));
+    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2022 , "2022"));
+    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2022 , "2022"));
+    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2022 , "2022"));
+    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2022 , "2022"));
+    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2022 , "2022"));
+    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2022 , "2022"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2022 , "2022"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2022 , "2022"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2022 , "2022"));
   }
   if (option == 1) {
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2017, "2017"));
-    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2017 , "2017"));
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2017 , "2017"));
-    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2017 , "2017"));
-    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2017 , "2017"));
-    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2017 , "2017"));
-    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2017 , "2017"));
-    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2017 , "2017"));
-    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2017 , "2017"));
-    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2017 , "2017"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2023, "2023"));
+    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2023 , "2023"));
+    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2023 , "2023"));
+    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2023 , "2023"));
+    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2023 , "2023"));
+    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2023 , "2023"));
+    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2023 , "2023"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2023 , "2023"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2023 , "2023"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2023 , "2023"));
   }
   if (option == 2) {
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2018, "2018"));
-    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2018 , "2018"));
-    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2018 , "2018"));
-    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2018 , "2018"));
-    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2018 , "2018"));
-    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2018 , "2018"));
-    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2018 , "2018"));
-    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2018 , "2018"));
-    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2018 , "2018"));
-    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2018 , "2018"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2024, "2024"));
+    bkgfiles_qcd.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_qcd_2024 , "2024"));
+    bkgfiles_ttbar.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar_2024 , "2024"));
+    bkgfiles_VH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_VH_2024 , "2024"));
+    bkgfiles_H.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_H_2024 , "2024"));
+    bkgfiles_ttH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttH_2024 , "2024"));
+    bkgfiles_HH.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HH_2024 , "2024"));
+    bkgfiles_HHkl0.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl0_2024 , "2024"));
+    bkgfiles_HHkl2p45.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl2p45_2024 , "2024"));
+    bkgfiles_HHkl5.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_HHkl5_2024 , "2024"));
   }
 
   bkgfiles.push_back(bkgfiles_qcd);
@@ -1101,12 +1159,12 @@ void SelectHHTo4B_Preselection( int option = -1) {
   // colors.push_back(kMagenta-3);
   // colors.push_back(kMagenta+3);
  
-  scaleFactors.push_back(0.61);
+  scaleFactors.push_back(1.25);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
-  scaleFactors.push_back(100000.0);
+  scaleFactors.push_back(1.0);
   // scaleFactors.push_back(1.0);
   // scaleFactors.push_back(1.0);
   // scaleFactors.push_back(1.0);
@@ -1114,10 +1172,10 @@ void SelectHHTo4B_Preselection( int option = -1) {
 
   string label = "";
   double totalLumi = 0;
-  if (option == -1) { label = "Run2"; totalLumi = 136143; }
-  if (option == 0)  { label = "2016"; totalLumi = 35922;  }
-  if (option == 1)  { label = "2017"; totalLumi = 41480;  }
-  if (option == 2)  { label = "2018"; totalLumi = 59741;  }
+  if (option == -1) { label = "Run3"; totalLumi = 62044; }
+  if (option == 0)  { label = "2022"; totalLumi = 35182;  }
+  if (option == 1)  { label = "2023"; totalLumi = 26862;  }
+  if (option == 2)  { label = "2024"; totalLumi = 0;  }
 
   //*********************************************************************
   //SR Selection
