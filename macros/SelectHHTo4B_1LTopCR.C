@@ -204,6 +204,8 @@ void PlotDataAndStackedBkg( vector<TH1D*> hist , vector<string> processLabels, v
       hist[i]->SetFillColor(color[i]);
       hist[i]->SetFillStyle(1001);
       
+      cout << processLabels[i] << " : " << hist[i]->Integral() << "\n";
+
       if ( hist[i]->Integral() > 0) {
   	stack->Add(hist[i]);
       }
@@ -398,6 +400,8 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
   vector<TH1D*> histJet1Pt;
   vector<TH1D*> histJet1DDB;
   vector<TH1D*> histJet1PNetXbb;
+  vector<TH1D*> histJet1PNetXbbSR;
+  vector<TH1D*> histJet1PNetXbbSRZoom;
   vector<TH1D*> histJet1Tau3OverTau2;
   vector<TH1D*> histJet2Mass;
   vector<TH1D*> histJet2Pt;
@@ -419,6 +423,12 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
     histJet1Pt.push_back(new TH1D(Form("histJet1Pt_%s",processLabels[i].c_str()), "; Jet1 p_{T} [GeV] ; Number of Events", 50, 0, 2000));
     histJet1DDB.push_back(new TH1D(Form("histJet1DDB_%s",processLabels[i].c_str()), "; Jet1 DDB ; Number of Events", 25, 0, 1.0));
     histJet1PNetXbb.push_back(new TH1D(Form("histJet1PNetXbb_%s",processLabels[i].c_str()), "; Jet1 PNetXbb ; Number of Events", 25, 0, 1.0));
+
+    double histJet1PNetXbbSRBins[8] = {0.05, 0.8, 0.9, 0.945, 0.955, 0.975, 0.985, 1.0};
+    histJet1PNetXbbSR.push_back(new TH1D(Form("histJet1PNetXbbSR_%s",processLabels[i].c_str()), "; Jet1 PNetXbb ; Number of Events", 7, histJet1PNetXbbSRBins));
+
+    double histJet1PNetXbbSRZoomBins[6] = {0.9, 0.945, 0.955, 0.975, 0.985, 1.0};
+    histJet1PNetXbbSRZoom.push_back(new TH1D(Form("histJet1PNetXbbSRZoom_%s",processLabels[i].c_str()), "; Jet1 PNetXbb ; Number of Events", 5, histJet1PNetXbbSRZoomBins));
     histJet1Tau3OverTau2.push_back(new TH1D(Form("histJet1Tau3OverTau2_%s",processLabels[i].c_str()), "; Jet1 Tau3OverTau2 ; Number of Events", 25, 0, 1.0));
     histJet2Mass.push_back(new TH1D(Form("histJet2Mass_%s",processLabels[i].c_str()), "; Jet2 Mass [GeV] ; Number of Events", 25, 0, 500));
     histJet2Pt.push_back(new TH1D(Form("histJet2Pt_%s",processLabels[i].c_str()), "; Jet2 p_{T} [GeV] ; Number of Events", 25, 0, 1000));
@@ -438,6 +448,8 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
     histJet1Pt[i]->Sumw2();
     histJet1DDB[i]->Sumw2();
     histJet1PNetXbb[i]->Sumw2();
+    histJet1PNetXbbSR[i]->Sumw2();
+    histJet1PNetXbbSRZoom[i]->Sumw2();
     histJet1Tau3OverTau2[i]->Sumw2();
     histJet2Mass[i]->Sumw2();
     histJet2Pt[i]->Sumw2();
@@ -467,14 +479,14 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
       //inputfiles[i][y] is a pair < vector<string> , string >
       string year = inputfiles[i][y].second;
       double lumi = 0;
-      if (year == "2016") {
-	lumi = 35922;
+      if (year == "2022") {
+	lumi = 35182;
       } 
-      if (year == "2017") {
-	lumi = 41480;
+      if (year == "2023") {
+	lumi = 26862;
       } 
-      if (year == "2018") {
-	lumi = 59741;
+      if (year == "2024") {
+	lumi = 0;
       }      
 
       //loop over files for the process and dataset-year
@@ -700,8 +712,10 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 	  double puWeight = 1;      
 	  double myWeight = 1;
 	  if (!isData) {	 
-	    myWeight = lumi * weight * pileupWeight * scaleFactors[i];
+	    //myWeight = lumi * weight * pileupWeight * scaleFactors[i];
+	    myWeight = lumi * weight * scaleFactors[i];
 	    //cout << "scaleFactors: " << scaleFactors[i] << "\n";
+	    //cout << "myWeight: " << myWeight << " " << lumi << " " << weight << " " << scaleFactors[i] << "\n";
 	  }
 
 	  //******************************
@@ -709,21 +723,24 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 	  //******************************
 	  bool passTrigger = false;	  
 	  if ( abs(lep1Id) == 11 ) {
-	    passTrigger = HLT_Ele27_WPTight_Gsf ||
-	      HLT_Ele28_WPTight_Gsf  || 
+	    passTrigger = 
+	      //HLT_Ele27_WPTight_Gsf ||
+	      //HLT_Ele28_WPTight_Gsf  || 
 	      HLT_Ele30_WPTight_Gsf  || 
 	      HLT_Ele32_WPTight_Gsf  || 
 	      HLT_Ele35_WPTight_Gsf  || 
 	      HLT_Ele38_WPTight_Gsf  || 
 	      HLT_Ele40_WPTight_Gsf;	    
 	  } else {
-	    passTrigger = HLT_IsoMu20  || 
+	    passTrigger = 
+	      //HLT_IsoMu20  || 
 	      HLT_IsoMu24  || 
 	      HLT_IsoMu24_eta2p1  || 
-	      HLT_IsoMu27  || 
-	      HLT_IsoMu30  || 
-	      HLT_Mu50  || 
-	      HLT_Mu55;
+	      HLT_IsoMu27   
+	      //HLT_IsoMu30  || 
+	      //HLT_Mu50  || 
+	      //HLT_Mu55
+	      ;
 	  }
 	  if (!passTrigger) continue;
 	
@@ -744,11 +761,7 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 
 	  double dphi = (fabs(lep1Phi-lep2Phi) > TMath::Pi()) ? fabs(fabs(lep1Phi-lep2Phi) - 2*TMath::Pi()) : fabs(lep1Phi-lep2Phi);
 	  if( !(sqrt(pow(lep1Eta-fatJet1Eta,2)+pow(dphi,2)) > 1.0 )) continue;
-	
-	  //HEM problem
-	  if ( year == "2018") {
-	    if (abs(lep1Id) == 11 && lep1Phi > -1.6 && lep1Phi < -0.85 && lep1Eta < -1.5) continue;
-	  }
+		 
 
 	  //Top mass window requirement
 	  if ( !(fatJet1MassSD > 140)) continue;
@@ -758,10 +771,10 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 
 	  //TTbar Hadronic CR
 	  if (!(fatJet1Tau3OverTau2 < 0.46)) continue;	
-	  if (processLabels[i] == "TTJets") {
-	    double fatJet1TopTagSF = TopTagSF("0.46", year, fatJet1Pt);
-	    myWeight = myWeight * fatJet1TopTagSF ;
-	  }
+	  // if (processLabels[i] == "TTJets") {
+	  //   double fatJet1TopTagSF = TopTagSF("0.46", year, fatJet1Pt);
+	  //   myWeight = myWeight * fatJet1TopTagSF ;
+	  // }
  
 	  //******************************
 	  //Fill histograms
@@ -777,6 +790,8 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 	    histJet1Pt[i]->Fill(fatJet1Pt);
 	    histJet1DDB[i]->Fill(fatJet1DDBTagger);
 	    histJet1PNetXbb[i]->Fill(fatJet1PNetXbb);
+	    histJet1PNetXbbSR[i]->Fill(fatJet1PNetXbb);
+	    histJet1PNetXbbSRZoom[i]->Fill(fatJet1PNetXbb);
 	    histJet1Tau3OverTau2[i]->Fill(fatJet1Tau3OverTau2);
 	  } else {	 
 	    MCYield += myWeight;
@@ -788,6 +803,8 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
 	    histJet1Pt[i]->Fill(fatJet1Pt, myWeight);
 	    histJet1DDB[i]->Fill(fatJet1DDBTagger, myWeight);
 	    histJet1PNetXbb[i]->Fill(fatJet1PNetXbb, myWeight);
+	    histJet1PNetXbbSR[i]->Fill(fatJet1PNetXbb, myWeight);
+	    histJet1PNetXbbSRZoom[i]->Fill(fatJet1PNetXbb, myWeight);
 	    histJet1Tau3OverTau2[i]->Fill(fatJet1Tau3OverTau2, myWeight);	
 	  }
 	} //loop over events
@@ -817,6 +834,8 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
   PlotDataAndStackedBkg( histJet1Pt, processLabels, color, true, "Jet1_Pt", totalLumi, Label);
   PlotDataAndStackedBkg( histJet1DDB, processLabels, color, true, "Jet1_DDB", totalLumi, Label);
   PlotDataAndStackedBkg( histJet1PNetXbb, processLabels, color, true, "Jet1_PNetXbb", totalLumi, Label);
+  PlotDataAndStackedBkg( histJet1PNetXbbSR, processLabels, color, true, "Jet1_PNetXbbSR", totalLumi, Label);
+  PlotDataAndStackedBkg( histJet1PNetXbbSRZoom, processLabels, color, true, "Jet1_PNetXbbSRZoom", totalLumi, Label);
   PlotDataAndStackedBkg( histJet1Tau3OverTau2, processLabels, color, true, "Jet1_Tau3OverTau2", totalLumi, Label);
 
 
@@ -839,7 +858,10 @@ void RunSelect1LTop(  std::vector<std::pair<std::vector<std::string>,std::string
   for(int i=0; i<int(inputfiles.size()); i++) {
     file->WriteTObject(histJet1Mass[i], Form("histJet1Mass_%s",processLabels[i].c_str()), "WriteDelete");
     file->WriteTObject(histJet1Pt[i], Form("histJet1Pt_%s",processLabels[i].c_str()), "WriteDelete");
-     file->WriteTObject(histMET[i], Form("histMET_%s",processLabels[i].c_str()), "WriteDelete");
+    file->WriteTObject(histMET[i], Form("histMET_%s",processLabels[i].c_str()), "WriteDelete");
+    file->WriteTObject(histJet1PNetXbb[i], Form("histJet1PNetXbb_%s",processLabels[i].c_str()), "WriteDelete");
+    file->WriteTObject(histJet1PNetXbbSR[i], Form("histJet1PNetXbbSR_%s",processLabels[i].c_str()), "WriteDelete");
+    file->WriteTObject(histJet1PNetXbbSRZoom[i], Form("histJet1PNetXbbSRZoom_%s",processLabels[i].c_str()), "WriteDelete");
   } 
   
   file->Close();
@@ -861,100 +883,60 @@ void SelectHHTo4B_1LTopCR( int option = -1) {
   std::vector<int> colors;
   std::vector<float> scaleFactors;
 
-  std::vector<std::string> datafiles_2016;
-  std::vector<std::string> datafiles_2017;
-  std::vector<std::string> datafiles_2018;
+  std::vector<std::string> datafiles_2022;
+  std::vector<std::string> datafiles_2023;
+  std::vector<std::string> datafiles_2024;
 
-  std::vector<std::string> bkgfiles_ttbar1L_2016;
-  std::vector<std::string> bkgfiles_ttbar2L_2016;
-  std::vector<std::string> bkgfiles_WJets_2016;
-  std::vector<std::string> bkgfiles_QCD_2016;
+  std::vector<std::string> bkgfiles_ttbar1L_2022;
+  std::vector<std::string> bkgfiles_ttbar2L_2022;
+  std::vector<std::string> bkgfiles_WJets_2022;
+  std::vector<std::string> bkgfiles_QCD_2022;
 
-  std::vector<std::string> bkgfiles_ttbar1L_2017;
-  std::vector<std::string> bkgfiles_ttbar2L_2017;
-  std::vector<std::string> bkgfiles_WJets_2017;
-  std::vector<std::string> bkgfiles_QCD_2017;
+  std::vector<std::string> bkgfiles_ttbar1L_2023;
+  std::vector<std::string> bkgfiles_ttbar2L_2023;
+  std::vector<std::string> bkgfiles_WJets_2023;
+  std::vector<std::string> bkgfiles_QCD_2023;
 
-  std::vector<std::string> bkgfiles_ttbar1L_2018;
-  std::vector<std::string> bkgfiles_ttbar2L_2018;
-  std::vector<std::string> bkgfiles_WJets_2018;
-  std::vector<std::string> bkgfiles_QCD_2018;
+  std::vector<std::string> bkgfiles_ttbar1L_2024;
+  std::vector<std::string> bkgfiles_ttbar2L_2024;
+  std::vector<std::string> bkgfiles_WJets_2024;
+  std::vector<std::string> bkgfiles_QCD_2024;
 
   //***********************************
   //2016 Data and MC
   //***********************************
 
-  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/HHTo4BNtupler/20200902/option10/combined/1LTopSkim/";
-  datafiles_2016.push_back(dir+"2016/SingleMuon_2016_1LTopSkim.root");
-  datafiles_2016.push_back(dir+"2016/SingleElectron_2016_1LTopSkim.root");
+  std::string dir = "/eos/cms/store/group/phys_susy/razor/Run3Analysis/HH/HHTo4BNtupler/option21/nano/run3/combined/1LSkim/";
+  datafiles_2022.push_back(dir+"2022/SingleMuon_2022A_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/SingleMuon_2022B_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/SingleMuon_2022C_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/Muon_2022C_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/Muon_2022D_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/Muon_2022E_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/Muon_2022F_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/Muon_2022G_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/EGamma_2022A_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/EGamma_2022B_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/EGamma_2022C_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/EGamma_2022D_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/EGamma_2022E_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/EGamma_2022F_1LSkim.root");
+  datafiles_2022.push_back(dir+"2022/EGamma_2022G_1LSkim.root");
+  bkgfiles_ttbar1L_2022.push_back(dir+"2022/TTtoLNu2Q_PostEE_1pb_weighted_1LSkim.root");  
+  bkgfiles_ttbar2L_2022.push_back(dir+"2022/");
+  bkgfiles_WJets_2022.push_back(dir+"2022/WtoLNu-2Jets_1pb_weighted_1LSkim.root");
+  bkgfiles_QCD_2022.push_back(dir+"2022/QCDPt170to300_postEE_1pb_weighted_1LSkim.root");
+  bkgfiles_QCD_2022.push_back(dir+"2022/QCDPt300to470_postEE_1pb_weighted_1LSkim.root");
+  bkgfiles_QCD_2022.push_back(dir+"2022/QCDPt470to600_postEE_1pb_weighted_1LSkim.root");
+  bkgfiles_QCD_2022.push_back(dir+"2022/QCDPt600to800_postEE_1pb_weighted_1LSkim.root");
+  bkgfiles_QCD_2022.push_back(dir+"2022/QCDPt800to1000_postEE_1pb_weighted_1LSkim.root");
+  bkgfiles_QCD_2022.push_back(dir+"2022/QCDPt1000to1400_postEE_1pb_weighted_1LSkim.root");
+  bkgfiles_QCD_2022.push_back(dir+"2022/QCDPt1400to1800_postEE_1pb_weighted_1LSkim.root");
+  bkgfiles_QCD_2022.push_back(dir+"2022/QCDPt1800to2400_postEE_1pb_weighted_1LSkim.root");
+  bkgfiles_QCD_2022.push_back(dir+"2022/QCDPt2400to3200_postEE_1pb_weighted_1LSkim.root");
+  bkgfiles_QCD_2022.push_back(dir+"2022/QCDPt3200toInf_postEE_1pb_weighted_1LSkim.root");
 
-  bkgfiles_ttbar1L_2016.push_back(dir+"2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
-  bkgfiles_ttbar1L_2016.push_back(dir+"2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");
-
-  bkgfiles_ttbar2L_2016.push_back(dir+"2016/TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
-
-  bkgfiles_WJets_2016.push_back(dir+"2016/WJetsToLNu_Pt-100To250_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-combined_1pb_weighted_1LTopSkim.root");
-  bkgfiles_WJets_2016.push_back(dir+"2016/WJetsToLNu_Pt-250To400_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-combined_1pb_weighted_1LTopSkim.root");
-  bkgfiles_WJets_2016.push_back(dir+"2016/WJetsToLNu_Pt-400To600_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-combined_1pb_weighted_1LTopSkim.root");
-  bkgfiles_WJets_2016.push_back(dir+"2016/WJetsToLNu_Pt-600ToInf_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8-combined_1pb_weighted_1LTopSkim.root");
-
-  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2016.push_back(dir+"2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted_1LTopSkim.root");
-
-
-  //***********************************
-  //2017 Data and MC
-  //***********************************
-  datafiles_2017.push_back(dir+"2017/SingleMuon_2017_1LTopSkim.root");
-  datafiles_2017.push_back(dir+"2017/SingleElectron_2017_1LTopSkim.root");
-
-  bkgfiles_ttbar1L_2017.push_back(dir+"2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
-  bkgfiles_ttbar1L_2017.push_back(dir+"2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");
-
-  bkgfiles_ttbar2L_2017.push_back(dir+"2017/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
-
-  bkgfiles_WJets_2017.push_back(dir+"2017/WJetsToLNu_Pt-100To250_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_WJets_2017.push_back(dir+"2017/WJetsToLNu_Pt-250To400_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_WJets_2017.push_back(dir+"2017/WJetsToLNu_Pt-400To600_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_WJets_2017.push_back(dir+"2017/WJetsToLNu_Pt-600ToInf_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
-
-  bkgfiles_QCD_2017.push_back(dir+"2017/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2017.push_back(dir+"2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2017.push_back(dir+"2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2017.push_back(dir+"2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2017.push_back(dir+"2017/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2017.push_back(dir+"2017/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted_1LTopSkim.root");
-
-
-  //***********************************
-  //2018 Data and MC
-  //***********************************
-  datafiles_2018.push_back(dir+"2018/SingleMuon_2018_1LTopSkim.root");
-  datafiles_2018.push_back(dir+"2018/EGamma_2018_1LTopSkim.root");
-
-  bkgfiles_ttbar1L_2018.push_back(dir+"2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_1LTopSkim.root");  
-  bkgfiles_ttbar1L_2018.push_back(dir+"2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted_1LTopSkim.root");
-
-  bkgfiles_ttbar2L_2018.push_back(dir+"2018/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_1pb_weighted_1LTopSkim.root");  
-
-  bkgfiles_WJets_2018.push_back(dir+"2018/WJetsToLNu_Pt-100To250_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_WJets_2018.push_back(dir+"2018/WJetsToLNu_Pt-250To400_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_WJets_2018.push_back(dir+"2018/WJetsToLNu_Pt-400To600_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_WJets_2018.push_back(dir+"2018/WJetsToLNu_Pt-600ToInf_TuneCP5_13TeV-amcatnloFXFX-pythia8_1pb_weighted_1LTopSkim.root");
-
-  bkgfiles_QCD_2018.push_back(dir+"2018/QCD_HT200to300_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2018.push_back(dir+"2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2018.push_back(dir+"2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2018.push_back(dir+"2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2018.push_back(dir+"2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2018.push_back(dir+"2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_1LTopSkim.root");
-  bkgfiles_QCD_2018.push_back(dir+"2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted_1LTopSkim.root");
-
+ 
 
 
   //another vector to contain the different dataset years
@@ -964,67 +946,67 @@ void SelectHHTo4B_1LTopCR( int option = -1) {
   std::vector<std::pair<std::vector<std::string>,std::string > > bkgfiles_QCD;
   
   if (option == -1) {
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2016, "2016"));
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2017, "2017"));
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2018, "2018"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2022, "2022"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2023, "2023"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2024, "2024"));
 
-    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2016 , "2016"));
-    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2016 , "2016"));
-    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2016 , "2016"));
-    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2016 , "2016"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2022 , "2022"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2022 , "2022"));
+    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2022 , "2022"));
+    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2022 , "2022"));
 
-    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2017 , "2017"));
-    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2017 , "2017"));
-    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2017 , "2017"));
-    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2017 , "2017"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2023 , "2023"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2023 , "2023"));
+    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2023 , "2023"));
+    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2023 , "2023"));
 
-    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2018 , "2018"));
-    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2018 , "2018"));
-    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2018 , "2018"));
-    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2018 , "2018"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2024 , "2024"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2024 , "2024"));
+    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2024 , "2024"));
+    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2024 , "2024"));
   }
   if (option == 0) {
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2016, "2016"));
-    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2016 , "2016"));
-    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2016 , "2016"));
-    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2016 , "2016"));
-    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2016 , "2016"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2022, "2022"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2022 , "2022"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2022 , "2022"));
+    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2022 , "2022"));
+    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2022 , "2022"));
 
   }
   if (option == 1) {
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2017, "2017"));
-    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2017 , "2017"));
-    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2017 , "2017"));
-    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2017 , "2017"));
-    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2017 , "2017"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2023, "2023"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2023 , "2023"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2023 , "2023"));
+    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2023 , "2023"));
+    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2023 , "2023"));
 
   }
   if (option == 2) {
-    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2018, "2018"));
-    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2018 , "2018"));
-    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2018 , "2018"));
-    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2018 , "2018"));
-    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2018 , "2018"));
+    datafiles.push_back(std::pair<std::vector<std::string> , std::string> ( datafiles_2024, "2024"));
+    bkgfiles_ttbar1L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar1L_2024 , "2024"));
+    bkgfiles_ttbar2L.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_ttbar2L_2024 , "2024"));
+    bkgfiles_WJets.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_WJets_2024 , "2024"));
+    bkgfiles_QCD.push_back(std::pair<std::vector<std::string> , std::string>( bkgfiles_QCD_2024 , "2024"));
 
   }
 
   bkgfiles.push_back(bkgfiles_ttbar1L);
-  bkgfiles.push_back(bkgfiles_ttbar2L);
+  // bkgfiles.push_back(bkgfiles_ttbar2L);
   bkgfiles.push_back(bkgfiles_WJets);
   bkgfiles.push_back(bkgfiles_QCD);
 
   processLabels.push_back("TTJets 1L");  
-  processLabels.push_back("TTJets 2L");  
+  // processLabels.push_back("TTJets 2L");  
   processLabels.push_back("WJets");
   processLabels.push_back("QCD");
   
   colors.push_back(kAzure+10);
-  colors.push_back(kBlue-2);
+  // colors.push_back(kBlue-2);
   colors.push_back(kGreen+2);
   colors.push_back(kRed);
  
-  scaleFactors.push_back(0.93);
-  scaleFactors.push_back(1.0);
+  scaleFactors.push_back(0.96);
+  // scaleFactors.push_back(1.0);
   scaleFactors.push_back(1.0);
   scaleFactors.push_back(2.3); //QCD for 2017/2018
   //scaleFactors.push_back(0.9); //QCD for 2016
@@ -1033,10 +1015,10 @@ void SelectHHTo4B_1LTopCR( int option = -1) {
 
   string label = "";
   double totalLumi = 0;
-  if (option == -1) { label = "Run2"; totalLumi = 136143; }
-  if (option == 0)  { label = "2016"; totalLumi = 35922;  }
-  if (option == 1)  { label = "2017"; totalLumi = 41480;  }
-  if (option == 2)  { label = "2018"; totalLumi = 59741;  }
+  if (option == -1) { label = "Run3"; totalLumi = 62044; }
+  if (option == 0)  { label = "2022"; totalLumi = 35182; }
+  if (option == 1)  { label = "2023"; totalLumi = 26862; }
+  if (option == 2)  { label = "2024"; totalLumi = 0;  }
 
  
   //*********************************************************************
