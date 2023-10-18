@@ -1173,7 +1173,7 @@ void HHTo2B2GNtupler::Analyze(bool isData, int Option, string outputfilename, st
       if (!isData) {
 
 	for(int i = 0; i < nGenPart; i++) {
-	  if( abs(GenPart_pdgId[i]) == 5  && GenPart_pdgId[GenPart_genPartIdxMother[i]] == 25 && current_mIndex != GenPart_genPartIdxMother[i] ) {
+	  if( (abs(GenPart_pdgId[i]) == 5 || GenPart_pdgId[i]==22)  && GenPart_pdgId[GenPart_genPartIdxMother[i]] == 25 && current_mIndex != GenPart_genPartIdxMother[i] ) {
 	    //std::cout << GenPart_genPartIdxMother[i] << std::endl;
 	    // std::cout << "mother: " << GenPart_pdgId[GenPart_genPartIdxMother[i]]
 	    // << " PT: " << GenPart_pt[GenPart_genPartIdxMother[i]]
