@@ -826,7 +826,7 @@ void RunSelectHHTo4B(  vector<string> datafiles, vector<vector<string> > bkgfile
 
 
 
-void SelectHHTo4B_TopCR( int option = 1) {
+void SelectHHTo4B_TopCR( int option = 0) {
 
   vector<string> datafiles;
   vector<vector<string> > bkgfiles;
@@ -836,11 +836,6 @@ void SelectHHTo4B_TopCR( int option = 1) {
 
   string datafile = "";
 
-  //v2 : DDB selected SR
-  //v3_TopTaggedJets : Top CR
-  //v4 : PNetXbb selected SR
-  //v5 : Top CR with qhu ntuples
-
 
   vector<string> bkgfiles_ttbar;
   vector<string> bkgfiles_H;
@@ -849,75 +844,35 @@ void SelectHHTo4B_TopCR( int option = 1) {
   vector<string> bkgfiles_qcd; 
   vector<string> bkgfiles_HH; 
 
+  string dataDir = "/eos/cms/store/group/phys_susy/razor/Run3Analysis/HH/HHTo4BNtupler/option10/nano/run3/combined/";
+
+
   if (option == 0) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/JetHT_2016_GoodLumi.root");
-
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted.root");  
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8_1pb_weighted.root");  
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix-combined_1pb_weighted.root");
-    //bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    //bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/ttHTobb_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-combined_1pb_weighted.root");
-
-    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2016/GluGluToHHTo4B_node_SM_13TeV-madgraph_1pb_weighted.root");
+    datafiles.push_back(dataDir + "2022/JetHTMET_2022.root");
+    bkgfiles_ttbar.push_back(dataDir + "2016/TTto4Q_postEE_1pb_weighted.root");  
+    bkgfiles_ttbar.push_back(dataDir + "2016/TTtoLNu2Q_PostEE_1pb_weighted.root");  
+    bkgfiles_H.push_back(dataDir + "2016/ggHto2B_Pt200ToInf_PostEE_1pb_weighted.root");
+    bkgfiles_H.push_back(dataDir + "2016/VBFHto2B_PostEE_1pb_weighted.root");
+    bkgfiles_VH.push_back(dataDir + "2016/WminusH_Hto2B_Wto2Q_PostEE_1pb_weighted.root");
+    bkgfiles_VH.push_back(dataDir + "2016/WplusH_Hto2B_Wto2Q_PostEE_1pb_weighted.root");
+    bkgfiles_VH.push_back(dataDir + "2016/ZH_Hto2B_Zto2Q_PostEE_1pb_weighted.root");
+    bkgfiles_VH.push_back(dataDir + "2016/ggZH_Hto2B_Zto2Q_PostEE_1pb_weighted.root");
+    bkgfiles_ttH.push_back(dataDir + "2016/ttH_Hto2B_PostEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt80to120_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt120to170_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt170to300_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt300to470_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt470to600_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt600to800_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt800to1000_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt1000to1400_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt1400to1800_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt1800to2400_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt2400to3200_postEE_1pb_weighted.root");
+    bkgfiles_qcd.push_back(dataDir + "2016/QCDPt3200toInf_postEE_1pb_weighted.root");
+    bkgfiles_HH.push_back(dataDir + "2016/ggHH_cHHH_1_TSG_1pb_weighted.root");
   }
 
-
-  if (option == 1) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/JetHT_2017_GoodLumi.root");
-
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/TTToHadronic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");  
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");  
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/VBFHToBB_M-125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");
-
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8_1pb_weighted.root");
-
-    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2017/GluGluToHHTo4B_node_SM_1pb_weighted.root");
-  }
-
-  if (option == 2) {
-    datafiles.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/JetHT_2018_GoodLumi.root");
-
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/TTToHadronic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted.root");  
-    bkgfiles_ttbar.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8-combined_1pb_weighted.root");  
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8_1pb_weighted.root");
-    bkgfiles_H.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    //  bkgfiles_VH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8_1pb_weighted.root");
-    bkgfiles_ttH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8_1pb_weighted.root");
-
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-    bkgfiles_qcd.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8_1pb_weighted.root");
-
-    bkgfiles_HH.push_back("/eos/cms/store/group/phys_susy/razor/Run2Analysis/HH/v9/combined/2018/GluGluToHHTo4B_node_SM_13TeV-madgraph_1pb_weighted.root");
-  }
 
 
   bkgfiles.push_back(bkgfiles_qcd);
@@ -952,24 +907,13 @@ void SelectHHTo4B_TopCR( int option = 1) {
   string yearlabel = "";
   if (option == 0) {
     lumi = 35922;
-    yearlabel = "2016";
+    yearlabel = "2022";
   } 
   if (option == 1) {
-    lumi = 41480;
-    //lumi = 7700;
-    yearlabel = "2017";    
+    lumi = 41480;    
+    yearlabel = "2023";    
   } 
-  if (option == 2) {
-    lumi = 59741;
-    yearlabel = "2018";
-  } 
-
-  //*********************************************************************
-  //QCD CR Selection
-  //********************************************************************* 
-  //RunSelectHHTo4B(datafiles, bkgfiles,processLabels, colors, scaleFactors,lumi,yearlabel,10,yearlabel);
-
-
+  
   //*********************************************************************
   //TTBAR CR Selection
   //********************************************************************* 
@@ -980,11 +924,3 @@ void SelectHHTo4B_TopCR( int option = 1) {
 }
 
 
-//**********************************
-//E-Mu Yields :
-//**********************************
-
-//MuEG Triggers ( 30 - 20 )
-// Data: 148
-// MC: 156.16
- 
