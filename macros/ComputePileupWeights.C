@@ -508,6 +508,25 @@ void ComputePileupWeights() {
   }
 
 
+   for (int i=0; i<MCSamples_2022.size() ; i++) {
+     cout << "Computing Pileup Weights for sample: " << MCSamples_2022[i] << "\n";
+     DoComputePileupWeights( "/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/PileupWeights/PileupTarget_2022.root",
+			     MCPileupFiles_2022[i],
+			     MCSamples_2022[i],
+			     "2022",
+			     "PileupWeights.root");
+     DoComputePileupWeights( "/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/PileupWeights/PileupTarget_2022_SysUp.root",
+			     MCPileupFiles_2022[i],
+			     MCSamples_2022[i],
+			     "2022_SysUp",
+			     "PileupWeights.root");
+     DoComputePileupWeights( "/afs/cern.ch/work/s/sixie/public/releases/run2/analysis/HH/CMSSW_10_6_8/src/HHBoostedAnalyzer/data/PileupWeights/PileupTarget_2022_SysDown.root",
+			     MCPileupFiles_2022[i],
+			     MCSamples_2022[i],
+			     "2022_SysDown",
+			     "PileupWeights.root");
+     
+  }
 
 
 
