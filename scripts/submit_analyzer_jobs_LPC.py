@@ -8,7 +8,7 @@ import glob
 import sys
 from collections import OrderedDict
 
-option = 21
+option = 10
 label = "option"+str(option)
 
 analysis = "HHTo4BNtupler"

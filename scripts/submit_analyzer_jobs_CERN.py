@@ -16,8 +16,12 @@ queueType = "longlunch"
 
 
 
-analysis = "HHTo4BNtupler"
-option = 21
+#analysis = "HHTo4BNtupler"
+#option = 5
+
+analysis = "MakeMCPileupDistribution"
+option = 1
+
 cmsswReleaseVersion = "CMSSW_12_6_3"
 label = "option"+str(option)
 filesPerJob = 1
@@ -26,31 +30,39 @@ outputDirectoryBase = "/store/group/phys_susy/razor/Run3Analysis/HH/"+analysis+"
 
 datasetList = OrderedDict()
 #2022 ntuples
-datasetList["nano/run3/2022/EGamma_2022A.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/EGamma_2022B.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/EGamma_2022C.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/EGamma_2022D.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/EGamma_2022E.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/EGamma_2022F.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/EGamma_2022G.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/JetHT_2022A.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/JetHT_2022B.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/JetHT_2022C.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/JetMET_2022C.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/JetMET_2022D.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/JetMET_2022E.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/JetMET_2022F.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/JetMET_2022G.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/SingleMuon_2022A.list"] = [1, 1, "2022", "", 10] 
-datasetList["nano/run3/2022/SingleMuon_2022B.list"] = [1, 1, "2022", "", 10] 
-datasetList["nano/run3/2022/SingleMuon_2022C.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/Muon_2022C.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/Muon_2022D.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/Muon_2022E.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/Muon_2022F.list"] = [1, 1, "2022", "", 10]
-datasetList["nano/run3/2022/Muon_2022G.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/EGamma_2022A.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/EGamma_2022B.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/EGamma_2022C.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/EGamma_2022D.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/EGamma_2022E.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/EGamma_2022F.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/EGamma_2022G.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/JetHT_2022A.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/JetHT_2022B.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/JetHT_2022C.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/JetMET_2022C.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/JetMET_2022D.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/JetMET_2022E.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/JetMET_2022F.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/JetMET_2022G.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/SingleMuon_2022A.list"] = [1, 1, "2022", "", 10] 
+# datasetList["nano/run3/2022/SingleMuon_2022B.list"] = [1, 1, "2022", "", 10] 
+# datasetList["nano/run3/2022/SingleMuon_2022C.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/Muon_2022C.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/Muon_2022D.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/Muon_2022E.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/Muon_2022F.list"] = [1, 1, "2022", "", 10]
+# datasetList["nano/run3/2022/Muon_2022G.list"] = [1, 1, "2022", "", 10]
 
-
+datasetList["nano/run3/2022/GluGlutoHHto4B_kl-0p00_kt-1p00_c2-0p00.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/GluGlutoHHto4B_kl-0p00_kt-1p00_c2-1p00.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/GluGlutoHHto4B_kl-1p00_kt-1p00_c2-0p00.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/GluGlutoHHto4B_kl-1p00_kt-1p00_c2-0p10.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/GluGlutoHHto4B_kl-1p00_kt-1p00_c2-0p35.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/GluGlutoHHto4B_kl-1p00_kt-1p00_c2-3p00.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/GluGlutoHHto4B_kl-1p00_kt-1p00_c2-m2p00.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/GluGlutoHHto4B_kl-2p45_kt-1p00_c2-0p00.list"] = [0, 1, "2022", "", 10]
+datasetList["nano/run3/2022/GluGlutoHHto4B_kl-5p00_kt-1p00_c2-0p00.list"] = [0, 1, "2022", "", 10]
 datasetList['nano/run3/2022/ggHH_cHHH_1_TSG.list'] = [0, 1, "2022", "", 1]
 datasetList["nano/run3/2022/TTtoLNu2Q_PostEE.list"] = [0, 1, "2022", "", 10]
 datasetList["nano/run3/2022/VBFHto2B_PostEE.list"] = [0, 1, "2022", "", 10]
@@ -80,13 +92,63 @@ datasetList["nano/run3/2022/QCDPt3200toInf_postEE.list"] = [0, 1, "2022", "", 10
 #datasetList["nano/run3/2022/Wto2Q-3Jets_HT-400to600_PostEE.list"] = [0, 1, "2022", "", 10]
 #datasetList["nano/run3/2022/Wto2Q-3Jets_HT-800_PostEE.list"] = [0, 1, "2022", "", 10]
 datasetList["nano/run3/2022/DYJetsToLL_M50ToInf_PostEE.list"] = [0, 1, "2022", "", 10]
-
-
 datasetList["nano/run3/2022/Wto2Q-3Jets_HT-200to400.list"] = [0, 1, "2022", "", 10]
 datasetList["nano/run3/2022/Wto2Q-3Jets_HT-400to600.list"] = [0, 1, "2022", "", 10]
 datasetList["nano/run3/2022/Wto2Q-3Jets_HT-600to800.list"] = [0, 1, "2022", "", 10]
 datasetList["nano/run3/2022/Wto2Q-3Jets_HT-800.list"] = [0, 1, "2022", "", 10]
 datasetList["nano/run3/2022/WtoLNu-2Jets.list"] = [0, 1, "2022", "", 10]
+
+
+#2023 ntuples
+# datasetList["nano/run3/2023/EGamma0_Run2023A.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma0_Run2023B.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma0_Run2023C-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma0_Run2023C-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma0_Run2023C-v3.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma0_Run2023C-v4.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma0_Run2023D-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma0_Run2023D-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma1_Run2023A.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma1_Run2023B.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma1_Run2023C-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma1_Run2023C-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma1_Run2023C-v3.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma1_Run2023C-v4.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma1_Run2023D-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/EGamma1_Run2023D-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET0_2023A.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET0_2023B.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET0_2023C-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET0_2023C-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET0_2023C-v3.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET0_2023C-v4.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET0_2023D-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET0_2023D-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET1_2023A.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET1_2023B.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET1_2023C-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET1_2023C-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET1_2023C-v3.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET1_2023C-v4.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET1_2023D-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/JetMET1_2023D-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon0_2023A.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon0_2023B.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon0_2023C-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon0_2023C-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon0_2023C-v3.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon0_2023C-v4.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon0_2023D-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon0_2023D-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon1_2023A.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon1_2023B.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon1_2023C-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon1_2023C-v2.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon1_2023C-v3.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon1_2023C-v4.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon1_2023D-v1.list"] = [1, 1, "2023", "", 10]
+# datasetList["nano/run3/2023/Muon1_2023D-v2.list"] = [1, 1, "2023", "", 10]
+
 
 
 #create directory for condor jobs
