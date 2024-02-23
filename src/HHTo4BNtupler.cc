@@ -255,9 +255,14 @@ void HHTo4BNtupler::Analyze(bool isData, int numberOfJobs, int jobIndex, int Opt
 	float tmp_jms[] = {0.997, 0.993, 1.001};
 	jmsValues = tmp_jms;
       }
+    else if(year == "2023")
+      {
+	float tmp_jms[] = {0.997, 0.993, 1.001};
+	jmsValues = tmp_jms;
+      }
     else
       {
-	std::cout << "year is not acceptable! Use: 2016, 2017, 2018" << std::endl;
+	std::cout << "year is not acceptable! Use: 2016, 2017, 2018, 2022, 2023" << std::endl;
 	exit(EXIT_FAILURE);
       }
 
@@ -289,9 +294,15 @@ void HHTo4BNtupler::Analyze(bool isData, int numberOfJobs, int jobIndex, int Opt
 	float tmp_jmr[] = {1.065, 1.031, 1.099}; //Tuned to our Top control region
         jmrValues = tmp_jmr;
       }
+    else if(year == "2023")
+      {
+	//float tmp_jmr[] = {1.24, 1.20, 1.28};
+	float tmp_jmr[] = {1.065, 1.031, 1.099}; //Tuned to our Top control region
+        jmrValues = tmp_jmr;
+      }
     else
       {
-	std::cout << "year is not acceptable! Use: 2016, 2017, 2018" << std::endl;
+	std::cout << "year is not acceptable! Use: 2016, 2017, 2018, 2022, 2023" << std::endl;
 	exit(EXIT_FAILURE);
       }
 

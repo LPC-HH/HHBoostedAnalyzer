@@ -3,6 +3,12 @@
 ##
 #
 # 13.6 TeV signals
+# Cross sections from Guillemo
+# https://ceballos.web.cern.ch/ceballos/random/xs_13p6tev.png
+#
+#
+
+
 
 #From XSDB
 #QCD_Pt_5to10_TuneCUETP8M1_13TeV_pythia8                                   
@@ -30,6 +36,11 @@ TTtoLNu2Q                                                                       
 WW                                                                                  80.23
 WZ                                                                                  29.1
 ZZ                                                                                  12.75
+
+#SX: Just took the 13 TeV number and increased it by a few percent
+#More info here: https://twiki.cern.ch/twiki/bin/viewauth/CMS/MATRIXCrossSectionsat13p6TeV
+WtoLNu                                                                              (9046 + 12171)*3
+DYToLL_M50                                                                           2113.4*3
 
 #SX: took XSDB NLO number (0.5246) and multiplied it by the NNLO/NLO ratio for inclusive ggH from 13 TeV
 ggHto2B_Pt200ToInf                                                                   0.5246*(43.92/27.8)*5.824e-01
