@@ -17,6 +17,7 @@ TARGET6 = RunHHTo4BNtupler
 TARGET7 = RunJetHTTriggerNtupler
 TARGET8 = RunMakeMCPileupDistribution
 TARGET9 = RunHHHTo6BNtupler
+TARGET10 = RunHHTo2B2GNtupler
 
 SRC = app/diHiggs.cc src/Events.cc src/CommandLineInput.cc
 SRC1 = app/NormalizeNtuple.cc src/CommandLineInput.cc src/SimpleTable.cc
@@ -28,6 +29,7 @@ SRC6 = app/RunHHTo4BNtupler.cc src/HHTo4BNtupler.cc src/JetCorrectionUncertainty
 SRC7 = app/RunJetHTTriggerNtupler.cc src/JetHTTriggerNtupler.cc src/EventAnalyzer.cc include/Events.hh
 SRC8 = app/RunMakeMCPileupDistribution.cc src/MakeMCPileupDistribution.cc src/EventAnalyzer.cc include/Events.hh
 SRC9 = app/RunHHHTo6BNtupler.cc src/HHHTo6BNtupler.cc src/JetCorrectionUncertainty.cc src/JetCorrectorParameters.cc src/SimpleJetCorrectionUncertainty.cc src/EventAnalyzer.cc include/Events.hh
+SRC10 = app/RunHHTo2B2GNtupler.cc src/HHTo2B2GNtupler.cc src/JetCorrectionUncertainty.cc src/JetCorrectorParameters.cc src/SimpleJetCorrectionUncertainty.cc src/EventAnalyzer.cc include/Events.hh
 
 OBJ = $(SRC:.cc=.o)
 OBJ1 = $(SRC1:.cc=.o)
@@ -39,8 +41,9 @@ OBJ6 = $(SRC6:.cc=.o) src/Events.o
 OBJ7 = $(SRC7:.cc=.o) src/Events.o 
 OBJ8 = $(SRC8:.cc=.o) src/Events.o 
 OBJ9 = $(SRC9:.cc=.o) src/Events.o 
+OBJ10 = $(SRC10:.cc=.o) src/Events.o 
 
-all : $(TARGET) $(TARGET1) $(TARGET2) $(TARGET3) $(TARGET4) $(TARGET5) $(TARGET6) $(TARGET7) $(TARGET8) $(TARGET9)
+all : $(TARGET) $(TARGET1) $(TARGET2) $(TARGET3) $(TARGET4) $(TARGET5) $(TARGET6) $(TARGET7) $(TARGET8) $(TARGET9) $(TARGET10)
 
 $src/RazorEvents.o: $(SRCDIR)/RazorEvents.C $(INCLUDEDIR)/RazorEvents.h
 	$(CXX) $(SRCDIR)/RazorEvents.C $(CXXFLAGS) -I$(INCLUDEDIR) -c $(LDFLAGS) $(LIBS) -o $@ $(CXX14FLAGS)
@@ -105,9 +108,15 @@ $(TARGET9) : $(OBJ9)
 	@echo $<
 	@echo $^
 
+$(TARGET10) : $(OBJ10)
+	$(LD) $(CPPFLAGS) -o $(TARGET10) $(OBJ10) $(LDFLAGS) 
+	@echo $@
+	@echo $<
+	@echo $^
+
 %.o : %.cc
 	$(CXX) $(CPPFLAGS) -o $@ -c $<
 	@echo $@
 	@echo $<
 clean :
-	rm -f *.o src/*.o $(TARGET) $(TARGET1) $(TARGET2) $(TARGET3) $(TARGET4) $(TARGET5) $(TARGET6) $(TARGET7) $(TARGET8) $(TARGET9) app/*.o include/*.o *~
+	rm -f *.o src/*.o $(TARGET) $(TARGET1) $(TARGET2) $(TARGET3) $(TARGET4) $(TARGET5) $(TARGET6) $(TARGET7) $(TARGET8) $(TARGET9) $(TARGET10) app/*.o include/*.o *~
