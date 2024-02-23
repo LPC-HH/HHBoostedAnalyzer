@@ -55,7 +55,7 @@ double getNormalizationWeight(string filename, string datasetName, double intLum
   cout << "Original events in the sample: " << NEvents << endl;
 
   //Get CrossSection
-  SimpleTable xstab("data/xSections.dat");
+  SimpleTable xstab("data/xSectionRun3.dat");
   double CrossSection = xstab.Get(datasetName.c_str());  
   double Weight = CrossSection * intLumi / NEvents;
   // weight for data is always 1 (-1 to make a trick for fakes)
