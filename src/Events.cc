@@ -33,6 +33,7 @@ void Events::DeleteHeap()
 //clean fatjets form d-memory
 void Events::DeleteHeapFatJets()
 {
+/*
   delete[] FatJet_LSmsoftdrop;// //[nFatJet]
   delete[] FatJet_LSn2b1;   //[nFatJet]
   delete[] FatJet_LSn3b1;   //[nFatJet]
@@ -93,7 +94,7 @@ void Events::DeleteHeapFatJets()
   delete[]   FatJet_nPFConstituents;   //[nFatJet]
   delete[]   FatJet_subJetIdx1;   //[nFatJet]
   delete[]   FatJet_subJetIdx2;   //[nFatJet]
-
+*/
 };
 
 void Events::DeleteHeapCorrT1METJet()
@@ -519,6 +520,7 @@ void Events::CreateOutputTree()
 
   //define fat-jet variables
   tree_out->Branch("nFatJet",      &nFatJet,     "nFatJet/i");      //
+/*
   tree_out->Branch("FatJet_LSmsoftdrop",      FatJet_LSmsoftdrop,     "FatJet_LSmsoftdrop[nFatJet]/F");      //
   tree_out->Branch("FatJet_LSn2b1",      FatJet_LSn2b1,     "FatJet_LSn2b1[nFatJet]/F");      //
   tree_out->Branch("FatJet_LSn3b1",      FatJet_LSn3b1,     "FatJet_LSn3b1[nFatJet]/F");      //
@@ -583,24 +585,6 @@ void Events::CreateOutputTree()
   tree_out->Branch("FatJet_HgenIdx",      FatJet_HgenIdx,     "FatJet_HgenIdx[nFatJet]/I");
   tree_out->Branch("FatJet_HminDR",      FatJet_HminDR,     "FatJet_HminDR[nFatJet]/F");
 
-  //triggers -- directly from Events TTree
-  tree_out->Branch("HLT_PFHT1050",                                        &HLT_PFHT1050,                                       "HLT_PFHT1050/O");
-  tree_out->Branch("HLT_AK8PFJet360_TrimMass30",                          &HLT_AK8PFJet360_TrimMass30,                         "HLT_AK8PFJet360_TrimMass30/O");
-  tree_out->Branch("HLT_AK8PFJet380_TrimMass30",                          &HLT_AK8PFJet380_TrimMass30,                         "HLT_AK8PFJet380_TrimMass30/O");
-  tree_out->Branch("HLT_AK8PFJet400_TrimMass30",                          &HLT_AK8PFJet400_TrimMass30,                         "HLT_AK8PFJet400_TrimMass30/O");
-  tree_out->Branch("HLT_AK8PFJet420_TrimMass30",                          &HLT_AK8PFJet420_TrimMass30,                         "HLT_AK8PFJet420_TrimMass30/O");
-  tree_out->Branch("HLT_AK8PFHT800_TrimMass50",                           &HLT_AK8PFHT800_TrimMass50,                          "HLT_AK8PFHT800_TrimMass50/O");
-  tree_out->Branch("HLT_PFJet500",                                        &HLT_PFJet500,                                       "HLT_PFJet500/O");
-  tree_out->Branch("HLT_AK8PFJet500",                                     &HLT_AK8PFJet500,                                    "HLT_AK8PFJet500/O");
-  tree_out->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17",     &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17,    "HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p17/O");
-  tree_out->Branch("HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1",      &HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1,     "HLT_AK8PFJet330_TrimMass30_PFAK8BTagDeepCSV_p1/O");
-  tree_out->Branch("HLT_AK8PFJet330_PFAK8BTagCSV_p17",                    &HLT_AK8PFJet330_PFAK8BTagCSV_p17,                   "HLT_AK8PFJet330_PFAK8BTagCSV_p17/O");
-  tree_out->Branch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ/O");
-  tree_out->Branch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL/O");
-  tree_out->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL/O");
-  tree_out->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ/O");
-  tree_out->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",                                        &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ,                                       "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ/O");
-  tree_out->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",                                        &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL,                                       "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL/O");
   //tree_out->Branch("",      &,     "/O");
   //tree_out->Branch("",      &,     "/O");
   //tree_out->Branch("",      &,     "/O");
@@ -639,7 +623,7 @@ void Events::CreateOutputTree()
   tree_out->Branch("Jet_eta",      Jet_eta,     "Jet_eta[nJet]/F");      //
   tree_out->Branch("Jet_phi",      Jet_phi,     "Jet_phi[nJet]/F");      //
   tree_out->Branch("Jet_btagCSVV2",      Jet_btagCSVV2,     "Jet_btagCSVV2[nJet]/F");      //
-
+*/
   
 
 };
