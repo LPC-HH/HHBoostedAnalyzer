@@ -53,6 +53,25 @@ int main(int argc, char* argv[]){
   //----------------------------------------
   string inputFileName(argv[1]);
   
+  //---------------------------------------------
+  //G e t t i n g   o u t p u t F i l e   N a m e  
+  //---------------------------------------------
+  std::string _outFile = ParseCommandLine( argc, argv, "--outputFile=" );
+  std::string _f = ParseCommandLine( argc, argv, "-f=" );
+  string outputFileName = "";
+  if ( _outFile != "" )
+    {
+      outputFileName = _outFile;
+    }
+  else if ( _f != "" )
+    {
+      outputFileName = _f;
+    }
+  else
+    {
+      std::cerr << "[WARNING]: output ROOT file not provided, using default output" << std::endl;
+    }
+
   //--------------------------------
   //G e t t i n g   d a t a  f l a g 
   //--------------------------------
@@ -78,6 +97,7 @@ int main(int argc, char* argv[]){
 
   std::cout << "[INFO]: <input list> --> " << inputFileName << std::endl;
   std::cout << "[INFO]: isData --> " << isData << std::endl;
+  std::cout << "[INFO]: outputFileName --> " << outputFileName << std::endl;
   std::cout << "[INFO]: year --> " << year << std::endl;
 
     //build the TChain
@@ -111,7 +131,7 @@ int main(int argc, char* argv[]){
     //------ EXECUTE ------//
     cout << "Executing HHTo4BNtupler..." << endl;
     //analyzer.EnableAll();
-    analyzer.Analyze(isData, year);
+    analyzer.Analyze(isData, outputFileName, year);
     cout << "Process completed!" << endl;
     cerr << "------------------------------" << endl; //present so that an empty .err file corresponds to a failed job
     return 0;

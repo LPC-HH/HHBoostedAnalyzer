@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void HHTo4BNtupler::Analyze(bool isData, string year)
+void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
 {
     cout << "Start..." << endl;
 
@@ -17,7 +17,10 @@ void HHTo4BNtupler::Analyze(bool isData, string year)
     //----------------------------------------
     //Output file
     //----------------------------------------  
-    TFile *outFile = new TFile("HHTo4BNtuple.root", "RECREATE");
+    string outfilename = outputfilename;
+    if (outfilename == "") outfilename = "HHTo4BNtuple.root";
+    TFile *outFile = new TFile(outfilename.c_str(), "RECREATE");    
+
     //----------------------------------------
     // histogram containing total number of processed events (for normalization)
     //----------------------------------------  

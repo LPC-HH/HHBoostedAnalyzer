@@ -7,7 +7,7 @@
 class HHTo4BNtupler: public EventAnalyzer {
     public: 
         HHTo4BNtupler(TTree *tree=0): EventAnalyzer(tree) { }
-        void Analyze(bool isData, string label);
+        void Analyze(bool isData, string outputFileName, string label);
 
 };
 

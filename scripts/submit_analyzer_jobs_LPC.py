@@ -20,24 +20,80 @@ outputfile = "HHTo4BNtuple" + "_" + label
 #analysis = "MakeMCPileupDistribution"
 #outputfile = "MCPileupDistribution" + "_" + label
 
-cmsswReleaseVersion = "CMSSW_12_6_3"
+cmsswReleaseVersion = "CMSSW_14_0_7"
 
 
 
-outputDirectoryBase = "/store/user/lpcdihiggsboost/sixie/analyzer/"+analysis+"/"+label+"/"
+outputDirectoryBase = "/store/user/lpcdihiggsboost/sixie/analyzer/"+analysis+"/"ArmenVersion/""
 filesPerJob = 1
 
 datasetList = OrderedDict()
 
 #2022 ntuples
-datasetList["nano/run3/2022/EGamma_2022C.list"] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022C.list'] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022D-v1.list'] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022D-v2.list'] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022E.list'] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022F.list'] = [1, 1, "2022", "", 10]
-datasetList['nano/run3/2022/JetMET_2022G.list'] = [1, 1, "2022", "", 10]
+datasetList["nano/run3/2022/EGamma_2022C.list"] = [1, 1, "2022", "", 1]
+datasetList["nano/run3/2022/EGamma_2022D.list"] = [1, 1, "2022", "", 1]
+datasetList["nano/run3/2022/EGamma_2022E.list"] = [1, 1, "2022", "", 1]
+datasetList["nano/run3/2022/EGamma_2022F.list"] = [1, 1, "2022", "", 1]
+datasetList["nano/run3/2022/EGamma_2022G.list"] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/JetHT_2022C.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/JetMET_2022C.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/JetMET_2022D.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/JetMET_2022E.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/JetMET_2022F.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/JetMET_2022G.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/SingleMuon_2022C.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/Muon_2022C.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/Muon_2022D.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/Muon_2022E.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/Muon_2022F.list'] = [1, 1, "2022", "", 1]
+datasetList['nano/run3/2022/Muon_2022G.list'] = [1, 1, "2022", "", 1]
 
+
+#2023 ntuples
+datasetList['nano/run3/2023/JetMET_2023C_v1.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/JetMET_2023C_v2.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/JetMET_2023C_v3.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/JetMET_2023C_v4.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/JetMET_2023D_v1.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/JetMET_2023D_v2.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/EGamma_2023C_v1.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/EGamma_2023C_v2.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/EGamma_2023C_v3.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/EGamma_2023C_v4.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/EGamma_2023D_v1.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/EGamma_2023D_v2.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/Muon_2023C_v1.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/Muon_2023C_v2.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/Muon_2023C_v3.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/Muon_2023C_v4.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/Muon_2023D_v1.list'] = [1, 1, "2023", "", 1]
+datasetList['nano/run3/2023/Muon_2023D_v2.list'] = [1, 1, "2023", "", 1]
+
+#2024 ntuples
+datasetList['nano/run3/2024/JetMET_2024B.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/JetMET_2024C.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/JetMET_2024D.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/JetMET_2024E-v1.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/JetMET_2024E-v2.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/JetMET_2024F.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/JetMET_2024G.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/JetMET_2024H.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/EGamma_2024B.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/EGamma_2024C.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/EGamma_2024D.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/EGamma_2024E-v1.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/EGamma_2024E-v2.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/EGamma_2024F.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/EGamma_2024G.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/EGamma_2024H.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/Muon_2024B.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/Muon_2024C.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/Muon_2024D.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/Muon_2024E-v1.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/Muon_2024E-v2.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/Muon_2024F.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/Muon_2024G.list'] = [1, 1, "2024", "", 1]
+datasetList['nano/run3/2024/Muon_2024H.list'] = [1, 1, "2024", "", 1]
 
 
 
@@ -105,19 +161,15 @@ for listfile in datasetList.keys():
     #os.system("cd " + Analyzer_DIR + "; tar vczf " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/code.tgz " + " include/ src/ app/ Makefile" )
     os.system("cp " + Analyzer_DIR + "/scripts/run_job_LPC.sh " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/")
     os.system("cp " + Analyzer_DIR + "Run" + analysis + " " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/")
-    os.system("mkdir -p " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/")
-    os.system("cp " + Analyzer_DIR + "/data/JetHTTriggerEfficiency_" + year + ".root " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/")
-    os.system("cp " + Analyzer_DIR + "/data/JetHTTriggerEfficiency_Summer16.root " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/")
-    os.system("cp " + Analyzer_DIR + "/data/JetHTTriggerEfficiency_Fall17.root " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/")
-    os.system("cp " + Analyzer_DIR + "/data/JetHTTriggerEfficiency_Fall18.root " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/")
+    os.system("mkdir -p " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/")    
     os.system("mkdir -p " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/PileupWeights/")
     os.system("cp " + Analyzer_DIR + "/data/PileupWeights/PileupWeights.root " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/PileupWeights/")
-    os.system("mkdir -p " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Summer16_07Aug2017_V11_MC/")
-    os.system("cp " + Analyzer_DIR + "/data/JEC/Summer16_07Aug2017_V11_MC/Summer16_07Aug2017_V11_MC_Uncertainty_AK8PFPuppi.txt " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Summer16_07Aug2017_V11_MC/")
-    os.system("mkdir -p " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Fall17_17Nov2017_V32_MC/")
-    os.system("cp " + Analyzer_DIR + "/data/JEC/Fall17_17Nov2017_V32_MC/Fall17_17Nov2017_V32_MC_Uncertainty_AK8PFPuppi.txt " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Fall17_17Nov2017_V32_MC/")
-    os.system("mkdir -p " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Autumn18_V19_MC/")
-    os.system("cp " + Analyzer_DIR + "/data/JEC/Autumn18_V19_MC/Autumn18_V19_MC_Uncertainty_AK8PFPuppi.txt " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Autumn18_V19_MC/")
+    #os.system("mkdir -p " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Summer16_07Aug2017_V11_MC/")
+    #os.system("cp " + Analyzer_DIR + "/data/JEC/Summer16_07Aug2017_V11_MC/Summer16_07Aug2017_V11_MC_Uncertainty_AK8PFPuppi.txt " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Summer16_07Aug2017_V11_MC/")
+    #os.system("mkdir -p " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Fall17_17Nov2017_V32_MC/")
+    #os.system("cp " + Analyzer_DIR + "/data/JEC/Fall17_17Nov2017_V32_MC/Fall17_17Nov2017_V32_MC_Uncertainty_AK8PFPuppi.txt " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Fall17_17Nov2017_V32_MC/")
+    #os.system("mkdir -p " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Autumn18_V19_MC/")
+    #os.system("cp " + Analyzer_DIR + "/data/JEC/Autumn18_V19_MC/Autumn18_V19_MC_Uncertainty_AK8PFPuppi.txt " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Autumn18_V19_MC/")
 
 
     #####################################
@@ -142,16 +194,11 @@ x509userproxy = $ENV(X509_USER_PROXY)
         "transfer_input_files = " 
         + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/run_job_LPC.sh, " 
         + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/input_list.tgz, " 
-        + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/Run" + analysis + ", "
-        #+ Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/code.tgz, " 
-        + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_" + year + ".root, " 
-        + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Summer16.root, " 
-        + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall17.root, " 
-        + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JetHTTriggerEfficiency_Fall18.root, " 
-        + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/PileupWeights/PileupWeights.root, " 
-        + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Summer16_07Aug2017_V11_MC/Summer16_07Aug2017_V11_MC_Uncertainty_AK8PFPuppi.txt, " 
-        + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Fall17_17Nov2017_V32_MC/Fall17_17Nov2017_V32_MC_Uncertainty_AK8PFPuppi.txt, " 
-        + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Autumn18_V19_MC/Autumn18_V19_MC_Uncertainty_AK8PFPuppi.txt " + "\n"
+        + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/Run" + analysis + ", "        
+        #+ Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/PileupWeights/PileupWeights.root, " 
+        #+ Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Summer16_07Aug2017_V11_MC/Summer16_07Aug2017_V11_MC_Uncertainty_AK8PFPuppi.txt, " 
+        #+ Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Fall17_17Nov2017_V32_MC/Fall17_17Nov2017_V32_MC_Uncertainty_AK8PFPuppi.txt, " 
+        #+ Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/HHBoostedAnalyzer/data/JEC/Autumn18_V19_MC/Autumn18_V19_MC_Uncertainty_AK8PFPuppi.txt " + "\n"
     )
 
     tmpCondorJDLFileTemplate = """
