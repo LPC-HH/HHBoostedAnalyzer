@@ -74,21 +74,15 @@ echo "Copying Input File: " $i
 xrdcp $i ./inputs/
 done
 ls inputs/* > tmp_input_list.txt 
-
+cat tmp_input_list.txt 
 pwd
-################################################################################################
-#get cmssw environment - for some reason this is needed for exectuable to not crash
-################################################################################################
-cd /uscms_data/d2/sxie/releases/run3/HH/CMSSW_14_0_7/
-eval `scram runtime -sh`
-cd -
 
 
 ###########################
 #run executable
 ###########################
 echo "Executing Analysis executable:"
-echo "./${executable} tmp_input_list.txt --outputFile=${outputfile}_${filenumber}_Part${jobIndex}Of${nJobsPerFile}.root  --isData=${isData} --year=${year} "
+echo "./${executable} tmp_input_list.txt --outputFile=${outputfile}_${filenumber}.root  --isData=${isData} --year=${year} "
 ./${executable} tmp_input_list.txt --outputFile=${outputfile}_${filenumber}.root --isData=${isData} --year=${year}
 
 ls -l
