@@ -24,7 +24,7 @@ cmsswReleaseVersion = "CMSSW_14_0_7"
 
 
 
-outputDirectoryBase = "/store/user/lpcdihiggsboost/sixie/analyzer\/"+analysis+"\/ArmenVersion\/"
+outputDirectoryBase = "/store/user/lpcdihiggsboost/sixie/analyzer/"+analysis+"/ArmenVersion/"
 filesPerJob = 1
 
 datasetList = OrderedDict()

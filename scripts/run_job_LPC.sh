@@ -66,7 +66,7 @@ ls -l
 ###################################
 #copy input files ahead of time
 ###################################
-inputfilelist=input_list_${filenumber}.txt
+inputfilelist=input_list_${filenumber}.0.txt
 mkdir inputs/
 for i in `cat $inputfilelist`
 do
