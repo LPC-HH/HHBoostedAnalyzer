@@ -12,9 +12,26 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     //----------------------------------------
     //Jet Veto Map
     //----------------------------------------
-    //TFile* JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/Summer23Prompt23_RunC_v1.root").c_str());  // preBPix
-    TFile* JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer23BPixPrompt23_RunD_v1.root").c_str());  // postBPix
-    TH2D * JetVetoMap       = (TH2D*)JetVetoInputRoot->Get("jetvetomap");
+    TFile* JetVetoInputRoot = 0;
+
+    if (year == "2022") {
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/").c_str());
+    } else if (year == "2022EE") {
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/").c_str());
+    } else if (year == "2023") {
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/Summer23Prompt23_RunC_v1.root").c_str()); 
+    } else if (year == "2023BPix") {
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer23BPixPrompt23_RunD_v1.root").c_str()); 
+    } else if (year == "2024") {
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/").c_str());  
+    }
+    
+    TH2D * JetVetoMap = 0;
+    if (JetVetoInputRoot) JetVetoMap = (TH2D*)JetVetoInputRoot->Get("jetvetomap");
+    else {
+      cout << "Could not load JetVetoMap for year " + year + ". " << "\n";
+    }
+    
     //----------------------------------------
     //Output file
     //----------------------------------------  
@@ -674,21 +691,24 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
       NEvents->SetBinContent( 1, NEvents->GetBinContent(1) + weight);
       nPU_True->Fill(Pileup_nTrueInt);
 
-// Jet veto Map
-      bool Jet_In_VetoArea=false;
-      for(unsigned int i = 0; i < nJet; i++ )
-        {
-         if(Jet_pt[i]<15) continue;
-         if(Jet_jetId[i] < 2) continue;
-         if((Jet_chEmEF[i] + Jet_neEmEF[i]) >=0.9 ) continue;
-         if(Jet_nMuons[i] >= 1 ) continue;
-         Int_t bin_eta = JetVetoMap->GetXaxis()->FindBin(Jet_eta[i]);
-         Int_t bin_phi = JetVetoMap->GetYaxis()->FindBin(Jet_phi[i]);
-         if(JetVetoMap->GetBinContent(bin_eta,bin_phi) > 0)
-           Jet_In_VetoArea = true;
-        }
-      if(Jet_In_VetoArea) continue;
-
+      //*************************************************************
+      // Jet veto Map
+      //*************************************************************
+      if (JetVetoMap) {
+	bool Jet_In_VetoArea=false;
+	for(unsigned int i = 0; i < nJet; i++ )
+	  {
+	    if(Jet_pt[i]<15) continue;
+	    if(Jet_jetId[i] < 2) continue;
+	    if((Jet_chEmEF[i] + Jet_neEmEF[i]) >=0.9 ) continue;
+	    if(Jet_nMuons[i] >= 1 ) continue;
+	    Int_t bin_eta = JetVetoMap->GetXaxis()->FindBin(Jet_eta[i]);
+	    Int_t bin_phi = JetVetoMap->GetYaxis()->FindBin(Jet_phi[i]);
+	    if(JetVetoMap->GetBinContent(bin_eta,bin_phi) > 0)
+	      Jet_In_VetoArea = true;
+	  }
+	if(Jet_In_VetoArea) continue;
+      }
 
 // Minimal Selection
         if(!HLT_AK8PFJet425_SoftDropMass40 && !HLT_AK8PFJet230_SoftDropMass40 && !HLT_AK8PFJet230_SoftDropMass40_PNetBB0p06 &&
