@@ -8,7 +8,7 @@ import glob
 import sys
 from collections import OrderedDict
 
-option = 10
+option = 1
 label = "option"+str(option)
 
 analysis = "HHTo4BNtupler"
@@ -24,7 +24,7 @@ cmsswReleaseVersion = "CMSSW_14_0_7"
 
 
 
-outputDirectoryBase = "/store/user/lpcdihiggsboost/sixie/analyzer/"+analysis+"/"ArmenVersion/""
+outputDirectoryBase = "/store/user/lpcdihiggsboost/sixie/analyzer\/"+analysis+"\/ArmenVersion\/"
 filesPerJob = 1
 
 datasetList = OrderedDict()
@@ -99,16 +99,17 @@ datasetList['nano/run3/2024/Muon_2024H.list'] = [1, 1, "2024", "", 1]
 
 
 CMSSW_BASE_DIR = os.getenv('CMSSW_BASE')
-Analyzer_DIR = CMSSW_BASE_DIR+"/src/HHBoostedAnalyzer/"
+Analyzer_DIR = str(CMSSW_BASE_DIR) +'/src/HHBoostedAnalyzer/'
+
 
 #create directory for condor jobs
 
 for listfile in datasetList.keys():
 
     datasetName = listfile.replace(".list","")
-    print "Preparing analyzer workflow for dataset :" + datasetName + "\n"
+    print("Preparing analyzer workflow for dataset :" + datasetName + "\n")
     if not os.path.exists(Analyzer_DIR+"/list/" + listfile):
-        print "listfile: " + listfile + " does not exist. skipping."
+        print ("listfile: " + listfile + " does not exist. skipping.")
         continue
 
     outputDirectory = outputDirectoryBase + datasetName + "/"
@@ -129,7 +130,7 @@ for listfile in datasetList.keys():
     nJobs = numberOfJobsPerFile
 
     if os.path.exists(Analyzer_DIR+"/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + "/" + "input_list_" + str(nJobs) + ".txt"):
-        print "Warning: condor directory " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + " is not empty. Skipping."
+        print ("Warning: condor directory " + Analyzer_DIR + "/condor/analyzer_" + analysis + "_" + label + "/" + datasetName + " is not empty. Skipping.")
         continue
         
     #create condor directories
