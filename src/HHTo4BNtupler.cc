@@ -7,13 +7,14 @@ using namespace std;
 void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
 {
     cout << "Start..." << endl;
-
+    string CMSSWDir = std::getenv("CMSSW_BASE");    
+   
     //----------------------------------------
     //Jet Veto Map
-    //----------------------------------------  
-//    TFile* JetVeotInputRoot = new TFile("/afs/cern.ch/user/t/tumasyan/public/2023/vetomaps/Summer23Prompt23_RunC_v1.root");  // preBPix
-    TFile* JetVeotInputRoot = new TFile("/afs/cern.ch/user/t/tumasyan/public/2023/vetomaps/Summer23BPixPrompt23_RunD_v1.root");  // postBPix
-    TH2D * JetVetoMap       = (TH2D*)JetVeotInputRoot->Get("jetvetomap");
+    //----------------------------------------
+    //TFile* JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/Summer23Prompt23_RunC_v1.root").c_str());  // preBPix
+    TFile* JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer23BPixPrompt23_RunD_v1.root").c_str());  // postBPix
+    TH2D * JetVetoMap       = (TH2D*)JetVetoInputRoot->Get("jetvetomap");
     //----------------------------------------
     //Output file
     //----------------------------------------  
