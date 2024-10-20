@@ -15,9 +15,9 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     TFile* JetVetoInputRoot = 0;
 
     if (year == "2022") {
-      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/").c_str());
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer22_23Sep2023_RunCD_v1.root").c_str());
     } else if (year == "2022EE") {
-      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/").c_str());
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer22EE_23Sep2023_RunEFG_v1.root").c_str());
     } else if (year == "2023") {
       JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/Summer23Prompt23_RunC_v1.root").c_str()); 
     } else if (year == "2023BPix") {

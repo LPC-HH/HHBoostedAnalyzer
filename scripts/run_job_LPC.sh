@@ -42,6 +42,12 @@ scramv1 project CMSSW $cmsswReleaseVersion
 #cp code.tgz $cmsswReleaseVersion/src/
 cp $executable $cmsswReleaseVersion/src/
 cp input_list.tgz $cmsswReleaseVersion/src/
+mkdir -p $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+xrdcp root://cmsxrootd.fnal.gov//store/user/lpcdihiggsboost/sixie/analyzer/HHTo4BNtupler/ArmenVersion/inputs/data/JetVetoMap_Summer22_23Sep2023_RunCD_v1.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+xrdcp root://cmsxrootd.fnal.gov//store/user/lpcdihiggsboost/sixie/analyzer/HHTo4BNtupler/ArmenVersion/inputs/data/JetVetoMap_Summer22EE_23Sep2023_RunEFG_v1.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+xrdcp root://cmsxrootd.fnal.gov//store/user/lpcdihiggsboost/sixie/analyzer/HHTo4BNtupler/ArmenVersion/inputs/data/JetVetoMap_Summer23Prompt23_RunC_v1.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+xrdcp root://cmsxrootd.fnal.gov//store/user/lpcdihiggsboost/sixie/analyzer/HHTo4BNtupler/ArmenVersion/inputs/data/JetVetoMap_Summer23BPixPrompt23_RunD_v1.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
+
 mkdir -p $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
 #cp HHBoostedAnalyzer/data/PileupWeights/PileupWeights.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
 #cp PileupWeights.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
