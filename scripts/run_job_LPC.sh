@@ -49,8 +49,11 @@ xrdcp root://cmsxrootd.fnal.gov//store/user/lpcdihiggsboost/sixie/analyzer/HHTo4
 xrdcp root://cmsxrootd.fnal.gov//store/user/lpcdihiggsboost/sixie/analyzer/HHTo4BNtupler/ArmenVersion/inputs/data/JetVetoMap_Summer23BPixPrompt23_RunD_v1.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/
 
 mkdir -p $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
-#cp HHBoostedAnalyzer/data/PileupWeights/PileupWeights.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
-#cp PileupWeights.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
+xrdcp root://cmsxrootd.fnal.gov//store/user/lpcdihiggsboost/sixie/analyzer/HHTo4BNtupler/ArmenVersion/inputs/data/PileupReweight_Summer22.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
+xrdcp root://cmsxrootd.fnal.gov//store/user/lpcdihiggsboost/sixie/analyzer/HHTo4BNtupler/ArmenVersion/inputs/data/PileupReweight_Summer22EE.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
+xrdcp root://cmsxrootd.fnal.gov//store/user/lpcdihiggsboost/sixie/analyzer/HHTo4BNtupler/ArmenVersion/inputs/data/PileupReweight_Summer23.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
+xrdcp root://cmsxrootd.fnal.gov//store/user/lpcdihiggsboost/sixie/analyzer/HHTo4BNtupler/ArmenVersion/inputs/data/PileupReweight_Summer23BPix.root $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/PileupWeights/
+
 #mkdir -p $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/JEC/Summer16_07Aug2017_V11_MC/
 #cp Summer16_07Aug2017_V11_MC_Uncertainty_AK8PFPuppi.txt $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/JEC/Summer16_07Aug2017_V11_MC/
 #mkdir -p $cmsswReleaseVersion/src/HHBoostedAnalyzer/data/JEC/Fall17_17Nov2017_V32_MC/

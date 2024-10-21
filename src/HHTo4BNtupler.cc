@@ -8,7 +8,63 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
 {
     cout << "Start..." << endl;
     string CMSSWDir = std::getenv("CMSSW_BASE");    
-   
+
+
+    //----------------------------------------
+    //Load Auxiliary Information
+    //---------------------------------------- 
+    TH1F *pileupWeightHist = 0;
+    TH1F *pileupWeightUpHist = 0;
+    TH1F *pileupWeightDownHist = 0;
+    
+    string pileupWeightFilename = "";
+    if (year == "2022") {
+      pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer22.root";
+    } else if (year == "2022EE") {
+      pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer22EE.root";
+    } else if (year == "2023") {
+      pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer23.root";
+    } else if (year == "2023BPix") {
+      pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer23BPix.root";
+    } else if (year == "2024") {
+      pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer23.root";
+    }
+    
+    TFile *pileupWeightFile = new TFile(pileupWeightFilename.c_str(),"READ");
+    if (!pileupWeightFile) {
+      cout << "Warning : pileupWeightFile " << pileupWeightFile << " could not be opened.\n";  
+    } else {
+      cout << "Opened pileupWeightFile " << pileupWeightFilename << "\n"; 
+    }
+
+    if (pileupWeightFile) {
+      pileupWeightHist = (TH1F*)pileupWeightFile->Get("npu_nominal");
+      pileupWeightUpHist = (TH1F*)pileupWeightFile->Get("npu_up");
+      pileupWeightDownHist = (TH1F*)pileupWeightFile->Get("npu_down");
+    } 
+    if (pileupWeightHist) {
+      cout << "Found pileupWeightHist " << "npu_nominal" << "in file " << pileupWeightFilename << "\n";
+    } else {
+      cout << "Warning :  could not find pileupWeightHist named " 
+	   << "npu_nominal" 
+	   << " in file " << pileupWeightFilename << "\n";
+    }
+    if (pileupWeightUpHist) {
+      cout << "Found pileupWeightUpHist " << "npu_up" << "in file " << pileupWeightFilename << "\n";
+      } else {
+	cout << "Warning :  could not find pileupWeightUpHist named " 
+	     << "npu_up"
+	     << " in file " << pileupWeightFilename << "\n";
+      }
+      if (pileupWeightDownHist) {
+	cout << "Found pileupWeightDownHist " << "npu_up" << "in file " << pileupWeightFilename << "\n";
+      } else {
+	cout << "Warning :  could not find pileupWeightDownHist named " 
+	     << "npu_up"
+	     << " in file " << pileupWeightFilename << "\n";
+      }
+
+      
     //----------------------------------------
     //Jet Veto Map
     //----------------------------------------
@@ -54,6 +110,9 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     //------------------------
     // Gen info
     float weight = 0;
+    float pileupWeight = 0;
+    float pileupWeightUp = 0;
+    float pileupWeightDown = 0;
     float totalWeight = 0;
     float genHiggs1Pt = -1;
     float genHiggs1Eta = -1;
@@ -445,6 +504,9 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     //set branches on big tree
     //------------------------    
     outputTree->Branch("weight", &weight, "weight/F");
+    outputTree->Branch("pileupWeight", &pileupWeight, "pileupWeight/F");
+    outputTree->Branch("pileupWeightUp", &pileupWeightUp, "pileupWeightUp/F");
+    outputTree->Branch("pileupWeightDown", &pileupWeightDown, "pileupWeightDown/F");
     outputTree->Branch("run", &run, "run/i");
     outputTree->Branch("lumi", &luminosityBlock, "lumi/i");
     outputTree->Branch("event", &event, "event/l");
@@ -1778,6 +1840,15 @@ nBTaggedJets = 0;
          if(dijetmass > 500. && fabs(vbfjet1_Eta-vbfjet2_Eta) > 4.) isVBFtag = 1;
       }
 
+      //****************************************************
+      //Compute pileupWeight
+      //****************************************************      
+      if (pileupWeightHist) {
+	pileupWeight = pileupWeightHist->GetBinContent( pileupWeightHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+	pileupWeightUp = pileupWeightUpHist->GetBinContent( pileupWeightUpHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+	pileupWeightDown = pileupWeightDownHist->GetBinContent( pileupWeightDownHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+      }
+      
       //****************************************************
       //Fill Event - skim for events with two jets found
       //****************************************************
