@@ -9,6 +9,33 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     cout << "Start..." << endl;
     string CMSSWDir = std::getenv("CMSSW_BASE");    
 
+    //----------------------------------------
+    //Jet Veto Map
+    //----------------------------------------
+    TFile* JetVetoInputRoot = 0;
+
+    if (year == "2022") {
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer22_23Sep2023_RunCD_v1.root").c_str());
+    } else if (year == "2022EE") {
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer22EE_23Sep2023_RunEFG_v1.root").c_str());
+    } else if (year == "2023") {
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/Summer23Prompt23_RunC_v1.root").c_str()); 
+    } else if (year == "2023BPix") {
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer23BPixPrompt23_RunD_v1.root").c_str()); 
+    } else if (year == "2024") {
+      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/").c_str());  
+    }
+    
+    TH2D * JetVetoMap = 0;
+    if (JetVetoInputRoot) {
+      JetVetoMap = (TH2D*)JetVetoInputRoot->Get("jetvetomap");
+      JetVetoMap->SetDirectory(0);          
+      JetVetoInputRoot->Close();
+      JetVetoMap->Print();
+    }
+    else {
+      cout << "Could not load JetVetoMap for year " + year + ". " << "\n";
+    }       
 
     //----------------------------------------
     //Load Auxiliary Information
@@ -29,8 +56,8 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     } else if (year == "2024") {
       pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer23.root";
     }
-    
-    TFile *pileupWeightFile = new TFile(pileupWeightFilename.c_str(),"READ");
+       
+    TFile *pileupWeightFile = TFile::Open(pileupWeightFilename.c_str());
     if (!pileupWeightFile) {
       cout << "Warning : pileupWeightFile " << pileupWeightFile << " could not be opened.\n";  
     } else {
@@ -38,9 +65,12 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     }
 
     if (pileupWeightFile) {
-      pileupWeightHist = (TH1F*)pileupWeightFile->Get("npu_nominal");
-      pileupWeightUpHist = (TH1F*)pileupWeightFile->Get("npu_up");
-      pileupWeightDownHist = (TH1F*)pileupWeightFile->Get("npu_down");
+      pileupWeightHist = (TH1F*)(pileupWeightFile->Get("npu_nominal"));
+      pileupWeightHist->SetDirectory(0);
+      pileupWeightUpHist = (TH1F*)(pileupWeightFile->Get("npu_up"));
+      pileupWeightUpHist->SetDirectory(0);
+      pileupWeightDownHist = (TH1F*)(pileupWeightFile->Get("npu_down"));
+      pileupWeightDownHist->SetDirectory(0);
     } 
     if (pileupWeightHist) {
       cout << "Found pileupWeightHist " << "npu_nominal" << "in file " << pileupWeightFilename << "\n";
@@ -51,46 +81,25 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     }
     if (pileupWeightUpHist) {
       cout << "Found pileupWeightUpHist " << "npu_up" << "in file " << pileupWeightFilename << "\n";
-      } else {
-	cout << "Warning :  could not find pileupWeightUpHist named " 
-	     << "npu_up"
-	     << " in file " << pileupWeightFilename << "\n";
-      }
-      if (pileupWeightDownHist) {
-	cout << "Found pileupWeightDownHist " << "npu_up" << "in file " << pileupWeightFilename << "\n";
-      } else {
-	cout << "Warning :  could not find pileupWeightDownHist named " 
-	     << "npu_up"
-	     << " in file " << pileupWeightFilename << "\n";
-      }
-
-      
-    //----------------------------------------
-    //Jet Veto Map
-    //----------------------------------------
-    TFile* JetVetoInputRoot = 0;
-
-    if (year == "2022") {
-      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer22_23Sep2023_RunCD_v1.root").c_str());
-    } else if (year == "2022EE") {
-      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer22EE_23Sep2023_RunEFG_v1.root").c_str());
-    } else if (year == "2023") {
-      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/Summer23Prompt23_RunC_v1.root").c_str()); 
-    } else if (year == "2023BPix") {
-      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer23BPixPrompt23_RunD_v1.root").c_str()); 
-    } else if (year == "2024") {
-      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/").c_str());  
+    } else {
+      cout << "Warning :  could not find pileupWeightUpHist named " 
+	   << "npu_up"
+	   << " in file " << pileupWeightFilename << "\n";
     }
-    
-    TH2D * JetVetoMap = 0;
-    if (JetVetoInputRoot) JetVetoMap = (TH2D*)JetVetoInputRoot->Get("jetvetomap");
-    else {
-      cout << "Could not load JetVetoMap for year " + year + ". " << "\n";
+    if (pileupWeightDownHist) {
+      cout << "Found pileupWeightDownHist " << "npu_up" << "in file " << pileupWeightFilename << "\n";
+    } else {
+      cout << "Warning :  could not find pileupWeightDownHist named " 
+	   << "npu_up"
+	   << " in file " << pileupWeightFilename << "\n";
     }
+    pileupWeightFile->Close();
+    pileupWeightHist->Print();
+
     
-    //----------------------------------------
-    //Output file
-    //----------------------------------------  
+    //------------------------------------------------------------------------------------------------------------
+    //Output file : It's important to open the output file before opening any of the auxiliary files
+    //------------------------------------------------------------------------------------------------------------  
     string outfilename = outputfilename;
     if (outfilename == "") outfilename = "HHTo4BNtuple.root";
     TFile *outFile = new TFile(outfilename.c_str(), "RECREATE");    
@@ -1877,10 +1886,15 @@ nBTaggedJets = 0;
 	outputTree_TrgObj->Fill();
 
     }//end of event loop
-
+ 
     cout << "Filled Total of " << NEventsFilled << " Events\n";
     cout << "Writing output trees..." << endl;
-    outFile->Write();
+
+    //outFile->Write();
+    outputTree->Write();
+    outputTree_TrgObj->Write();
+    NEvents->Write();
+    nPU_True->Write();    
     outFile->Close();
 
 }
