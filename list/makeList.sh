@@ -63,3 +63,13 @@ cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/
 cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/MuonListFiles.txt | grep "2024F\/" | grep -v "log" | sed 's/\/eos\/uscms/root:\/\/cmsxrootd.fnal.gov\//' > Muon_2024F.list
 cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/MuonListFiles.txt | grep "2024G\/" | grep -v "log" | sed 's/\/eos\/uscms/root:\/\/cmsxrootd.fnal.gov\//' > Muon_2024G.list
 cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/MuonListFiles.txt | grep "2024H\/" | grep -v "log" | sed 's/\/eos\/uscms/root:\/\/cmsxrootd.fnal.gov\//' > Muon_2024H.list
+
+
+
+#Make the list of datasets
+cat MCListFiles.txt | grep "/2022/" | awk -F "/2022/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $2}'
+
+#Make commands to make the list files for each dataset
+cat MCListFiles.txt | grep "/2022/" | awk -F "/2022/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $2}' | awk '{print "cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/HHBoostedAnalyzer/list/nano/run3/MCListFiles.txt | grep \"/2022/\" | grep \"" $1 "\"" " | sed \"s/\\/eos\\/uscms/root:\\/\\/cmsxrootd.fnal.gov\\//\" > 2022/" $1".list" }' > m.sh
+
+
