@@ -67,14 +67,21 @@ cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/
 
 
 #Make the list of datasets
-cat MCListFiles.txt | grep "/2022/" | awk -F "/2022/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $2}'
+cat MCListFiles.txt | grep "/2022/" | awk -F "/2022/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $3}'
 
 #Make commands to make the list files for each dataset
-cat MCListFiles.txt | grep "/2022/" | awk -F "/2022/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $2}' | awk '{print "cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/HHBoostedAnalyzer/list/nano/run3/MCListFiles.txt | grep \"/2022/\" | grep \"" $1 "\"" " | sed \"s/\\/eos\\/uscms/root:\\/\\/cmsxrootd.fnal.gov\\//\" > 2022/" $1".list" }' > m.sh
+cat MCListFiles.txt | grep "/2022/" | awk -F "/2022/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $3}' | awk '{print "cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/HHBoostedAnalyzer/list/nano/run3/MCListFiles.txt | grep \"/2022/\" | awk -F\"/\" \x27{if($12 == \""$1"\") {print $0}}\x27 | sed \"s/\\/eos\\/uscms/root:\\/\\/cmsxrootd.fnal.gov\\//\" > 2022/" $1".list" }' > m.sh
 
-cat MCListFiles.txt | grep "/2022EE/" | awk -F "/2022EE/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $2}' | awk '{print "cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/HHBoostedAnalyzer/list/nano/run3/MCListFiles.txt | grep \"/2022EE/\" | grep \"" $1 "\"" " | sed \"s/\\/eos\\/uscms/root:\\/\\/cmsxrootd.fnal.gov\\//\" > 2022EE/" $1".list" }' > m.sh
+cat MCListFiles.txt | grep "/2022EE/" | awk -F "/2022EE/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $3}' | awk '{print "cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/HHBoostedAnalyzer/list/nano/run3/MCListFiles.txt | grep \"/2022EE/\" | awk -F\"/\" \x27{if($12 == \""$1"\") {print $0}}\x27 | sed \"s/\\/eos\\/uscms/root:\\/\\/cmsxrootd.fnal.gov\\//\" > 2022EE/" $1".list" }' > m.sh
 
-cat MCListFiles.txt | grep "/2023/" | awk -F "/2023/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $2}' | awk '{print "cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/HHBoostedAnalyzer/list/nano/run3/MCListFiles.txt | grep \"/2023/\" | grep \"" $1 "\"" " | sed \"s/\\/eos\\/uscms/root:\\/\\/cmsxrootd.fnal.gov\\//\" > 2023/" $1".list" }' > m.sh
+cat MCListFiles.txt | grep "/2023/" | awk -F "/2023/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $3}' | awk '{print "cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/HHBoostedAnalyzer/list/nano/run3/MCListFiles.txt | grep \"/2023/\" | awk -F\"/\" \x27{if($12 == \""$1"\") {print $0}}\x27 | sed \"s/\\/eos\\/uscms/root:\\/\\/cmsxrootd.fnal.gov\\//\" > 2023/" $1".list" }' > m.sh
 
-cat MCListFiles.txt | grep "/2023BPix/" | awk -F "/2023BPix/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $2}' | awk '{print "cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/HHBoostedAnalyzer/list/nano/run3/MCListFiles.txt | grep \"/2023BPix/\" | grep \"" $1 "\"" " | sed \"s/\\/eos\\/uscms/root:\\/\\/cmsxrootd.fnal.gov\\//\" > 2023BPix/" $1".list" }' > m.sh
+cat MCListFiles.txt | grep "/2023BPix/" | awk -F "/2023BPix/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $3}' | awk '{print "cat /afs/cern.ch/work/s/sixie/public/releases/run3/analysis/HH/CMSSW_14_0_7/src/HHBoostedAnalyzer/list/nano/run3/MCListFiles.txt | grep \"/2023BPix/\" | awk -F\"/\" \x27{if($12 == \""$1"\") {print $0}}\x27 | sed \"s/\\/eos\\/uscms/root:\\/\\/cmsxrootd.fnal.gov\\//\" > 2023BPix/" $1".list" }' > m.sh
+
+
+
+
+
+#Make submission script lines
+cat MCListFiles.txt | grep "/2022/" | awk -F "/2022/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $3}' | awk '{print "datasetList[\"nano/run3/2022/"$1".list\"] = [1, 1, \"2022\", \"\", 1]" }'
 
