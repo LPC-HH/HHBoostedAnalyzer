@@ -202,7 +202,7 @@ datasetList["nano/run3/2023/Wto2Q-2Jets_PTQQ-200to400_1J.list"] = [1, 1, "2023",
 datasetList["nano/run3/2023/Wto2Q-2Jets_PTQQ-200to400_2J.list"] = [1, 1, "2023", "", 1]
 datasetList["nano/run3/2023/Wto2Q-2Jets_PTQQ-400to600_1J.list"] = [1, 1, "2023", "", 1]
 datasetList["nano/run3/2023/Wto2Q-2Jets_PTQQ-400to600_2J.list"] = [1, 1, "2023", "", 1]
-datasetList["nano/run3/2023/Wto2Q-2Jets_PTQQ-600_1J.list"] = [1, 1, "2023", "", 1]
+datasetList["nano/run3/2023/Wto2Q-2Jets_PTQQ-600_1J.list"] = [1, 1, "2023", "", 1] 
 datasetList["nano/run3/2023/Wto2Q-2Jets_PTQQ-600_2J.list"] = [1, 1, "2023", "", 1]
 datasetList["nano/run3/2023/WtoLNu-2Jets_0J.list"] = [1, 1, "2023", "", 1]
 datasetList["nano/run3/2023/WtoLNu-2Jets_1J.list"] = [1, 1, "2023", "", 1]
@@ -217,7 +217,7 @@ datasetList["nano/run3/2023/Zto2Q-2Jets_PTQQ-600_1J.list"] = [1, 1, "2023", "", 
 datasetList["nano/run3/2023/Zto2Q-2Jets_PTQQ-600_2J.list"] = [1, 1, "2023", "", 1]
 datasetList["nano/run3/2023/WW.list"] = [1, 1, "2023", "", 1]
 datasetList["nano/run3/2023/WZ.list"] = [1, 1, "2023", "", 1]
-datasetList["nano/run3/2023/ZZ.list"] = [1, 1, "2023", "", 1]
+datasetList["nano/run3/2023/ZZ.list"] = [1, 1, "2023", "", 1]  
 
 
 

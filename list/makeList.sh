@@ -80,8 +80,12 @@ cat MCListFiles.txt | grep "/2023BPix/" | awk -F "/2023BPix/" '{print $2}' | awk
 
 
 
-
-
 #Make submission script lines
 cat MCListFiles.txt | grep "/2022/" | awk -F "/2022/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $3}' | awk '{print "datasetList[\"nano/run3/2022/"$1".list\"] = [1, 1, \"2022\", \"\", 1]" }'
+
+cat MCListFiles.txt | grep "/2022EE/" | awk -F "/2022EE/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $3}' | awk '{print "datasetList[\"nano/run3/2022EE/"$1".list\"] = [1, 1, \"2022EE\", \"\", 1]" }'
+
+cat MCListFiles.txt | grep "/2023/" | awk -F "/2023/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $3}' | awk '{print "datasetList[\"nano/run3/2023/"$1".list\"] = [1, 1, \"2023\", \"\", 1]" }'
+
+cat MCListFiles.txt | grep "/2023BPix/" | awk -F "/2023BPix/" '{print $2}' | awk -F "/24" '{print $1}' | sort | uniq | awk -F "/" '{print $3}' | awk '{print "datasetList[\"nano/run3/2023BPix/"$1".list\"] = [1, 1, \"2023BPix\", \"\", 1]" }'
 
