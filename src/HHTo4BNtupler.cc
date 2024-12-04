@@ -842,11 +842,14 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     outputTree->Branch("HLT_Mu50",                                                            &HLT_Mu50,                                                      "HLT_Mu50/O");
     outputTree->Branch("HLT_AK8PFJet425_SoftDropMass40",                                      &HLT_AK8PFJet425_SoftDropMass40,                                "HLT_AK8PFJet425_SoftDropMass40/O");
     outputTree->Branch("HLT_AK8PFJet230_SoftDropMass40",                                      &HLT_AK8PFJet230_SoftDropMass40,                                "HLT_AK8PFJet230_SoftDropMass40/O");
+    outputTree->Branch("HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35",               &HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35,         "HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35/O");
     outputTree->Branch("HLT_AK8PFJet230_SoftDropMass40_PNetBB0p06",                           &HLT_AK8PFJet230_SoftDropMass40_PNetBB0p06,                     "HLT_AK8PFJet230_SoftDropMass40_PNetBB0p06/O");
     outputTree->Branch("HLT_IsoMu50_AK8PFJet230_SoftDropMass40",                              &HLT_IsoMu50_AK8PFJet230_SoftDropMass40,                        "HLT_IsoMu50_AK8PFJet230_SoftDropMass40/O");
+    outputTree->Branch("HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35",       &HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35, "HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35/O");
     outputTree->Branch("HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PNetBB0p06",                   &HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PNetBB0p06,             "HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PNetBB0p06/O");
     outputTree->Branch("HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40",             &HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40,       "HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40/O");
-    outputTree->Branch("HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PNetBB0p06",  &HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PNetBB0p06,       "HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PNetBB0p06/O");
+    outputTree->Branch("HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35",  &HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35,       "HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35/O");
+    outputTree->Branch("HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PNetBB0p06",              &HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PNetBB0p06,                   "HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PNetBB0p06/O");
 
     outputTree->Branch("nGenJetAK8", &nGenJetAK8, "nGenJetAK8/I");
     outputTree->Branch("GenJetAK8_eta", &genJetAK8Eta, "GenJetAK8_eta[nGenJetAK8]/F");
@@ -908,7 +911,7 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
       }
 
 // Minimal Selection
-        if(!HLT_AK8PFJet425_SoftDropMass40 && !HLT_AK8PFJet230_SoftDropMass40 && !HLT_AK8PFJet230_SoftDropMass40_PNetBB0p06 &&
+        if(!HLT_AK8PFJet425_SoftDropMass40 && !HLT_AK8PFJet230_SoftDropMass40 && !HLT_AK8PFJet230_SoftDropMass40_PNetBB0p06 && !HLT_AK8PFJet230_SoftDropMass40_PFAK8ParticleNetBB0p35 &&
            !HLT_Mu50 && !HLT_IsoMu50_AK8PFJet230_SoftDropMass40 && !HLT_IsoMu50_AK8PFJet230_SoftDropMass40_PNetBB0p06 &&
            !HLT_Ele32_WPTight_Gsf && !HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40 && !HLT_Ele50_CaloIdVT_GsfTrkIdT_AK8PFJet230_SoftDropMass40_PNetBB0p06
           ) continue;
