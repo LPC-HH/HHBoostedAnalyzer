@@ -54,130 +54,85 @@ int main(int argc, char* argv[]) {
         //loop over all TTrees in the file and add the weight branch to each of them
         TFile *inputFile = new TFile(fileName.c_str(), "READ");
         assert(inputFile);
-        inputFile->cd();
-        TIter nextkey(inputFile->GetListOfKeys());
-        TKey *key;
-        TKey *previous = NULL;
+        inputFile->cd();    
         string dirName = "";
 
-        //if the first key is a TDirectoryFile, go inside it and skim there (temporary hack for cloning a single directory)
-        /*TKey *firstkey = (TKey*)nextkey();
-        string className = firstkey->GetClassName();
-        if(className.compare("TDirectoryFile") == 0){
-            TDirectoryFile* dir = (TDirectoryFile*)firstkey->ReadObj();
-            dirName = dir->GetName(); 
-            outputFile->mkdir(dirName.c_str());
-            cout << "Entering directory " << dirName << endl;
-            nextkey = TIter(dir->GetListOfKeys());
-        }
-        else { //reset it
-            nextkey.Reset();
-        }*/
-        //end temporary hack
+    
+	TTree *inputTree = (TTree*)inputFile->Get("tree");
+	TTree *inputTrgObjTree = (TTree*)inputFile->Get("tree_TrgObj");
+	cout << "Processing tree " << inputTree->GetName() << endl;
 
-	cout << "here1\n";
+	//create new normalized tree
+	outputFile->cd(dirName.c_str());
+	TTree *outputTree = inputTree->CloneTree(0);  
+	TTree *outputTrgObjTree = inputTrgObjTree->CloneTree(0);  
+	cout << "Events in the ntuple: " << inputTree->GetEntries() << endl;
+	cout << "Events in the TrgObj ntuple: " << inputTrgObjTree->GetEntries() << endl;
 
-        while((key = (TKey*)nextkey())){
-            string className = key->GetClassName();
-            cout << "Getting key from file.  Class type: " << className << endl;
-            //I haven't found a solution to copy arbitrary objects into the new file.
-            //For now we only care about histograms and TTrees, so we 
-            //handle those as special cases.
-            if(className.find("TH1") != string::npos) {
-                outputFile->cd();
-                TH1F *outHist = (TH1F*)key->ReadObj();
-                cout << "Copying histogram " << outHist->GetName() << " into output file" << endl;
-                outHist->Write(outHist->GetName());
-                inputFile->cd();
-                continue;
-            }
-            if(className.compare("TTree") != 0){
-                cout << "Skipping key (not a TTree)" << endl;
-                outputFile->cd();
-                TObject *outObj = key->ReadObj();
-		cout << "Name: " << outObj->GetName() << " " << outObj->GetTitle() << "\n";
-                outObj->Write(outObj->GetTitle());
-                inputFile->cd();
-                continue;
-            }
+	//std::cout << "[INFO] skim cut -> " << SkimCutString << std::endl;
+	TTreeFormula *formula = new TTreeFormula("SkimCutString", SkimCutString.c_str(), inputTree);
 
-            //if this key has the same name as the previous one, it's an unwanted cycle and we skip it
-            if(previous != NULL && strcmp(key->GetName(), previous->GetName()) == 0)
-            {
-                continue;
-            }
-            previous = key;
+	ULong64_t eventNum;
+	UInt_t nFatJet;
+	Float_t FatJet_pt[10];   //[nFatJet]
+	Float_t FatJet_btagDDBvL[10];   //[nFatJet]
+	Float_t inputweight = 1;
+	Float_t inputTotalWeight = 1;
+	Float_t weight = 1;
+	Float_t totalWeight = 1;
+	TBranch        *b_eventNum;   //!
+	TBranch        *b_nFatJet;   //!
+	TBranch        *b_FatJet_pt;   //!
+	TBranch        *b_FatJet_btagDDBvL;   //!
+	inputTree->SetBranchAddress("event", &eventNum, &b_eventNum);
+	inputTree->SetBranchAddress("nFatJet", &nFatJet, &b_nFatJet);
+	inputTree->SetBranchAddress("FatJet_pt", FatJet_pt, &b_FatJet_pt);
+	inputTree->SetBranchAddress("FatJet_btagDDBvL", FatJet_btagDDBvL, &b_FatJet_btagDDBvL);
+	inputTree->SetBranchAddress("weight", &inputweight);
+	inputTree->SetBranchAddress("totalWeight", &inputTotalWeight);
+	outputTree->SetBranchAddress("weight", &weight);
+	outputTree->SetBranchAddress("totalWeight", &totalWeight);
 
-            TTree *inputTree = (TTree*)key->ReadObj();
-            cout << "Processing tree " << inputTree->GetName() << endl;
+	int EventsPassed = 0;
 
-            //create new normalized tree
-            outputFile->cd(dirName.c_str());
-            TTree *outputTree = inputTree->CloneTree(0);  
-            cout << "Events in the ntuple: " << inputTree->GetEntries() << endl;
+	//store the weights            
+	for (int n=0;n<inputTree->GetEntries();n++) { 
+	  if (n%1000000==0) cout << "Processed Event " << n << "\n";
+	  inputTree->GetEntry(n);
+	  inputTrgObjTree->GetEntry(n);
 
-	    //std::cout << "[INFO] skim cut -> " << SkimCutString << std::endl;
-	    TTreeFormula *formula = new TTreeFormula("SkimCutString", SkimCutString.c_str(), inputTree);
+	  bool passSkim = false;		
+	  passSkim = formula->EvalInstance();		
+	  weight = inputweight;
+	  totalWeight = inputTotalWeight;
 
-	    ULong64_t eventNum;
-	    UInt_t nFatJet;
-	    Float_t FatJet_pt[10];   //[nFatJet]
-	    Float_t FatJet_btagDDBvL[10];   //[nFatJet]
-	    Float_t inputweight = 1;
-	    Float_t inputTotalWeight = 1;
-	    Float_t weight = 1;
-	    Float_t totalWeight = 1;
-	    TBranch        *b_eventNum;   //!
-	    TBranch        *b_nFatJet;   //!
-	    TBranch        *b_FatJet_pt;   //!
-	    TBranch        *b_FatJet_btagDDBvL;   //!
-	    inputTree->SetBranchAddress("event", &eventNum, &b_eventNum);
-	    inputTree->SetBranchAddress("nFatJet", &nFatJet, &b_nFatJet);
-	    inputTree->SetBranchAddress("FatJet_pt", FatJet_pt, &b_FatJet_pt);
-	    inputTree->SetBranchAddress("FatJet_btagDDBvL", FatJet_btagDDBvL, &b_FatJet_btagDDBvL);
-	    inputTree->SetBranchAddress("weight", &inputweight);
-	    inputTree->SetBranchAddress("totalWeight", &inputTotalWeight);
-	    outputTree->SetBranchAddress("weight", &weight);
-	    outputTree->SetBranchAddress("totalWeight", &totalWeight);
+	  // *****************************************************************
+	  // Special version for splitting sample into training and testing
+	  // ***************************************************************** 
+	  //split in half into training and testing samples, and
+	  //multiply the weight by 2 to compensate for the half-split
+	  //training is even numbers, testing is odd numbers		
+	  // passSkim = bool(eventNum % 2 == 1);
+	  // weight = inputweight * 2.0 ; 
+	  // totalWeight = inputTotalWeight * 2.0 ; 
+	  // *********************************************************
 
-	    int EventsPassed = 0;
+	  if (passSkim) {
+	    EventsPassed++;
+	    outputTree->Fill(); 
+	    outputTrgObjTree->Fill(); 
+	  }
+	}
 
-            //store the weights            
-	    for (int n=0;n<inputTree->GetEntries();n++) { 
-	      if (n%1000000==0) cout << "Processed Event " << n << "\n";
-                inputTree->GetEntry(n);
+	//delete formula;
+	cout << "Skim Efficiency : " << EventsPassed << " / " << inputTree->GetEntries() 
+	     << " = " << float(EventsPassed ) / float(inputTree->GetEntries()) 
+	     << " \n";
 
-		bool passSkim = false;		
-		passSkim = formula->EvalInstance();		
-		weight = inputweight;
-		totalWeight = inputTotalWeight;
-
-		// *****************************************************************
-		// Special version for splitting sample into training and testing
-		// ***************************************************************** 
-		//split in half into training and testing samples, and
-		//multiply the weight by 2 to compensate for the half-split
-		//training is even numbers, testing is odd numbers		
-		// passSkim = bool(eventNum % 2 == 1);
-		// weight = inputweight * 2.0 ; 
-		// totalWeight = inputTotalWeight * 2.0 ; 
-		// *********************************************************
-
-		if (passSkim) {
-		  EventsPassed++;
-		  outputTree->Fill(); 
-		}
-            }
-
-	    //delete formula;
-	    cout << "Skim Efficiency : " << EventsPassed << " / " << inputTree->GetEntries() 
-		 << " = " << float(EventsPassed ) / float(inputTree->GetEntries()) 
-		 << " \n";
-
-            //save
-            outputTree->Write();
-            inputFile->cd();
-        }
+	//save
+	outputTree->Write();
+	outputTrgObjTree->Write();
+	inputFile->cd();	 
         inputFile->Close();
         cout << "Closing output file." << endl;
 
