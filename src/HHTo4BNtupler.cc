@@ -23,7 +23,10 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     } else if (year == "2023BPix") {
       JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer23BPixPrompt23_RunD_v1.root").c_str()); 
     } else if (year == "2024") {
-      JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/").c_str());  
+      JetVetoInputRoot = 0;
+    } else {
+      cout << "Year " << year << " is not a valid option. Stopping Execution.\n";
+      assert(0);
     }
     
     TH2D * JetVetoMap = 0;
@@ -54,47 +57,50 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     } else if (year == "2023BPix") {
       pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer23BPix.root";
     } else if (year == "2024") {
-      pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer23.root";
+      pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer23BPix.root";
     }
        
-    TFile *pileupWeightFile = TFile::Open(pileupWeightFilename.c_str());
-    if (!pileupWeightFile) {
-      cout << "Warning : pileupWeightFile " << pileupWeightFile << " could not be opened.\n";  
-    } else {
-      cout << "Opened pileupWeightFile " << pileupWeightFilename << "\n"; 
-    }
+    TFile *pileupWeightFile = 0;
+    if (!isData) {
+      pileupWeightFile = TFile::Open(pileupWeightFilename.c_str());
+      if (!pileupWeightFile) {
+	cout << "Warning : pileupWeightFile " << pileupWeightFile << " could not be opened.\n";  
+      } else {
+	cout << "Opened pileupWeightFile " << pileupWeightFilename << "\n"; 
+      }
 
-    if (pileupWeightFile) {
-      pileupWeightHist = (TH1F*)(pileupWeightFile->Get("npu_nominal"));
-      pileupWeightHist->SetDirectory(0);
-      pileupWeightUpHist = (TH1F*)(pileupWeightFile->Get("npu_up"));
-      pileupWeightUpHist->SetDirectory(0);
-      pileupWeightDownHist = (TH1F*)(pileupWeightFile->Get("npu_down"));
-      pileupWeightDownHist->SetDirectory(0);
-    } 
-    if (pileupWeightHist) {
-      cout << "Found pileupWeightHist " << "npu_nominal" << "in file " << pileupWeightFilename << "\n";
-    } else {
-      cout << "Warning :  could not find pileupWeightHist named " 
-	   << "npu_nominal" 
-	   << " in file " << pileupWeightFilename << "\n";
+      if (pileupWeightFile) {
+	pileupWeightHist = (TH1F*)(pileupWeightFile->Get("npu_nominal"));
+	pileupWeightHist->SetDirectory(0);
+	pileupWeightUpHist = (TH1F*)(pileupWeightFile->Get("npu_up"));
+	pileupWeightUpHist->SetDirectory(0);
+	pileupWeightDownHist = (TH1F*)(pileupWeightFile->Get("npu_down"));
+	pileupWeightDownHist->SetDirectory(0);
+      } 
+      if (pileupWeightHist) {
+	cout << "Found pileupWeightHist " << "npu_nominal" << "in file " << pileupWeightFilename << "\n";
+      } else {
+	cout << "Warning :  could not find pileupWeightHist named " 
+	     << "npu_nominal" 
+	     << " in file " << pileupWeightFilename << "\n";
+      }
+      if (pileupWeightUpHist) {
+	cout << "Found pileupWeightUpHist " << "npu_up" << "in file " << pileupWeightFilename << "\n";
+      } else {
+	cout << "Warning :  could not find pileupWeightUpHist named " 
+	     << "npu_up"
+	     << " in file " << pileupWeightFilename << "\n";
+      }
+      if (pileupWeightDownHist) {
+	cout << "Found pileupWeightDownHist " << "npu_up" << "in file " << pileupWeightFilename << "\n";
+      } else {
+	cout << "Warning :  could not find pileupWeightDownHist named " 
+	     << "npu_up"
+	     << " in file " << pileupWeightFilename << "\n";
+      }
+      pileupWeightFile->Close();
+      pileupWeightHist->Print();
     }
-    if (pileupWeightUpHist) {
-      cout << "Found pileupWeightUpHist " << "npu_up" << "in file " << pileupWeightFilename << "\n";
-    } else {
-      cout << "Warning :  could not find pileupWeightUpHist named " 
-	   << "npu_up"
-	   << " in file " << pileupWeightFilename << "\n";
-    }
-    if (pileupWeightDownHist) {
-      cout << "Found pileupWeightDownHist " << "npu_up" << "in file " << pileupWeightFilename << "\n";
-    } else {
-      cout << "Warning :  could not find pileupWeightDownHist named " 
-	   << "npu_up"
-	   << " in file " << pileupWeightFilename << "\n";
-    }
-    pileupWeightFile->Close();
-    pileupWeightHist->Print();
 
     
     //------------------------------------------------------------------------------------------------------------
@@ -1281,16 +1287,18 @@ jet4_rawFactor = -99;
 nBTaggedJets = 0;
 
 
-//        if(nFatJet<2) continue;
         if(nFatJet<1) continue;
         if(FatJet_pt[0] < 200 ||  FatJet_msoftdrop[0] < 30 ) continue;
-//        if(FatJet_pt[1] < 200 ||  FatJet_msoftdrop[1] < 40 ) continue;
 
-      //------------------------------
-      //----Event variables------------
-      //------------------------------
-      MET = MET_pt;
-
+	//------------------------------
+	//----Event variables------------
+	//------------------------------
+	
+	MET = MET_pt;
+	if (year == "2024" ) {
+	  MET = PFMET_pt;
+	}
+	
      if (isData) {nGenJet =0; nGenJetAK8=0;}
       for(int i = 0; i < nGenJet; i++) {
         genJetEta[i] = -999;
@@ -1859,11 +1867,13 @@ nBTaggedJets = 0;
 
       //****************************************************
       //Compute pileupWeight
-      //****************************************************      
-      if (pileupWeightHist) {
-	pileupWeight = pileupWeightHist->GetBinContent( pileupWeightHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
-	pileupWeightUp = pileupWeightUpHist->GetBinContent( pileupWeightUpHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
-	pileupWeightDown = pileupWeightDownHist->GetBinContent( pileupWeightDownHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+      //****************************************************
+      if (!isData) {
+	if (pileupWeightHist) {
+	  pileupWeight = pileupWeightHist->GetBinContent( pileupWeightHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+	  pileupWeightUp = pileupWeightUpHist->GetBinContent( pileupWeightUpHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+	  pileupWeightDown = pileupWeightDownHist->GetBinContent( pileupWeightDownHist->GetXaxis()->FindFixBin(Pileup_nTrueInt));
+	}
       }
       
       //****************************************************

@@ -381,6 +381,18 @@ public :
    Float_t         MET_pt;
    Float_t         MET_significance;
    Float_t         MET_sumEt;
+   Float_t         PFMET_covXX;
+   Float_t         PFMET_covXY;
+   Float_t         PFMET_covYY;
+   Float_t         PFMET_phi;
+   Float_t         PFMET_phiUnclusteredDown;
+   Float_t         PFMET_phiUnclusteredUp;
+   Float_t         PFMET_pt;
+   Float_t         PFMET_ptUnclusteredDown;
+   Float_t         PFMET_ptUnclusteredUp;
+   Float_t         PFMET_significance;
+   Float_t         PFMET_sumEt;
+   Float_t         PFMET_sumPtUnclustered;
    UInt_t          nMuon;
    float* Muon_dxy= new float[NMUON];   //[nMuon]
    float* Muon_dxyErr = new float[NMUON];   //[nMuon]
@@ -476,11 +488,20 @@ public :
    Float_t         RawMET_phi;
    Float_t         RawMET_pt;
    Float_t         RawMET_sumEt;
+   Float_t         RawPFMET_phi;
+   Float_t         RawPFMET_pt;
+   Float_t         RawPFMET_sumEt;
    Float_t         fixedGridRhoFastjetAll;
    Float_t         fixedGridRhoFastjetCentral;
    Float_t         fixedGridRhoFastjetCentralCalo;
    Float_t         fixedGridRhoFastjetCentralChargedPileUp;
    Float_t         fixedGridRhoFastjetCentralNeutral;
+   Float_t         Rho_fixedGridRhoAll;
+   Float_t         Rho_fixedGridRhoFastjetAll;
+   Float_t         Rho_fixedGridRhoFastjetCentral;
+   Float_t         Rho_fixedGridRhoFastjetCentralCalo;
+   Float_t         Rho_fixedGridRhoFastjetCentralChargedPileUp;
+   Float_t         Rho_fixedGridRhoFastjetCentralNeutral;
    UInt_t          nGenDressedLepton;
    float* GenDressedLepton_eta       = new float[NGENDRESSEDLEPTON];   //[nGenDressedLepton]
    float* GenDressedLepton_mass      = new float[NGENDRESSEDLEPTON];   //[nGenDressedLepton]
@@ -961,6 +982,18 @@ public :
    TBranch        *b_MET_pt;   //!
    TBranch        *b_MET_significance;   //!
    TBranch        *b_MET_sumEt;   //!
+   TBranch        *b_PFMET_covXX;   //!
+   TBranch        *b_PFMET_covXY;   //!
+   TBranch        *b_PFMET_covYY;   //!
+   TBranch        *b_PFMET_phi;   //!
+   TBranch        *b_PFMET_phiUnclusteredDown;   //!
+   TBranch        *b_PFMET_phiUnclusteredUp;   //!
+   TBranch        *b_PFMET_pt;   //!
+   TBranch        *b_PFMET_ptUnclusteredDown;   //!
+   TBranch        *b_PFMET_ptUnclusteredUp;   //!
+   TBranch        *b_PFMET_significance;   //!
+   TBranch        *b_PFMET_sumEt;   //!
+   TBranch        *b_PFMET_sumPtUnclustered;   //!
    TBranch        *b_nMuon;   //!
    TBranch        *b_Muon_dxy;   //!
    TBranch        *b_Muon_dxyErr;   //!
@@ -1050,11 +1083,20 @@ public :
    TBranch        *b_RawMET_phi;   //!
    TBranch        *b_RawMET_pt;   //!
    TBranch        *b_RawMET_sumEt;   //!
+   TBranch        *b_RawPFMET_phi;   //!
+   TBranch        *b_RawPFMET_pt;   //!
+   TBranch        *b_RawPFMET_sumEt;   //!
    TBranch        *b_fixedGridRhoFastjetAll;   //!
    TBranch        *b_fixedGridRhoFastjetCentral;   //!
    TBranch        *b_fixedGridRhoFastjetCentralCalo;   //!
    TBranch        *b_fixedGridRhoFastjetCentralChargedPileUp;   //!
    TBranch        *b_fixedGridRhoFastjetCentralNeutral;   //!
+   TBranch        *b_Rho_fixedGridRhoAll;   //!
+   TBranch        *b_Rho_fixedGridRhoFastjetAll;   //!
+   TBranch        *b_Rho_fixedGridRhoFastjetCentral;   //!
+   TBranch        *b_Rho_fixedGridRhoFastjetCentralCalo;   //!
+   TBranch        *b_Rho_fixedGridRhoFastjetCentralChargedPileUp;   //!
+   TBranch        *b_Rho_fixedGridRhoFastjetCentralNeutral;   //!
    TBranch        *b_nGenDressedLepton;   //!
    TBranch        *b_GenDressedLepton_eta;   //!
    TBranch        *b_GenDressedLepton_mass;   //!
@@ -1665,6 +1707,18 @@ void Events::Init(TTree *tree)
    fChain->SetBranchAddress("MET_pt", &MET_pt, &b_MET_pt);
    fChain->SetBranchAddress("MET_significance", &MET_significance, &b_MET_significance);
    fChain->SetBranchAddress("MET_sumEt", &MET_sumEt, &b_MET_sumEt);
+   fChain->SetBranchAddress("PFMET_covXX", &PFMET_covXX, &b_PFMET_covXX);
+   fChain->SetBranchAddress("PFMET_covXY", &PFMET_covXY, &b_PFMET_covXY);
+   fChain->SetBranchAddress("PFMET_covYY", &PFMET_covYY, &b_PFMET_covYY);
+   fChain->SetBranchAddress("PFMET_phi", &PFMET_phi, &b_PFMET_phi);
+   fChain->SetBranchAddress("PFMET_phiUnclusteredDown", &PFMET_phiUnclusteredDown, &b_PFMET_phiUnclusteredDown);
+   fChain->SetBranchAddress("PFMET_phiUnclusteredUp", &PFMET_phiUnclusteredUp, &b_PFMET_phiUnclusteredUp);
+   fChain->SetBranchAddress("PFMET_pt", &PFMET_pt, &b_PFMET_pt);
+   fChain->SetBranchAddress("PFMET_ptUnclusteredDown", &PFMET_ptUnclusteredDown, &b_PFMET_ptUnclusteredDown);
+   fChain->SetBranchAddress("PFMET_ptUnclusteredUp", &PFMET_ptUnclusteredUp, &b_PFMET_ptUnclusteredUp);
+   fChain->SetBranchAddress("PFMET_significance", &PFMET_significance, &b_PFMET_significance);
+   fChain->SetBranchAddress("PFMET_sumEt", &PFMET_sumEt, &b_PFMET_sumEt);
+   fChain->SetBranchAddress("PFMET_sumPtUnclustered", &PFMET_sumPtUnclustered, &b_PFMET_sumPtUnclustered);
    fChain->SetBranchAddress("nMuon", &nMuon, &b_nMuon);
    fChain->SetBranchAddress("Muon_dxy", Muon_dxy, &b_Muon_dxy);
    fChain->SetBranchAddress("Muon_dxyErr", Muon_dxyErr, &b_Muon_dxyErr);
@@ -1754,11 +1808,19 @@ void Events::Init(TTree *tree)
    fChain->SetBranchAddress("RawMET_phi", &RawMET_phi, &b_RawMET_phi);
    fChain->SetBranchAddress("RawMET_pt", &RawMET_pt, &b_RawMET_pt);
    fChain->SetBranchAddress("RawMET_sumEt", &RawMET_sumEt, &b_RawMET_sumEt);
+   fChain->SetBranchAddress("RawPFMET_phi", &RawPFMET_phi, &b_RawPFMET_phi);
+   fChain->SetBranchAddress("RawPFMET_pt", &RawPFMET_pt, &b_RawPFMET_pt);
+   fChain->SetBranchAddress("RawPFMET_sumEt", &RawPFMET_sumEt, &b_RawPFMET_sumEt);
    fChain->SetBranchAddress("Rho_fixedGridRhoFastjetAll", &fixedGridRhoFastjetAll, &b_fixedGridRhoFastjetAll);
    fChain->SetBranchAddress("fixedGridRhoFastjetCentral", &fixedGridRhoFastjetCentral, &b_fixedGridRhoFastjetCentral);
    fChain->SetBranchAddress("fixedGridRhoFastjetCentralCalo", &fixedGridRhoFastjetCentralCalo, &b_fixedGridRhoFastjetCentralCalo);
    fChain->SetBranchAddress("fixedGridRhoFastjetCentralChargedPileUp", &fixedGridRhoFastjetCentralChargedPileUp, &b_fixedGridRhoFastjetCentralChargedPileUp);
    fChain->SetBranchAddress("fixedGridRhoFastjetCentralNeutral", &fixedGridRhoFastjetCentralNeutral, &b_fixedGridRhoFastjetCentralNeutral);
+   fChain->SetBranchAddress("Rho_fixedGridRhoAll", &Rho_fixedGridRhoAll, &b_Rho_fixedGridRhoAll);
+   fChain->SetBranchAddress("Rho_fixedGridRhoFastjetCentral", &Rho_fixedGridRhoFastjetCentral, &b_Rho_fixedGridRhoFastjetCentral);
+   fChain->SetBranchAddress("Rho_fixedGridRhoFastjetCentralCalo", &Rho_fixedGridRhoFastjetCentralCalo, &b_Rho_fixedGridRhoFastjetCentralCalo);
+   fChain->SetBranchAddress("Rho_fixedGridRhoFastjetCentralChargedPileUp", &Rho_fixedGridRhoFastjetCentralChargedPileUp, &b_Rho_fixedGridRhoFastjetCentralChargedPileUp);
+   fChain->SetBranchAddress("Rho_fixedGridRhoFastjetCentralNeutral", &Rho_fixedGridRhoFastjetCentralNeutral, &b_Rho_fixedGridRhoFastjetCentralNeutral);
    fChain->SetBranchAddress("nGenDressedLepton", &nGenDressedLepton, &b_nGenDressedLepton);
    fChain->SetBranchAddress("GenDressedLepton_eta", GenDressedLepton_eta, &b_GenDressedLepton_eta);
    fChain->SetBranchAddress("GenDressedLepton_mass", GenDressedLepton_mass, &b_GenDressedLepton_mass);
