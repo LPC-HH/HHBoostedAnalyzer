@@ -121,8 +121,8 @@ datasets = {
 #'Wto2Q-3Jets_HT-800_PostEE':'/Wto2Q-3Jets_HT-800_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22EENanoAODv11-126X_mcRun3_2022_realistic_postEE_v1-v2/NANOAODSIM',
 #"WtoLNu-2Jets_PostEE":"/WtoLNu-2Jets_TuneCP5_13p6TeV_amcatnloFXFX-pythia8/Run3Summer22EENanoAODv11-126X_mcRun3_2022_realistic_postEE_v1-v1/NANOAODSIM",
 
-'VBFHHto2B2G_CV_1_C2V_0_C3_1_postEE':'/VBFHHto2B2G_CV_1_C2V_0_C3_1_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer22EENanoAODv11-126X_mcRun3_2022_realistic_postEE_v1-v2/NANOAODSIM',
-'VBFHHto2B2G_CV_1_C2V_1_C3_1_postEE':'/VBFHHto2B2G_CV_1_C2V_1_C3_1_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer22EENanoAODv11-126X_mcRun3_2022_realistic_postEE_v1-v2/NANOAODSIM',
+#'VBFHHto2B2G_CV_1_C2V_0_C3_1_postEE':'/VBFHHto2B2G_CV_1_C2V_0_C3_1_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer22EENanoAODv11-126X_mcRun3_2022_realistic_postEE_v1-v2/NANOAODSIM',
+#'VBFHHto2B2G_CV_1_C2V_1_C3_1_postEE':'/VBFHHto2B2G_CV_1_C2V_1_C3_1_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer22EENanoAODv11-126X_mcRun3_2022_realistic_postEE_v1-v2/NANOAODSIM',
 
 
 ####################################################################################################
@@ -176,6 +176,25 @@ datasets = {
 # "EGamma1_Run2023C-v4":"/EGamma1/Run2023C-PromptNanoAODv12_v4-v1/NANOAOD",
 # "EGamma1_Run2023D-v1":"/EGamma1/Run2023D-PromptReco-v1/NANOAOD",
 # "EGamma1_Run2023D-v2":"/EGamma1/Run2023D-PromptReco-v2/NANOAOD",
+
+
+
+####################################################################################################
+#2025 Datasets
+####################################################################################################   
+"Muon0_Run2025B":"/Muon0/Run2025B-PromptReco-v1/NANOAOD",
+"Muon0_Run2025C-v1":"/Muon0/Run2025C-PromptReco-v1/NANOAOD",
+"Muon0_Run2025C-v2":"/Muon0/Run2025C-PromptReco-v2/NANOAOD",
+"Muon0_Run2025D":"/Muon0/Run2025D-PromptReco-v1/NANOAOD",
+"Muon0_Run2025E":"/Muon0/Run2025E-PromptReco-v1/NANOAOD",
+"Muon0_Run2025F":"/Muon0/Run2025F-PromptReco-v1/NANOAOD",
+"Muon1_Run2025B":"/Muon1/Run2025B-PromptReco-v1/NANOAOD",
+"Muon1_Run2025C-v1":"/Muon1/Run2025C-PromptReco-v1/NANOAOD",
+"Muon1_Run2025C-v2":"/Muon1/Run2025C-PromptReco-v2/NANOAOD",
+"Muon1_Run2025D":"/Muon1/Run2025D-PromptReco-v1/NANOAOD",
+"Muon1_Run2025E":"/Muon1/Run2025E-PromptReco-v1/NANOAOD",
+"Muon1_Run2025F":"/Muon1/Run2025F-PromptReco-v1/NANOAOD ",
+    
 }
 
 # if (len(sys.argv) -1 < 1):
@@ -189,7 +208,7 @@ datasets = {
 for processName in datasets.keys():
 
     outputFile = open(processName+".list","w")
-    print processName
+    print(processName)
     #command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " instance=prod/phys03 \" -json > tmpOutput.json"
     command = "dasgoclient -query=\"file dataset=" + datasets[processName] + " \" -json > tmpOutput.json"
     print (command)
