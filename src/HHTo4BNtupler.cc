@@ -2176,7 +2176,7 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
       //****************************************************
       //Fill Event - skim for events in control regions
       //****************************************************
-      if ( ( (fatJet1Pt > 250 && fatJet2Pt > 250) || (fatJet1Pt > 250 && lep1Id != 0)) ) {
+      if ( ( (fatJet1_pt > 250 && fatJet2_pt > 250) || (fatJet1_pt > 250 && lep1Id != 0)) ) {
 	NEventsFilled++;     
 	outputTree->Fill();
 	outputTree_TrgObj->Fill();
