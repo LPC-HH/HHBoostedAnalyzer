@@ -24,6 +24,8 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
       JetVetoInputRoot = new TFile((CMSSWDir + "/src/HHBoostedAnalyzer/data/JetVetoMap_Summer23BPixPrompt23_RunD_v1.root").c_str()); 
     } else if (year == "2024") {
       JetVetoInputRoot = 0;
+    } else if (year == "2025") {
+      JetVetoInputRoot = 0;
     } else {
       cout << "Year " << year << " is not a valid option. Stopping Execution.\n";
       assert(0);
@@ -57,6 +59,8 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
     } else if (year == "2023BPix") {
       pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer23BPix.root";
     } else if (year == "2024") {
+      pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer23BPix.root";
+    } else if (year == "2025") {
       pileupWeightFilename = CMSSWDir + "/src/HHBoostedAnalyzer/data/PileupWeights/PileupReweight_Summer23BPix.root";
     }
        
@@ -1502,7 +1506,7 @@ void HHTo4BNtupler::Analyze(bool isData, string outputfilename, string year)
 	//------------------------------
 	
 	MET = MET_pt;
-	if (year == "2024" ) {
+	if (year == "2024" || year == "2025" ) {
 	  MET = PFMET_pt;
 	}
 	
